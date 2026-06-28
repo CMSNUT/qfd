@@ -61,7 +61,7 @@ author:
         postal-code: 710061
 
 bibliography: references.bib
-csl: mdpi.csl
+csl: analytical-chemistry.csl
 
 website:
   title: "ZWHQD for HFrEF"
@@ -74,10 +74,14 @@ website:
         text: Home
       - href: manu.qmd
         text: Manuscript
+      - href: manuDB.qmd
+        text: DB
+      - href: manuDS.qmd
+        text: DS  
       - text: Scripts
         menu:
-          - text: "01: Data Acquisition and Preprocessing"
-            href: "scripts/01_data_acquisition.qmd"
+          - text: "01: Ingredient and target prediction"
+            href: "scripts/01_ingredient_target_prediction.qmd"
 
 format:
   # docx:

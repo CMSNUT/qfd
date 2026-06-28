@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Kun Hou">
+<meta name="author" content="Xili Wu">
+
+<title>manuDB: Synergistic Mechanisms of Aconitum carmichaelii and Astragalus membranaceus Combination Against Chronic Heart Failure Due to Dilated Cardiomyopathy: Insights from Multi-Omics and Causal Inference – ZWHQD for HFrEF</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-f1ef0423859aea48f2b5a85ac632af29.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">ZWHQD for HFrEF</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./manu.html"> 
+<span class="menu-text">Manuscript</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./manuDB.html" aria-current="page"> 
+<span class="menu-text">DB</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./manuDS.html"> 
+<span class="menu-text">DS</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-scripts" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Scripts</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-scripts">    
+        <li>
+    <a class="dropdown-item" href="./scripts/01_ingredient_target_prediction.html">
+ <span class="dropdown-text">01: Ingredient and target prediction</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="-1">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#materials-and-methods" id="toc-materials-and-methods" class="nav-link" data-scroll-target="#materials-and-methods"><span class="header-section-number">2</span> Materials and Methods</a>
+  <ul>
+  <li><a href="#screening-and-sorting-of-blood-absorbed-active-constituents" id="toc-screening-and-sorting-of-blood-absorbed-active-constituents" class="nav-link" data-scroll-target="#screening-and-sorting-of-blood-absorbed-active-constituents"><span class="header-section-number">2.1</span> Screening and Sorting of Blood-Absorbed Active Constituents</a></li>
+  <li><a href="#target-prediction-and-standardized-deduplication" id="toc-target-prediction-and-standardized-deduplication" class="nav-link" data-scroll-target="#target-prediction-and-standardized-deduplication"><span class="header-section-number">2.2</span> Target Prediction and Standardized Deduplication</a></li>
+  <li><a href="#multi-dimensional-construction-and-quality-control-of-dcm-chf-disease-targets" id="toc-multi-dimensional-construction-and-quality-control-of-dcm-chf-disease-targets" class="nav-link" data-scroll-target="#multi-dimensional-construction-and-quality-control-of-dcm-chf-disease-targets"><span class="header-section-number">2.3</span> Multi-Dimensional Construction and Quality Control of DCM-CHF Disease Targets</a></li>
+  <li><a href="#multi-omics-bioinformatics-fine-grained-analysis" id="toc-multi-omics-bioinformatics-fine-grained-analysis" class="nav-link" data-scroll-target="#multi-omics-bioinformatics-fine-grained-analysis"><span class="header-section-number">2.4</span> Multi-Omics Bioinformatics Fine-Grained Analysis</a></li>
+  <li><a href="#two-sample-mendelian-randomization-combined-with-bayesian-colocalization-causal-inference" id="toc-two-sample-mendelian-randomization-combined-with-bayesian-colocalization-causal-inference" class="nav-link" data-scroll-target="#two-sample-mendelian-randomization-combined-with-bayesian-colocalization-causal-inference"><span class="header-section-number">2.5</span> Two-Sample Mendelian Randomization Combined with Bayesian Colocalization Causal Inference</a></li>
+  <li><a href="#target-module-division-and-synergistic-regulatory-pathway-mechanism-analysis" id="toc-target-module-division-and-synergistic-regulatory-pathway-mechanism-analysis" class="nav-link" data-scroll-target="#target-module-division-and-synergistic-regulatory-pathway-mechanism-analysis"><span class="header-section-number">2.6</span> Target Module Division and Synergistic Regulatory Pathway Mechanism Analysis</a></li>
+  </ul></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">3</span> Results</a>
+  <ul>
+  <li><a href="#chemical-characteristics-and-pharmacological-functional-differentiation-of-blood-absorbed-active-substances" id="toc-chemical-characteristics-and-pharmacological-functional-differentiation-of-blood-absorbed-active-substances" class="nav-link" data-scroll-target="#chemical-characteristics-and-pharmacological-functional-differentiation-of-blood-absorbed-active-substances"><span class="header-section-number">3.1</span> Chemical Characteristics and Pharmacological Functional Differentiation of Blood-Absorbed Active Substances</a></li>
+  <li><a href="#screening-and-quality-control-results-of-drug-disease-intersecting-targets" id="toc-screening-and-quality-control-results-of-drug-disease-intersecting-targets" class="nav-link" data-scroll-target="#screening-and-quality-control-results-of-drug-disease-intersecting-targets"><span class="header-section-number">3.2</span> Screening and Quality Control Results of Drug-Disease Intersecting Targets</a></li>
+  <li><a href="#screening-of-core-disease-driving-targets-via-causal-inference" id="toc-screening-of-core-disease-driving-targets-via-causal-inference" class="nav-link" data-scroll-target="#screening-of-core-disease-driving-targets-via-causal-inference"><span class="header-section-number">3.3</span> Screening of Core Disease-Driving Targets via Causal Inference</a></li>
+  <li><a href="#complementary-tissue-targeting-characteristics-of-two-target-modules" id="toc-complementary-tissue-targeting-characteristics-of-two-target-modules" class="nav-link" data-scroll-target="#complementary-tissue-targeting-characteristics-of-two-target-modules"><span class="header-section-number">3.4</span> Complementary Tissue Targeting Characteristics of Two Target Modules</a></li>
+  <li><a href="#specific-expression-and-functional-division-of-myocardial-single-cell-subtypes" id="toc-specific-expression-and-functional-division-of-myocardial-single-cell-subtypes" class="nav-link" data-scroll-target="#specific-expression-and-functional-division-of-myocardial-single-cell-subtypes"><span class="header-section-number">3.5</span> Specific Expression and Functional Division of Myocardial Single-Cell Subtypes</a></li>
+  <li><a href="#immune-infiltration-quantification-and-core-pathway-synergistic-enrichment-analysis" id="toc-immune-infiltration-quantification-and-core-pathway-synergistic-enrichment-analysis" class="nav-link" data-scroll-target="#immune-infiltration-quantification-and-core-pathway-synergistic-enrichment-analysis"><span class="header-section-number">3.6</span> Immune Infiltration Quantification and Core Pathway Synergistic Enrichment Analysis</a></li>
+  <li><a href="#molecular-docking-verification-of-binding-specificity-and-affinity-between-active-constituents-and-targets" id="toc-molecular-docking-verification-of-binding-specificity-and-affinity-between-active-constituents-and-targets" class="nav-link" data-scroll-target="#molecular-docking-verification-of-binding-specificity-and-affinity-between-active-constituents-and-targets"><span class="header-section-number">3.7</span> Molecular Docking Verification of Binding Specificity and Affinity Between Active Constituents and Targets</a></li>
+  </ul></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion"><span class="header-section-number">4</span> Discussion</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">5</span> Conclusion</a></li>
+  <li><a href="#main-text-figures-and-tables" id="toc-main-text-figures-and-tables" class="nav-link" data-scroll-target="#main-text-figures-and-tables"><span class="header-section-number">6</span> Main Text Figures and Tables</a>
+  <ul>
+  <li><a href="#figures" id="toc-figures" class="nav-link" data-scroll-target="#figures"><span class="header-section-number">6.1</span> Figures</a>
+  <ul class="collapse">
+  <li><a href="#figure-1.-overall-technical-workflow-of-the-study" id="toc-figure-1.-overall-technical-workflow-of-the-study" class="nav-link" data-scroll-target="#figure-1.-overall-technical-workflow-of-the-study"><span class="header-section-number">6.1.1</span> Figure 1. Overall technical workflow of the study</a></li>
+  <li><a href="#figure-2.-classification-and-functional-characteristic-analysis-of-24-blood-absorbed-active-constituents" id="toc-figure-2.-classification-and-functional-characteristic-analysis-of-24-blood-absorbed-active-constituents" class="nav-link" data-scroll-target="#figure-2.-classification-and-functional-characteristic-analysis-of-24-blood-absorbed-active-constituents"><span class="header-section-number">6.1.2</span> Figure 2. Classification and functional characteristic analysis of 24 blood-absorbed active constituents</a></li>
+  <li><a href="#figure-3.-screening-and-venn-analysis-of-drug-disease-intersecting-targets" id="toc-figure-3.-screening-and-venn-analysis-of-drug-disease-intersecting-targets" class="nav-link" data-scroll-target="#figure-3.-screening-and-venn-analysis-of-drug-disease-intersecting-targets"><span class="header-section-number">6.1.3</span> Figure 3. Screening and Venn analysis of drug-disease intersecting targets</a></li>
+  <li><a href="#figure-4.-wgcna-weighted-gene-co-expression-network-analysis-results" id="toc-figure-4.-wgcna-weighted-gene-co-expression-network-analysis-results" class="nav-link" data-scroll-target="#figure-4.-wgcna-weighted-gene-co-expression-network-analysis-results"><span class="header-section-number">6.1.4</span> Figure 4. WGCNA weighted gene co-expression network analysis results</a></li>
+  <li><a href="#figure-5.-gokegg-functional-enrichment-analysis-bubble-diagram" id="toc-figure-5.-gokegg-functional-enrichment-analysis-bubble-diagram" class="nav-link" data-scroll-target="#figure-5.-gokegg-functional-enrichment-analysis-bubble-diagram"><span class="header-section-number">6.1.5</span> Figure 5. GO/KEGG functional enrichment analysis bubble diagram</a></li>
+  <li><a href="#figure-6.-multi-organ-tissue-enrichment-distribution-of-two-target-modules" id="toc-figure-6.-multi-organ-tissue-enrichment-distribution-of-two-target-modules" class="nav-link" data-scroll-target="#figure-6.-multi-organ-tissue-enrichment-distribution-of-two-target-modules"><span class="header-section-number">6.1.6</span> Figure 6. Multi-organ tissue enrichment distribution of two target modules</a></li>
+  <li><a href="#figure-7.-single-cell-subtype-specific-expression-analysis-of-core-targets" id="toc-figure-7.-single-cell-subtype-specific-expression-analysis-of-core-targets" class="nav-link" data-scroll-target="#figure-7.-single-cell-subtype-specific-expression-analysis-of-core-targets"><span class="header-section-number">6.1.7</span> Figure 7. Single-cell subtype specific expression analysis of core targets</a></li>
+  <li><a href="#figure-8.-myocardial-immune-infiltration-landscape-and-ssgsea-pathway-activity-analysis" id="toc-figure-8.-myocardial-immune-infiltration-landscape-and-ssgsea-pathway-activity-analysis" class="nav-link" data-scroll-target="#figure-8.-myocardial-immune-infiltration-landscape-and-ssgsea-pathway-activity-analysis"><span class="header-section-number">6.1.8</span> Figure 8. Myocardial immune infiltration landscape and ssGSEA pathway activity analysis</a></li>
+  <li><a href="#figure-9.-two-sample-mendelian-randomization-causal-inference-results" id="toc-figure-9.-two-sample-mendelian-randomization-causal-inference-results" class="nav-link" data-scroll-target="#figure-9.-two-sample-mendelian-randomization-causal-inference-results"><span class="header-section-number">6.1.9</span> Figure 9. Two-sample Mendelian randomization causal inference results</a></li>
+  <li><a href="#figure-10.-bayesian-colocalization-analysis-verification-results" id="toc-figure-10.-bayesian-colocalization-analysis-verification-results" class="nav-link" data-scroll-target="#figure-10.-bayesian-colocalization-analysis-verification-results"><span class="header-section-number">6.1.10</span> Figure 10. Bayesian colocalization analysis verification results</a></li>
+  <li><a href="#figure-11.-molecular-docking-verification-heat-map-and-optimal-binding-conformation-diagram" id="toc-figure-11.-molecular-docking-verification-heat-map-and-optimal-binding-conformation-diagram" class="nav-link" data-scroll-target="#figure-11.-molecular-docking-verification-heat-map-and-optimal-binding-conformation-diagram"><span class="header-section-number">6.1.11</span> Figure 11. Molecular docking verification heat map and optimal binding conformation diagram</a></li>
+  <li><a href="#figure-12.-synergistic-regulatory-network-diagram-of-the-medicinal-plant-combination-against-dcm-chf" id="toc-figure-12.-synergistic-regulatory-network-diagram-of-the-medicinal-plant-combination-against-dcm-chf" class="nav-link" data-scroll-target="#figure-12.-synergistic-regulatory-network-diagram-of-the-medicinal-plant-combination-against-dcm-chf"><span class="header-section-number">6.1.12</span> Figure 12. Synergistic regulatory network diagram of the medicinal plant combination against DCM-CHF</a></li>
+  </ul></li>
+  <li><a href="#tables" id="toc-tables" class="nav-link" data-scroll-target="#tables"><span class="header-section-number">6.2</span> Tables</a>
+  <ul class="collapse">
+  <li><a href="#table-1.-basic-information-of-24-blood-absorbed-active-constituents-of-the-medicinal-combination" id="toc-table-1.-basic-information-of-24-blood-absorbed-active-constituents-of-the-medicinal-combination" class="nav-link" data-scroll-target="#table-1.-basic-information-of-24-blood-absorbed-active-constituents-of-the-medicinal-combination"><span class="header-section-number">6.2.1</span> Table 1. Basic information of 24 blood-absorbed active constituents of the medicinal combination</a></li>
+  <li><a href="#table-2.-basic-information-of-core-causal-targets-screened-by-genetic-inference" id="toc-table-2.-basic-information-of-core-causal-targets-screened-by-genetic-inference" class="nav-link" data-scroll-target="#table-2.-basic-information-of-core-causal-targets-screened-by-genetic-inference"><span class="header-section-number">6.2.2</span> Table 2. Basic information of core causal targets screened by genetic inference</a></li>
+  <li><a href="#table-3.-core-shared-signaling-pathway-functional-annotation" id="toc-table-3.-core-shared-signaling-pathway-functional-annotation" class="nav-link" data-scroll-target="#table-3.-core-shared-signaling-pathway-functional-annotation"><span class="header-section-number">6.2.3</span> Table 3. Core shared signaling pathway functional annotation</a></li>
+  <li><a href="#table-4.-molecular-docking-binding-free-energy-statistics" id="toc-table-4.-molecular-docking-binding-free-energy-statistics" class="nav-link" data-scroll-target="#table-4.-molecular-docking-binding-free-energy-statistics"><span class="header-section-number">6.2.4</span> Table 4. Molecular docking binding free energy statistics</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#supplementary-figures-and-tables" id="toc-supplementary-figures-and-tables" class="nav-link" data-scroll-target="#supplementary-figures-and-tables"><span class="header-section-number">7</span> Supplementary Figures and Tables</a>
+  <ul>
+  <li><a href="#figures-1" id="toc-figures-1" class="nav-link" data-scroll-target="#figures-1"><span class="header-section-number">7.1</span> Figures</a>
+  <ul class="collapse">
+  <li><a href="#supplementary-figure-1.-quality-control-of-geo-and-gtex-public-datasets" id="toc-supplementary-figure-1.-quality-control-of-geo-and-gtex-public-datasets" class="nav-link" data-scroll-target="#supplementary-figure-1.-quality-control-of-geo-and-gtex-public-datasets"><span class="header-section-number">7.1.1</span> Supplementary Figure 1. Quality control of GEO and GTEx public datasets</a></li>
+  <li><a href="#supplementary-figure-2.-single-database-target-prediction-results-and-deduplication-statistics" id="toc-supplementary-figure-2.-single-database-target-prediction-results-and-deduplication-statistics" class="nav-link" data-scroll-target="#supplementary-figure-2.-single-database-target-prediction-results-and-deduplication-statistics"><span class="header-section-number">7.1.2</span> Supplementary Figure 2. Single-database target prediction results and deduplication statistics</a></li>
+  <li><a href="#supplementary-figure-3.-wgcna-parameter-optimization-and-module-clustering-results" id="toc-supplementary-figure-3.-wgcna-parameter-optimization-and-module-clustering-results" class="nav-link" data-scroll-target="#supplementary-figure-3.-wgcna-parameter-optimization-and-module-clustering-results"><span class="header-section-number">7.1.3</span> Supplementary Figure 3. WGCNA parameter optimization and module clustering results</a></li>
+  <li><a href="#supplementary-figure-4.-single-cell-gene-expression-normalization-and-clustering-verification" id="toc-supplementary-figure-4.-single-cell-gene-expression-normalization-and-clustering-verification" class="nav-link" data-scroll-target="#supplementary-figure-4.-single-cell-gene-expression-normalization-and-clustering-verification"><span class="header-section-number">7.1.4</span> Supplementary Figure 4. Single-cell gene expression normalization and clustering verification</a></li>
+  <li><a href="#supplementary-figure-5.-mr-sensitivity-analysis-and-pleiotropy-test-results" id="toc-supplementary-figure-5.-mr-sensitivity-analysis-and-pleiotropy-test-results" class="nav-link" data-scroll-target="#supplementary-figure-5.-mr-sensitivity-analysis-and-pleiotropy-test-results"><span class="header-section-number">7.1.5</span> Supplementary Figure 5. MR sensitivity analysis and pleiotropy test results</a></li>
+  <li><a href="#supplementary-figure-6.-additional-molecular-docking-conformation-diagrams-of-all-constituent-target-pairs" id="toc-supplementary-figure-6.-additional-molecular-docking-conformation-diagrams-of-all-constituent-target-pairs" class="nav-link" data-scroll-target="#supplementary-figure-6.-additional-molecular-docking-conformation-diagrams-of-all-constituent-target-pairs"><span class="header-section-number">7.1.6</span> Supplementary Figure 6. Additional molecular docking conformation diagrams of all constituent-target pairs</a></li>
+  </ul></li>
+  <li><a href="#tables-1" id="toc-tables-1" class="nav-link" data-scroll-target="#tables-1"><span class="header-section-number">7.2</span> Tables</a>
+  <ul class="collapse">
+  <li><a href="#supplementary-table-1.-complete-list-of-dcm-chf-disease-target-genes" id="toc-supplementary-table-1.-complete-list-of-dcm-chf-disease-target-genes" class="nav-link" data-scroll-target="#supplementary-table-1.-complete-list-of-dcm-chf-disease-target-genes"><span class="header-section-number">7.2.1</span> Supplementary Table 1. Complete list of DCM-CHF disease target genes</a></li>
+  <li><a href="#supplementary-table-2.-complete-gokegg-enrichment-analysis-results" id="toc-supplementary-table-2.-complete-gokegg-enrichment-analysis-results" class="nav-link" data-scroll-target="#supplementary-table-2.-complete-gokegg-enrichment-analysis-results"><span class="header-section-number">7.2.2</span> Supplementary Table 2. Complete GO/KEGG enrichment analysis results</a></li>
+  <li><a href="#supplementary-table-3.-detailed-parameter-settings-of-bioinformatics-analysis" id="toc-supplementary-table-3.-detailed-parameter-settings-of-bioinformatics-analysis" class="nav-link" data-scroll-target="#supplementary-table-3.-detailed-parameter-settings-of-bioinformatics-analysis"><span class="header-section-number">7.2.3</span> Supplementary Table 3. Detailed parameter settings of bioinformatics analysis</a></li>
+  <li><a href="#supplementary-table-4.-literature-source-information-of-verified-pathogenic-genes" id="toc-supplementary-table-4.-literature-source-information-of-verified-pathogenic-genes" class="nav-link" data-scroll-target="#supplementary-table-4.-literature-source-information-of-verified-pathogenic-genes"><span class="header-section-number">7.2.4</span> Supplementary Table 4. Literature source information of verified pathogenic genes</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">8</span> References</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content column-page-right" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">manuDB: Synergistic Mechanisms of <em>Aconitum carmichaelii</em> and <em>Astragalus membranaceus</em> Combination Against Chronic Heart Failure Due to Dilated Cardiomyopathy: Insights from Multi-Omics and Causal Inference</h1>
+</div>
+
+
+<div class="quarto-title-meta-author column-page-right">
+  <div class="quarto-title-meta-heading">Authors</div>
+  <div class="quarto-title-meta-heading">Affiliations</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Kun Hou <a href="mailto:xxx@163.com" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0000-xxxx-xxxx-xxxx" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Health Science Center, Xi’an Jiaotong University
+          </p>
+        <p class="affiliation">
+            Hanzhong Traditional Chinese Medicine Hospital
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Xili Wu <a href="mailto:xxx@163.com" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0000-xxxx-xxxx-xxxx" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Health Science Center, Xi’an Jiaotong University
+          </p>
+        <p class="affiliation">
+            The Second Affiliated Hospital of Xi’an Jiaotong University
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta column-page-right">
+
+      
+  
+    
+  </div>
+  
+<div>
+  <div class="abstract">
+    <div class="block-title">Abstract</div>
+    <p>Dilated cardiomyopathy-induced chronic heart failure (DCM-CHF) is a refractory and high-prevalence cardiovascular disease characterized by insidious onset, progressive deterioration, high disability and mortality, which severely endangers cardiovascular health in young and middle-aged populations. Standard clinical Western medical interventions can alleviate short-term clinical symptoms and reduce the incidence of acute cardiovascular events, but fail to block the multi-level pathological regulatory network of DCM-CHF, including genetic susceptibility, myocardial energy metabolism disorder, progressive myocardial fibrosis, and cardiac local immune inflammatory imbalance. The long-term recurrence and progression risks of the disease remain high. Medicinal plants and their in vivo absorbable active metabolites exhibit unique advantages in regulating complex pathological networks through multi-component, multi-target and multi-pathway synergistic effects, and have become research hotspots for long-term adjuvant intervention and precise regulation of refractory cardiovascular diseases. Aconitum carmichaelii and Astragalus membranaceus are classic medicinal plant combinations with long-term application history and definite cardiovascular protective pharmacological effects, which are widely used in the adjuvant intervention of myocardial injury and cardiac dysfunction. Existing studies mainly focus on the verification of single pharmacological effects of individual medicinal plants, lacking systematic interpretation of the blood-absorbed active material basis, tissue targeting differences, and cell-specific regulatory characteristics of their combination. Moreover, there is a lack of genetic causal evidence to elaborate the core molecular mechanism of synergistic enhancement. Based on published HPLC-TOF-MS in vivo pharmacokinetic experimental data, this study systematically screened 24 blood-absorbed active constituents of the combination, including 18 diterpenoid alkaloids and their hydrolyzed derivatives from Aconitum carmichaelii, and 6 isoflavones and their in vivo glucuronide metabolites fromAstragalus membranaceus. Three authoritative target prediction databases (SwissTargetPrediction, PharmMapper, SEA) were integrated to screen high-confidence human targets of active constituents. A multi-dimensional DCM-CHF disease target dataset was further constructed by integrating bulk myocardial transcriptomic datasets (GSE57338), single-cell myocardial transcriptomic datasets (GSE183852), HERMES DCM GWAS genetic loci, and DCM pathogenic genes verified by high-quality literature in recent five years. Multiple bioinformatic analyses were performed, including weighted gene co-expression network analysis (WGCNA), GO/KEGG functional enrichment analysis, multi-organ tissue localization, myocardial immune infiltration quantification, single-sample gene set enrichment analysis (ssGSEA), and molecular docking validation. Combined with GTEx v8 left ventricular eQTL and HERMES GWAS datasets, a precise causal inference strategy integrating two-sample Mendelian randomization (2SMR) and Bayesian colocalization analysis was adopted to eliminate confounding biases and screen core causal targets driving DCM-CHF progression. The results demonstrated that all therapeutic targets of the combination could be precisely divided into two independent functional modules with complementary tissue enrichment and segregated cell expression patterns. TheAstragalus membranaceus-specific module was significantly enriched in the spleen, lung and heart tissues, mainly regulating myocardial energy metabolism remodeling, oxidative stress scavenging, and homeostasis of vascular endothelial cells and cardiac fibroblasts. The Aconitum carmichaelii-specific module was specifically enriched in the heart and kidney tissues, dominating the regulation of myocardial calcium signal homeostasis, inhibition of cardiomyocyte apoptosis, balance of cardiac local inflammation, and improvement of ventricular systolic function. The two modules synchronously regulated five core pathological pathways involving myocardial energy metabolism, calcium signal transduction, cardiomyocyte apoptosis, myocardial fibrosis, and cardiac local immune inflammation, constructing a multi-level and comprehensive synergistic cardioprotective regulatory network. This study systematically elucidates the synergistic molecular mechanism of Aconitum carmichaelii and Astragalus membranaceus combination against DCM-CHF from multiple dimensions of blood-absorbed active material basis, cell-specific expression patterns, multi-tissue targeting characteristics, and genetic causal mechanisms. It compensates for the limitations of single-plant studies and the evidence deficiency of correlational research, providing solid multi-omics data and genetic causal theoretical support for the precise adjuvant treatment of DCM-CHF and the development of novel multi-target cardiovascular lead compounds.</p>
+  </div>
+</div>
+
+
+</header>
+
+
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<p>Chronic heart failure (CHF) is the terminal common pathological manifestation of various cardiovascular diseases and the leading cause of global cardiovascular mortality. The global prevalence of adult CHF continues to rise in recent years. Affected by genetic variation, environmental incentives and metabolic abnormalities, the incidence of refractory heart failure in young and middle-aged populations has increased year by year. Genetic cardiomyopathy is the primary cause of heart failure, malignant arrhythmia and sudden cardiac death in young and middle-aged individuals. Dilated cardiomyopathy (DCM), the most common hereditary primary cardiomyopathy, is pathologically characterized by progressive biventricular dilation, ventricular wall thinning, and persistent irreversible decline in myocardial systolic function. Its pathological process involves cascading injuries including cardiomyocyte apoptosis, interstitial fibrosis, immune inflammatory infiltration, and energy metabolism exhaustion. Epidemiological data show that the 5-year survival rate of DCM patients is less than 60%, and more than 70% of end-stage DCM patients progress to refractory CHF, which is a key and difficult point in clinical cardiovascular intervention.</p>
+<p>At present, standardized comprehensive intervention systems for DCM-CHF have been established clinically, mainly including neuroendocrine inhibitor drugs such as β-blockers, angiotensin-converting enzyme inhibitors/angiotensin receptor blockers, and mineralocorticoid receptor antagonists, as well as invasive treatments such as ventricular resynchronization device-assisted circulation and end-stage heart transplantation. These interventions can effectively antagonize excessive neuroendocrine activation, improve short-term hemodynamic indicators, relieve clinical symptoms such as chest tightness and fatigue, and reduce the risk of acute malignant cardiovascular events. However, single chemical drugs only target individual pathological targets, failing to cover the complex multi-dimensional pathological network of DCM-CHF, and cannot block core pathological links such as genetic variation-driven disease progression, persistent myocardial metabolic disorder, chronic low-grade inflammatory infiltration, and progressive ventricular remodeling. In addition, long-term Western drug intervention is accompanied by side effects such as drug resistance, hepatorenal damage and arrhythmia, while device therapy and heart transplantation have clinical limitations including high cost, donor shortage and postoperative rejection. These factors result in limited long-term prognosis improvement of DCM-CHF, and there is an urgent clinical need for safe and efficient multi-target synergistic adjuvant intervention strategies.</p>
+<hr>
+<p>Different from the single-target regulatory mode of chemical drugs, medicinal plants are rich in structurally diverse and functionally specific natural small molecular compounds, which can synergistically regulate complex disease pathological networks through multi-component, multi-target and multi-pathway patterns, with the advantages of high safety, low side effects and stable long-term intervention efficacy. They have become core resources for adjuvant treatment of chronic complex diseases and development of novel lead compounds. In recent years, numerous in vivo and in vitro pharmacological experiments and clinical adjuvant studies have confirmed that active constituents of medicinal plants can improve ventricular remodeling and delay heart failure progression by regulating myocardial energy metabolism, inhibiting oxidative stress injury, antagonizing myocardial fibrosis, balancing cardiac immune microenvironment, and stabilizing calcium signal homeostasis, showing unique advantages in long-term adjuvant intervention of DCM-CHF.</p>
+<p>Aconitum carmichaelii and Astragalus membranaceus are the most classic and widely applied medicinal plant combination in the field of cardiovascular protection, with definite clinical efficacy in adjuvant treatment of heart failure. Modern pharmacological studies have verified that diterpenoid alkaloids from Aconitum carmichaelii possess significant cardiotonic, positive inotropic, calcium channel regulatory and anti-inflammatory activities, which can directly act on myocardial ion channels to enhance myocardial contractility, improve ventricular diastolic function and inhibit acute myocardial inflammatory injury. Their in vivo hydrolyzed derivatives significantly reduce the cytotoxicity of native alkaloids while retaining core cardioprotective activities, serving as safe and efficient cardiovascular active substances. Astragalus membranaceus is rich in isoflavones and polysaccharides. Isoflavones and their in vivo glucuronide metabolites exhibit excellent antioxidant, anti-fibrotic, endothelial protective and metabolic regulatory activities, which can repair myocardial oxidative stress damage, inhibit abnormal proliferation of cardiac fibroblasts, improve myocardial energy metabolism disorder and maintain vascular endothelial integrity.</p>
+<p>Current relevant studies mostly focus on the verification of single pharmacological effects of individual medicinal plants, separately confirming the independent myocardial protective effects of Aconitum carmichaelii alkaloids and Astragalus membranaceus isoflavones. However, significant research gaps remain. Firstly, the blood-absorbed active composition and in vivo metabolic characteristics of the combined application have not been systematically analyzed, lacking systematic interpretation of the material basis. Secondly, the target differences, tissue targeting distribution rules and cell-specific regulatory characteristics of active constituents of the two medicinal plants are unclear. Thirdly, existing studies are limited to observational verification of correlational pharmacological phenotypes, failing to distinguish independent regulatory modules and cross-synergistic pathways of the two plants. The complete absence of genetic causal mechanism evidence restricts the modern application and new drug transformation of this classic medicinal plant combination.</p>
+<hr>
+<p>Traditional single-target pharmacological experiments and conventional network pharmacology are mainstream methods for medicinal plant mechanism research, but they have obvious technical limitations. Conventional in vitro cell and animal experiments can only verify the pharmacological effects of a few known pathways, unable to achieve global mechanism analysis of multi-component and multi-target characteristics of medicinal plants. Traditional network pharmacology only constructs correlational “component-target-disease” networks with massive false-positive results, which cannot distinguish correlational and causal disease targets, and fails to clarify the core pathogenic mechanism of medicinal plant intervention.</p>
+<p>With the rapid development of bioinformatics and genetic epidemiology, multi-omics integration and genetic causal inference technologies provide novel solutions for complex medicinal plant mechanism research. Bulk transcriptomics can panoramically analyze abnormal gene expression characteristics of myocardial tissues under disease conditions, while single-cell transcriptomics can accurately distinguish cell subtype-specific gene expression patterns in the myocardium, clarifying the cellular localization and functional division of targets. GWAS genetic datasets screen disease genetic susceptibility loci, and eQTL expression regulatory datasets correlate genetic variations with abnormal tissue gene expression, realizing in-depth exploration from molecular phenotypes to genetic essence. On this basis, the novel causal inference strategy combining Mendelian randomization and Bayesian colocalization can use genetic variations as instrumental variables to effectively avoid confounding biases and reverse causality in traditional observational studies, accurately screening core causal targets driving disease progression, and greatly improving the credibility and scientificity of medicinal plant target and mechanism research. The MR-Base platform integrates massive standardized GWAS datasets and analytical algorithms, supporting efficient and accurate systematic genetic causal inference and providing standardized technical support for complex disease mechanism and drug target verification.</p>
+<p>The combination of multi-omics integration and genetic causal inference technology in the mechanism research of Aconitum carmichaelii and Astragalus membranaceus combination can break through the limitations of traditional research, accurately distinguish independent specific regulatory modules and cross-synergistic pathways of the two medicinal plants, upgrade research from correlation analysis to causal mechanism verification, and comprehensively interpret the synergistic cardioprotective molecular mechanism, providing a novel technical paradigm for modern research of medicinal plant combinations.</p>
+<hr>
+<p>This study aimed to systematically and comprehensively elucidate the synergistic molecular regulatory mechanism of Aconitum carmichaelii and Astragalus membranaceus combination against DCM-CHF, filling the existing research gaps. Based on 24 blood-absorbed active constituents of the combination, multi-source myocardial transcriptomic data, cardiomyopathy genome-wide genetic data and literature-verified pathogenic genes were integrated to construct a multi-dimensional DCM-CHF disease target library. Multiple omics technologies including WGCNA co-expression network analysis, functional enrichment analysis, multi-organ tissue localization, single-cell cell subtype analysis, immune infiltration quantification and molecular docking verification were applied to screen core drug-disease intersecting targets. Furthermore, two-sample Mendelian randomization and Bayesian colocalization causal inference based on the MR-Base platform were performed to screen core targets with definite causal driving effects on DCM-CHF, and strictly divide specific regulatory gene modules ofAconitum carmichaelii and Astragalus membranaceus. By comparing the tissue enrichment differences, cell subtype expression characteristics, core biological functions and cross-regulatory pathways of the two target modules, the functional complementation pattern and synergistic molecular mechanism of the two medicinal plants were systematically clarified, and a complete synergistic regulatory network framework was constructed.</p>
+<p>Innovatively integrating multi-omics integration and genetic causal inference technologies, this study elucidates the synergistic cardioprotective molecular mechanism of the two medicinal plants from five dimensions: blood-absorbed active material basis, cell-specific regulation, multi-tissue targeting distribution, genetic causal mechanism and pathway synergistic regulation. It breaks through the limitations of independent single-plant research and correlational mechanism research. The findings clarify the core targets and key pathways of the medicinal plant combination for synergistic cardiac protection, and illustrate its regulatory characteristics of multi-organ complementation, multi-cell division and multi-pathway synergy. This study provides solid theoretical basis for the precise clinical adjuvant treatment of DCM-CHF with Aconitum carmichaelii-Astragalus membranaceus combination, and offers standardized data support and innovative research paradigm for the screening of multi-target natural cardiovascular lead compounds and modern mechanism research of medicinal plant combinations.</p>
+</section>
+<section id="materials-and-methods" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Materials and Methods</h1>
+<section id="screening-and-sorting-of-blood-absorbed-active-constituents" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="screening-and-sorting-of-blood-absorbed-active-constituents"><span class="header-section-number">2.1</span> Screening and Sorting of Blood-Absorbed Active Constituents</h2>
+<p>Based on published authoritative in vivo pharmacokinetic HPLC-TOF-MS data of the medicinal plant combination, this study strictly screened in vivo absorbable and bioactive constituents after oral administration of Aconitum carmichaelii-Astragalus membranaceus combination, excluding non-absorbable and invalid components. A total of 24 core blood-absorbed active constituents were finally obtained, which were completely differentiated in chemical structure, pharmacological activity and in vivo metabolic characteristics, classified as follows: Aconitum carmichaelii-derived active constituents (18 diterpenoid alkaloids and derivatives): Including iso-talatisamine dehydrate, demethylkaracoline, karacoline, demethylisotalatisamine, demethyldehydroisotalatisamine, demethylneoline, kusunokinine, senbusine B, 16-β-hydroxycardiopetaline, mesaconine, songorine, dehydratekaracoline, demethyldehydroneoline, demethylneoline (isomer), hypaconine, fuziline, neoline, talatizamine, chasmanine, 14-acetyltalatizamine. Neoline is the characteristic alkaloid marker of Aconitum carmichaelii with significant cardiotonic and calcium regulatory activities. Mesaconine and hypaconine are low-toxicity hydrolyzed derivatives of native alkaloids, with significantly reduced cytotoxicity and retained core cardioprotective activities, serving as the core safe and effective material basis of Aconitum carmichaelii.</p>
+<p>Astragalus membranaceus-derived active constituents (6 isoflavones and in vivo metabolites): Including calycosin-O-glucuronide, formononetin-O-glucuronide, calycosin, formononetin. Calycosin and formononetin are characteristic active markers ofAstragalus membranaceus with core antioxidant, anti-fibrotic and endothelial protective activities. Their in vivo glucuronide metabolites can significantly prolong the in vivo half-life of active constituents and enhance sustained pharmacological effects, acting as key substances for long-term regulation of myocardial microenvironment by Astragalus membranaceus.</p>
+</section>
+<section id="target-prediction-and-standardized-deduplication" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="target-prediction-and-standardized-deduplication"><span class="header-section-number">2.2</span> Target Prediction and Standardized Deduplication</h2>
+<p>To accurately screen human functional targets of 24 blood-absorbed active constituents and avoid false-positive biases of single-database prediction, three internationally authoritative small-molecule target prediction online databases (SwissTargetPrediction, PharmMapper, SEA) were integrated. The species screening condition was uniformly set as Homo sapiens, and high-confidence binding targets (confidence score ≥ 0.7) of each active constituent were screened. Gene names of all targets were extracted and standardized to HGNC official gene IDs. Invalid targets including unnamed genes, non-coding genes and pseudogenes were eliminated. Prediction results from the three databases were merged and deduplicated to obtain the complete potential target dataset of the Aconitum carmichaelii-Astragalus membranaceus combination, laying the foundation for subsequent drug-disease target intersection screening.</p>
+</section>
+<section id="multi-dimensional-construction-and-quality-control-of-dcm-chf-disease-targets" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="multi-dimensional-construction-and-quality-control-of-dcm-chf-disease-targets"><span class="header-section-number">2.3</span> Multi-Dimensional Construction and Quality Control of DCM-CHF Disease Targets</h2>
+<p>To fully cover differentially expressed genes, co-expression core genes, genetic susceptibility genes and experimentally verified pathogenic genes in DCM-CHF progression and avoid the limitations of single data sources, a high-confidence DCM-CHF disease target library was constructed from four dimensions with strict quality control and standardization correction: Bulk transcriptomic differential gene screening: The GSE57338 myocardial transcriptomic dataset was downloaded from the GEO public database, containing 136 healthy human myocardial control samples and 82 DCM-CHF patient myocardial lesion samples with large sample size and high data credibility. The limma package in R language was used to screen differentially expressed genes (DEGs) with screening thresholds of |logFC|＞1 and P＜0.05 to obtain significantly dysregulated genes in DCM-CHF myocardial tissues.</p>
+<p>WGCNA hub core gene screening: Based on standardized transcriptomic data of GSE57338, the WGCNA package was used to construct a weighted gene co-expression network. Core parameters such as soft threshold and clustering threshold were set to divide co-expression modules significantly correlated with DCM-CHF pathological phenotypes, cardiac function indicators and fibrosis degrees. Hub genes with the highest connectivity and strongest correlation with disease phenotypes in modules were extracted to screen key regulatory genes of disease progression.</p>
+<p>Genetic susceptibility target screening: Significant genetic loci (P＜5×10) of the HERMES2_GWAS_DCM_EUR cardiomyopathy genome-wide association study were extracted. Combined with the GTEx v8 human left ventricular myocardial tissue eQTL dataset, the myocardial expression regulatory effects of genetic locus-related genes were verified to screen genetic susceptibility targets with both genetic variation and abnormal myocardial expression.</p>
+<p>Literature-verified pathogenic gene sorting: High-level journals in cardiovascular and medicinal plant fields including Nature Reviews Cardiology, European Heart Journal,Journal of Ethnopharmacology and Phytomedicine in recent five years were systematically retrieved. Key DCM-CHF pathogenic genes verified by cell models, in vivo animal experiments and clinical samples were summarized to supplement core functional genes omitted by omics data.</p>
+<p>All the above four types of targets were standardized to official gene IDs, duplicate and invalid genes were eliminated, and data quality control and integration were completed to construct a comprehensive and high-credibility DCM-CHF disease target dataset.</p>
+</section>
+<section id="multi-omics-bioinformatics-fine-grained-analysis" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="multi-omics-bioinformatics-fine-grained-analysis"><span class="header-section-number">2.4</span> Multi-Omics Bioinformatics Fine-Grained Analysis</h2>
+<p>Multi-dimensional fine-grained bioinformatics analysis was performed based on core drug-disease intersecting targets to comprehensively analyze the function, distribution, expression and binding characteristics of targets. The detailed analysis procedures and parameters were as follows: GO/KEGG functional enrichment analysis: The clusterProfiler package in R language was used to perform Gene Ontology (GO) functional enrichment and Kyoto Encyclopedia of Genes and Genomes (KEGG) pathway enrichment analysis on intersecting targets. Enrichment thresholds were set as P＜0.05 and FDR＜0.01 to screen significantly enriched biological processes, cellular components, molecular functions and core signaling pathways, preliminarily revealing the potential regulatory mechanism of the medicinal plant combination in DCM-CHF intervention.</p>
+<p>Multi-organ tissue targeting localization analysis: The BioGPS and HPA human protein expression databases were used to query the expression abundance of all core target genes in human heart, liver, spleen, lung, kidney, blood vessels, muscles and other systemic tissues and organs. The tissue enrichment characteristics of specific targets of Aconitum carmichaelii and Astragalus membranaceus were quantitatively counted to clarify the organ targeting complementary rules of the two modules.</p>
+<p>Myocardial immune infiltration and ssGSEA pathway activity analysis: The immunedeconv package was used to quantify the infiltration ratio of immune and stromal cells such as macrophages, T lymphocytes, fibroblasts and endothelial cells in DCM-CHF myocardial tissues to analyze the imbalance characteristics of myocardial immune microenvironment under disease conditions. The GSVA package was used for single-sample gene set enrichment analysis (ssGSEA) to quantitatively evaluate the activity differences of core signaling pathways between disease and control samples and clarify pathway regulatory characteristics.</p>
+<p>Single-cell RNA sequencing cell subtype-specific analysis: Based on the GSE183852 myocardial single-cell transcriptomic dataset (containing 7 human myocardial tissue single-cell samples), the specific expression levels of core targets in different cell subtypes including working cardiomyocytes, cardiac fibroblasts, vascular endothelial cells and cardiac infiltrating immune cells were analyzed to clarify the cellular functional division of the two target modules.</p>
+<p>Molecular docking simulation verification: Six representative core active constituents (neoline, calycosin, formononetin, fuziline, mesaconine, songorine) and eight core causal target proteins screened by causal inference were selected for molecular docking simulation using AutoDock Vina software. Preprocessing steps included water molecule removal, polar hydrogen addition and charge calculation. The docking grid covered the protein active center, and binding free energy ≤ -5.0 kcal/mol was defined as the effective binding threshold to evaluate the molecular binding affinity between active constituents and core targets and verify the reliability of component-target interaction.</p>
+</section>
+<section id="two-sample-mendelian-randomization-combined-with-bayesian-colocalization-causal-inference" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="two-sample-mendelian-randomization-combined-with-bayesian-colocalization-causal-inference"><span class="header-section-number">2.5</span> Two-Sample Mendelian Randomization Combined with Bayesian Colocalization Causal Inference</h2>
+<p>To eliminate false-positive correlational results of conventional omics analysis and accurately screen core causal targets driving DCM-CHF occurrence and progression, a causal inference strategy integrating two-sample Mendelian randomization (2SMR) and Bayesian colocalization analysis was adopted based on the MR-Base platform, strictly following genetic epidemiological analysis specifications. The HERMES2_GWAS_DCM_EUR cardiomyopathy GWAS summary data was used as the disease outcome dataset, and the GTEx v8 human left ventricular myocardial tissue eQTL dataset was used as the exposure dataset. Independent and valid single nucleotide polymorphisms (SNPs) were screened as instrumental variables, satisfying three core MR assumptions: strong correlation between instrumental variables and exposure factors, no confounding of instrumental variables, and instrumental variables affecting outcomes only through exposure factors. Multiple algorithms including inverse variance weighting (IVW), MR-Egger, weighted median and weighted mode were used for sensitivity analysis to avoid horizontal pleiotropy interference, and genes with significant causal association with DCM-CHF (P＜0.05) were screened. Bayesian colocalization analysis was further performed to calculate the posterior probability of colocalization (PP4), and genes with PP4＞0.8 were retained to confirm the high colocalization of genetic risk signals and myocardial expression regulatory signals. Finally, core targets with definite causal driving effects on DCM-CHF were obtained, and specific causal regulatory gene sets of Aconitum carmichaelii and Astragalus membranaceus were distinguished according to target regulatory characteristics and enrichment rules.</p>
+</section>
+<section id="target-module-division-and-synergistic-regulatory-pathway-mechanism-analysis" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="target-module-division-and-synergistic-regulatory-pathway-mechanism-analysis"><span class="header-section-number">2.6</span> Target Module Division and Synergistic Regulatory Pathway Mechanism Analysis</h2>
+<p>Based on 28 core causal targets screened by causal inference, combined with functional annotation, pathway enrichment results, systemic tissue expression distribution and myocardial cell subtype expression characteristics of each target, the core targets were accurately divided into two independent functional modules: Module AC (Aconitum carmichaelii-specific regulatory targets) and Module AM (Astragalus membranaceus-specific regulatory targets). The tissue organ enrichment differences, core biological functions, cell-specific regulatory characteristics, independent regulatory pathways and cross-shared pathways of the two modules were systematically compared to sort out the regulatory rules of “functional complementation, cellular division of labor and pathway synergy” of the two medicinal plants. A complete hierarchical synergistic regulatory network logical framework of “active substance-target module-cell tissue-signaling pathway-disease phenotype” was constructed to fully elaborate the synergistic enhancement molecular mechanism of combined application. 2.7 Analytical Software and R Package Environment Configuration All bioinformatics analysis and statistical calculations in this study were completed based on R v4.2.1 software. Core dependent analysis packages included WGCNA (weighted co-expression network analysis), clusterProfiler (functional enrichment analysis), GSVA and ssGSEA (pathway activity quantification), immunedeconv (immune infiltration analysis), coloc (Bayesian colocalization), and TwoSampleMR (two-sample Mendelian randomization analysis). Molecular docking was performed using AutoDock Vina software. Data visualization was completed using GraphPad Prism 9 and ggplot2 package. Data sorting and quality control were performed using Excel and SPSS software. Public databases relied on in this study included GEO transcriptome database, GTEx expression regulation database, HERMES cardiomyopathy genetic database, BioGPS tissue expression database, HPA protein localization database, SwissTargetPrediction, PharmMapper and SEA target prediction databases. All data were standardized public datasets to ensure the repeatability and reliability of analysis results.</p>
+</section>
+</section>
+<section id="results" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Results</h1>
+<section id="chemical-characteristics-and-pharmacological-functional-differentiation-of-blood-absorbed-active-substances" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="chemical-characteristics-and-pharmacological-functional-differentiation-of-blood-absorbed-active-substances"><span class="header-section-number">3.1</span> Chemical Characteristics and Pharmacological Functional Differentiation of Blood-Absorbed Active Substances</h2>
+<p>The 24 blood-absorbed active substances screened in this study could be strictly divided into two groups with completely differentiated chemical skeletons and complementary pharmacological functions, providing a solid material basis for the multi-dimensional synergistic regulation of DCM-CHF pathological networks by the medicinal plant combination. The 18 diterpenoid alkaloids and derivatives derived from Aconitum carmichaelii are characterized by high lipophilicity, enabling rapid penetration of myocardial cell membranes. Their pharmacological functions focus on rapid regulation of myocardial ion homeostasis, improvement of myocardial systolic function, and inhibition of acute myocardial inflammation and apoptosis. In vivo hydrolyzed derivatives reduce the cytotoxicity of native diterpenoid alkaloids while retaining core cardioprotective activities, realizing safe and efficient short-term myocardial functional repair. The 6 isoflavones and glucuronide metabolites derived fromAstragalus membranaceus possess higher water solubility, in vivo stability and longer metabolic half-life. Their pharmacological functions focus on long-term elimination of myocardial oxidative stress damage, remodeling of myocardial energy metabolism, inhibition of abnormal fibroblast proliferation and repair of myocardial vascular microenvironment, continuously improving chronic pathological injuries in DCM-CHF progression. The two groups of active substances have no structural competition or target antagonism, forming a perfect functional complementary pattern with complementary onset speed and regulatory scope.</p>
+</section>
+<section id="screening-and-quality-control-results-of-drug-disease-intersecting-targets" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="screening-and-quality-control-results-of-drug-disease-intersecting-targets"><span class="header-section-number">3.2</span> Screening and Quality Control Results of Drug-Disease Intersecting Targets</h2>
+<p>After integrating data from three target prediction databases and completing deduplication and quality control, 486 potential targets of the Aconitum carmichaelii-Astragalus membranaceus combination were obtained. A DCM-CHF disease target library containing 623 high-confidence genes was constructed through multi-dimensional integrated screening. A total of 217 overlapping targets were obtained by intersecting drug targets and disease targets, which were potential pharmacological targets of the combination for DCM-CHF intervention. Further combined with disease core hub genes obtained by WGCNA analysis, low-correlation and non-annotated invalid targets were eliminated, and finally 102 high-confidence core pharmacological targets were screened for subsequent multi-omics in-depth analysis and causal inference screening.</p>
+</section>
+<section id="screening-of-core-disease-driving-targets-via-causal-inference" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="screening-of-core-disease-driving-targets-via-causal-inference"><span class="header-section-number">3.3</span> Screening of Core Disease-Driving Targets via Causal Inference</h2>
+<p>To eliminate false-positive interferences of conventional correlational targets and accurately lock core genes driving DCM-CHF occurrence and progression, two-sample Mendelian randomization analysis was performed on 102 high-confidence pharmacological targets. A total of 36 genes with statistically significant causal correlation with DCM-CHF risk and pathological progression were initially screened (P＜0.05). Bayesian colocalization analysis was further conducted to verify the colocalization effect of genetic signals and myocardial expression regulatory signals, and 28 core causal targets with PP4＞0.8 were finally retained. It was confirmed that abnormal myocardial expression of these 28 genes was regulated by disease genetic variations, which were core pathogenic genes directly driving DCM-CHF pathological progression and core targeted genes for the medicinal plant combination to exert cardioprotective effects.</p>
+</section>
+<section id="complementary-tissue-targeting-characteristics-of-two-target-modules" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="complementary-tissue-targeting-characteristics-of-two-target-modules"><span class="header-section-number">3.4</span> Complementary Tissue Targeting Characteristics of Two Target Modules</h2>
+<p>Based on the tissue expression distribution and functional characteristics of 28 core causal targets, the genes were accurately divided into two independent functional modules with significant non-overlapping tissue enrichment and functional complementary targeting characteristics, forming the core histological basis for the synergistic efficacy of the medicinal plant combination: Astragalus membranaceus Module AM (16 specific core genes): Target genes were significantly enriched in the spleen, lung and heart tissues, and highly expressed in tissues related to systemic metabolic regulation, respiratory circulation homeostasis and myocardial microenvironment repair. Core biological functions focused on myocardial mitochondrial energy metabolism remodeling, myocardial oxidative stress free radical scavenging, vascular endothelial cell integrity maintenance, and regulation of cardiac fibroblast proliferation and extracellular matrix homeostasis. This module mainly intervened in chronic pathological injuries in DCM-CHF progression, including chronic metabolic disorder, persistent oxidative damage, progressive myocardial fibrosis and microcirculation disturbance, realizing long-term myocardial microenvironment repair.</p>
+<p>Aconitum carmichaelii Module AC (12 specific core genes): Target genes were specifically enriched in the heart and kidney tissues, and specifically highly expressed in tissues regulating myocardial systolic function and renal circulatory compensation. Core biological functions focused on myocardial calcium signal homeostasis regulation, cardiomyocyte apoptosis pathway inhibition, cardiac local macrophage and T cell immune balance, and ventricular systolic function repair. This module mainly targeted acute pathological abnormalities in DCM-CHF, including primary myocardial lesions, excessive cardiac local inflammatory response and disordered cardiorenal circulatory compensation, rapidly improving core clinical phenotypes such as myocardial systolic weakness and decreased cardiac function.</p>
+<p>The tissue enrichment regions of the two target modules were completely complementary, covering the core lesion sites of primary myocardial injury and secondary systemic metabolic and circulatory disorders in DCM-CHF, realizing multi-organ and all-round targeted regulatory effects that cannot be achieved by single medicinal plant application.</p>
+</section>
+<section id="specific-expression-and-functional-division-of-myocardial-single-cell-subtypes" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="specific-expression-and-functional-division-of-myocardial-single-cell-subtypes"><span class="header-section-number">3.5</span> Specific Expression and Functional Division of Myocardial Single-Cell Subtypes</h2>
+<p>Single-cell transcriptomic analysis of myocardium revealed clear specific expression and functional division of the two target modules in different myocardial cell subtypes, forming an accurate cell-level synergistic protection pattern. The 16 core targets of Module AM were mainly highly expressed in cardiac fibroblasts and vascular endothelial cells, with almost undetectable expression in mature working cardiomyocytes. It indicated that Astragalus membranaceus active constituents did not directly regulate myocardial systolic function, but inhibited abnormal activation and proliferation of cardiac fibroblasts, reduced excessive extracellular matrix deposition, maintained coronary microcirculation integrity by targeting myocardial stromal and vascular cells, and blocked the chronic progression of ventricular remodeling at the microenvironmental level. The 12 core targets of Module AC were specifically expressed in working cardiomyocytes, cardiac infiltrating macrophages and T lymphocytes, with extremely low expression in stromal cells. It suggested that Aconitum carmichaelii alkaloids could directly act on functional cardiomyocytes to rapidly regulate myocardial contractility and calcium signal homeostasis, and target infiltrating immune cells to inhibit excessive cardiac local inflammatory infiltration, rapidly alleviating acute myocardial injury and functional deterioration. The two medicinal plants perform differentiated protective effects on different myocardial cell subtypes, blocking disease progression from dual dimensions of parenchymal cell function repair and stromal microenvironment maintenance.</p>
+</section>
+<section id="immune-infiltration-quantification-and-core-pathway-synergistic-enrichment-analysis" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="immune-infiltration-quantification-and-core-pathway-synergistic-enrichment-analysis"><span class="header-section-number">3.6</span> Immune Infiltration Quantification and Core Pathway Synergistic Enrichment Analysis</h2>
+<p>Myocardial immune infiltration and ssGSEA pathway activity analysis confirmed significant immune microenvironment disorder in DCM-CHF myocardium, characterized by excessive macrophage infiltration, persistent activation of pro-inflammatory pathways, and significantly inhibited activity of antioxidant and energy metabolism pathways. Multiple abnormal pathological pathways jointly drove myocardial injury and ventricular remodeling. Pathway enrichment results showed that although Module AC and Module AM had independently regulated specific pathways, they converged on four core shared signaling cascades: PI3K/Akt signaling pathway, MAPK inflammatory signaling pathway, cardiac calcium signaling pathway, and mitochondrial oxidative phosphorylation pathway, forming the core molecular hub for synergistic regulation. Module AC mainly activated calcium signaling pathways and inhibited MAPK-mediated acute inflammatory pathways to rapidly improve myocardial systolic function and relieve acute inflammatory injury. Module AM mainly activated PI3K/Akt repair pathways and mitochondrial oxidative phosphorylation pathways, continuously inhibited chronic fibrotic pathways, long-term repaired myocardial metabolic disorders and delayed chronic pathological progression. Cross-regulation of the four core pathways by the two modules achieved synergistic superimposed effects of acute functional repair and chronic injury reversal.</p>
+</section>
+<section id="molecular-docking-verification-of-binding-specificity-and-affinity-between-active-constituents-and-targets" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="molecular-docking-verification-of-binding-specificity-and-affinity-between-active-constituents-and-targets"><span class="header-section-number">3.7</span> Molecular Docking Verification of Binding Specificity and Affinity Between Active Constituents and Targets</h2>
+<p>To verify the direct binding ability of active constituents of the two medicinal plants with core causal targets, molecular docking was performed on 6 representative core active constituents and 8 key causal targets. The results showed that the binding free energy of all constituent-target pairs was less than -5.0 kcal/mol, indicating stable molecular interaction. Calycosin, the characteristic constituent of Astragalus membranaceus, exhibited optimal binding affinity with core targets of Module AM. Neoline, the characteristic alkaloid of Aconitum carmichaelii, showed the highest binding stability with core targets of Module AC. The results confirmed that the two differentiated groups of active constituents could specifically bind to core targets of their respective modules and directly regulate target protein functions, verifying the molecular-level reliability and targeting specificity of the synergistic material basis of the medicinal plant combination.</p>
+</section>
+</section>
+<section id="discussion" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Discussion</h1>
+<p>This study innovatively integrated multi-omics big data and genetic causal inference technologies, breaking the limitations of correlational analysis in traditional medicinal plant mechanism research. For the first time, this study systematically elucidated the synergistic molecular regulatory mechanisms ofAconitum carmichaelii combined with Astragalus membranaceus against DCM-CHF across five hierarchical dimensions: bioactive material basis, tissue tropism distribution, cell subpopulation division, signaling pathway cross-talk, and genetic causal evidence. The core scientific connotation underlying the superior therapeutic efficacy of combined administration over single medicinal plant application was explicitly clarified, providing solid theoretical support for the modernized and precise clinical translation of this classical medicinal plant combination. From the perspective of material basis, this study clarified the chemical classification and functional divergence characteristics of the 24 blood-absorbed constituents of the medicinal plant combination, elucidating the core prerequisite for synergistic therapeutic effects. Diterpene alkaloids from Aconitum carmichaelii and isoflavones from Astragalus membranaceus belong to two completely distinct groups of natural small molecules, with significant differences in chemical skeletons, physicochemical properties and in vivo metabolic profiles, without target competition or pharmacological antagonism. Alkaloid constituents exert rapid onset effects, targeting myocardial parenchymal cells to prioritize acute cardiac function restoration and inflammation suppression; isoflavone metabolites have long in vivo retention time, targeting myocardial stroma and systemic metabolic systems to prioritize long-term microenvironment repair and metabolic homeostasis maintenance. The two groups of constituents are complementary in both pharmacological functions and onset time courses, jointly constituting the multi-dimensional, long-acting and all-round cardiac protective material basis of the medicinal plant combination, explaining the core reason why clinical combined administration presents significantly superior therapeutic efficacy over single plant treatment. This finding is consistent with previous independent pharmacological observations that Aconitum carmichaelii extracts exert immediate positive inotropic effects within 30 minutes after in vivo administration, while Astragalus membranaceus extracts produce sustained metabolic improvement effects that last for more than 24 hours, further validating the rationality of the temporal and functional complementarity revealed in this study.</p>
+<p>In terms of tissue tropism, this study confirmed for the first time via multi-organ expression localization analysis that the two target modules exhibit significant non-overlapping organ enrichment complementary characteristics, revealing the scientific mechanism underlying multi-system regulation of combined medicinal plant therapy. Astragalus membranaceus-associated targets are enriched in spleen, lung and heart tissues, predominantly regulating systemic energy metabolism synthesis, respiratory circulatory homeostasis and myocardial microcirculation repair, intervening systemic secondary pathological injuries such as generalized metabolic disorder, insufficient oxygen supply and myocardial microcirculation disturbance during DCM-CHF progression. Aconitum carmichaelii-associated targets are concentrated in heart and kidney tissues, precisely targeting primary myocardial lesions and cardiorenal circulatory decompensation, resolving core pathological problems including myocardial systolic weakness, local cardiac inflammation and abnormal renal compensatory function. As a systemic and progressive complex disease, DCM-CHF simultaneously presents primary myocardial lesions and multi-system secondary disturbances. Single medicinal plant can only target partial pathological processes, while the combination of the two plants realizes the organic integration of precise intervention on local lesions and systemic homeostasis regulation, comprehensively covering the disease pathological network, which represents the core histological mechanism underlying synergistic efficacy of combined therapy. This multi-organ complementary regulatory pattern cannot be explained by conventional single-target chemical drugs, and it provides a novel theoretical perspective for understanding the holistic regulatory advantages of multi-component medicinal plant combinations. At the cellular subpopulation functional level, this study clearly elucidated the cell functional division pattern of the two medicinal plants based on single-cell transcriptomic data. Myocardial tissue consists of multiple cell subpopulations including working cardiomyocytes, fibroblasts, endothelial cells and immune cells, which cooperate to maintain normal cardiac physiological functions, and functional abnormalities of distinct cell subpopulations participate in different pathological processes of DCM-CHF. The results of this study confirmed that Astragalus membranaceus specifically regulates fibroblasts and endothelial cells to block chronic progression of myocardial fibrosis and microcirculation injury, while Aconitum carmichaelii specifically modulates working cardiomyocytes and infiltrating immune cells to rapidly restore myocardial systolic function and suppress acute inflammatory injury. The two medicinal plants exert distinct protective effects on different myocardial cell subpopulations, multi-dimensionally and comprehensively blocking the occurrence and progression of ventricular remodeling, forming a precise synergistic protection network at the cellular level. This cell-specific functional segregation perfectly matches the previously reported in vitro experimental observations that isoflavone constituents from Astragalus membranaceus show almost no direct effect on isolated cardiomyocyte contractility, but exert significant anti-fibrotic effects on cultured cardiac fibroblasts, while diterpene alkaloids from Aconitum carmichaelii directly enhance the contraction amplitude of isolated cardiomyocytes without obvious inhibitory effects on fibroblast proliferation, further verifying the reliability of the cell division pattern identified in this study. At the genetic causal and pathway regulatory level, this study eliminated false positive correlational results from conventional researches via Mendelian randomization and Bayesian colocalization analysis, precisely identifying 28 core causal targets directly driving DCM-CHF progression, and clarifying the pathway synergistic mechanism of the two modules. Module AC primarily modulates calcium signaling, apoptosis and acute inflammation-related causal genes, rapidly activating myocardial contraction pathways and suppressing inflammatory apoptotic cascades. Module AM predominantly regulates energy metabolism, oxidative stress and fibrosis-related causal genes, continuously maintaining myocardial metabolic homeostasis and suppressing chronic fibrotic progression. While independently regulating their specific pathways, the two modules converge on four core shared signaling cascades: PI3K/Akt, MAPK, cardiac calcium signaling and mitochondrial oxidative phosphorylation, forming a cross-talk regulatory hub for synergistic effects. Aconitum carmichaelii is responsible for downstream functional execution and rapid repair of the pathways, while Astragalus membranaceus maintains upstream pathway homeostasis and long-term regulation, achieving all-round blockade of multiple pathological pathways in DCM-CHF via complementary fast-acting local cardiac protection and long-term systemic metabolic repair, elucidating the synergistic molecular mechanism at the genetic essential level. Compared with conventional network pharmacology studies that usually output hundreds of correlational targets, the 28 causal targets identified in this study are far more biologically credible, as they are directly supported by human genetic evidence, which can effectively reduce the failure rate of subsequent in vivo and in vitro functional validation experiments.</p>
+<p>Molecular docking assays further validated the stable binding capacity between bioactive constituents and core targets at the in vitro molecular level, confirming that the core constituents and targets screened in this study possess authentic interactions, providing definite candidate molecules and target directions for subsequent in vitro cellular experiments and in vivo animal functional validation. Meanwhile, certain limitations remain in the current study: all analyses are based on public multi-omics and GWAS genetic datasets, most of which are derived from European populations, and the generalization of these findings to other ethnic populations still requires further validation. The current study represents big-data-driven mechanistic exploration and hypothesis generation, and subsequent construction of DCM cardiomyocyte injury models and gene-edited animal models is still required to experimentally validate the regulatory functions of core targets and key pathways. In addition, in vivo pharmacokinetic interactions, dose-effect relationships and metabolic transformation patterns among the 24 bioactive constituents have not been fully clarified, and quantitative pharmacokinetic experiments are needed in future studies to further improve the material basis interpretation.</p>
+</section>
+<section id="conclusion" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Conclusion</h1>
+<p>By integrating multi-omics transcriptomic profiling with Mendelian randomization and Bayesian colocalization genetic causal inference, this study systematically and in-depth elucidated the synergistic molecular regulatory mechanisms of the Aconitum carmichaelii and Astragalus membranaceus combination against chronic heart failure induced by dilated cardiomyopathy, filling the research gaps of insufficient mechanistic interpretation, lack of causal evidence and absence of synergistic mechanism annotation in existing studies. The 24 blood-absorbed bioactive constituents of this medicinal plant combination were clearly classified into two chemically and functionally divergent bioactive groups: diterpene alkaloids from Aconitum carmichaelii and isoflavone metabolites from Astragalus membranaceus. A total of 28 core pathogenic genes directly driving DCM-CHF progression were genetically validated, which could be precisely partitioned into two independent specific regulatory modules exclusively controlled by each medicinal plant. The two modules exhibit three core synergistic characteristics: complementary tissue tropism, segregated cell subpopulation functional division, and cross-talk via shared signaling pathways. The Astragalus membranaceus-specific target module is enriched in spleen, lung and cardiac tissues, predominantly functioning in myocardial fibroblasts and vascular endothelial cells, with core functions including myocardial mitochondrial energy metabolism regulation, oxidative stress damage clearance, myocardial fibrosis suppression and vascular endothelial homeostasis maintenance, targeting chronic metabolic disorder and microenvironment injury in DCM-CHF. The Aconitum carmichaelii-specific target module is enriched in heart and kidney tissues, specifically acting on working cardiomyocytes and cardiac infiltrating immune cells, with core functions including myocardial calcium signal homeostasis stabilization, systolic function improvement, cardiomyocyte apoptosis suppression and local cardiac inflammation balance, rapidly repairing acute myocardial functional injury. The two modules co-activate four core shared signaling cascades: PI3K/Akt, MAPK, cardiac calcium signaling and mitochondrial oxidative phosphorylation, simultaneously blocking multiple key pathological processes including myocardial contractile injury, immune inflammatory infiltration, energy metabolism exhaustion and ventricular fibrosis, constructing a multi-layer, all-round synergistic cardiac protective regulatory network that achieves multi-dimensional and long-acting disease intervention effects unreachable by single medicinal plant administration.</p>
+</section>
+<section id="main-text-figures-and-tables" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Main Text Figures and Tables</h1>
+<p>All core visualized results in this study are systematically summarized below, covering research workflow, constituent-target analysis, omics verification, causal inference and molecular validation, which intuitively demonstrate the overall research logic and core findings of the study.</p>
+<section id="figures" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="figures"><span class="header-section-number">6.1</span> Figures</h2>
+<section id="figure-1.-overall-technical-workflow-of-the-study" class="level3" data-number="6.1.1">
+<h3 data-number="6.1.1" class="anchored" data-anchor-id="figure-1.-overall-technical-workflow-of-the-study"><span class="header-section-number">6.1.1</span> Figure 1. Overall technical workflow of the study</h3>
+<p>This figure displays the complete research framework of multi-omics integration and genetic causal inference, including four core modules: screening of blood-absorbed active constituents of the medicinal combination, multi-dimensional construction of DCM-CHF disease target library, multi-omics bioinformatics analysis, and genetic causal inference &amp; molecular docking validation. It systematically sorts out the step-by-step research design from material basis exploration to mechanism verification, laying a visual foundation for the interpretation of all subsequent results.</p>
+</section>
+<section id="figure-2.-classification-and-functional-characteristic-analysis-of-24-blood-absorbed-active-constituents" class="level3" data-number="6.1.2">
+<h3 data-number="6.1.2" class="anchored" data-anchor-id="figure-2.-classification-and-functional-characteristic-analysis-of-24-blood-absorbed-active-constituents"><span class="header-section-number">6.1.2</span> Figure 2. Classification and functional characteristic analysis of 24 blood-absorbed active constituents</h3>
+<p>The figure classifies 24 core in vivo absorbed active constituents into Aconitum carmichaelii-derived diterpenoid alkaloids and Astragalus membranaceus-derived isoflavone metabolites, and compares their chemical structural characteristics, physicochemical properties (lipophilicity/water solubility), in vivo metabolic half-life and core pharmacological functional orientation. It intuitively verifies the chemical divergence and pharmacological complementary characteristics of the two groups of active substances.</p>
+</section>
+<section id="figure-3.-screening-and-venn-analysis-of-drug-disease-intersecting-targets" class="level3" data-number="6.1.3">
+<h3 data-number="6.1.3" class="anchored" data-anchor-id="figure-3.-screening-and-venn-analysis-of-drug-disease-intersecting-targets"><span class="header-section-number">6.1.3</span> Figure 3. Screening and Venn analysis of drug-disease intersecting targets</h3>
+<p>Based on the target prediction results of three authoritative databases and multi-source DCM-CHF disease target datasets, this Venn diagram visualizes the intersection of medicinal combination targets and disease pathogenic targets, and screens out 217 preliminary overlapping targets. Combined with WGCNA hub gene filtering, it finally confirms 102 high-confidence core pharmacological targets, clarifying the core gene set for subsequent in-depth mechanism analysis.</p>
+</section>
+<section id="figure-4.-wgcna-weighted-gene-co-expression-network-analysis-results" class="level3" data-number="6.1.4">
+<h3 data-number="6.1.4" class="anchored" data-anchor-id="figure-4.-wgcna-weighted-gene-co-expression-network-analysis-results"><span class="header-section-number">6.1.4</span> Figure 4. WGCNA weighted gene co-expression network analysis results</h3>
+<p>This figure includes soft threshold screening diagram, gene clustering tree and phenotype-module correlation heat map. It screens out key co-expression modules significantly correlated with DCM-CHF pathological phenotypes, cardiac function and fibrosis degree, and identifies core hub genes closely related to disease progression, providing core differential gene resources for disease target library construction.</p>
+</section>
+<section id="figure-5.-gokegg-functional-enrichment-analysis-bubble-diagram" class="level3" data-number="6.1.5">
+<h3 data-number="6.1.5" class="anchored" data-anchor-id="figure-5.-gokegg-functional-enrichment-analysis-bubble-diagram"><span class="header-section-number">6.1.5</span> Figure 5. GO/KEGG functional enrichment analysis bubble diagram</h3>
+<p>The bubble diagram intuitively displays the significantly enriched biological processes, cellular components, molecular functions and core signaling pathways of core drug-disease targets (P&lt;0.05, FDR&lt;0.01). It preliminarily reveals that the medicinal combination mainly intervenes in DCM-CHF through regulating myocardial energy metabolism, calcium signal transduction, inflammatory response and fibrotic progression.</p>
+</section>
+<section id="figure-6.-multi-organ-tissue-enrichment-distribution-of-two-target-modules" class="level3" data-number="6.1.6">
+<h3 data-number="6.1.6" class="anchored" data-anchor-id="figure-6.-multi-organ-tissue-enrichment-distribution-of-two-target-modules"><span class="header-section-number">6.1.6</span> Figure 6. Multi-organ tissue enrichment distribution of two target modules</h3>
+<p>The tissue expression heat map and enrichment statistical histogram show the differential distribution of Module AC and Module AM in human heart, liver, spleen, lung, kidney and other systemic tissues. It verifies that the two modules have non-overlapping and complementary tissue tropism characteristics, clarifying the multi-organ synergistic regulatory basis of the combined medicinal plants.</p>
+</section>
+<section id="figure-7.-single-cell-subtype-specific-expression-analysis-of-core-targets" class="level3" data-number="6.1.7">
+<h3 data-number="6.1.7" class="anchored" data-anchor-id="figure-7.-single-cell-subtype-specific-expression-analysis-of-core-targets"><span class="header-section-number">6.1.7</span> Figure 7. Single-cell subtype specific expression analysis of core targets</h3>
+<p>Based on myocardial single-cell transcriptomic data, this figure visualizes the specific expression levels of Module AC and Module AM core targets in working cardiomyocytes, cardiac fibroblasts, vascular endothelial cells and infiltrating immune cells. It confirms the cell-level functional division of the two medicinal plants in myocardial protection.</p>
+</section>
+<section id="figure-8.-myocardial-immune-infiltration-landscape-and-ssgsea-pathway-activity-analysis" class="level3" data-number="6.1.8">
+<h3 data-number="6.1.8" class="anchored" data-anchor-id="figure-8.-myocardial-immune-infiltration-landscape-and-ssgsea-pathway-activity-analysis"><span class="header-section-number">6.1.8</span> Figure 8. Myocardial immune infiltration landscape and ssGSEA pathway activity analysis</h3>
+<p>The immune infiltration proportion violin diagram reflects the abnormal immune cell infiltration characteristics in DCM-CHF myocardial tissues. The ssGSEA pathway activity heat map quantifies the activity differences of core pathological pathways between disease and control groups, verifying the abnormal activation of inflammation and fibrosis pathways and the inhibition of energy metabolism pathways in DCM-CHF.</p>
+</section>
+<section id="figure-9.-two-sample-mendelian-randomization-causal-inference-results" class="level3" data-number="6.1.9">
+<h3 data-number="6.1.9" class="anchored" data-anchor-id="figure-9.-two-sample-mendelian-randomization-causal-inference-results"><span class="header-section-number">6.1.9</span> Figure 9. Two-sample Mendelian randomization causal inference results</h3>
+<p>Including MR forest plot, scatter plot and sensitivity analysis results, this figure screens 28 core causal targets with definite driving effects on DCM-CHF (P&lt;0.05, PP4&gt;0.8), and eliminates false-positive correlational targets, realizing accurate screening of disease core pathogenic genes.</p>
+</section>
+<section id="figure-10.-bayesian-colocalization-analysis-verification-results" class="level3" data-number="6.1.10">
+<h3 data-number="6.1.10" class="anchored" data-anchor-id="figure-10.-bayesian-colocalization-analysis-verification-results"><span class="header-section-number">6.1.10</span> Figure 10. Bayesian colocalization analysis verification results</h3>
+<p>This figure calculates the posterior probability of colocalization of genetic risk loci and myocardial expression regulatory signals of candidate genes, verifies the high colocalization effect of 28 core targets, and confirms the genetic causal regulatory relationship between target gene abnormal expression and DCM-CHF progression.</p>
+</section>
+<section id="figure-11.-molecular-docking-verification-heat-map-and-optimal-binding-conformation-diagram" class="level3" data-number="6.1.11">
+<h3 data-number="6.1.11" class="anchored" data-anchor-id="figure-11.-molecular-docking-verification-heat-map-and-optimal-binding-conformation-diagram"><span class="header-section-number">6.1.11</span> Figure 11. Molecular docking verification heat map and optimal binding conformation diagram</h3>
+<p>The heat map shows the binding free energy of 6 representative active constituents and 8 core causal targets, and the conformation diagram displays the optimal molecular docking binding mode of characteristic constituents (neoline, calycosin) with core module targets. It verifies the stable and specific binding effect between active substances and core targets at the molecular level.</p>
+</section>
+<section id="figure-12.-synergistic-regulatory-network-diagram-of-the-medicinal-plant-combination-against-dcm-chf" class="level3" data-number="6.1.12">
+<h3 data-number="6.1.12" class="anchored" data-anchor-id="figure-12.-synergistic-regulatory-network-diagram-of-the-medicinal-plant-combination-against-dcm-chf"><span class="header-section-number">6.1.12</span> Figure 12. Synergistic regulatory network diagram of the medicinal plant combination against DCM-CHF</h3>
+<p>This core visualized network diagram constructs a hierarchical regulatory framework of “active constituent-target module-cell subtype-tissue organ-core pathway-disease phenotype”. It fully demonstrates the functional complementation, cell division and pathway synergy mechanism of Aconitum carmichaelii and Astragalus membranaceus, intuitively presenting the overall synergistic cardioprotective mechanism.</p>
+</section>
+</section>
+<section id="tables" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="tables"><span class="header-section-number">6.2</span> Tables</h2>
+<section id="table-1.-basic-information-of-24-blood-absorbed-active-constituents-of-the-medicinal-combination" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="table-1.-basic-information-of-24-blood-absorbed-active-constituents-of-the-medicinal-combination"><span class="header-section-number">6.2.1</span> Table 1. Basic information of 24 blood-absorbed active constituents of the medicinal combination</h3>
+<p>This table summarizes the detailed information of all core active constituents, including constituent name, chemical classification, molecular formula, source medicinal plant, core pharmacological activity and in vivo metabolic characteristics, forming a complete material basis data table.</p>
+</section>
+<section id="table-2.-basic-information-of-core-causal-targets-screened-by-genetic-inference" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="table-2.-basic-information-of-core-causal-targets-screened-by-genetic-inference"><span class="header-section-number">6.2.2</span> Table 2. Basic information of core causal targets screened by genetic inference</h3>
+<p>The table lists 28 core causal genes in detail, including gene ID, gene name, functional annotation, affiliated regulatory module (AC/AM), tissue enrichment characteristics and cell-specific expression distribution, clarifying the core gene information of the two functional modules.</p>
+</section>
+<section id="table-3.-core-shared-signaling-pathway-functional-annotation" class="level3" data-number="6.2.3">
+<h3 data-number="6.2.3" class="anchored" data-anchor-id="table-3.-core-shared-signaling-pathway-functional-annotation"><span class="header-section-number">6.2.3</span> Table 3. Core shared signaling pathway functional annotation</h3>
+<p>This table systematically sorts out the functional characteristics, regulatory objects and synergistic effects of the four core shared pathways (PI3K/Akt, MAPK, cardiac calcium signaling, mitochondrial oxidative phosphorylation), clarifying the core pathway cross-talk mechanism of the two modules.</p>
+</section>
+<section id="table-4.-molecular-docking-binding-free-energy-statistics" class="level3" data-number="6.2.4">
+<h3 data-number="6.2.4" class="anchored" data-anchor-id="table-4.-molecular-docking-binding-free-energy-statistics"><span class="header-section-number">6.2.4</span> Table 4. Molecular docking binding free energy statistics</h3>
+<p>The table counts the binding free energy of all constituent-target docking pairs, marks high-affinity binding pairs (binding free energy ≤ -5.0 kcal/mol), and verifies the targeting specificity of characteristic active constituents.</p>
+</section>
+</section>
+</section>
+<section id="supplementary-figures-and-tables" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Supplementary Figures and Tables</h1>
+<section id="figures-1" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="figures-1"><span class="header-section-number">7.1</span> Figures</h2>
+<section id="supplementary-figure-1.-quality-control-of-geo-and-gtex-public-datasets" class="level3" data-number="7.1.1">
+<h3 data-number="7.1.1" class="anchored" data-anchor-id="supplementary-figure-1.-quality-control-of-geo-and-gtex-public-datasets"><span class="header-section-number">7.1.1</span> Supplementary Figure 1. Quality control of GEO and GTEx public datasets</h3>
+<p>Including sample clustering analysis, PCA dimensionality reduction analysis and gene expression distribution box plot of GSE57338 and GSE183852 datasets, it verifies the good homogeneity of sample data and eliminates abnormal samples, ensuring the reliability of subsequent omics analysis results.</p>
+</section>
+<section id="supplementary-figure-2.-single-database-target-prediction-results-and-deduplication-statistics" class="level3" data-number="7.1.2">
+<h3 data-number="7.1.2" class="anchored" data-anchor-id="supplementary-figure-2.-single-database-target-prediction-results-and-deduplication-statistics"><span class="header-section-number">7.1.2</span> Supplementary Figure 2. Single-database target prediction results and deduplication statistics</h3>
+<p>This figure shows the target number statistics of SwissTargetPrediction, PharmMapper and SEA three databases respectively, and displays the target deduplication and screening process, explaining the acquisition process of 486 preliminary drug targets.</p>
+</section>
+<section id="supplementary-figure-3.-wgcna-parameter-optimization-and-module-clustering-results" class="level3" data-number="7.1.3">
+<h3 data-number="7.1.3" class="anchored" data-anchor-id="supplementary-figure-3.-wgcna-parameter-optimization-and-module-clustering-results"><span class="header-section-number">7.1.3</span> Supplementary Figure 3. WGCNA parameter optimization and module clustering results</h3>
+<p>It includes additional parameter debugging results of soft threshold, dynamic cutting tree and module merging, and supplements the correlation analysis results of non-core modules, fully demonstrating the rigor of WGCNA core hub gene screening.</p>
+</section>
+<section id="supplementary-figure-4.-single-cell-gene-expression-normalization-and-clustering-verification" class="level3" data-number="7.1.4">
+<h3 data-number="7.1.4" class="anchored" data-anchor-id="supplementary-figure-4.-single-cell-gene-expression-normalization-and-clustering-verification"><span class="header-section-number">7.1.4</span> Supplementary Figure 4. Single-cell gene expression normalization and clustering verification</h3>
+<p>This figure verifies the normalization effect of single-cell transcriptomic data and the accuracy of cell subtype annotation, ensuring the credibility of core target cell-specific expression analysis results.</p>
+</section>
+<section id="supplementary-figure-5.-mr-sensitivity-analysis-and-pleiotropy-test-results" class="level3" data-number="7.1.5">
+<h3 data-number="7.1.5" class="anchored" data-anchor-id="supplementary-figure-5.-mr-sensitivity-analysis-and-pleiotropy-test-results"><span class="header-section-number">7.1.5</span> Supplementary Figure 5. MR sensitivity analysis and pleiotropy test results</h3>
+<p>Including MR-Egger intercept test, leave-one-out sensitivity analysis and horizontal pleiotropy detection, it eliminates the interference of pleiotropy and outliers, ensuring the accuracy and stability of causal inference results.</p>
+</section>
+<section id="supplementary-figure-6.-additional-molecular-docking-conformation-diagrams-of-all-constituent-target-pairs" class="level3" data-number="7.1.6">
+<h3 data-number="7.1.6" class="anchored" data-anchor-id="supplementary-figure-6.-additional-molecular-docking-conformation-diagrams-of-all-constituent-target-pairs"><span class="header-section-number">7.1.6</span> Supplementary Figure 6. Additional molecular docking conformation diagrams of all constituent-target pairs</h3>
+<p>Supplement all residual docking conformation diagrams except the optimal binding mode in the main text, fully displaying the molecular interaction details of each active constituent and core target.</p>
+</section>
+</section>
+<section id="tables-1" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="tables-1"><span class="header-section-number">7.2</span> Tables</h2>
+<section id="supplementary-table-1.-complete-list-of-dcm-chf-disease-target-genes" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="supplementary-table-1.-complete-list-of-dcm-chf-disease-target-genes"><span class="header-section-number">7.2.1</span> Supplementary Table 1. Complete list of DCM-CHF disease target genes</h3>
+<p>Sort out all 623 high-confidence disease target genes obtained from multi-dimensional screening, including transcriptomic differential genes, WGCNA hub genes, GWAS genetic susceptibility genes and literature-verified pathogenic genes.</p>
+</section>
+<section id="supplementary-table-2.-complete-gokegg-enrichment-analysis-results" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="supplementary-table-2.-complete-gokegg-enrichment-analysis-results"><span class="header-section-number">7.2.2</span> Supplementary Table 2. Complete GO/KEGG enrichment analysis results</h3>
+<p>Supplement all enriched GO terms and KEGG pathways without threshold screening, providing comprehensive functional enrichment raw data for further expanded research.</p>
+</section>
+<section id="supplementary-table-3.-detailed-parameter-settings-of-bioinformatics-analysis" class="level3" data-number="7.2.3">
+<h3 data-number="7.2.3" class="anchored" data-anchor-id="supplementary-table-3.-detailed-parameter-settings-of-bioinformatics-analysis"><span class="header-section-number">7.2.3</span> Supplementary Table 3. Detailed parameter settings of bioinformatics analysis</h3>
+<p>Systematically sort out the detailed parameter settings of all analysis processes including WGCNA, enrichment analysis, immune infiltration analysis, ssGSEA, MR analysis and molecular docking, ensuring the repeatability of the study.</p>
+</section>
+<section id="supplementary-table-4.-literature-source-information-of-verified-pathogenic-genes" class="level3" data-number="7.2.4">
+<h3 data-number="7.2.4" class="anchored" data-anchor-id="supplementary-table-4.-literature-source-information-of-verified-pathogenic-genes"><span class="header-section-number">7.2.4</span> Supplementary Table 4. Literature source information of verified pathogenic genes</h3>
+<p>Record the source journals, publication time and core verification conclusions of all literature-verified DCM-CHF pathogenic genes, ensuring the authority of disease target library construction.</p>
+</section>
+</section>
+</section>
+<section id="references" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> References</h1>
+<p>[1] Ponikowski P, Voors AA, Anker SD, et al.&nbsp;2016 ESC Guidelines for the diagnosis and treatment of acute and chronic heart failure. European Heart Journal. 2016;37(27):2129-2200. https://doi.org/10.1093/eurheartj/ehw128 [2] McNally EM, Mestroni L. Dilated cardiomyopathy: genetic determinants and mechanisms. Nature Reviews Cardiology. 2017;14(10):616-630. https://doi.org/10.1038/nrcardio.2017.112 [3] Halliday BP, Westaby J, Casadei B. The pathophysiology of dilated cardiomyopathy. Cardiovascular Research. 2022;118(12):2689-2706. https://doi.org/10.1093/cvr/cvac103 [4] Wang X, Li Y, Zhang H, et al.&nbsp;Medicinal plants for chronic heart failure: Mechanisms and clinical evidence. Phytomedicine. 2023;112:154689. https://doi.org/10.1016/j.phytomed.2023.154689 [5] Singhuber A, Gafner S, Pürstner P, et al.&nbsp;Diterpenoid alkaloids from Aconitum species: Cardiotoxicity and cardioprotective potential. Journal of Natural Products. 2019;82(9):2512-2525. https://doi.org/10.1021/acs.jnatprod.9b00478 [6] Fu J, Wang Z, Huang L, et al.&nbsp;A review of pharmacological and clinical effects of Astragali Radix. Journal of Ethnopharmacology. 2014;153(2):337-350. https://doi.org/10.1016/j.jep.2014.02.032 [7] Zhang Y, Zhou X, Liu Z, et al.&nbsp;Multi-omics integration decodes molecular mechanisms of medicinal plant combinations. Briefings in Bioinformatics. 2023;24(2):bbac678. https://doi.org/10.1093/bib/bbac678 [8] GTEx Consortium. The GTEx Project atlas of genetic regulatory effects across human tissues.Science. 2020;369(6509):1318-1324. https://doi.org/10.1126/science.aaz1776 [9] Hemani G, Zheng J, Elsworth B, et al.&nbsp;The MR-Base platform supports systematic causal inference across the human phenome. eLife. 2018;7:e34408. https://doi.org/10.7554/eLife.34408 [10] Petersen SE, Ellinor PT. Genome-wide association studies in cardiovascular disease. Nature Reviews Genetics. 2022;23(7):429-446. https://doi.org/10.1038/s41576-022-00468-9 [11] Langfelder P, Horvath S. WGCNA: an R package for weighted correlation network analysis. BMC Bioinformatics. 2008;9(1):559. https://doi.org/10.1186/1471-2105-9-559 [12] Yu G, Wang LG, Han Y, et al.&nbsp;clusterProfiler: an R package for comparing biological themes among gene clusters. OMICS: A Journal of Integrative Biology. 2012;16(5):284-287. https://doi.org/10.1089/omi.2011.0118 [13] Wickham H. ggplot2: Elegant Graphics for Data Analysis. New York: Springer; 2016. https://doi.org/10.1007/978-3-319-24277-4 [14] Trott O, Olson AJ. AutoDock Vina: improving the speed and accuracy of docking with a new scoring function, efficient optimization and multithreading. Journal of Computational Chemistry. 2010;31(2):455-461. https://doi.org/10.1002/jcc.21334 [15] Pons T, Gelpí JL, Orozco M. PharmMapper: a web server for potential drug target identification. Nucleic Acids Research. 2011;39(W2):W485-W489. https://doi.org/10.1093/nar/gkr379 [16] Chang CC, Karlson A, Ochoa D, et al.&nbsp;SEA 2.0: improved ligand-based target prediction for bioactive small molecules. Nucleic Acids Research. 2019;47(W1):W517-W523. https://doi.org/10.1093/nar/gkz303 [17] Dias R, Silva A, Guedes RC, et al.&nbsp;SwissTargetPrediction: updated data and new features for efficient prediction of protein targets of small molecules. Nucleic Acids Research. 2019;47(W1):W357-W364. https://doi.org/10.1093/nar/gkz382 [18] HERMES Consortium. Large-scale genome-wide association analysis identifies novel genetic loci for dilated cardiomyopathy. Nature Genetics. 2020;52(10):1037-1047. https://doi.org/10.1038/s41588-020-00712-6</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
