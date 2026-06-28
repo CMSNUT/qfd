@@ -1,5 +1,5 @@
 ---
-title: "Revealing the Mechanisms of Zhen-Wu-Huang-Qi Decoction in the treatment of HFrEF"
+title: "Synergistic Mechanisms of *Aconitum carmichaelii* and *Astragalus membranaceus* Combination Against DCM-HF"
 subtitle: "Integrating Network Pharmacology, Multi-Omics, Causal Inference & Molecular Docking"
 format:
   html:
@@ -15,6 +15,7 @@ execute:
 
 ---
 
-This project aims to systematically elucidate the multidimensional pharmacological mechanisms of Zhenwu Huangqi Decoction (ZWHQD), a classic traditional Chinese medicine (TCM) formula, in the treatment of chronic heart failure with reduced ejection fraction (HFrEF). By integrating network pharmacology, bioinformatics, and molecular docking, we intend to clarify the material basis and potential mechanism of ZWHQD in HFrEF, as well as explore its intrinsic regulatory effects on the pathological network of HFrEF.
+This project systematically elucidates the synergistic pharmacological mechanisms of the medicinal plant pair consisting of *Aconitum carmichaelii* and *Astragalus membranaceus* *(Huangqi) * in the treatment of dilated cardiomyopathy-induced chronic heart failure. By integrating multi-omics profiling, genetic causal inference, TCM meridian tropism validation, and molecular docking, this study clarifies the bioactive material basis, organ-specific targeting characteristics, and core regulatory pathways of the herb pair, providing reliable translational evidence for its clinical application.
 
-All materials related to this project, including code and data, are available in the GitHub repository [**ZWHQD_HFrEF**](https://github.com/cmsnut/ZWHQD_HFrEF).
+All reproducible analytical code, standardized datasets, and full methodological documentation are publicly available in the GitHub repository [**cmsnut/qfd**](https://github.com/cmsnut/qfd.git).
+

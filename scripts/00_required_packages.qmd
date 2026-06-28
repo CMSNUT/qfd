@@ -1,0 +1,88 @@
+---
+title: "00_requireNamespaced_packages"
+format: 
+  html:
+    toc: true
+    number-sections: true
+---
+
+```{r setup, include=FALSE, warning=FALSE}
+if (!requireNamespace("knitr", quietly = TRUE)) install.packages("knitr", dependencies = TRUE)
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.dpi = 300,
+  fig.align = "center"
+)
+
+options(timeout = 36000)
+options(stringsAsFactors = FALSE)
+options(download.file.method = "curl")
+options(download.file.extra = "-k -L")
+
+options(BioC_mirror = "https://mirrors.tuna.tsinghua.edu.cn/bioconductor")
+options(repos = c(CRAN = "https://mirrors.tuna.tsinghua.edu.cn/CRAN/"))
+```
+
+# Install requireNamespaced packages if missing
+```{r}
+if (!requireNamespace("curl", quietly = TRUE)) install.packages("curl", dependencies = TRUE)
+if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools", dependencies = TRUE)
+if (!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes", dependencies = TRUE)
+if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager", dependencies = TRUE)
+
+# CRAN
+cran_packages <- c(
+  "tidyverse", "data.table", "openxlsx", "curl", "httr", "RColorBrewer", "patchwork", "pheatmap", "ggsci", "ggvenn", "corrplot", "magick", "CMplot", "flashClust", "robustbase", "dynamicTreeCut", "igraph", "centiserve", "tidytext", "ggrepel", "circlize", "reshape2", "ggpubr", "future", "furrr", "progressr", "rsvg", "pdftools", "remotes", "ggforce", "gridExtra","ggcorrplot", "rmdwc"
+)
+
+for (pkg in cran_packages) {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    install.packages(pkg, dependencies = TRUE)
+  }
+}
+
+# Bioconductor
+bioc_core <- c(
+  "clusterProfiler", "AnnotationDbi", "org.Hs.eg.db", "TxDb.Hsapiens.UCSC.hg19.knownGene", "hgu133plus2.db", "GenomicRanges", "BiocGenerics", "S4Vectors", "IRanges", "GenomeInfoDb", "coloc", "SeuratObject", "Seurat", "RCy3", "ComplexHeatmap", "HPAanalyze"
+)
+for (pkg in bioc_core) {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    BiocManager::install(pkg, dependencies = TRUE, update = FALSE)
+  }
+}
+
+if (!requireNamespace("preprocessCore", quietly = TRUE))  BiocManager::install("preprocessCore", update = TRUE, force = TRUE, dependencies = TRUE)
+
+# TwoSampleMR
+if (!requireNamespace("TwoSampleMR", quietly = TRUE)) remotes::install_github("MRCIEU/TwoSampleMR")
+
+# GitHub 
+
+if (!requireNamespace("IOBR", quietly = TRUE)) remotes::install_github("IOBR/IOBR", dependencies = TRUE)
+
+if (!requireNamespace("AnnoProbe", quietly = TRUE)) remotes::install_github("jmzeng1314/AnnoProbe", dependencies = TRUE)
+
+if (!requireNamespace("rmdwc", quietly = TRUE)) remotes::install_github("sigbertklinke/rmdwc", dependencies = TRUE)
+
+# clean 
+clean_install_cache <- function() {
+  unlink(file.path(tempdir(), "*"), recursive = TRUE, force = TRUE)
+
+  cache_dir <- tools::R_user_dir("", which = "cache")
+  if (dir.exists(cache_dir)) {
+    unlink(file.path(cache_dir, "*"), recursive = TRUE, force = TRUE)
+    message("Cleaned R cache: ", cache_dir)
+  }
+
+  gc()
+  message("Install cache cleaned.")
+}
+
+clean_install_cache()
+
+rm(list = ls())
+```
+

@@ -1,0 +1,8 @@
+---
+title: "10_figures_and_tables"
+format: 
+  html:
+    toc: true
+    number-sections: true
+---
+

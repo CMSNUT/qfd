@@ -1,0 +1,349 @@
+---
+title: "01. Ingredients identification and target prediction"
+format: 
+  html:
+    toc: true
+    number-sections: true
+---
+
+```{r setup, include=FALSE, warning=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.dpi = 300,
+  fig.align = "center"
+)
+
+options(timeout = 36000)
+options(stringsAsFactors = FALSE)
+options(download.file.method = "curl")
+options(download.file.extra = "-k -L")
+
+options(BioC_mirror = "https://mirrors.tuna.tsinghua.edu.cn/bioconductor")
+options(repos = c(CRAN = "https://mirrors.tuna.tsinghua.edu.cn/CRAN/"))
+```
+
+# 
+```{r}
+library(TwoSampleMR)
+library(coloc)
+library(tidyverse)
+library(data.table)
+library(ggplot2)
+library(patchwork)
+```
+
+# 2. 全局参数&自定义文件路径
+```{r}
+# 1）基因集（全部候选靶点、Hub核心靶点，填ENSG编号）
+candidate_genes <- c("ENSG00000118194","ENSG00000130706")
+hub_genes       <- c("ENSG00000118194")                  
+
+# 2）汇总统计量文件路径
+eqtl_file  <- "../zwhqd_dcm_hf/data/raw/opengwas/GTEx_Analysis_v8_eQTL/Heart_Left_Ventricle.v8.signif_variant_gene_pairs.txt.gz"
+dcm_gwas_file <- "F:/projects/zwhqd_dcm_hf/data/raw/opengwas/HERMES2_GWAS_DCM_EUR/FORMAT-METAL_Pheno5-DCM_EUR.tsv.gz"
+
+# 3）样本量、COLOC固定先验
+N_eqtl  <- 386                     # GTEx左心室样本量
+N_dcm   <- 6001 + 449382           # DCM总样本  
+s_dcm   <- 6001 / N_dcm            # DCM病例占比
+p1 <- 1e-4; p2 <- 1e-4; p12 <- 5e-6 # COLOC标准先验
+```
+
+# 3. 读取&清洗GTEx左心室cis-eQTL数据 
+```{r}
+expos_df <- fread(eqtl_file)
+expos_df <- expos_df %>%
+  rename(
+    SNP          = variant_id,
+    gene         = gene_id,
+    beta         = slope,
+    se           = slope_se,
+    pval         = pval_nominal,
+    eaf          = maf,
+    tss_distance = tss_distance
+  ) %>%
+  filter(abs(tss_distance) <= 1000000) # 限定cis 1Mb
+
+expos_df <- expos_df %>%
+  separate(
+    col = SNP,
+    into = c("chr", "pos", "other_allele", "effect_allele"),
+    sep = "_",
+    extra = "merge",  # 关键参数：第4列合并后面所有下划线内容
+    remove = FALSE
+  ) %>%
+  mutate(pos = as.numeric(pos))
+```
+
+# 4. 读取&清洗DCMStrict DCM病例对照GWAS 
+```{r}
+outcome_df <- fread(dcm_gwas_file)
+# GWAS标准字段：SNP,effect_allele,other_allele,beta,se,pval,eaf,ncase,ncontrol
+```
+
+# 5. 函数1：单基因正向MR + Steiger过滤（替代SMR批量初筛）
+```{r}
+single_gene_forward_mr <- function(gene_id){
+  # 提取当前基因全部cis-eQTL SNP
+  gene_eqtl <- expos_df[gene == gene_id]
+  if(nrow(gene_eqtl) < 10) return(NULL) # SNP过少直接跳过
+  
+  # 格式化为暴露数据
+  exp_raw <- format_data(
+    gene_eqtl,
+    type = "exposure",
+    snp_col = "SNP",
+    beta_col = "beta",
+    se_col = "se",
+    effect_allele_col = "effect_allele",
+    other_allele_col = "other_allele",
+    eaf_col = "eaf",
+    pval_col = "pval"
+  )
+  
+  # LD聚类去连锁（EUR 1000G）
+  exp_clump <- ld_clump(
+    dat = exp_raw,
+    clump_r2 = 0.001,
+    clump_kb = 10000,
+    pop = "EUR"
+  )
+  if(nrow(exp_clump) < 2) return(NULL)
+  
+  # 匹配DCM结局SNP
+  out_form <- format_data(
+    outcome_df,
+    type = "outcome",
+    snp_col = "SNP",
+    beta_col = "beta",
+    se_col = "se",
+    effect_allele_col = "effect_allele",
+    other_allele_col = "other_allele",
+    eaf_col = "eaf",
+    pval_col = "pval",
+    ncase_col = "ncase",
+    ncontrol_col = "ncontrol"
+  )
+  out_sub <- extract_outcome_data(snps = exp_clump$SNP, dat = out_form)
+  
+  # 等位基因协调，剔除回文歧义SNP
+  harm <- harmonise_data(
+    exposure_dat = exp_clump,
+    outcome_dat  = out_sub,
+    action = 2
+  )
+  harm <- harm[!harm$palindromic,]
+  if(nrow(harm) < 2) return(NULL)
+  
+  # IVW主MR
+  mr_res <- mr(harm, method_list = "ivw")
+  # Steiger检验：排除反向因果混杂（替代HEIDI）
+  steiger_res <- steiger_filtering(harm)
+  
+  # 整合结果输出
+  res_dt <- data.table(
+    gene      = gene_id,
+    ivw_b     = mr_res$b,
+    ivw_se    = mr_res$se,
+    ivw_p     = mr_res$pval,
+    steiger_p = steiger_res$steiger_p,
+    snp_count = nrow(harm)
+  )
+  return(list(res = res_dt, harmonise_dat = harm))
+}
+```
+
+# 6. 批量运行全部100个候选基因初筛 
+```{r}
+all_gene_mr_list <- lapply(candidate_genes, single_gene_forward_mr)
+
+# 拆分结果：汇总表 + 保存每个基因协调后SNP数据（供后续绘图/反向MR调用）
+all_filter_dt <- list()
+harmonise_storage <- list()
+for(item in all_gene_mr_list){
+  if(!is.null(item)){
+    all_filter_dt[[length(all_filter_dt)+1]] <- item$res
+    harmonise_storage[[item$res$gene]] <- item$harmonise_dat
+  }
+}
+all_filter_dt <- rbindlist(all_filter_dt)
+
+# 筛选标准：IVW P<0.05 且 Steiger P<0.05（可信正向信号，无反向因果干扰）
+sig_filter_dt <- all_filter_dt[ivw_p < 0.05 & steiger_p < 0.05]
+# 取Hub基因与初筛阳性基因交集，进入双向MR & COLOC
+hub_sig_genes <- intersect(hub_genes, sig_filter_dt$gene)
+
+# 输出初筛结果表格
+fwrite(all_filter_dt, "01_全部候选基因初筛_MR_Steiger.csv", row.names = F)
+fwrite(sig_filter_dt, "02_初筛显著基因表.csv", row.names = F)
+fwrite(data.table(gene = hub_sig_genes), "03_Hub_SMR交集基因.txt", row.names = F)
+cat("完成全靶点初筛，进入双向MR的Hub基因：", hub_sig_genes, "\n")
+```
+
+# 7. 函数2：正向MR全套（IVW/加权中位数/MR-Egger+敏感性） 
+```{r}
+run_full_forward_mr <- function(gene_id){
+  harm_dat <- harmonise_storage[[gene_id]]
+  mr_all <- mr(harm_dat, method_list = c("ivw","weighted_median","mr_egger_regression"))
+  mr_all$gene <- gene_id
+  mr_all$direction <- "Forward(eQTL→DCM)"
+  # logOR转OR值（DCM二分类疾病）
+  mr_all <- mr_all %>% mutate(
+    OR = exp(b),
+    LCI95 = exp(b - 1.96 * se),
+    UCI95 = exp(b + 1.96 * se)
+  )
+  # 敏感性指标
+  het <- mr_heterogeneity(harm_dat)
+  pleio <- mr_pleiotropy_test(harm_dat)
+  single_snp <- mr_singlesnp(harm_dat)
+  return(list(mr_table = mr_all, harm = harm_dat, single = single_snp))
+}
+
+# ===================== 8. 函数3：反向MR（DCM易感性→左心室基因表达） =====================
+run_reverse_mr <- function(gene_id){
+  # DCM作为暴露，提取全基因组独立IV
+  dcm_exp_form <- format_data(outcome_df, type = "exposure")
+  dcm_clump <- ld_clump(dcm_exp_form, clump_r2 = 0.001, clump_kb = 10000, pop = "EUR")
+  
+  # 当前基因eQTL作为结局
+  gene_eqtl <- expos_df[gene == gene_id]
+  eqtl_out_form <- format_data(
+    gene_eqtl, type = "outcome",
+    snp_col = "SNP", beta_col = "beta", se_col = "se",
+    effect_allele_col = "effect_allele", other_allele_col = "other_allele",
+    eaf_col = "eaf", pval_col = "pval"
+  )
+  eqtl_sub <- extract_outcome_data(dcm_clump$SNP, eqtl_out_form)
+  harm_rev <- harmonise_data(dcm_clump, eqtl_sub, action = 2)
+  harm_rev <- harm_rev[!harm_rev$palindromic,]
+  if(nrow(harm_rev) < 2) return(NULL)
+  
+  mr_rev <- mr(harm_rev, method_list = c("ivw","weighted_median","mr_egger_regression"))
+  mr_rev$gene <- gene_id
+  mr_rev$direction <- "Reverse(DCM→eQTL)"
+  return(list(mr_table = mr_rev, harm = harm_rev))
+}
+
+# ===================== 9. 批量双向MR（仅Hub_sig_genes） =====================
+forward_mr_full_list <- list()
+reverse_mr_full_list <- list()
+single_snp_storage <- list()
+
+for(g in hub_sig_genes){
+  # 正向完整MR
+  f_res <- run_full_forward_mr(g)
+  if(!is.null(f_res)){
+    forward_mr_full_list[[g]] <- f_res$mr_table
+    single_snp_storage[[g]] <- f_res$single
+  }
+  # 反向MR
+  r_res <- run_reverse_mr(g)
+  if(!is.null(r_res)) reverse_mr_full_list[[g]] <- r_res$mr_table
+}
+
+# 合并双向MR总表
+forward_mr_dt <- rbindlist(forward_mr_full_list)
+reverse_mr_dt <- rbindlist(reverse_mr_full_list)
+all_bi_mr_dt <- rbind(forward_mr_dt, reverse_mr_dt)
+fwrite(all_bi_mr_dt, "04_双向MR完整结果汇总.csv", row.names = F)
+
+# 筛选进入COLOC的基因：正向IVW显著 & 反向IVW不显著
+forward_sig_g <- forward_mr_dt[method == "ivw" & pval < 0.05]$gene
+reverse_nonsig_g <- reverse_mr_dt[method == "ivw" & pval >= 0.05]$gene
+coloc_gene_set <- intersect(forward_sig_g, reverse_nonsig_g)
+cat("满足正向显著、反向无效应，进入COLOC共定位的基因：", coloc_gene_set, "\n")
+
+# ===================== 10. COLOC贝叶斯共定位批量分析 =====================
+run_single_coloc <- function(gene_id){
+  gene_eqtl <- expos_df[gene == gene_id]
+  snp_inter <- intersect(gene_eqtl$SNP, outcome_df$SNP)
+  eqtl_sub <- gene_eqtl[SNP %in% snp_inter]
+  dcm_sub <- outcome_df[SNP %in% snp_inter]
+  if(nrow(eqtl_sub) < 10) return(NULL)
+  
+  # 构建coloc输入列表
+  dat1 <- list(
+    beta = eqtl_sub$beta,
+    varbeta = eqtl_sub$se ^ 2,
+    type = "quant",
+    snp = eqtl_sub$SNP,
+    MAF = eqtl_sub$eaf,
+    N = N_eqtl
+  )
+  dat2 <- list(
+    beta = dcm_sub$beta,
+    varbeta = dcm_sub$se ^ 2,
+    type = "cc",
+    snp = dcm_sub$SNP,
+    MAF = dcm_sub$eaf,
+    s = s_dcm,
+    N = N_dcm
+  )
+  # 贝叶斯共定位计算
+  coloc_out <- coloc.abf(dataset1 = dat1, dataset2 = dat2, p1=p1, p2=p2, p12=p12)
+  sum_dt <- as.data.table(coloc_out$summary)
+  sum_dt$gene <- gene_id
+  return(sum_dt)
+}
+
+# 批量COLOC
+coloc_result_list <- lapply(coloc_gene_set, run_single_coloc)
+coloc_all_dt <- rbindlist(coloc_result_list[!sapply(coloc_result_list, is.null)])
+fwrite(coloc_all_dt, "05_COLOC共定位后验概率结果.csv", row.names = F)
+# 最终高可信靶点：PP.H4 > 0.8
+final_target_genes <- coloc_all_dt[PP.H4 > 0.8]$gene
+cat("论文核心高可信度药物靶点（PP.H4>0.8）：", final_target_genes, "\n")
+
+# ===================== 11. 批量绘图模块（自动输出PDF图片） =====================
+## 图1：IVW正向MR森林图（Hub核心基因OR及95%CI）
+forest_data <- forward_mr_dt[method == "ivw"]
+p_forest <- ggplot(forest_data, aes(x = OR, y = gene)) +
+  geom_vline(xintercept = 1, linetype = "dashed", color = "red", linewidth = 1) +
+  geom_point(size = 2.2, color = "#2E86AB") +
+  geom_errorbarh(aes(xmin = LCI95, xmax = UCI95), height = 0.2, linewidth = 1) +
+  labs(x = "Odds Ratio (eQTL → DCMStrict DCM)", y = "Hub Gene (ENSG)", title = "IVW MR Effect Forest Plot") +
+  theme_bw(base_size = 12)
+ggsave("Fig1_MR_森林图.pdf", p_forest, width = 8, height = 5, dpi = 300)
+
+## 图2~3：循环输出每个Hub基因MR散点图 + 留一法敏感性图
+for(g in hub_sig_genes){
+  if(!g %in% names(harmonise_storage)) next
+  # MR-Egger散点图
+  scatter_plot <- mr_scatter_plot(mr(harmonise_storage[[g]]), harmonise_storage[[g]])[[1]]
+  ggsave(paste0("Fig2_",g,"_MR散点图.pdf"), scatter_plot, width = 7, height = 5, dpi = 300)
+  # 留一法敏感性图
+  leaveone_plot <- mr_leaveoneout_plot(single_snp_storage[[g]])[[1]]
+  ggsave(paste0("Fig3_",g,"_留一法敏感性.pdf"), leaveone_plot, width = 7, height = 5, dpi = 300)
+}
+
+## 图4：COLOC PP.H3/PP.H4后验概率柱状图
+coloc_long <- melt(
+  data = coloc_all_dt,
+  id.vars = "gene",
+  measure.vars = c("PP.H3","PP.H4"),
+  variable.name = "Hypothesis",
+  value.name = "Posterior Probability"
+)
+p_coloc_pp <- ggplot(coloc_long, aes(x = gene, y = `Posterior Probability`, fill = Hypothesis)) +
+  geom_col(position = "dodge", width = 0.7) +
+  geom_hline(yintercept = 0.8, linetype = "dashed", color = "red", linewidth = 1) +
+  scale_fill_manual(values = c("#A23B72","#F18F01")) +
+  labs(x = "Gene (ENSG)", y = "Posterior Probability") +
+  theme_bw(base_size = 11) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+ggsave("Fig4_COLOC后验概率柱状图.pdf", p_coloc_pp, width = 9, height = 4.8, dpi = 300)
+
+# ===================== 12. 运行完成提示 =====================
+cat("\n==================== 全部分析执行完毕 ====================\n")
+cat("【输出表格清单】\n")
+cat("1. 01_全部候选基因初筛_MR_Steiger.csv\n")
+cat("2. 02_初筛显著基因表.csv\n")
+cat("3. 03_Hub_SMR交集基因.txt\n")
+cat("4. 04_双向MR完整结果汇总.csv\n")
+cat("5. 05_COLOC共定位后验概率结果.csv\n\n")
+cat("【输出图片清单】\n")
+cat("Fig1 MR森林图；Fig2 各基因MR散点；Fig3 留一敏感性；Fig4 COLOC后验柱状图\n\n")
+cat("论文核心可信靶点：", final_target_genes, "\n")
