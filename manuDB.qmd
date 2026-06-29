@@ -40,6 +40,7 @@ Innovatively integrating multi-omics integration and genetic causal inference te
 
 # Materials and Methods
 ## Screening and Sorting of Blood-Absorbed Active Constituents
+
 Based on published authoritative in vivo pharmacokinetic HPLC-TOF-MS data of the medicinal plant combination, this study strictly screened in vivo absorbable and bioactive constituents after oral administration of Aconitum carmichaelii-Astragalus membranaceus combination, excluding non-absorbable and invalid components. A total of 24 core blood-absorbed active constituents were finally obtained, which were completely differentiated in chemical structure, pharmacological activity and in vivo metabolic characteristics, classified as follows:
 Aconitum carmichaelii-derived active constituents (18 diterpenoid alkaloids and derivatives): Including iso-talatisamine dehydrate, demethylkaracoline, karacoline, demethylisotalatisamine, demethyldehydroisotalatisamine, demethylneoline, kusunokinine, senbusine B, 16-β-hydroxycardiopetaline, mesaconine, songorine, dehydratekaracoline, demethyldehydroneoline, demethylneoline (isomer), hypaconine, fuziline, neoline, talatizamine, chasmanine, 14-acetyltalatizamine. Neoline is the characteristic alkaloid marker of Aconitum carmichaelii with significant cardiotonic and calcium regulatory activities. Mesaconine and hypaconine are low-toxicity hydrolyzed derivatives of native alkaloids, with significantly reduced cytotoxicity and retained core cardioprotective activities, serving as the core safe and effective material basis of Aconitum carmichaelii.
 
