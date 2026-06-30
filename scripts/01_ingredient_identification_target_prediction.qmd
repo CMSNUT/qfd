@@ -1,5 +1,5 @@
 ---
-title: "01. Ingredients identification and target prediction"
+title: "01. Identify Bioactive Compounds & Predict Targets"
 format: 
   html:
     toc: true

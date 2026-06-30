@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -76,10 +76,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-f1ef0423859aea48f2b5a85ac632af29.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-ac0b92811d6e88f5a4a44355feb92a8e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -107,7 +107,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<style>html{ scroll-behavior: smooth; }</style>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -139,10 +138,9 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="style.css">
 </head>
 
-<body class="floating nav-fixed quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -167,18 +165,6 @@ window.Quarto = {
     <a class="nav-link" href="../manu.html"> 
 <span class="menu-text">Manuscript</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../manuLong.html"> 
-<span class="menu-text">Long</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../manuDB.html"> 
-<span class="menu-text">DB</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../manuDS.html"> 
-<span class="menu-text">DS</span></a>
-  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-scripts" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Scripts</span>
@@ -198,42 +184,12 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="-1">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#section" id="toc-section" class="nav-link active" data-scroll-target="#section"></a></li>
-  <li><a href="#全局参数自定义文件路径务必修改此处" id="toc-全局参数自定义文件路径务必修改此处" class="nav-link" data-scroll-target="#全局参数自定义文件路径务必修改此处">===================== 2. 全局参数&amp;自定义文件路径（务必修改此处） =====================</a></li>
-  <li><a href="#读取清洗gtex左心室cis-eqtl数据" id="toc-读取清洗gtex左心室cis-eqtl数据" class="nav-link" data-scroll-target="#读取清洗gtex左心室cis-eqtl数据">3. 读取&amp;清洗GTEx左心室cis-eQTL数据</a></li>
-  <li><a href="#读取清洗dcmstrict-dcm病例对照gwas" id="toc-读取清洗dcmstrict-dcm病例对照gwas" class="nav-link" data-scroll-target="#读取清洗dcmstrict-dcm病例对照gwas">4. 读取&amp;清洗DCMStrict DCM病例对照GWAS</a></li>
-  <li><a href="#函数1单基因正向mr-steiger过滤替代smr批量初筛" id="toc-函数1单基因正向mr-steiger过滤替代smr批量初筛" class="nav-link" data-scroll-target="#函数1单基因正向mr-steiger过滤替代smr批量初筛">5. 函数1：单基因正向MR + Steiger过滤（替代SMR批量初筛）</a></li>
-  <li><a href="#批量运行全部100个候选基因初筛" id="toc-批量运行全部100个候选基因初筛" class="nav-link" data-scroll-target="#批量运行全部100个候选基因初筛">6. 批量运行全部100个候选基因初筛</a></li>
-  <li><a href="#函数2正向mr全套ivw加权中位数mr-egger敏感性" id="toc-函数2正向mr全套ivw加权中位数mr-egger敏感性" class="nav-link" data-scroll-target="#函数2正向mr全套ivw加权中位数mr-egger敏感性">7. 函数2：正向MR全套（IVW/加权中位数/MR-Egger+敏感性）</a></li>
-  <li><a href="#函数3反向mrdcm易感性左心室基因表达" id="toc-函数3反向mrdcm易感性左心室基因表达" class="nav-link" data-scroll-target="#函数3反向mrdcm易感性左心室基因表达">===================== 8. 函数3：反向MR（DCM易感性→左心室基因表达） =====================</a></li>
-  <li><a href="#批量双向mr仅hub_sig_genes" id="toc-批量双向mr仅hub_sig_genes" class="nav-link" data-scroll-target="#批量双向mr仅hub_sig_genes">===================== 9. 批量双向MR（仅Hub_sig_genes） =====================</a></li>
-  <li><a href="#合并双向mr总表" id="toc-合并双向mr总表" class="nav-link" data-scroll-target="#合并双向mr总表">合并双向MR总表</a></li>
-  <li><a href="#筛选进入coloc的基因正向ivw显著-反向ivw不显著" id="toc-筛选进入coloc的基因正向ivw显著-反向ivw不显著" class="nav-link" data-scroll-target="#筛选进入coloc的基因正向ivw显著-反向ivw不显著">筛选进入COLOC的基因：正向IVW显著 &amp; 反向IVW不显著</a></li>
-  <li><a href="#coloc贝叶斯共定位批量分析" id="toc-coloc贝叶斯共定位批量分析" class="nav-link" data-scroll-target="#coloc贝叶斯共定位批量分析">===================== 10. COLOC贝叶斯共定位批量分析 =====================</a></li>
-  <li><a href="#批量coloc" id="toc-批量coloc" class="nav-link" data-scroll-target="#批量coloc">批量COLOC</a></li>
-  <li><a href="#批量绘图模块自动输出pdf图片" id="toc-批量绘图模块自动输出pdf图片" class="nav-link" data-scroll-target="#批量绘图模块自动输出pdf图片">===================== 11. 批量绘图模块（自动输出PDF图片） =====================</a>
-  <ul>
-  <li><a href="#图1ivw正向mr森林图hub核心基因or及95ci" id="toc-图1ivw正向mr森林图hub核心基因or及95ci" class="nav-link" data-scroll-target="#图1ivw正向mr森林图hub核心基因or及95ci">图1：IVW正向MR森林图（Hub核心基因OR及95%CI）</a></li>
-  <li><a href="#图23循环输出每个hub基因mr散点图-留一法敏感性图" id="toc-图23循环输出每个hub基因mr散点图-留一法敏感性图" class="nav-link" data-scroll-target="#图23循环输出每个hub基因mr散点图-留一法敏感性图">图2~3：循环输出每个Hub基因MR散点图 + 留一法敏感性图</a></li>
-  <li><a href="#图4coloc-pp.h3pp.h4后验概率柱状图" id="toc-图4coloc-pp.h3pp.h4后验概率柱状图" class="nav-link" data-scroll-target="#图4coloc-pp.h3pp.h4后验概率柱状图">图4：COLOC PP.H3/PP.H4后验概率柱状图</a></li>
-  </ul></li>
-  <li><a href="#运行完成提示" id="toc-运行完成提示" class="nav-link" data-scroll-target="#运行完成提示">===================== 12. 运行完成提示 =====================</a></li>
-  </ul>
-</nav>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-    </div>
+    
 <!-- main -->
-<main class="content column-page-right" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -241,7 +197,7 @@ window.Quarto = {
 </div>
 
 
-<div class="quarto-title-meta-author column-page-right">
+<div class="quarto-title-meta-author">
   <div class="quarto-title-meta-heading">Authors</div>
   <div class="quarto-title-meta-heading">Affiliations</div>
   
@@ -269,7 +225,7 @@ window.Quarto = {
       </div>
   </div>
 
-<div class="quarto-title-meta column-page-right">
+<div class="quarto-title-meta">
 
       
   
@@ -284,178 +240,178 @@ window.Quarto = {
 <section id="section" class="level1">
 <h1></h1>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"remotes"</span>)) <span class="fu">install.packages</span>(<span class="st">"remotes"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="co"># 核心MR包</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"TwoSampleMR"</span>)) remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"MRCIEU/TwoSampleMR"</span>)</span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="co"># 贝叶斯共定位</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"coloc"</span>)) <span class="fu">install.packages</span>(<span class="st">"coloc"</span>)</span>
-<span id="cb1-7"><a href="#cb1-7"></a></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="co"># 绘图&amp;数据处理</span></span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"patchwork"</span>)) <span class="fu">install.packages</span>(<span class="st">"patchwork"</span>)</span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"data.table"</span>)) <span class="fu">install.packages</span>(<span class="st">"data.table"</span>)</span>
-<span id="cb1-11"><a href="#cb1-11"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"dplyr"</span>)) <span class="fu">install.packages</span>(<span class="st">"dplyr"</span>)</span>
-<span id="cb1-12"><a href="#cb1-12"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"ggplot2"</span>)) <span class="fu">install.packages</span>(<span class="st">"ggplot2"</span>)</span>
-<span id="cb1-13"><a href="#cb1-13"></a></span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="fu">library</span>(TwoSampleMR)</span>
-<span id="cb1-15"><a href="#cb1-15"></a><span class="fu">library</span>(coloc)</span>
-<span id="cb1-16"><a href="#cb1-16"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-17"><a href="#cb1-17"></a><span class="fu">library</span>(data.table)</span>
-<span id="cb1-18"><a href="#cb1-18"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-19"><a href="#cb1-19"></a><span class="fu">library</span>(patchwork)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"remotes"</span>)) <span class="fu">install.packages</span>(<span class="st">"remotes"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 核心MR包</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"TwoSampleMR"</span>)) remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"MRCIEU/TwoSampleMR"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 贝叶斯共定位</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"coloc"</span>)) <span class="fu">install.packages</span>(<span class="st">"coloc"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 绘图&amp;数据处理</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"patchwork"</span>)) <span class="fu">install.packages</span>(<span class="st">"patchwork"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"data.table"</span>)) <span class="fu">install.packages</span>(<span class="st">"data.table"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"dplyr"</span>)) <span class="fu">install.packages</span>(<span class="st">"dplyr"</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"ggplot2"</span>)) <span class="fu">install.packages</span>(<span class="st">"ggplot2"</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(TwoSampleMR)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(coloc)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="全局参数自定义文件路径务必修改此处" class="level1">
 <h1>===================== 2. 全局参数&amp;自定义文件路径（务必修改此处） =====================</h1>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># 1）基因集（全部候选靶点、Hub核心靶点，填ENSG编号）</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>candidate_genes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ENSG00000118194"</span>,<span class="st">"ENSG00000130706"</span>) <span class="co"># 替换你的100个全部靶点ENSG</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a>hub_genes       <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ENSG00000118194"</span>)                   <span class="co"># 替换你的20个Hub靶点ENSG</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="co"># 2）汇总统计量文件路径</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a>eqtl_file  <span class="ot">&lt;-</span> <span class="st">"F:/projects/zwhqd_dcm_hf/data/raw/opengwas/GTEx_Analysis_v8_eQTL/Heart_Left_Ventricle.v8.signif_variant_gene_pairs.txt.gz"</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a>dcm_gwas_file <span class="ot">&lt;-</span> <span class="st">"F:/projects/zwhqd_dcm_hf/data/raw/opengwas/HERMES2_GWAS_DCM_EUR/FORMAT-METAL_Pheno5-DCM_EUR.tsv.gz"</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a></span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="co"># 3）样本量、COLOC固定先验</span></span>
-<span id="cb2-10"><a href="#cb2-10"></a>N_eqtl  <span class="ot">&lt;-</span> <span class="dv">386</span>                     <span class="co"># GTEx左心室样本量</span></span>
-<span id="cb2-11"><a href="#cb2-11"></a>N_dcm   <span class="ot">&lt;-</span> <span class="dv">6001</span> <span class="sc">+</span> <span class="dv">449382</span>           <span class="co"># DCM总样本  </span></span>
-<span id="cb2-12"><a href="#cb2-12"></a>s_dcm   <span class="ot">&lt;-</span> <span class="dv">6001</span> <span class="sc">/</span> N_dcm            <span class="co"># DCM病例占比</span></span>
-<span id="cb2-13"><a href="#cb2-13"></a>p1 <span class="ot">&lt;-</span> <span class="fl">1e-4</span>; p2 <span class="ot">&lt;-</span> <span class="fl">1e-4</span>; p12 <span class="ot">&lt;-</span> <span class="fl">5e-6</span> <span class="co"># COLOC标准先验</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1）基因集（全部候选靶点、Hub核心靶点，填ENSG编号）</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>candidate_genes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ENSG00000118194"</span>,<span class="st">"ENSG00000130706"</span>) <span class="co"># 替换你的100个全部靶点ENSG</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>hub_genes       <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ENSG00000118194"</span>)                   <span class="co"># 替换你的20个Hub靶点ENSG</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 2）汇总统计量文件路径</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>eqtl_file  <span class="ot">&lt;-</span> <span class="st">"F:/projects/zwhqd_dcm_hf/data/raw/opengwas/GTEx_Analysis_v8_eQTL/Heart_Left_Ventricle.v8.signif_variant_gene_pairs.txt.gz"</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>dcm_gwas_file <span class="ot">&lt;-</span> <span class="st">"F:/projects/zwhqd_dcm_hf/data/raw/opengwas/HERMES2_GWAS_DCM_EUR/FORMAT-METAL_Pheno5-DCM_EUR.tsv.gz"</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 3）样本量、COLOC固定先验</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>N_eqtl  <span class="ot">&lt;-</span> <span class="dv">386</span>                     <span class="co"># GTEx左心室样本量</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>N_dcm   <span class="ot">&lt;-</span> <span class="dv">6001</span> <span class="sc">+</span> <span class="dv">449382</span>           <span class="co"># DCM总样本  </span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>s_dcm   <span class="ot">&lt;-</span> <span class="dv">6001</span> <span class="sc">/</span> N_dcm            <span class="co"># DCM病例占比</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fl">1e-4</span>; p2 <span class="ot">&lt;-</span> <span class="fl">1e-4</span>; p12 <span class="ot">&lt;-</span> <span class="fl">5e-6</span> <span class="co"># COLOC标准先验</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="读取清洗gtex左心室cis-eqtl数据" class="level1">
 <h1>3. 读取&amp;清洗GTEx左心室cis-eQTL数据</h1>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>expos_df <span class="ot">&lt;-</span> <span class="fu">fread</span>(eqtl_file)</span>
-<span id="cb3-2"><a href="#cb3-2"></a>expos_df <span class="ot">&lt;-</span> expos_df <span class="sc">%&gt;%</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a>  <span class="fu">rename</span>(</span>
-<span id="cb3-4"><a href="#cb3-4"></a>    <span class="at">SNP          =</span> variant_id,</span>
-<span id="cb3-5"><a href="#cb3-5"></a>    <span class="at">gene         =</span> gene_id,</span>
-<span id="cb3-6"><a href="#cb3-6"></a>    <span class="at">beta         =</span> slope,</span>
-<span id="cb3-7"><a href="#cb3-7"></a>    <span class="at">se           =</span> slope_se,</span>
-<span id="cb3-8"><a href="#cb3-8"></a>    <span class="at">pval         =</span> pval_nominal,</span>
-<span id="cb3-9"><a href="#cb3-9"></a>    <span class="at">eaf          =</span> maf,</span>
-<span id="cb3-10"><a href="#cb3-10"></a>    <span class="at">tss_distance =</span> tss_distance</span>
-<span id="cb3-11"><a href="#cb3-11"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb3-12"><a href="#cb3-12"></a>  <span class="fu">filter</span>(<span class="fu">abs</span>(tss_distance) <span class="sc">&lt;=</span> <span class="dv">1000000</span>) <span class="co"># 限定cis 1Mb</span></span>
-<span id="cb3-13"><a href="#cb3-13"></a></span>
-<span id="cb3-14"><a href="#cb3-14"></a>expos_df <span class="ot">&lt;-</span> expos_df <span class="sc">%&gt;%</span></span>
-<span id="cb3-15"><a href="#cb3-15"></a>  <span class="fu">separate</span>(</span>
-<span id="cb3-16"><a href="#cb3-16"></a>    <span class="at">col =</span> SNP,</span>
-<span id="cb3-17"><a href="#cb3-17"></a>    <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"chr"</span>, <span class="st">"pos"</span>, <span class="st">"other_allele"</span>, <span class="st">"effect_allele"</span>),</span>
-<span id="cb3-18"><a href="#cb3-18"></a>    <span class="at">sep =</span> <span class="st">"_"</span>,</span>
-<span id="cb3-19"><a href="#cb3-19"></a>    <span class="at">extra =</span> <span class="st">"merge"</span>,  <span class="co"># 关键参数：第4列合并后面所有下划线内容</span></span>
-<span id="cb3-20"><a href="#cb3-20"></a>    <span class="at">remove =</span> <span class="cn">FALSE</span></span>
-<span id="cb3-21"><a href="#cb3-21"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb3-22"><a href="#cb3-22"></a>  <span class="fu">mutate</span>(<span class="at">pos =</span> <span class="fu">as.numeric</span>(pos))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>expos_df <span class="ot">&lt;-</span> <span class="fu">fread</span>(eqtl_file)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>expos_df <span class="ot">&lt;-</span> expos_df <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">SNP          =</span> variant_id,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">gene         =</span> gene_id,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">beta         =</span> slope,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">se           =</span> slope_se,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">pval         =</span> pval_nominal,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">eaf          =</span> maf,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">tss_distance =</span> tss_distance</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">abs</span>(tss_distance) <span class="sc">&lt;=</span> <span class="dv">1000000</span>) <span class="co"># 限定cis 1Mb</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>expos_df <span class="ot">&lt;-</span> expos_df <span class="sc">%&gt;%</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> SNP,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"chr"</span>, <span class="st">"pos"</span>, <span class="st">"other_allele"</span>, <span class="st">"effect_allele"</span>),</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">"_"</span>,</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">extra =</span> <span class="st">"merge"</span>,  <span class="co"># 关键参数：第4列合并后面所有下划线内容</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">remove =</span> <span class="cn">FALSE</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pos =</span> <span class="fu">as.numeric</span>(pos))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="读取清洗dcmstrict-dcm病例对照gwas" class="level1">
 <h1>4. 读取&amp;清洗DCMStrict DCM病例对照GWAS</h1>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>outcome_df <span class="ot">&lt;-</span> <span class="fu">fread</span>(dcm_gwas_file)</span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="co"># GWAS标准字段：SNP,effect_allele,other_allele,beta,se,pval,eaf,ncase,ncontrol</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>outcome_df <span class="ot">&lt;-</span> <span class="fu">fread</span>(dcm_gwas_file)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># GWAS标准字段：SNP,effect_allele,other_allele,beta,se,pval,eaf,ncase,ncontrol</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="函数1单基因正向mr-steiger过滤替代smr批量初筛" class="level1">
 <h1>5. 函数1：单基因正向MR + Steiger过滤（替代SMR批量初筛）</h1>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>single_gene_forward_mr <span class="ot">&lt;-</span> <span class="cf">function</span>(gene_id){</span>
-<span id="cb5-2"><a href="#cb5-2"></a>  <span class="co"># 提取当前基因全部cis-eQTL SNP</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a>  gene_eqtl <span class="ot">&lt;-</span> expos_df[gene <span class="sc">==</span> gene_id]</span>
-<span id="cb5-4"><a href="#cb5-4"></a>  <span class="cf">if</span>(<span class="fu">nrow</span>(gene_eqtl) <span class="sc">&lt;</span> <span class="dv">10</span>) <span class="fu">return</span>(<span class="cn">NULL</span>) <span class="co"># SNP过少直接跳过</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a>  </span>
-<span id="cb5-6"><a href="#cb5-6"></a>  <span class="co"># 格式化为暴露数据</span></span>
-<span id="cb5-7"><a href="#cb5-7"></a>  exp_raw <span class="ot">&lt;-</span> <span class="fu">format_data</span>(</span>
-<span id="cb5-8"><a href="#cb5-8"></a>    gene_eqtl,</span>
-<span id="cb5-9"><a href="#cb5-9"></a>    <span class="at">type =</span> <span class="st">"exposure"</span>,</span>
-<span id="cb5-10"><a href="#cb5-10"></a>    <span class="at">snp_col =</span> <span class="st">"SNP"</span>,</span>
-<span id="cb5-11"><a href="#cb5-11"></a>    <span class="at">beta_col =</span> <span class="st">"beta"</span>,</span>
-<span id="cb5-12"><a href="#cb5-12"></a>    <span class="at">se_col =</span> <span class="st">"se"</span>,</span>
-<span id="cb5-13"><a href="#cb5-13"></a>    <span class="at">effect_allele_col =</span> <span class="st">"effect_allele"</span>,</span>
-<span id="cb5-14"><a href="#cb5-14"></a>    <span class="at">other_allele_col =</span> <span class="st">"other_allele"</span>,</span>
-<span id="cb5-15"><a href="#cb5-15"></a>    <span class="at">eaf_col =</span> <span class="st">"eaf"</span>,</span>
-<span id="cb5-16"><a href="#cb5-16"></a>    <span class="at">pval_col =</span> <span class="st">"pval"</span></span>
-<span id="cb5-17"><a href="#cb5-17"></a>  )</span>
-<span id="cb5-18"><a href="#cb5-18"></a>  </span>
-<span id="cb5-19"><a href="#cb5-19"></a>  <span class="co"># LD聚类去连锁（EUR 1000G）</span></span>
-<span id="cb5-20"><a href="#cb5-20"></a>  exp_clump <span class="ot">&lt;-</span> <span class="fu">ld_clump</span>(</span>
-<span id="cb5-21"><a href="#cb5-21"></a>    <span class="at">dat =</span> exp_raw,</span>
-<span id="cb5-22"><a href="#cb5-22"></a>    <span class="at">clump_r2 =</span> <span class="fl">0.001</span>,</span>
-<span id="cb5-23"><a href="#cb5-23"></a>    <span class="at">clump_kb =</span> <span class="dv">10000</span>,</span>
-<span id="cb5-24"><a href="#cb5-24"></a>    <span class="at">pop =</span> <span class="st">"EUR"</span></span>
-<span id="cb5-25"><a href="#cb5-25"></a>  )</span>
-<span id="cb5-26"><a href="#cb5-26"></a>  <span class="cf">if</span>(<span class="fu">nrow</span>(exp_clump) <span class="sc">&lt;</span> <span class="dv">2</span>) <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
-<span id="cb5-27"><a href="#cb5-27"></a>  </span>
-<span id="cb5-28"><a href="#cb5-28"></a>  <span class="co"># 匹配DCM结局SNP</span></span>
-<span id="cb5-29"><a href="#cb5-29"></a>  out_form <span class="ot">&lt;-</span> <span class="fu">format_data</span>(</span>
-<span id="cb5-30"><a href="#cb5-30"></a>    outcome_df,</span>
-<span id="cb5-31"><a href="#cb5-31"></a>    <span class="at">type =</span> <span class="st">"outcome"</span>,</span>
-<span id="cb5-32"><a href="#cb5-32"></a>    <span class="at">snp_col =</span> <span class="st">"SNP"</span>,</span>
-<span id="cb5-33"><a href="#cb5-33"></a>    <span class="at">beta_col =</span> <span class="st">"beta"</span>,</span>
-<span id="cb5-34"><a href="#cb5-34"></a>    <span class="at">se_col =</span> <span class="st">"se"</span>,</span>
-<span id="cb5-35"><a href="#cb5-35"></a>    <span class="at">effect_allele_col =</span> <span class="st">"effect_allele"</span>,</span>
-<span id="cb5-36"><a href="#cb5-36"></a>    <span class="at">other_allele_col =</span> <span class="st">"other_allele"</span>,</span>
-<span id="cb5-37"><a href="#cb5-37"></a>    <span class="at">eaf_col =</span> <span class="st">"eaf"</span>,</span>
-<span id="cb5-38"><a href="#cb5-38"></a>    <span class="at">pval_col =</span> <span class="st">"pval"</span>,</span>
-<span id="cb5-39"><a href="#cb5-39"></a>    <span class="at">ncase_col =</span> <span class="st">"ncase"</span>,</span>
-<span id="cb5-40"><a href="#cb5-40"></a>    <span class="at">ncontrol_col =</span> <span class="st">"ncontrol"</span></span>
-<span id="cb5-41"><a href="#cb5-41"></a>  )</span>
-<span id="cb5-42"><a href="#cb5-42"></a>  out_sub <span class="ot">&lt;-</span> <span class="fu">extract_outcome_data</span>(<span class="at">snps =</span> exp_clump<span class="sc">$</span>SNP, <span class="at">dat =</span> out_form)</span>
-<span id="cb5-43"><a href="#cb5-43"></a>  </span>
-<span id="cb5-44"><a href="#cb5-44"></a>  <span class="co"># 等位基因协调，剔除回文歧义SNP</span></span>
-<span id="cb5-45"><a href="#cb5-45"></a>  harm <span class="ot">&lt;-</span> <span class="fu">harmonise_data</span>(</span>
-<span id="cb5-46"><a href="#cb5-46"></a>    <span class="at">exposure_dat =</span> exp_clump,</span>
-<span id="cb5-47"><a href="#cb5-47"></a>    <span class="at">outcome_dat  =</span> out_sub,</span>
-<span id="cb5-48"><a href="#cb5-48"></a>    <span class="at">action =</span> <span class="dv">2</span></span>
-<span id="cb5-49"><a href="#cb5-49"></a>  )</span>
-<span id="cb5-50"><a href="#cb5-50"></a>  harm <span class="ot">&lt;-</span> harm[<span class="sc">!</span>harm<span class="sc">$</span>palindromic,]</span>
-<span id="cb5-51"><a href="#cb5-51"></a>  <span class="cf">if</span>(<span class="fu">nrow</span>(harm) <span class="sc">&lt;</span> <span class="dv">2</span>) <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
-<span id="cb5-52"><a href="#cb5-52"></a>  </span>
-<span id="cb5-53"><a href="#cb5-53"></a>  <span class="co"># IVW主MR</span></span>
-<span id="cb5-54"><a href="#cb5-54"></a>  mr_res <span class="ot">&lt;-</span> <span class="fu">mr</span>(harm, <span class="at">method_list =</span> <span class="st">"ivw"</span>)</span>
-<span id="cb5-55"><a href="#cb5-55"></a>  <span class="co"># Steiger检验：排除反向因果混杂（替代HEIDI）</span></span>
-<span id="cb5-56"><a href="#cb5-56"></a>  steiger_res <span class="ot">&lt;-</span> <span class="fu">steiger_filtering</span>(harm)</span>
-<span id="cb5-57"><a href="#cb5-57"></a>  </span>
-<span id="cb5-58"><a href="#cb5-58"></a>  <span class="co"># 整合结果输出</span></span>
-<span id="cb5-59"><a href="#cb5-59"></a>  res_dt <span class="ot">&lt;-</span> <span class="fu">data.table</span>(</span>
-<span id="cb5-60"><a href="#cb5-60"></a>    <span class="at">gene      =</span> gene_id,</span>
-<span id="cb5-61"><a href="#cb5-61"></a>    <span class="at">ivw_b     =</span> mr_res<span class="sc">$</span>b,</span>
-<span id="cb5-62"><a href="#cb5-62"></a>    <span class="at">ivw_se    =</span> mr_res<span class="sc">$</span>se,</span>
-<span id="cb5-63"><a href="#cb5-63"></a>    <span class="at">ivw_p     =</span> mr_res<span class="sc">$</span>pval,</span>
-<span id="cb5-64"><a href="#cb5-64"></a>    <span class="at">steiger_p =</span> steiger_res<span class="sc">$</span>steiger_p,</span>
-<span id="cb5-65"><a href="#cb5-65"></a>    <span class="at">snp_count =</span> <span class="fu">nrow</span>(harm)</span>
-<span id="cb5-66"><a href="#cb5-66"></a>  )</span>
-<span id="cb5-67"><a href="#cb5-67"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">res =</span> res_dt, <span class="at">harmonise_dat =</span> harm))</span>
-<span id="cb5-68"><a href="#cb5-68"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>single_gene_forward_mr <span class="ot">&lt;-</span> <span class="cf">function</span>(gene_id){</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 提取当前基因全部cis-eQTL SNP</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  gene_eqtl <span class="ot">&lt;-</span> expos_df[gene <span class="sc">==</span> gene_id]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">nrow</span>(gene_eqtl) <span class="sc">&lt;</span> <span class="dv">10</span>) <span class="fu">return</span>(<span class="cn">NULL</span>) <span class="co"># SNP过少直接跳过</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 格式化为暴露数据</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  exp_raw <span class="ot">&lt;-</span> <span class="fu">format_data</span>(</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    gene_eqtl,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"exposure"</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">snp_col =</span> <span class="st">"SNP"</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">beta_col =</span> <span class="st">"beta"</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">se_col =</span> <span class="st">"se"</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">effect_allele_col =</span> <span class="st">"effect_allele"</span>,</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">other_allele_col =</span> <span class="st">"other_allele"</span>,</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">eaf_col =</span> <span class="st">"eaf"</span>,</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">pval_col =</span> <span class="st">"pval"</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># LD聚类去连锁（EUR 1000G）</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  exp_clump <span class="ot">&lt;-</span> <span class="fu">ld_clump</span>(</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">dat =</span> exp_raw,</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">clump_r2 =</span> <span class="fl">0.001</span>,</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">clump_kb =</span> <span class="dv">10000</span>,</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">pop =</span> <span class="st">"EUR"</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">nrow</span>(exp_clump) <span class="sc">&lt;</span> <span class="dv">2</span>) <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 匹配DCM结局SNP</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>  out_form <span class="ot">&lt;-</span> <span class="fu">format_data</span>(</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    outcome_df,</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"outcome"</span>,</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">snp_col =</span> <span class="st">"SNP"</span>,</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">beta_col =</span> <span class="st">"beta"</span>,</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">se_col =</span> <span class="st">"se"</span>,</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">effect_allele_col =</span> <span class="st">"effect_allele"</span>,</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">other_allele_col =</span> <span class="st">"other_allele"</span>,</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">eaf_col =</span> <span class="st">"eaf"</span>,</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">pval_col =</span> <span class="st">"pval"</span>,</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">ncase_col =</span> <span class="st">"ncase"</span>,</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">ncontrol_col =</span> <span class="st">"ncontrol"</span></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>  out_sub <span class="ot">&lt;-</span> <span class="fu">extract_outcome_data</span>(<span class="at">snps =</span> exp_clump<span class="sc">$</span>SNP, <span class="at">dat =</span> out_form)</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 等位基因协调，剔除回文歧义SNP</span></span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>  harm <span class="ot">&lt;-</span> <span class="fu">harmonise_data</span>(</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">exposure_dat =</span> exp_clump,</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">outcome_dat  =</span> out_sub,</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">action =</span> <span class="dv">2</span></span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>  harm <span class="ot">&lt;-</span> harm[<span class="sc">!</span>harm<span class="sc">$</span>palindromic,]</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">nrow</span>(harm) <span class="sc">&lt;</span> <span class="dv">2</span>) <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>  <span class="co"># IVW主MR</span></span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>  mr_res <span class="ot">&lt;-</span> <span class="fu">mr</span>(harm, <span class="at">method_list =</span> <span class="st">"ivw"</span>)</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Steiger检验：排除反向因果混杂（替代HEIDI）</span></span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>  steiger_res <span class="ot">&lt;-</span> <span class="fu">steiger_filtering</span>(harm)</span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 整合结果输出</span></span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>  res_dt <span class="ot">&lt;-</span> <span class="fu">data.table</span>(</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">gene      =</span> gene_id,</span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">ivw_b     =</span> mr_res<span class="sc">$</span>b,</span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">ivw_se    =</span> mr_res<span class="sc">$</span>se,</span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>    <span class="at">ivw_p     =</span> mr_res<span class="sc">$</span>pval,</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>    <span class="at">steiger_p =</span> steiger_res<span class="sc">$</span>steiger_p,</span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>    <span class="at">snp_count =</span> <span class="fu">nrow</span>(harm)</span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">res =</span> res_dt, <span class="at">harmonise_dat =</span> harm))</span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="批量运行全部100个候选基因初筛" class="level1">
 <h1>6. 批量运行全部100个候选基因初筛</h1>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>all_gene_mr_list <span class="ot">&lt;-</span> <span class="fu">lapply</span>(candidate_genes, single_gene_forward_mr)</span>
-<span id="cb6-2"><a href="#cb6-2"></a></span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="co"># 拆分结果：汇总表 + 保存每个基因协调后SNP数据（供后续绘图/反向MR调用）</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a>all_filter_dt <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb6-5"><a href="#cb6-5"></a>harmonise_storage <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb6-6"><a href="#cb6-6"></a><span class="cf">for</span>(item <span class="cf">in</span> all_gene_mr_list){</span>
-<span id="cb6-7"><a href="#cb6-7"></a>  <span class="cf">if</span>(<span class="sc">!</span><span class="fu">is.null</span>(item)){</span>
-<span id="cb6-8"><a href="#cb6-8"></a>    all_filter_dt[[<span class="fu">length</span>(all_filter_dt)<span class="sc">+</span><span class="dv">1</span>]] <span class="ot">&lt;-</span> item<span class="sc">$</span>res</span>
-<span id="cb6-9"><a href="#cb6-9"></a>    harmonise_storage[[item<span class="sc">$</span>res<span class="sc">$</span>gene]] <span class="ot">&lt;-</span> item<span class="sc">$</span>harmonise_dat</span>
-<span id="cb6-10"><a href="#cb6-10"></a>  }</span>
-<span id="cb6-11"><a href="#cb6-11"></a>}</span>
-<span id="cb6-12"><a href="#cb6-12"></a>all_filter_dt <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(all_filter_dt)</span>
-<span id="cb6-13"><a href="#cb6-13"></a></span>
-<span id="cb6-14"><a href="#cb6-14"></a><span class="co"># 筛选标准：IVW P&lt;0.05 且 Steiger P&lt;0.05（可信正向信号，无反向因果干扰）</span></span>
-<span id="cb6-15"><a href="#cb6-15"></a>sig_filter_dt <span class="ot">&lt;-</span> all_filter_dt[ivw_p <span class="sc">&lt;</span> <span class="fl">0.05</span> <span class="sc">&amp;</span> steiger_p <span class="sc">&lt;</span> <span class="fl">0.05</span>]</span>
-<span id="cb6-16"><a href="#cb6-16"></a><span class="co"># 取Hub基因与初筛阳性基因交集，进入双向MR &amp; COLOC</span></span>
-<span id="cb6-17"><a href="#cb6-17"></a>hub_sig_genes <span class="ot">&lt;-</span> <span class="fu">intersect</span>(hub_genes, sig_filter_dt<span class="sc">$</span>gene)</span>
-<span id="cb6-18"><a href="#cb6-18"></a></span>
-<span id="cb6-19"><a href="#cb6-19"></a><span class="co"># 输出初筛结果表格</span></span>
-<span id="cb6-20"><a href="#cb6-20"></a><span class="fu">fwrite</span>(all_filter_dt, <span class="st">"01_全部候选基因初筛_MR_Steiger.csv"</span>, <span class="at">row.names =</span> F)</span>
-<span id="cb6-21"><a href="#cb6-21"></a><span class="fu">fwrite</span>(sig_filter_dt, <span class="st">"02_初筛显著基因表.csv"</span>, <span class="at">row.names =</span> F)</span>
-<span id="cb6-22"><a href="#cb6-22"></a><span class="fu">fwrite</span>(<span class="fu">data.table</span>(<span class="at">gene =</span> hub_sig_genes), <span class="st">"03_Hub_SMR交集基因.txt"</span>, <span class="at">row.names =</span> F)</span>
-<span id="cb6-23"><a href="#cb6-23"></a><span class="fu">cat</span>(<span class="st">"完成全靶点初筛，进入双向MR的Hub基因："</span>, hub_sig_genes, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>all_gene_mr_list <span class="ot">&lt;-</span> <span class="fu">lapply</span>(candidate_genes, single_gene_forward_mr)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 拆分结果：汇总表 + 保存每个基因协调后SNP数据（供后续绘图/反向MR调用）</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>all_filter_dt <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>harmonise_storage <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(item <span class="cf">in</span> all_gene_mr_list){</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="sc">!</span><span class="fu">is.null</span>(item)){</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    all_filter_dt[[<span class="fu">length</span>(all_filter_dt)<span class="sc">+</span><span class="dv">1</span>]] <span class="ot">&lt;-</span> item<span class="sc">$</span>res</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    harmonise_storage[[item<span class="sc">$</span>res<span class="sc">$</span>gene]] <span class="ot">&lt;-</span> item<span class="sc">$</span>harmonise_dat</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>all_filter_dt <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(all_filter_dt)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 筛选标准：IVW P&lt;0.05 且 Steiger P&lt;0.05（可信正向信号，无反向因果干扰）</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>sig_filter_dt <span class="ot">&lt;-</span> all_filter_dt[ivw_p <span class="sc">&lt;</span> <span class="fl">0.05</span> <span class="sc">&amp;</span> steiger_p <span class="sc">&lt;</span> <span class="fl">0.05</span>]</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 取Hub基因与初筛阳性基因交集，进入双向MR &amp; COLOC</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>hub_sig_genes <span class="ot">&lt;-</span> <span class="fu">intersect</span>(hub_genes, sig_filter_dt<span class="sc">$</span>gene)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 输出初筛结果表格</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="fu">fwrite</span>(all_filter_dt, <span class="st">"01_全部候选基因初筛_MR_Steiger.csv"</span>, <span class="at">row.names =</span> F)</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="fu">fwrite</span>(sig_filter_dt, <span class="st">"02_初筛显著基因表.csv"</span>, <span class="at">row.names =</span> F)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="fu">fwrite</span>(<span class="fu">data.table</span>(<span class="at">gene =</span> hub_sig_genes), <span class="st">"03_Hub_SMR交集基因.txt"</span>, <span class="at">row.names =</span> F)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"完成全靶点初筛，进入双向MR的Hub基因："</span>, hub_sig_genes, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="函数2正向mr全套ivw加权中位数mr-egger敏感性" class="level1">
@@ -929,5 +885,4 @@ reverse_nonsig_g &lt;- reverse_mr_dt[method == "ivw" &amp; pval &gt;= 0.05]\)</s
 
 
 
-<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
