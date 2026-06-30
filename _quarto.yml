@@ -61,7 +61,7 @@ author:
         postal-code: 710061
 
 bibliography: references.bib
-csl: analytical-chemistry.csl
+csl: multidisciplinary-digital-publishing-institute.csl
 
 website:
   title: "ZWHQD for HFrEF"
@@ -78,25 +78,25 @@ website:
         menu:
           - text: "0: Install Required Packages"
             href: "scripts/00_install_required_packages.qmd"
-          - text: "1: Ingredient and target prediction"
+          - text: "1: Acquisition of Active Compounds, Targets and HCT Network Construction"
             href: "scripts/01_ingredient_target_prediction.qmd"
-          - text: "1: Ingredient and target prediction"
+          - text: "2: Transcriptomic Data Acquisition and DCM-CHF Disease Target Screening"
             href: "scripts/01_ingredient_target_prediction.qmd"
-          - text: "1: Ingredient and target prediction"
+          - text: "3: PPI Network Construction and Hub Target Identification"
             href: "scripts/01_ingredient_target_prediction.qmd"
-          - text: "1: Ingredient and target prediction"
+          - text: "4: Tissue Specific Expression Profiling of Hub Targets"
             href: "scripts/01_ingredient_target_prediction.qmd"
-          - text: "1: Ingredient and target prediction"
+          - text: "5: Functional Enrichment Analysis"
             href: "scripts/01_ingredient_target_prediction.qmd"
-          - text: "1: Ingredient and target prediction"
+          - text: "6: Immune Infiltration Analysis"
             href: "scripts/01_ingredient_target_prediction.qmd"
-          - text: "1: Ingredient and target prediction"
+          - text: "7: Genetic Causal Inference Analysis"
             href: "scripts/01_ingredient_target_prediction.qmd"
-          - text: "1: Ingredient and target prediction"
+          - text: "8: Ingredient and target prediction"
             href: "scripts/01_ingredient_target_prediction.qmd"
-          - text: "1: Ingredient and target prediction"
+          - text: "9: Molecular Docking"
             href: "scripts/01_ingredient_target_prediction.qmd"
-          - text: "1: Ingredient and target prediction"
+          - text: "10: Ingredient and target prediction"
             href: "scripts/01_ingredient_target_prediction.qmd"
 
 format:

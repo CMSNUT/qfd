@@ -27,41 +27,29 @@ options(repos = c(CRAN = "https://mirrors.tuna.tsinghua.edu.cn/CRAN/"))
 ```
 
 # Install required packages if missing
-
-## Basic Environment & Development
 ```{r}
+# ############ Basic Environment & Development ############
 if (!requireNamespace("curl", quietly = TRUE)) install.packages("curl", update = TRUE, force = TRUE, dependencies = TRUE)
 if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools", update = TRUE, force = TRUE, dependencies = TRUE)
 if (!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes", update = TRUE, force = TRUE, dependencies = TRUE)
 if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager", update = TRUE, force = TRUE, dependencies = TRUE)
 if (!requireNamespace("rmdwc", quietly = TRUE)) remotes::install_github("sigbertklinke/rmdwc", update = TRUE, force = TRUE, dependencies = TRUE)
 if (!requireNamespace("robustbase", quietly = TRUE)) install.packages("robustbase", update = TRUE, force = TRUE, dependencies = TRUE)
-```
 
----
+# ############ Data Processing & I/O ############
 
-## Data Processing & I/O
-
-```{r}
 if (!requireNamespace("tidyverse", quietly = TRUE)) install.packages("tidyverse", update = TRUE, force = TRUE, dependencies = TRUE)
 if (!requireNamespace("data.table", quietly = TRUE)) install.packages("data.table", update = TRUE, force = TRUE, dependencies = TRUE)
 if (!requireNamespace("openxlsx", quietly = TRUE)) install.packages("openxlsx", update = TRUE, force = TRUE, dependencies = TRUE)
 if (!requireNamespace("reshape2", quietly = TRUE)) install.packages("reshape2", update = TRUE, force = TRUE, dependencies = TRUE)
 if (!requireNamespace("tidytext", quietly = TRUE)) install.packages("tidytext", update = TRUE, force = TRUE, dependencies = TRUE)
-```
 
----
-
-##  Parallel Computing & Progress
-
-```{r}
+# ############ Parallel Computing & Progress ############
 if (!requireNamespace("future", quietly = TRUE)) install.packages("future", update = TRUE, force = TRUE, dependencies = TRUE)
 if (!requireNamespace("furrr", quietly = TRUE)) install.packages("furrr", update = TRUE, force = TRUE, dependencies = TRUE)
 if (!requireNamespace("progressr", quietly = TRUE)) install.packages("progressr", update = TRUE, force = TRUE, dependencies = TRUE)
-```
 
-## Bioconductor core & Annotation Packages
-```{r}
+# ############ Bioconductor core & Annotation Packages ############
 # core
 if (!requireNamespace("GenomicRanges", quietly = TRUE)) 
     BiocManager::install("GenomicRanges", update = TRUE, force = TRUE, dependencies = TRUE)
@@ -84,13 +72,8 @@ if (!requireNamespace("TxDb.Hsapiens.UCSC.hg19.knownGene", quietly = TRUE))
 if (!requireNamespace("hgu133plus2.db", quietly = TRUE)) 
     BiocManager::install("hgu133plus2.db", update = TRUE, force = TRUE, dependencies = TRUE)
 if (!requireNamespace("AnnoProbe", quietly = TRUE)) remotes::install_github("jmzeng1314/AnnoProbe", update = TRUE, force = TRUE, dependencies = TRUE)
-```
 
----
-
-## Data Visualization
-
-```{r}
+# ############ Data Visualization ############
 if (!requireNamespace("RColorBrewer", quietly = TRUE)) install.packages("RColorBrewer", update = TRUE, force = TRUE, dependencies = TRUE)
 
 # ggplot
@@ -135,12 +118,8 @@ if (!requireNamespace("RCy3", quietly = TRUE)) BiocManager::install("RCy3", upda
 if (!requireNamespace("networkD3", quietly = TRUE)) install.packages("networkD3", update = TRUE, force = TRUE, dependencies = TRUE)
 if (!requireNamespace("ggalluvial", quietly = TRUE)) install.packages("ggalluvial", update = TRUE, force = TRUE, dependencies = TRUE)
 if (!requireNamespace("ggsankeyfier", quietly = TRUE)) install.packages("ggsankeyfier", update = TRUE, force = TRUE, dependencies = TRUE)
-```
 
----
-
-## Differential expression analysis & WGCNA
-```{r}
+# ############ Differential expression analysis & WGCNA ############
 if (!requireNamespace("limma", quietly = TRUE))  BiocManager::install("limma", update = TRUE, force = TRUE, dependencies = TRUE)
 if (!requireNamespace("DESeq2", quietly = TRUE))  BiocManager::install("DESeq2", update = TRUE, force = TRUE, dependencies = TRUE)
 if (!requireNamespace("edgeR", quietly = TRUE))  BiocManager::install("edgeR", update = TRUE, force = TRUE, dependencies = TRUE)
@@ -148,45 +127,28 @@ if (!requireNamespace("preprocessCore", quietly = TRUE))  BiocManager::install("
 
 if (!requireNamespace("WGCNA", quietly = TRUE)) 
 BiocManager::install("WGCNA", update = TRUE, force = TRUE, dependencies = TRUE)
-```
 
----
-
-## Enrichment & Gene Set Analysis
-```{r}
+# ############ Enrichment & Gene Set Analysis ############
 if (!requireNamespace("clusterProfiler", quietly = TRUE)) 
     BiocManager::install("clusterProfiler", update = TRUE, force = TRUE, dependencies = TRUE)
 
 if (!requireNamespace("GSVA", quietly = TRUE)) BiocManager::install("GSVA", update = TRUE, force = TRUE, dependencies = TRUE)
 
 if (!requireNamespace("AUCell", quietly = TRUE)) BiocManager::install("AUCell", update = TRUE, force = TRUE, dependencies = TRUE)
-```
 
----
-
-## Immuno-Oncology & Microenvironment
-```{r}
+# ############ Immuno-Oncology & Microenvironment ############
 if (!requireNamespace("IOBR", quietly = TRUE)) remotes::install_github("IOBR/IOBR", update = TRUE, force = TRUE, dependencies = TRUE)
 if (!requireNamespace("HPAanalyze", quietly = TRUE)) 
     BiocManager::install("HPAanalyze", update = TRUE, force = TRUE, dependencies = TRUE)
-```
 
----
-
-## Genetic Causality (MR & Colocalization)
-```{r}
+# ############ Genetic Causality (MR & Colocalization) ############
 # TwoSampleMR
 if (!requireNamespace("TwoSampleMR", quietly = TRUE)) remotes::install_github("MRCIEU/TwoSampleMR", update = TRUE, force = TRUE, dependencies = TRUE)
 
 if (!requireNamespace("coloc", quietly = TRUE)) 
     BiocManager::install("coloc", update = TRUE, force = TRUE, dependencies = TRUE)
-```
 
----
-
-
-## Single-Cell Omics
-```{r}
+# ############ Single-Cell Omics ############
 if (!requireNamespace("SeuratObject", quietly = TRUE)) 
     BiocManager::install("SeuratObject", update = TRUE, force = TRUE, dependencies = TRUE)
 if (!requireNamespace("Seurat", quietly = TRUE)) 
@@ -194,11 +156,8 @@ if (!requireNamespace("Seurat", quietly = TRUE))
 ```
 
 ---
-
-
-
-
 # Clean cache
+
 ```{r}
 # clean 
 clean_install_cache <- function() {
