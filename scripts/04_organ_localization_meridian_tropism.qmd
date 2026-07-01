@@ -1,8 +1,0 @@
----
-title: " 04_organ_localization_meridian_tropism"
-format: 
-  html:
-    toc: true
-    number-sections: true
----
-

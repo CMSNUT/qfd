@@ -41,10 +41,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-ac0b92811d6e88f5a4a44355feb92a8e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-f1ef0423859aea48f2b5a85ac632af29.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -72,11 +72,13 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<style>html{ scroll-behavior: smooth; }</style>
 
 
+<link rel="stylesheet" href="style.css">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="floating nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -98,6 +100,14 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../paper.html"> 
+<span class="menu-text">Paper</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../manu01.html"> 
+<span class="menu-text">Manuscript01</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../manu.html"> 
 <span class="menu-text">Manuscript</span></a>
   </li>  
@@ -107,8 +117,48 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-scripts">    
         <li>
+    <a class="dropdown-item" href="../scripts/00_install_required_packages.html">
+ <span class="dropdown-text">0.Install Required Packages</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="../scripts/01_ingredient_target_prediction.html">
- <span class="dropdown-text">01: Ingredient and target prediction</span></a>
+ <span class="dropdown-text">1.Acquisition of Active Compounds, Targets and HCT Network Construction</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../scripts/02_bulk_rna_deg_wgcna.html">
+ <span class="dropdown-text">2.Transcriptomic Data Acquisition and DCM-CHF Disease Target Screening</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../scripts/03_ppi_hub_genes.html">
+ <span class="dropdown-text">3.PPI Network Construction and Hub Target Identification</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../scripts/04_organ_localization.html">
+ <span class="dropdown-text">4.Tissue Specific Expression Profiling of Hub Targets</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../scripts/05_functional_enrichment.html">
+ <span class="dropdown-text">5.Functional Enrichment Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../scripts/06_immune_infiltration_quantification.html">
+ <span class="dropdown-text">6.Immune Infiltration Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../scripts/07_mr_colocalization.html">
+ <span class="dropdown-text">7.MR and Colocalization</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../scripts/08_single_cell_analysis_ssGSEA.html">
+ <span class="dropdown-text">8.Single cell analysis and ssGSEA</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../scripts/09_molecular_docking_analysis.html">
+ <span class="dropdown-text">9.Molecular Docking Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../scripts/10_figures_and_tables.html">
+ <span class="dropdown-text">10.Figures and Tables</span></a>
   </li>  
     </ul>
   </li>
@@ -120,14 +170,70 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="-1">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#main" id="toc-main" class="nav-link active" data-scroll-target="#main">Main</a>
+  <ul>
+  <li><a href="#figures" id="toc-figures" class="nav-link" data-scroll-target="#figures">Figures</a>
+  <ul class="collapse">
+  <li><a href="#figure-1." id="toc-figure-1." class="nav-link" data-scroll-target="#figure-1.">Figure 1.</a></li>
+  <li><a href="#figure-3." id="toc-figure-3." class="nav-link" data-scroll-target="#figure-3.">Figure 3.</a></li>
+  <li><a href="#figure-4." id="toc-figure-4." class="nav-link" data-scroll-target="#figure-4.">Figure 4.</a></li>
+  <li><a href="#figure-5." id="toc-figure-5." class="nav-link" data-scroll-target="#figure-5.">Figure 5.</a></li>
+  <li><a href="#figure-6." id="toc-figure-6." class="nav-link" data-scroll-target="#figure-6.">Figure 6.</a></li>
+  <li><a href="#figure-7." id="toc-figure-7." class="nav-link" data-scroll-target="#figure-7.">Figure 7.</a></li>
+  <li><a href="#figure-8." id="toc-figure-8." class="nav-link" data-scroll-target="#figure-8.">Figure 8.</a></li>
+  <li><a href="#figure-9." id="toc-figure-9." class="nav-link" data-scroll-target="#figure-9.">Figure 9.</a></li>
+  </ul></li>
+  <li><a href="#tables" id="toc-tables" class="nav-link" data-scroll-target="#tables">Tables</a>
+  <ul class="collapse">
+  <li><a href="#table-1." id="toc-table-1." class="nav-link" data-scroll-target="#table-1.">Table 1.</a></li>
+  <li><a href="#table-2." id="toc-table-2." class="nav-link" data-scroll-target="#table-2.">Table 2.</a></li>
+  <li><a href="#table-3." id="toc-table-3." class="nav-link" data-scroll-target="#table-3.">Table 3.</a></li>
+  <li><a href="#table-4." id="toc-table-4." class="nav-link" data-scroll-target="#table-4.">Table 4.</a></li>
+  <li><a href="#table-5." id="toc-table-5." class="nav-link" data-scroll-target="#table-5.">Table 5.</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#supplementary" id="toc-supplementary" class="nav-link" data-scroll-target="#supplementary">Supplementary</a>
+  <ul>
+  <li><a href="#figures-1" id="toc-figures-1" class="nav-link" data-scroll-target="#figures-1">Figures</a>
+  <ul class="collapse">
+  <li><a href="#figure-s1." id="toc-figure-s1." class="nav-link" data-scroll-target="#figure-s1.">Figure S1.</a></li>
+  <li><a href="#figure-s2." id="toc-figure-s2." class="nav-link" data-scroll-target="#figure-s2.">Figure S2.</a></li>
+  <li><a href="#figure-s3." id="toc-figure-s3." class="nav-link" data-scroll-target="#figure-s3.">Figure S3.</a></li>
+  <li><a href="#figure-s4." id="toc-figure-s4." class="nav-link" data-scroll-target="#figure-s4.">Figure S4.</a></li>
+  <li><a href="#figure-s5." id="toc-figure-s5." class="nav-link" data-scroll-target="#figure-s5.">Figure S5.</a></li>
+  <li><a href="#figure-s6." id="toc-figure-s6." class="nav-link" data-scroll-target="#figure-s6.">Figure S6.</a></li>
+  </ul></li>
+  <li><a href="#tables-1" id="toc-tables-1" class="nav-link" data-scroll-target="#tables-1">Tables</a>
+  <ul class="collapse">
+  <li><a href="#table-s1." id="toc-table-s1." class="nav-link" data-scroll-target="#table-s1.">Table S1.</a></li>
+  <li><a href="#table-s2." id="toc-table-s2." class="nav-link" data-scroll-target="#table-s2.">Table S2.</a></li>
+  <li><a href="#table-s3." id="toc-table-s3." class="nav-link" data-scroll-target="#table-s3.">Table S3.</a></li>
+  <li><a href="#table-s4." id="toc-table-s4." class="nav-link" data-scroll-target="#table-s4.">Table S4.</a></li>
+  <li><a href="#table-s5." id="toc-table-s5." class="nav-link" data-scroll-target="#table-s5.">Table S5.</a></li>
+  <li><a href="#table-s6." id="toc-table-s6." class="nav-link" data-scroll-target="#table-s6.">Table S6.</a></li>
+  <li><a href="#table-s7." id="toc-table-s7." class="nav-link" data-scroll-target="#table-s7.">Table S7.</a></li>
+  <li><a href="#table-s8." id="toc-table-s8." class="nav-link" data-scroll-target="#table-s8.">Table S8.</a></li>
+  <li><a href="#table-s9." id="toc-table-s9." class="nav-link" data-scroll-target="#table-s9.">Table S9.</a></li>
+  <li><a href="#table-s10." id="toc-table-s10." class="nav-link" data-scroll-target="#table-s10.">Table S10.</a></li>
+  <li><a href="#table-s11." id="toc-table-s11." class="nav-link" data-scroll-target="#table-s11.">Table S11.</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content column-page-right" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -135,7 +241,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 
 
-<div class="quarto-title-meta-author">
+<div class="quarto-title-meta-author column-page-right">
   <div class="quarto-title-meta-heading">Authors</div>
   <div class="quarto-title-meta-heading">Affiliations</div>
   
@@ -163,7 +269,7 @@ ul.task-list li input[type="checkbox"] {
       </div>
   </div>
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-page-right">
 
       
   
@@ -175,8 +281,136 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="main" class="level1">
+<h1>Main</h1>
+<section id="figures" class="level2">
+<h2 class="anchored" data-anchor-id="figures">Figures</h2>
+<section id="figure-1." class="level3">
+<h3 class="anchored" data-anchor-id="figure-1.">Figure 1.</h3>
+<div id="fig-medicinal-network" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-medicinal-network-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../main/figures/biology-15-00523-g001-550.jpg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-medicinal-network-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.. Medicinal plants–Hematogenous active compounds–Potential targets network. Green diamond represents medicinal plants, red circle represents the blood-absored active compounds, purple circles represent targets.
+</figcaption>
+</figure>
+</div>
+<div id="suppfig-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-suppfig figure">
+<div aria-describedby="suppfig-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../main/figures/biology-15-00523-g001-550.jpg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-suppfig" id="suppfig-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure S1.. Medicinal plants
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="figure-3." class="level3">
+<h3 class="anchored" data-anchor-id="figure-3.">Figure 3.</h3>
+</section>
+<section id="figure-4." class="level3">
+<h3 class="anchored" data-anchor-id="figure-4.">Figure 4.</h3>
+</section>
+<section id="figure-5." class="level3">
+<h3 class="anchored" data-anchor-id="figure-5.">Figure 5.</h3>
+</section>
+<section id="figure-6." class="level3">
+<h3 class="anchored" data-anchor-id="figure-6.">Figure 6.</h3>
+</section>
+<section id="figure-7." class="level3">
+<h3 class="anchored" data-anchor-id="figure-7.">Figure 7.</h3>
+</section>
+<section id="figure-8." class="level3">
+<h3 class="anchored" data-anchor-id="figure-8.">Figure 8.</h3>
+</section>
+<section id="figure-9." class="level3">
+<h3 class="anchored" data-anchor-id="figure-9.">Figure 9.</h3>
+</section>
+</section>
+<section id="tables" class="level2">
+<h2 class="anchored" data-anchor-id="tables">Tables</h2>
+<section id="table-1." class="level3">
+<h3 class="anchored" data-anchor-id="table-1.">Table 1.</h3>
+</section>
+<section id="table-2." class="level3">
+<h3 class="anchored" data-anchor-id="table-2.">Table 2.</h3>
+</section>
+<section id="table-3." class="level3">
+<h3 class="anchored" data-anchor-id="table-3.">Table 3.</h3>
+</section>
+<section id="table-4." class="level3">
+<h3 class="anchored" data-anchor-id="table-4.">Table 4.</h3>
+</section>
+<section id="table-5." class="level3">
+<h3 class="anchored" data-anchor-id="table-5.">Table 5.</h3>
+</section>
+</section>
+</section>
+<section id="supplementary" class="level1">
+<h1>Supplementary</h1>
+<section id="figures-1" class="level2">
+<h2 class="anchored" data-anchor-id="figures-1">Figures</h2>
+<section id="figure-s1." class="level3">
+<h3 class="anchored" data-anchor-id="figure-s1.">Figure S1.</h3>
+</section>
+<section id="figure-s2." class="level3">
+<h3 class="anchored" data-anchor-id="figure-s2.">Figure S2.</h3>
+</section>
+<section id="figure-s3." class="level3">
+<h3 class="anchored" data-anchor-id="figure-s3.">Figure S3.</h3>
+</section>
+<section id="figure-s4." class="level3">
+<h3 class="anchored" data-anchor-id="figure-s4.">Figure S4.</h3>
+</section>
+<section id="figure-s5." class="level3">
+<h3 class="anchored" data-anchor-id="figure-s5.">Figure S5.</h3>
+</section>
+<section id="figure-s6." class="level3">
+<h3 class="anchored" data-anchor-id="figure-s6.">Figure S6.</h3>
+</section>
+</section>
+<section id="tables-1" class="level2">
+<h2 class="anchored" data-anchor-id="tables-1">Tables</h2>
+<section id="table-s1." class="level3">
+<h3 class="anchored" data-anchor-id="table-s1.">Table S1.</h3>
+</section>
+<section id="table-s2." class="level3">
+<h3 class="anchored" data-anchor-id="table-s2.">Table S2.</h3>
+</section>
+<section id="table-s3." class="level3">
+<h3 class="anchored" data-anchor-id="table-s3.">Table S3.</h3>
+</section>
+<section id="table-s4." class="level3">
+<h3 class="anchored" data-anchor-id="table-s4.">Table S4.</h3>
+</section>
+<section id="table-s5." class="level3">
+<h3 class="anchored" data-anchor-id="table-s5.">Table S5.</h3>
+</section>
+<section id="table-s6." class="level3">
+<h3 class="anchored" data-anchor-id="table-s6.">Table S6.</h3>
+</section>
+<section id="table-s7." class="level3">
+<h3 class="anchored" data-anchor-id="table-s7.">Table S7.</h3>
+</section>
+<section id="table-s8." class="level3">
+<h3 class="anchored" data-anchor-id="table-s8.">Table S8.</h3>
+</section>
+<section id="table-s9." class="level3">
+<h3 class="anchored" data-anchor-id="table-s9.">Table S9.</h3>
+</section>
+<section id="table-s10." class="level3">
+<h3 class="anchored" data-anchor-id="table-s10.">Table S10.</h3>
+</section>
+<section id="table-s11." class="level3">
+<h3 class="anchored" data-anchor-id="table-s11.">Table S11.</h3>
 
 
+</section>
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -584,4 +818,5 @@ ul.task-list li input[type="checkbox"] {
 
 
 
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

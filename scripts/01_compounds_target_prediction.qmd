@@ -1,0 +1,130 @@
+---
+title: "1.Acquisition of bioactive compounds, targets and PCT Network Construction"
+format: 
+  wordcount-html:
+    toc: true
+    number-sections: true
+---
+
+# Load packages {-}
+```{r}
+library(tidyverse)
+library(data.table)
+library(openxlsx)
+
+library(future)     
+library(furrr)      
+library(progressr) 
+library(httr)
+```
+
+# Blood-absorbed bioactive compounds
+
+Load Raw Compound Data from DCABM-TCM Database
+
+```{r}
+rm(list = ls())
+
+source("utils.R")
+
+compounds_dcabm <- read.xlsx("../data/raw/qfd/compounds_dcabm.xlsx")
+
+compounds_structured <- compounds_dcabm %>%
+  mutate(Compounds = Constituents) %>%
+  # Trim leading/trailing whitespace from all character columns
+  mutate(across(where(is.character), trimws)) %>%
+  
+  # Split multiple compounds separated by "|" into individual rows
+  separate_rows(Compounds, sep = "\\|") %>%
+  
+  # Extract core metadata from the unstructured Compounds string
+  mutate(
+    CID = str_extract(Compounds, "(?<=Pubchem CID:)[^)]+") %>% str_trim(),
+    DCABM.ID = str_extract(Compounds, "(?<=DCABM ID:)[^)]+") %>% str_trim(),
+    temp = str_remove(Compounds, "\\s+\\(Pubchem CID:[^)]+\\)")
+  ) %>%
+  
+  # Extract clean compound name and molecular formula
+  mutate(
+    temp2 = str_remove(temp, "\\([^)]+\\)$") %>% str_trim(),
+    Compound = str_remove(temp2, "\\([^)]+\\)$") %>% str_trim(),
+    Formula = str_match(temp2, "\\(([^)]+)\\)$")[, 2] %>% str_trim()
+  ) %>%
+  
+  # Remove redundant intermediate columns
+  dplyr::select(-Compounds, -temp, -temp2, -DCABM.ID) %>%
+  
+  # Final whitespace standardization for all character columns
+  mutate(across(where(is.character), trimws)) %>%
+  
+  dplyr::filter(!is.na(CID)) %>%
+  
+  dplyr::select(-Type) 
+# %>%
+#   
+#   # deduplication
+#   distinct(`Medicinal.materials(Latin.name)`,`Medicinal.materials(Chinese.Pinyin.name)`,CID,Compound,Formula)
+
+
+```
+
+# Load Raw Compound Data from literature
+```{r}
+compounds_qfd <-  read.xlsx("../data/raw/qfd/compounds_literature.xlsx")
+```
+
+# All compounds
+```{r}
+compounds_all <- compounds_structured %>%
+  dplyr::select(`Medicinal.materials(Latin.name)`,
+                `Medicinal.materials(Chinese.Pinyin.name)`, 
+                Compound, 
+                Formula, 
+                CID, 
+                Source
+  ) %>%
+  rbind(compounds_qfd)
+
+# Save cleaned dataset
+save(
+  compounds_all,
+  file = "../data/processed/01_compounds_all.RData"
+)
+
+openxlsx::write.xlsx(compounds_all,"../data/processed/01_compounds_all.xlsx")
+```
+
+# 
+```{r}
+
+```
+
+# 
+```{r}
+
+```
+
+# 
+```{r}
+
+```
+
+# 
+```{r}
+
+```
+
+# 
+```{r}
+
+```
+
+# 
+```{r}
+
+```
+
+# 
+```{r}
+
+```

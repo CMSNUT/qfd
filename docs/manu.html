@@ -9,7 +9,7 @@
 <meta name="author" content="Kun Hou">
 <meta name="author" content="Xili Wu">
 
-<title>Synergistic Mechanisms of Aconitum carmichaelii and Astragalus membranaceus Combination Against Chronic Heart Failure Due to Dilated Cardiomyopathy: Insights from Multi–Omics and Causal Inference – ZWHQD for HFrEF</title>
+<title>Synergistic Mechanisms of Aconitum carmichaelii Debeaux and Astragalus membranaceus Combination Against Chronic Heart Failure Due to Dilated Cardiomyopathy: Insights from Multi–Omics and Causal Inference – ZWHQD for HFrEF</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -25,27 +25,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-  margin-bottom: 0em;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -94,35 +74,6 @@ div.csl-indent {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="style.css">
 </head>
@@ -149,6 +100,14 @@ window.Quarto = {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="./paper.html"> 
+<span class="menu-text">Paper</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./manu01.html"> 
+<span class="menu-text">Manuscript01</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link active" href="./manu.html" aria-current="page"> 
 <span class="menu-text">Manuscript</span></a>
   </li>  
@@ -158,8 +117,48 @@ window.Quarto = {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-scripts">    
         <li>
+    <a class="dropdown-item" href="./scripts/00_install_required_packages.html">
+ <span class="dropdown-text">0.Install Required Packages</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="./scripts/01_ingredient_target_prediction.html">
- <span class="dropdown-text">01: Ingredient and target prediction</span></a>
+ <span class="dropdown-text">1.Acquisition of Active Compounds, Targets and HCT Network Construction</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./scripts/02_bulk_rna_deg_wgcna.html">
+ <span class="dropdown-text">2.Transcriptomic Data Acquisition and DCM-CHF Disease Target Screening</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./scripts/03_ppi_hub_genes.html">
+ <span class="dropdown-text">3.PPI Network Construction and Hub Target Identification</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./scripts/04_organ_localization.html">
+ <span class="dropdown-text">4.Tissue Specific Expression Profiling of Hub Targets</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./scripts/05_functional_enrichment.html">
+ <span class="dropdown-text">5.Functional Enrichment Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./scripts/06_immune_infiltration_quantification.html">
+ <span class="dropdown-text">6.Immune Infiltration Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./scripts/07_mr_colocalization.html">
+ <span class="dropdown-text">7.MR and Colocalization</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./scripts/08_single_cell_analysis_ssGSEA.html">
+ <span class="dropdown-text">8.Single cell analysis and ssGSEA</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./scripts/09_molecular_docking_analysis.html">
+ <span class="dropdown-text">9.Molecular Docking Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./scripts/10_figures_and_tables.html">
+ <span class="dropdown-text">10.Figures and Tables</span></a>
   </li>  
     </ul>
   </li>
@@ -179,20 +178,7 @@ window.Quarto = {
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#materials-and-methods" id="toc-materials-and-methods" class="nav-link" data-scroll-target="#materials-and-methods">Materials and Methods</a>
-  <ul>
-  <li><a href="#bloodabsorbed-bioactive-compounds-retrieval-and-targets-prediction" id="toc-bloodabsorbed-bioactive-compounds-retrieval-and-targets-prediction" class="nav-link" data-scroll-target="#bloodabsorbed-bioactive-compounds-retrieval-and-targets-prediction">Blood–absorbed bioactive compounds retrieval and targets prediction</a></li>
-  <li><a href="#dcmchfassociated-genes-identification" id="toc-dcmchfassociated-genes-identification" class="nav-link" data-scroll-target="#dcmchfassociated-genes-identification">DCM–CHF–associated genes identification</a></li>
-  <li><a href="#protein-protein-interaction-network-construction-and-hub-genes-identification" id="toc-protein-protein-interaction-network-construction-and-hub-genes-identification" class="nav-link" data-scroll-target="#protein-protein-interaction-network-construction-and-hub-genes-identification">Protein-protein interaction network construction and hub genes identification</a></li>
-  <li><a href="#multiorgan-expression-profiling-of-hub-genes" id="toc-multiorgan-expression-profiling-of-hub-genes" class="nav-link" data-scroll-target="#multiorgan-expression-profiling-of-hub-genes">Multi–organ expression profiling of hub genes</a></li>
-  <li><a href="#functional-enrichment-analysis" id="toc-functional-enrichment-analysis" class="nav-link" data-scroll-target="#functional-enrichment-analysis">Functional enrichment analysis</a></li>
-  <li><a href="#myocardial-tissue-immune-infiltration-analysis" id="toc-myocardial-tissue-immune-infiltration-analysis" class="nav-link" data-scroll-target="#myocardial-tissue-immune-infiltration-analysis">Myocardial tissue immune infiltration analysis</a></li>
-  <li><a href="#mendelian-randomization-and-bayesian-colocalization" id="toc-mendelian-randomization-and-bayesian-colocalization" class="nav-link" data-scroll-target="#mendelian-randomization-and-bayesian-colocalization">Mendelian randomization and Bayesian colocalization</a></li>
-  <li><a href="#singlecell-transcriptomic-dissection-of-core-targets" id="toc-singlecell-transcriptomic-dissection-of-core-targets" class="nav-link" data-scroll-target="#singlecell-transcriptomic-dissection-of-core-targets">Single–cell transcriptomic dissection of core targets</a></li>
-  <li><a href="#single-sample-gene-set-enrichment-analysis" id="toc-single-sample-gene-set-enrichment-analysis" class="nav-link" data-scroll-target="#single-sample-gene-set-enrichment-analysis">Single-sample gene set enrichment analysis</a></li>
-  <li><a href="#molecular-docking" id="toc-molecular-docking" class="nav-link" data-scroll-target="#molecular-docking">Molecular docking</a></li>
-  <li><a href="#independent-external-transcriptomic-dataset-validation" id="toc-independent-external-transcriptomic-dataset-validation" class="nav-link" data-scroll-target="#independent-external-transcriptomic-dataset-validation">Independent external transcriptomic dataset validation</a></li>
-  </ul></li>
+  <li><a href="#materials-and-methods" id="toc-materials-and-methods" class="nav-link" data-scroll-target="#materials-and-methods">Materials and Methods</a></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
   <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
@@ -209,7 +195,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Synergistic Mechanisms of <em>Aconitum carmichaelii</em> and <em>Astragalus membranaceus</em> Combination Against Chronic Heart Failure Due to Dilated Cardiomyopathy: Insights from Multi–Omics and Causal Inference</h1>
+<h1 class="title">Synergistic Mechanisms of <em>Aconitum carmichaelii</em> Debeaux and <em>Astragalus membranaceus</em> Combination Against Chronic Heart Failure Due to Dilated Cardiomyopathy: Insights from Multi–Omics and Causal Inference</h1>
 </div>
 
 
@@ -251,7 +237,7 @@ window.Quarto = {
 <div>
   <div class="abstract">
     <div class="block-title">Abstract</div>
-    <p>The combination of the medicinal plants <em>Aconitum carmichaelii</em> (AC) and <em>Astragalus membranaceus</em> (AM) has been an effective centuries–old clinical regimen for dilated cardiomyopathy–induced chronic heart failure (DCM–CHF), while its synergistic mechanisms remain unclear. Here, we integrate network pharmacology, multi omics and causal inference–based bioinformatics, and molecular docking to systematically clarify the synergistic mechanisms of the AC–AM combination against DCM–CHF. Drug and disease targets were systematically identified via public database mining. In total, 24 blood–absorbable active compounds were screened with distinct targeting characteristics. AC preferentially regulates myocardial contractility and mitochondrial metabolism in cardiomyocytes and fibroblasts, whereas AM modulates inflammation and vascular protection in immune and endothelial cells. Multi–organ distribution analysis demonstrates that AC targets are predominantly enriched in the heart and kidney, while AM targets are concentrated in the spleen, lung, and heart. Mendelian randomization and Bayesian colocalization analyses identified [X] robust causal targets (PPH4 &gt; 0.8). Opposing normalized enrichment score patterns were observed for AC (NES = −1.52) and AM (NES = 1.83). Molecular docking confirmed stable binding of neoline and calycosin to core targets. Consistent target expression trends in external datasets validated result reliability. The results show the AC–AM combination exerts synergistic cardioprotective effects through convergent modulation of mitochondrial energy metabolism and inflammatory signaling. Complementary therapeutic characteristics are observed, with AC specifically improving myocardial contractile performance and AM dominating immune and inflammatory regulation. This work provides a mechanistic basis for the evidence–based clinical application of the AC–AM medicinal plant combination in the treatment of DCM–induced CHF.</p>
+    <p>The combination of the medicinal plants <em>Aconitum carmichaelii</em> Debeaux (ACD) and <em>Astragalus membranaceus</em> (AM) has been an effective centuries–old clinical regimen for dilated cardiomyopathy–induced chronic heart failure (DCM–CHF), while its synergistic mechanisms remain unclear. Here, we integrate network pharmacology, multi omics and causal inference–based bioinformatics, and molecular docking to systematically clarify the synergistic mechanisms of the AC–AM combination against DCM–CHF. Drug and disease targets were systematically identified via public database mining. In total, 24 blood–absorbable active compounds were screened with distinct targeting characteristics. ACD preferentially regulates myocardial contractility and mitochondrial metabolism in cardiomyocytes and fibroblasts, whereas AM modulates inflammation and vascular protection in immune and endothelial cells. Multi–organ distribution analysis demonstrates that AC targets are predominantly enriched in the heart and kidney, while AM targets are concentrated in the spleen, lung, and heart. Mendelian randomization and Bayesian colocalization analyses identified [X] robust causal targets (PPH4 &gt; 0.8). Opposing normalized enrichment score patterns were observed for AC (NES = −1.52) and AM (NES = 1.83). Molecular docking confirmed stable binding of neoline and calycosin to core targets. Consistent target expression trends in external datasets validated result reliability. The results show the AC–AM combination exerts synergistic cardioprotective effects through convergent modulation of mitochondrial energy metabolism and inflammatory signaling. Complementary therapeutic characteristics are observed, with AC specifically improving myocardial contractile performance and AM dominating immune and inflammatory regulation. This work provides a mechanistic basis for the evidence–based clinical application of the ACD–AM medicinal plant combination in the treatment of DCM–induced CHF.</p>
     <p><strong>keywords:</strong> chronic heart failure; dilated cardiomyopathy; network pharmacology; bioinformatics; ethnic medicinal plants; synergistic mechanisms; molecular regulatory network</p>
   </div>
 </div>
@@ -262,65 +248,9 @@ window.Quarto = {
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>Chronic heart failure (CHF) is the terminal common pathological manifestation of various cardiovascular diseases and the leading cause of global cardiovascular mortality. The global prevalence of adult CHF continues to rise in recent years. Affected by genetic variation, environmental incentives and metabolic abnormalities, the incidence of refractory heart failure in young and middle–aged populations has increased year by year. Genetic cardiomyopathy is the primary cause of heart failure, malignant arrhythmia and sudden cardiac death in young and middle–aged individuals. Dilated cardiomyopathy (DCM), the most common hereditary primary cardiomyopathy, is pathologically characterized by progressive biventricular dilation, ventricular wall thinning, and persistent irreversible decline in myocardial systolic function. Its pathological process involves cascading injuries including cardiomyocyte apoptosis, interstitial fibrosis, immune inflammatory infiltration, and energy metabolism exhaustion. At present, standardized comprehensive intervention systems for DCM–CHF have been established clinically, mainly including neuroendocrine inhibitor drugs such as β–blockers, angiotensin–converting enzyme inhibitors/angiotensin receptor blockers, and mineralocorticoid receptor antagonists, as well as invasive treatments such as ventricular resynchronization device–assisted circulation and end–stage heart transplantation. These interventions can effectively antagonize excessive neuroendocrine activation, improve short–term hemodynamic indicators, relieve clinical symptoms such as chest tightness and fatigue, and reduce the risk of acute malignant cardiovascular events. Despite these pharmacological advances, substantial unmet needs persist, as many patients continue to experience progressive decline in cardiac function, and the underlying pathological mechanisms—encompassing myocardial energy metabolic reprogramming, mitochondrial dysfunction, chronic low–grade inflammation, and maladaptive fibrotic remodeling—remain incompletely addressed by conventional therapeutic approaches.</p>
-<p>Medicinal plants have long been utilized as core therapies for heart failure in diverse global traditional medical systems, with widespread application particularly in the countries of East and Southeast Asia<span class="citation" data-cites="deng2025plant tang2026plantextracts"><sup><a href="#ref-deng2025plant" role="doc-biblioref">1</a>,<a href="#ref-tang2026plantextracts" role="doc-biblioref">2</a></sup></span>. Classic medicinal species, such as <em>Astragalus membranaceus</em><span class="citation" data-cites="zhang2023astragalus"><sup><a href="#ref-zhang2023astragalus" role="doc-biblioref">3</a></sup></span>, <em>Panax ginseng</em><span class="citation" data-cites="zhou2026ginsenosides"><sup><a href="#ref-zhou2026ginsenosides" role="doc-biblioref">4</a></sup></span>, <em>Aconitum carmichaelii</em><span class="citation" data-cites="zhang2022aconitum"><sup><a href="#ref-zhang2022aconitum" role="doc-biblioref">5</a></sup></span>, <em>Salvia miltiorrhiza</em><span class="citation" data-cites="huang2026salvia"><sup><a href="#ref-huang2026salvia" role="doc-biblioref">6</a></sup></span>, <em>Crataegus pinnatifida</em><span class="citation" data-cites="zhang2022crataegus"><sup><a href="#ref-zhang2022crataegus" role="doc-biblioref">7</a></sup></span>, <em>Ginkgo biloba</em><span class="citation" data-cites="deng2025plant"><sup><a href="#ref-deng2025plant" role="doc-biblioref">1</a></sup></span>, etc., can effectively alleviate heart failure symptoms and improve patients’ functional capacity and quality of life, with their clinical efficacy well substantiated by long‑term practical experience<span class="citation" data-cites="deng2025plant"><sup><a href="#ref-deng2025plant" role="doc-biblioref">1</a></sup></span>. Rich in structurally diverse and functionally specific natural small‑molecule compounds, these botanical resources synergistically regulate the intricate pathological networks of heart failure through a multi‑component, multi‑target, and multi‑pathway mode<span class="citation" data-cites="zhang2024sirt1-ampk"><sup><a href="#ref-zhang2024sirt1-ampk" role="doc-biblioref">8</a></sup></span>. Benefiting from high safety, low adverse effects, and stable long‑term efficacy, medicinal plants have become pivotal resources for the clinical management of chronic complex diseases and the discovery of novel lead compounds<span class="citation" data-cites="hu2024botanical"><sup><a href="#ref-hu2024botanical" role="doc-biblioref">9</a></sup></span>. In recent decades, increasing preclinical and clinical studies have clarified the molecular basis of the cardioprotective effects of medicinal plants. Medicinal plant‑derived bioactive ingredients target core pathogenic signaling cascades of heart failure, such as AMPK‑mediated energy sensing<span class="citation" data-cites="huang2026ampk"><sup><a href="#ref-huang2026ampk" role="doc-biblioref">10</a></sup></span>, PPAR‑regulated metabolic homeostasis<span class="citation" data-cites="hu2024botanical"><sup><a href="#ref-hu2024botanical" role="doc-biblioref">9</a></sup></span>, NF‑κB‑induced inflammation<span class="citation" data-cites="abukhalil2021visnagin mi2023schisantherin"><sup><a href="#ref-abukhalil2021visnagin" role="doc-biblioref">11</a>,<a href="#ref-mi2023schisantherin" role="doc-biblioref">12</a></sup></span> and TGF‑β/Smad‑mediated myocardial fibrosis<span class="citation" data-cites="ma2024artemisia"><sup><a href="#ref-ma2024artemisia" role="doc-biblioref">13</a></sup></span>.</p>
-<p><em>Aconitum carmichaelii</em> and <em>Astragalus membranaceus</em> are the most classic and widely applied medicinal plants combination in the field of cardiovascular protection, with definite clinical efficacy in adjuvant treatment of heart failure. Modern pharmacological studies have verified that diterpenoid alkaloids from <em>Aconitum carmichaelii</em> possess significant cardiotonic, positive inotropic, calcium channel regulatory and anti–inflammatory activities, which can directly act on myocardial ion channels to enhance myocardial contractility, improve ventricular diastolic function and inhibit acute myocardial inflammatory injury. Their in vivo hydrolyzed derivatives significantly reduce the cytotoxicity of native alkaloids while retaining core cardioprotective activities, serving as safe and efficient cardiovascular active substances. <em>Astragalus membranaceus</em> is rich in isoflavones and polysaccharides. Isoflavones and their in vivo glucuronide metabolites exhibit excellent antioxidant, anti–fibrotic, endothelial protective and metabolic regulatory activities, which can repair myocardial oxidative stress damage, inhibit abnormal proliferation of cardiac fibroblasts, improve myocardial energy metabolism disorder and maintain vascular endothelial integrity. Notably, these two plants have been shown to act through distinct yet potentially complementary biological pathways, with Aconitum primarily influencing cardiac contractile function and energy metabolism, and Astragalus predominantly modulating inflammatory responses and vascular homeostasis. However, significant gaps remain in understanding the comprehensive mechanisms by which this classic herb pair—<em>Aconitum carmichaelii</em> (Fuzi) and <em>Astragalus membranaceus</em> (Huangqi)—combats dilated cardiomyopathy‑related chronic heart failure (DCM–CHF). First, the synergistic active ingredients and <em>in vivo</em> metabolic profiles of this botanical combination have not been systematically characterized, hindering a thorough elucidation of its pharmacodynamic material basis. Second, the two herbs exhibit marked differences in molecular targets, tissue distribution, and cell‑type‑specific regulatory properties, adding complexity to the mechanistic basis of their combined action. Third, current pharmacological studies are largely confined to phenotypic observations, making it difficult to distinguish their independent functional modules from their interactive synergistic pathways. Critically, the absence of genetic causal evidence further constrains the modern clinical application and translational development of this classic herb pair. Overall, existing research has yet to systematically unravel the multi‑layered, multi‑scale molecular, cellular, and systemic synergistic mechanisms that underlie the holistic therapeutic efficacy of this combined regimen.</p>
-<p>Recent methodological progress in systems pharmacology and multi–omics integration has created unprecedented opportunities to unravel the intricate therapeutic mechanisms of medicinal plants. Network pharmacology has emerged as a powerful tool to predict compound–target interactions and build pharmacological networks that recapitulate the polypharmacological traits of medicinal plants. The rapid development of bioinformatics and genetic epidemiology has provided innovative tools for investigating the mechanisms of complex medicinal plant combinations. Genomics and proteomics profiling further support systematic characterization of the multi–organ distribution patterns of drug targets, mapping the abundance and activation status of target proteins and their encoding genes across cardiac, hepatic, renal and other peripheral tissues, which clarifies tissue–specific pharmacological responsiveness and explains the systemic regulatory characteristics of multi–component herbal formulas. Bulk transcriptomics enables panoramic profiling of dysregulated gene expression in diseased myocardium, whereas single–cell transcriptomics resolves cell–type–specific transcriptional signatures within cardiac tissue, delineating the cellular localization and functional specialization of therapeutic targets. Genome–wide association study (GWAS) datasets identify genetic susceptibility loci for heart diseases, while expression quantitative trait locus (eQTL) datasets link genetic variants to aberrant tissue gene expression, enabling deep mechanistic exploration bridging molecular phenotypes and genetic determinants. Built upon these multi–omics resources, causal inference frameworks integrating Mendelian randomization (MR) and Bayesian colocalization leverage genetic variants as instrumental variables to eliminate confounding factors and reverse causality inherent to conventional observational studies. This framework precisely pinpoints core causal targets governing disease progression and substantially elevates the reliability and rigor of investigations into herbal active components and their mechanisms. Collectively, these integrated approaches, merging computational predictions with multi–layered omics data and causal inference, can reveal not only the molecular targets of individual compounds and their distribution signatures across diverse tissues, cell subtypes and signaling pathways but also the synergistic interactions among components that underlie the enhanced efficacy of herbal combinations, thus establishing a novel technical paradigm for modern research on medicinal plant combinations.</p>
-<p>In this study, we aim to systematically elucidate the synergistic molecular mechanisms of the combination of <em>Aconitum carmichaelii</em> and <em>Astragalus membranaceus</em> intervenes in DCM‑CHF, from blood‑absorbed bioactive components, multi‑tissue target distribution, genetic causal mechanisms, cell‑type‑specific regulation, and pathway‑level synergistic modulation. Specifically, we first identified the blood absorbed active ingredients of the combination from public databases and literatures, and predicted their potential targets based public online platforms. Subsequently, we constructed a comprehensive disease related gene set by integrating three sources: (i) DCM HF genetic risk genes derived from GWAS, (ii) high confidence DCM CHF associated genes reported in the literatures, and (iii) transcriptome derived genes, including differentially expressed genes (DEGs) and module genes identified through weighted gene co expression network analysis (WGCNA). We further obtained overlapping genes between the screened drug targets and the integrated disease gene set and performed multi–organ target localization and functional enrichment analyses to systematically characterize the tissue distribution and biological functions of these intersecting target genes. Furthermore, we applied Mendelian randomization and Bayesian colocalization to establish genetic causal links between the core targets and DCM, while integrating single cell RNA sequencing data to finely map the cell type specific expression profiles of the targets and using single sample gene set enrichment analysis (ssGSEA) to quantify inter individual variations in pathway activity. Finally, molecular docking was employed to validate the binding affinities between key bioactive compounds and their target proteins, and the expression trends of the core targets were verified in an independent external cohort. This study, for the first time, identifies the key targets, core regulatory pathways, cell type specific features, and multi organ synergistic patterns of the Aconitum–Astragalus combination against DCM CHF, thereby laying a theoretical basis for its prospective clinical translation in the prevention and treatment of the disease, as well as offering guidance for subsequent mechanistic experiments.</p>
 </section>
 <section id="materials-and-methods" class="level1">
 <h1>Materials and Methods</h1>
-<section id="bloodabsorbed-bioactive-compounds-retrieval-and-targets-prediction" class="level2">
-<h2 class="anchored" data-anchor-id="bloodabsorbed-bioactive-compounds-retrieval-and-targets-prediction">Blood–absorbed bioactive compounds retrieval and targets prediction</h2>
-<p>Blood–absorbed bioactive compounds of <em>Aconitum carmichaelii</em> and <em>Astragalus mongholicus</em> were retrieved from the Database of Constituents Absorbed into the Blood and Metabolites of Traditional Chinese Medicine (DCABM–TCM, http://bionet.ncpsb.org.cn/dcabm–tcm/)<span class="citation" data-cites="liu2023dcabm"><sup><a href="#ref-liu2023dcabm" role="doc-biblioref">14</a></sup></span>, where the two medicinal materials were searched by inputting their Chinese pinyin “FU ZI” and “HUANG QI” under the “Herb” category (accessed on November 15, 2025). In addition, blood–absorbed constituents of the two medicinal plants identified via HPLC–MS/MS were additionally collected from published peer–reviewed papers. Subsequently, all compound information obtained from DCABM–TCM and supplementary literature was merged, followed by duplicate removal to form a compounds dataset.</p>
-<p>Potential targets of the screened medicinal plant–derived compounds were predicted using four authoritative target prediction platforms, including SwissTargetPrediction (https://www.swisstargetprediction.ch/)<span class="citation" data-cites="gfeller2013swisstargetprediction daina2019swisstargetprediction daina2024swisstargetprediction"><sup><a href="#ref-gfeller2013swisstargetprediction" role="doc-biblioref">15</a>–<a href="#ref-daina2024swisstargetprediction" role="doc-biblioref">17</a></sup></span>, PharmMapper (https://www.lilab–ecust.cn/pharmmapper/)<span class="citation" data-cites="liu2010pharmmapper wang2016pharmmapper wang2017pharmmapper"><sup><a href="#ref-liu2010pharmmapper" role="doc-biblioref">18</a>–<a href="#ref-wang2017pharmmapper" role="doc-biblioref">20</a></sup></span>, SEA (https://seadev.docking.org/)<span class="citation" data-cites="keiser2007sea"><sup><a href="#ref-keiser2007sea" role="doc-biblioref">21</a></sup></span> and BATMAN–TCM 2.0 (http://bionet.ncpsb.org.cn/batman–tcm/#/home)<span class="citation" data-cites="kong2024batman"><sup><a href="#ref-kong2024batman" role="doc-biblioref">22</a></sup></span>, with respective screening thresholds: confidence score ≥ 0.7 for SwissTargetPrediction, normalized fit score ≥ 0.7 for PharmMapper, probability score ≥ 0.7 for SEA and confidence score ≥ 0.84 for BATMAN–TCM 2.0 (All databases were accessed on November 20, 2025). All retrieved gene symbols were standardized to HGNC official nomenclature, and duplicate entries were eliminated to establish a high–confidence target dataset of medicinal plant–derived compounds.</p>
-</section>
-<section id="dcmchfassociated-genes-identification" class="level2">
-<h2 class="anchored" data-anchor-id="dcmchfassociated-genes-identification">DCM–CHF–associated genes identification</h2>
-<p>A high–confidence, comprehensive target panel underlying DCM–CHF was established through multi–omics integration and literature mining, encompassing bulk myocardial transcriptomic profiles, genome–wide association study (GWAS) data, and published disease–associated literature.</p>
-<p>The gene expression dataset GSE57338 (https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=57338, accessed on November 25, 2025) was retrieved from the Gene Expression Omnibus (GEO) database, from which we exclusively selected left ventricular myocardial biopsies from 136 healthy controls and 82 patients with DCM–CHF. All raw data underwent standard preprocessing pipelines, followed by probe–level filtering to retain only stably detectable transcripts. Differential expression analysis was subsequently performed using the R package <code>limma</code><span class="citation" data-cites="ritchie2015limma"><sup><a href="#ref-ritchie2015limma" role="doc-biblioref">23</a></sup></span>. Genes with |log₂(fold change)| &gt; 0.585 and adjusted FDR &lt; 0.05 were identified as differentially expressed genes (DEGs).</p>
-<p>Weighted gene co–expression network analysis (WGCNA) was conducted on the filtered transcriptomic dataset using the R <code>WGCNA</code> package<span class="citation" data-cites="langfelder2008wgcna"><sup><a href="#ref-langfelder2008wgcna" role="doc-biblioref">24</a></sup></span> to screen DCM–CHF–related gene co–expression modules. Hierarchical clustering was applied to eliminate outlier samples. An unsigned topological overlap matrix was built based on pairwise Pearson correlations, and the soft–thresholding power (<em>β</em>) was determined using the <code>pickSoftThreshold</code> function to achieve scale–free network topology approximation. Gene modules were identified by average–linkage hierarchical clustering and dynamic tree–cutting, with a minimum module size of 30 genes and a module merging threshold of 0.25. Modules with module–trait correlation |r| &gt; 0.6 and P &lt; 0.01 for DCM–CHF clinical traits were defined as phenotype–specific key modules. DCM–CHF–related genes in key modules were further screened under the thresholds of module membership (|MM|) &gt; 0.6 and gene significance (|GS|) &gt; 0.2.</p>
-<p>GWAS summary statistics of DCM genetic risk loci were retrieved from the HERMES Consortium European-ancestry meta-analysis (HERMES2_GWAS_DCM_EUR, https://cvd.hugeamp.org/dinspector.html?dataset=Henry2024_HFsubtypes_EU, accessed on November 25, 2025), which included 6,001 DCM cases and 449,382 controls<span class="citation" data-cites="rasooly2023hermes2"><sup><a href="#ref-rasooly2023hermes2" role="doc-biblioref">25</a></sup></span>. Genome-wide significant variants ((P &lt; 5 <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>)) were mapped to risk genes positional mapping within ±50 kb of lead variants, supplemented by cardiac tissue eQTL colocalization evidence.</p>
-<p>In addition, additional DCM-CHF-associated genes were supplemented through manual curation of authoritative literature. Finally, redundant genes sourced from transcriptomic profiling, GWAS analysis and literature mining were removed, yielding a finalized integrated DCM–CHF–associated genes.</p>
-</section>
-<section id="protein-protein-interaction-network-construction-and-hub-genes-identification" class="level2">
-<h2 class="anchored" data-anchor-id="protein-protein-interaction-network-construction-and-hub-genes-identification">Protein-protein interaction network construction and hub genes identification</h2>
-<p>Candidate therapeutic targets were obtained by intersecting drug targets of medicinal plants and DCM-CHF disease-related targets. The overlapping target genes were submitted to the STRING v12.0 database (https://string-db.org/)<span class="citation" data-cites="szklarczyk2025string"><sup><a href="#ref-szklarczyk2025string" role="doc-biblioref">26</a></sup></span> to construct a human protein–protein interaction (PPI) network, with species restricted to Homo sapiens and a confidence score threshold of ≥ 0.7. The resulting PPI network was visualized using Cytoscape v3.10.2<span class="citation" data-cites="shannon2003cytoscape"><sup><a href="#ref-shannon2003cytoscape" role="doc-biblioref">27</a></sup></span>, and all isolated nodes were removed to eliminate confounding factors and ensure the reliability of subsequent topological analyses.</p>
-<p>Functional module clustering of the refined PPI network was performed using the Molecular Complex Detection (MCODE) algorithm<span class="citation" data-cites="bader2003mcode"><sup><a href="#ref-bader2003mcode" role="doc-biblioref">28</a></sup></span>, with parameters configured as degree cutoff = 2 and k-core = 2. Maximal Clique Centrality (MCC), Maximum Neighborhood Component (MNC), and Degree, three topological metrics integrated within the cytoHubba<span class="citation" data-cites="chin2014cytohubba"><sup><a href="#ref-chin2014cytohubba" role="doc-biblioref">29</a></sup></span> plugin of Cytoscape<span class="citation" data-cites="shannon2003cytoscape"><sup><a href="#ref-shannon2003cytoscape" role="doc-biblioref">27</a></sup></span>, were applied for hub gene ranking. Genes ranked within the top 20 by each of the three metrics were intersected and merged with MCODE-derived module genes. The merged gene set was defined as hub genes for subsequent analysis.</p>
-</section>
-<section id="multiorgan-expression-profiling-of-hub-genes" class="level2">
-<h2 class="anchored" data-anchor-id="multiorgan-expression-profiling-of-hub-genes">Multi–organ expression profiling of hub genes</h2>
-<p>Tissue expression profiles of the hub genes across cardiac, renal, lung, splenic, and hepatic tissues were annotated using the BioGPS database (http://biogps.org/, accessed on November 28, 2025)<span class="citation" data-cites="su2004biogps wu2013biogps wu2016biogps"><sup><a href="#ref-su2004biogps" role="doc-biblioref">30</a>–<a href="#ref-wu2016biogps" role="doc-biblioref">32</a></sup></span> and the Human Protein Atlas (HPA) (https://www.proteinatlas.org/, accessed on November 28, 2025)<span class="citation" data-cites="uhlen2005hpa uhlen2015hpa"><sup><a href="#ref-uhlen2005hpa" role="doc-biblioref">33</a>,<a href="#ref-uhlen2015hpa" role="doc-biblioref">34</a></sup></span>. The GeneAtlas U133A (gcrma) dataset (http://biogps.org/dataset/GSE1133/geneatlas-u133a-gcrma/), which profiles 79 human tissue samples using Affymetrix U133A arrays with gcRMA normalization, was utilized for human tissue expression analysis. For HPA-based protein-level profiling, protein expression data were retrieved and processed using the R package <code>HPAanalyze</code> (v1.30.0)<span class="citation" data-cites="tran2019hpaanalyze"><sup><a href="#ref-tran2019hpaanalyze" role="doc-biblioref">35</a></sup></span>. Transcriptomics data within HPA were derived from RNA deep-sequencing (RNA-seq) across normal tissue types. Quantitative tissue expression heatmaps were subsequently generated to compare the tissue enrichment characteristics of these hub genes.</p>
-</section>
-<section id="functional-enrichment-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="functional-enrichment-analysis">Functional enrichment analysis</h2>
-<p>Gene Ontology functional enrichment (GO) and Kyoto Encyclopedia of Genes and Genomes (KEGG) pathway enrichment analyses were performed using the R package <code>clusterProfiler</code><span class="citation" data-cites="xu2024clusterprofiler"><sup><a href="#ref-xu2024clusterprofiler" role="doc-biblioref">36</a></sup></span>. The enrichment thresholds were set at P &lt; 0.05 and false discovery rate (FDR) &lt; 0.01.</p>
-</section>
-<section id="myocardial-tissue-immune-infiltration-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="myocardial-tissue-immune-infiltration-analysis">Myocardial tissue immune infiltration analysis</h2>
-<p>Transcriptomic profiles of dilated cardiomyopathy with chronic heart failure (DCM-CHF) and normal myocardial samples were analyzed using the R package <code>IOBR</code> (v 2.2.3)<span class="citation" data-cites="zeng2024iobr2"><sup><a href="#ref-zeng2024iobr2" role="doc-biblioref">37</a></sup></span>, which integrates multiple state-of-the-art algorithms for tumor microenvironment deconvolution. Two complementary deconvolution methods, CIBERSORT<span class="citation" data-cites="newman2015cibersort"><sup><a href="#ref-newman2015cibersort" role="doc-biblioref">38</a></sup></span> and MCP-counter<span class="citation" data-cites="becht2016mcpcounter"><sup><a href="#ref-becht2016mcpcounter" role="doc-biblioref">39</a></sup></span>, were used to evaluate immune cell infiltration. For CIBERSORT analysis, 1,000 permutations were performed, and only samples with a deconvolution P value &lt; 0.05 were retained for subsequent analyses to ensure reliable estimation. Differential immune infiltration between the disease and control groups was assessed using two-tailed Student’s t-tests. Additionally, Pearson correlation analysis was performed to evaluate the associations between the expression levels of core hub genes and the infiltration abundances of critical pathogenic immune cell populations.</p>
-</section>
-<section id="mendelian-randomization-and-bayesian-colocalization" class="level2">
-<h2 class="anchored" data-anchor-id="mendelian-randomization-and-bayesian-colocalization">Mendelian randomization and Bayesian colocalization</h2>
-<p>To screen for genes causally affecting dilated cardiomyopathy‑related heart failure (DCM‑CHF), two‑sample Mendelian randomization (MR)<span class="citation" data-cites="lawlor2008mr"><sup><a href="#ref-lawlor2008mr" role="doc-biblioref">40</a></sup></span> was performed by integrating HERMES 2.0 GWAS summary statistics with GTEx v8 (https://gtexportal.org/, accessed on November 28, 2025) heart left ventricular myocardial eQTL data (download date: November 25, 2025). Instrumental variables (IV) were selected at P &lt; 5 × 10^−8, pruned for linkage disequilibrium (LD) (r^2 &lt;0.001 within a 1–Mb window), filtered by F–statistic &gt; 10, and excluded from the MHC region. The inverse–variance weighted (IVW)<span class="citation" data-cites="burgess2013mr-ivw"><sup><a href="#ref-burgess2013mr-ivw" role="doc-biblioref">41</a></sup></span> method with multiplicative random effects was employed as the primary analysis, complemented by MR–Egger<span class="citation" data-cites="bowden2015mr-egger"><sup><a href="#ref-bowden2015mr-egger" role="doc-biblioref">42</a></sup></span> and weighted median<span class="citation" data-cites="bowden2016mr-weighted"><sup><a href="#ref-bowden2016mr-weighted" role="doc-biblioref">43</a></sup></span> estimators. Horizontal pleiotropy was assessed via the MR–Egger intercept, heterogeneity via <em>Cochran’s Q</em>, and robustness via leave–one–out and funnel plot inspections.</p>
-<p>Bayesian colocalization<span class="citation" data-cites="giambartolomei2014coloc"><sup><a href="#ref-giambartolomei2014coloc" role="doc-biblioref">44</a></sup></span> was subsequently performed using default priors, and a PPH₄ &gt; 0.8 threshold was adopted to identify high confidence shared causal variants, effectively mitigating reverse causality and confounding bias.</p>
-</section>
-<section id="singlecell-transcriptomic-dissection-of-core-targets" class="level2">
-<h2 class="anchored" data-anchor-id="singlecell-transcriptomic-dissection-of-core-targets">Single–cell transcriptomic dissection of core targets</h2>
-<p>The preprocessed single-cell RNA-sequencing (scRNA-seq) dataset, which contained samples from 2 healthy donors and 5 DCM patients, was downloaded from GEO accession GSE183852 (https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE183852, accessed November 25, 2025). To quantify cell-type-specific transcriptional enrichment of hub gene signatures, AUCell scores were calculated using the R package AUCell (v1.14)<span class="citation" data-cites="aibar2017aucell"><sup><a href="#ref-aibar2017aucell" role="doc-biblioref">45</a></sup></span>. Cell-wise gene expression ranks and corresponding area-under-the-curve (AUC) values of the hub gene panel were generated to represent the relative transcriptional activity of hub genes in individual cells. Expression values of hub genes were subsequently extracted and visualized across all annotated cardiac cell clusters to compare their relative abundance among distinct cardiac cell subtypes.</p>
-</section>
-<section id="single-sample-gene-set-enrichment-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="single-sample-gene-set-enrichment-analysis">Single-sample gene set enrichment analysis</h2>
-<p>Single-sample gene set enrichment analysis (ssGSEA) was implemented using the R package <code>GSVA</code> (v2.6.2)<span class="citation" data-cites="hanzelmann2013gsva"><sup><a href="#ref-hanzelmann2013gsva" role="doc-biblioref">46</a></sup></span>, with a custom hub gene list serving as the input gene set. Gene set annotations and gene symbol nomenclature were standardized according to the Molecular Signatures Database (MSigDB)<span class="citation" data-cites="liberzon2011msigdb"><sup><a href="#ref-liberzon2011msigdb" role="doc-biblioref">47</a></sup></span>. ssGSEA scores were calculated based on log₂-normalized expression data using a weighting exponent of 0.25, with subsequent normalization for gene set size following the default GSVA parameters. Normalized ssGSEA scores were compared across distinct sample groups to identify differentially enriched functional pathways.</p>
-</section>
-<section id="molecular-docking" class="level2">
-<h2 class="anchored" data-anchor-id="molecular-docking">Molecular docking</h2>
-<p>Molecular docking analysis was performed to assess the binding affinity between the key compounds and the hub target proteins. The 3D structures of small-molecule ligands were acquired from the PubChem database (https://pubchem.ncbi.nlm.nih.gov/, accessed on December 15, 2025)<span class="citation" data-cites="kim2025pubchem"><sup><a href="#ref-kim2025pubchem" role="doc-biblioref">48</a></sup></span> and structurally optimized through energy minimization with the MMFF94 force field. Crystal structures of target proteins were downloaded from the PDB database (https://www.rcsb.org/, accessed on December 15, 2025)<span class="citation" data-cites="berman2000rcsb"><sup><a href="#ref-berman2000rcsb" role="doc-biblioref">49</a></sup></span> and subjected to standardized pretreatment, including water molecule removal and hydrogen atom supplementation, while missing protein residues were repaired using SWISS-MODEL (https://swissmodel.expasy.org/, accessed on December 15, 2025)<span class="citation" data-cites="waterhouse2018swissmodel"><sup><a href="#ref-waterhouse2018swissmodel" role="doc-biblioref">50</a></sup></span>. Subsequent blind molecular docking was carried out via the CB-Dock2 platform (http://183.56.231.194:8001/cb-dock2/index.php, accessed on December 25, 2025)<span class="citation" data-cites="liu2022cb-dock2"><sup><a href="#ref-liu2022cb-dock2" role="doc-biblioref">51</a></sup></span>, an integrated tool that combines cavity detection with the AutoDock Vina algorithm for high-precision docking simulation. Key binding parameters including binding free energy (ΔG), hydrogen bond interactions, and steric complementarity were comprehensively analyzed. A threshold of ΔG ≤ −5.0 kcal/mol was defined as the criterion for stable ligand–protein binding.</p>
-</section>
-<section id="independent-external-transcriptomic-dataset-validation" class="level2">
-<h2 class="anchored" data-anchor-id="independent-external-transcriptomic-dataset-validation">Independent external transcriptomic dataset validation</h2>
-<p>The expression trends of core hub genes in two independent external cohorts, GSE5406 (microarray, 86 DCM vs 16 controls, https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE5406, accessed on November 28, 2025) and GSE116250 (RNA seq, 37 DCM vs 14 non failing donors, https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE116250, accessed on November 28, 2025), were compared with the corresponding trends in the discovery cohort GSE57338.</p>
-</section>
 </section>
 <section id="results" class="level1">
 <h1>Results</h1>
@@ -330,176 +260,16 @@ window.Quarto = {
 </section>
 <section id="conclusion" class="level1">
 <h1>Conclusion</h1>
-<p>(261 words in abstract and 3618 words in text body)</p>
+<hr>
+<p>(262 words in abstract and 723 words in text body)</p>
 </section>
 <section id="references--" class="level1">
 <h1>References [-]</h1>
 
 
-<div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
-<div id="ref-deng2025plant" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(1) </div><div class="csl-right-inline">Deng, J.; Huang, Y.; Fu, D.; Deng, Y.; Yu, K.; Lan, C. Effects of Plant Extracts on Patients with Heart Failure: A Network Meta-Analysis of Randomized Controlled Trials. <em>Front Pharmacol</em> <strong>2025</strong>, <em>16</em>, 1648811. <a href="https://doi.org/10.3389/fphar.2025.1648811">https://doi.org/10.3389/fphar.2025.1648811</a>.</div>
-</div>
-<div id="ref-tang2026plantextracts" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(2) </div><div class="csl-right-inline">Tang, T.; Li, G.; Huang, X.; Liang, H. Efficacy of Plant Extracts in Heart Failure Patients: A Systematic Review and Network Meta-Analysis. <em>BMC Cardiovasc Disord</em> <strong>2026</strong>, <em>26</em> (1), 502. <a href="https://doi.org/10.1186/s12872-026-05793-x">https://doi.org/10.1186/s12872-026-05793-x</a>.</div>
-</div>
-<div id="ref-zhang2023astragalus" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(3) </div><div class="csl-right-inline">Zhang, Z.; Zhang, M.; Xu, Y.; Lu, M.; Zhang, L.; Li, C. Effect of <span>Astragaloside IV</span> on Improving Cardiac Function in Rats with Heart Failure: A Preclinical Systematic Review and Meta-Analysis. <em>Front Pharmacol</em> <strong>2023</strong>, <em>14</em>, 1226008. <a href="https://doi.org/10.3389/fphar.2023.1226008">https://doi.org/10.3389/fphar.2023.1226008</a>.</div>
-</div>
-<div id="ref-zhou2026ginsenosides" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(4) </div><div class="csl-right-inline">Zhou, L.; Li, Y.; Yin, W.; Gu, X.; Shi, J.; Yang, F. Integrating Traditional Wisdom with Modern Science: <span>Ginsenosides</span> as Antiheart Failure Agents. <em>Cardiovasc Ther</em> <strong>2026</strong>, <em>2026</em> (1), e3078311. <a href="https://doi.org/10.1155/cdr/3078311">https://doi.org/10.1155/cdr/3078311</a>.</div>
-</div>
-<div id="ref-zhang2022aconitum" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(5) </div><div class="csl-right-inline">Zhang, J.; Li, D.; Zhong, D.; Zhou, Q.; Yin, Y.; Gao, J.; Peng, C. Processed Lateral Root of <span>Aconitum</span> Carmichaelii <span>Debx</span>.: <span>A</span> Review of Cardiotonic Effects and Cardiotoxicity on Molecular Mechanisms. <em>Front Pharmacol</em> <strong>2022</strong>, <em>13</em>, 1026219. <a href="https://doi.org/10.3389/fphar.2022.1026219">https://doi.org/10.3389/fphar.2022.1026219</a>.</div>
-</div>
-<div id="ref-huang2026salvia" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(6) </div><div class="csl-right-inline">Huang, P.; Ren, G.; Wang, Y.; Liu, Y.; Zhang, H.; Wang, J.; Zhang, J.; Zheng, Y.; Guo, L.; Ma, X. Efficacy and Safety of <span>Salvia</span> Miltiorrhiza and Ligustrazine Injection for Heart Failure: A Systematic Review and Meta-Analysis. <em>Front Pharmacol</em> <strong>2026</strong>, <em>17</em>, 1692629. <a href="https://doi.org/10.3389/fphar.2026.1692629">https://doi.org/10.3389/fphar.2026.1692629</a>.</div>
-</div>
-<div id="ref-zhang2022crataegus" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(7) </div><div class="csl-right-inline">Zhang, S.-Y.; Sun, X.-L.; Yang, X.-L.; Shi, P.-L.; Xu, L.-C.; Guo, Q.-M. Botany, Traditional Uses, Phytochemistry and Pharmacological Activity of <span>Crataegus</span> Pinnatifida (<span>Chinese</span> Hawthorn): A Review. <em>J Pharm Pharmacol</em> <strong>2022</strong>, <em>74</em> (11), 1507–1545. <a href="https://doi.org/10.1093/jpp/rgac050">https://doi.org/10.1093/jpp/rgac050</a>.</div>
-</div>
-<div id="ref-zhang2024sirt1-ampk" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(8) </div><div class="csl-right-inline">Zhang, T.; Xu, L.; Guo, X.; Tao, H.; Liu, Y.; Liu, X.; Zhang, Y.; Meng, X. The Potential of Herbal Drugs to Treat Heart Failure: <span>The</span> Roles of <span>Sirt1</span>/<span>AMPK</span>. <em>J Pharm Anal</em> <strong>2024</strong>, <em>14</em> (2), 157–176. <a href="https://doi.org/10.1016/j.jpha.2023.09.001">https://doi.org/10.1016/j.jpha.2023.09.001</a>.</div>
-</div>
-<div id="ref-hu2024botanical" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(9) </div><div class="csl-right-inline">Hu, Y.-X.; Qiu, S.-L.; Shang, J.-J.; Wang, Z.; Lai, X.-L. Pharmacological <span>Effects</span> of <span>Botanical Drugs</span> on <span>Myocardial Metabolism</span> in <span>Chronic Heart Failure</span>. <em>Chin J Integr Med</em> <strong>2024</strong>, <em>30</em> (5), 458–467. <a href="https://doi.org/10.1007/s11655-023-3649-5">https://doi.org/10.1007/s11655-023-3649-5</a>.</div>
-</div>
-<div id="ref-huang2026ampk" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(10) </div><div class="csl-right-inline">Huang, X.; Wan, H. Targeting the <span>AMPK Pathway</span> with <span>Natural Products</span> for <span>Heart Failure</span>: <span>A Systematic Review</span> of <span>Preclinical Evidence</span>. <em>Biomedicines</em> <strong>2026</strong>, <em>14</em> (4), 765. <a href="https://doi.org/10.3390/biomedicines14040765">https://doi.org/10.3390/biomedicines14040765</a>.</div>
-</div>
-<div id="ref-abukhalil2021visnagin" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(11) </div><div class="csl-right-inline">Abukhalil, M. H.; Hussein, O. E.; Aladaileh, S. H.; Althunibat, O. Y.; Al-Amarat, W.; Saghir, S. A.; Alfwuaires, M. A.; Algefare, A. I.; Alanazi, K. M.; Al-Swailmi, F. K.; Kamel, E. M.; Mahmoud, A. M. Visnagin Prevents Isoproterenol-Induced Myocardial Injury by Attenuating Oxidative Stress and Inflammation and Upregulating <span>Nrf2</span> Signaling in Rats. <em>J Biochem Mol Toxicol</em> <strong>2021</strong>, <em>35</em> (11), e22906. <a href="https://doi.org/10.1002/jbt.22906">https://doi.org/10.1002/jbt.22906</a>.</div>
-</div>
-<div id="ref-mi2023schisantherin" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(12) </div><div class="csl-right-inline">Mi, X.; Zhang, Z.; Cheng, J.; Xu, Z.; Zhu, K.; Ren, Y. Cardioprotective Effects of <span>Schisantherin A</span> Against Isoproterenol-Induced Acute Myocardial Infarction Through Amelioration of Oxidative Stress and Inflammation via Modulation of <span>PI3K-AKT</span>/<span>Nrf2</span>/<span>ARE</span> and <span>TLR4</span>/<span>MAPK</span>/<span>NF-<span class="math inline">\(\kappa\)</span>B</span> Pathways in Rats. <em>BMC Complement Med Ther</em> <strong>2023</strong>, <em>23</em> (1), 277. <a href="https://doi.org/10.1186/s12906-023-04081-x">https://doi.org/10.1186/s12906-023-04081-x</a>.</div>
-</div>
-<div id="ref-ma2024artemisia" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(13) </div><div class="csl-right-inline">Ma, Z.; Bai, Z.; Li, B.; Zhang, Y.; Liu, W. Extracts from <span>Artemisia</span> Annua <span>Alleviates Myocardial Remodeling</span> Through <span>TGF-<span class="math inline">\(\beta\)</span>1</span>/<span>Smad2</span>/3 <span>Pathway</span> and <span>NLRP3 Inflammasome</span>. <em>Curr Mol Pharmacol</em> <strong>2024</strong>, <em>17</em>, e18761429304142. <a href="https://doi.org/10.2174/0118761429304142240528093541">https://doi.org/10.2174/0118761429304142240528093541</a>.</div>
-</div>
-<div id="ref-liu2023dcabm" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(14) </div><div class="csl-right-inline">Liu, X.; Liu, J.; Fu, B.; Chen, R.; Jiang, J.; Chen, H.; Li, R.; Xing, L.; Yuan, L.; Chen, X.; Zhang, J.; Li, H.; Guo, S.; Guo, F.; Guo, J.; Liu, Y.; Qi, Y.; Yu, B.; Xu, F.; Li, D.; Liu, Z. <span>DCABM-TCM</span>: <span>A</span> Database of Constituents Absorbed into the Blood and Metabolites of Traditional <span>Chinese</span> Medicine. <em>J Chem Inf Model</em> <strong>2023</strong>, <em>63</em> (15), 4948–4959. <a href="https://doi.org/10.1021/acs.jcim.3c00365">https://doi.org/10.1021/acs.jcim.3c00365</a>.</div>
-</div>
-<div id="ref-gfeller2013swisstargetprediction" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(15) </div><div class="csl-right-inline">Gfeller, D.; Michielin, O.; Zoete, V. Shaping the Interaction Landscape of Bioactive Molecules. <em>Bioinformatics</em> <strong>2013</strong>, <em>29</em> (23), 3073–3079. <a href="https://doi.org/10.1093/bioinformatics/btt540">https://doi.org/10.1093/bioinformatics/btt540</a>.</div>
-</div>
-<div id="ref-daina2019swisstargetprediction" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(16) </div><div class="csl-right-inline">Daina, A.; Michielin, O.; Zoete, V. <span>SwissTargetPrediction</span>: Updated Data and New Features for Efficient Prediction of Protein Targets of Small Molecules. <em>Nucleic Acids Res</em> <strong>2019</strong>, <em>47</em> (W1), W357–W364. <a href="https://doi.org/10.1093/nar/gkz382">https://doi.org/10.1093/nar/gkz382</a>.</div>
-</div>
-<div id="ref-daina2024swisstargetprediction" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(17) </div><div class="csl-right-inline">Daina, A.; Zoete, V. Testing the Predictive Power of Reverse Screening to Infer Drug Targets, with the Help of Machine Learning. <em>Commun Chem</em> <strong>2024</strong>, <em>7</em> (1), 105. <a href="https://doi.org/10.1038/s42004-024-01179-2">https://doi.org/10.1038/s42004-024-01179-2</a>.</div>
-</div>
-<div id="ref-liu2010pharmmapper" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(18) </div><div class="csl-right-inline">Liu, X.; Ouyang, S.; Yu, B.; Liu, Y.; Huang, K.; Gong, J.; Zheng, S.; Li, Z.; Li, H.; Jiang, H. <span>PharmMapper</span> Server: A Web Server for Potential Drug Target Identification Using Pharmacophore Mapping Approach. <em>Nucleic Acids Res</em> <strong>2010</strong>, <em>38</em>, W609–614. <a href="https://doi.org/10.1093/nar/gkq300">https://doi.org/10.1093/nar/gkq300</a>.</div>
-</div>
-<div id="ref-wang2016pharmmapper" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(19) </div><div class="csl-right-inline">Wang, X.; Pan, C.; Gong, J.; Liu, X.; Li, H. Enhancing the Enrichment of Pharmacophore-Based Target Prediction for the Polypharmacological Profiles of Drugs. <em>J Chem Inf Model</em> <strong>2016</strong>, <em>56</em> (6), 1175–1183. <a href="https://doi.org/10.1021/acs.jcim.5b00690">https://doi.org/10.1021/acs.jcim.5b00690</a>.</div>
-</div>
-<div id="ref-wang2017pharmmapper" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(20) </div><div class="csl-right-inline">Wang, X.; Shen, Y.; Wang, S.; Li, S.; Zhang, W.; Liu, X.; Lai, L.; Pei, J.; Li, H. <span>PharmMapper</span> 2017 Update: A Web Server for Potential Drug Target Identification with a Comprehensive Target Pharmacophore Database. <em>Nucleic Acids Res</em> <strong>2017</strong>, <em>45</em> (W1), W356–W360. <a href="https://doi.org/10.1093/nar/gkx374">https://doi.org/10.1093/nar/gkx374</a>.</div>
-</div>
-<div id="ref-keiser2007sea" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(21) </div><div class="csl-right-inline">Keiser, M. J.; Roth, B. L.; Armbruster, B. N.; Ernsberger, P.; Irwin, J. J.; Shoichet, B. K. Relating Protein Pharmacology by Ligand Chemistry. <em>Nat Biotechnol</em> <strong>2007</strong>, <em>25</em> (2), 197–206. <a href="https://doi.org/10.1038/nbt1284">https://doi.org/10.1038/nbt1284</a>.</div>
-</div>
-<div id="ref-kong2024batman" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(22) </div><div class="csl-right-inline">Kong, X.; Liu, C.; Zhang, Z.; Cheng, M.; Mei, Z.; Li, X.; Liu, P.; Diao, L.; Ma, Y.; Jiang, P.; Kong, X.; Nie, S.; Guo, Y.; Wang, Z.; Zhang, X.; Wang, Y.; Tang, L.; Guo, S.; Liu, Z.; Li, D. <span>BATMAN-TCM</span> 2.0: An Enhanced Integrative Database for Known and Predicted Interactions Between Traditional <span>Chinese</span> Medicine Ingredients and Target Proteins. <em>Nucleic Acids Res</em> <strong>2024</strong>, <em>52</em> (D1), D1110–D1120. <a href="https://doi.org/10.1093/nar/gkad926">https://doi.org/10.1093/nar/gkad926</a>.</div>
-</div>
-<div id="ref-ritchie2015limma" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(23) </div><div class="csl-right-inline">Ritchie, M. E.; Phipson, B.; Wu, D.; Hu, Y.; Law, C. W.; Shi, W.; Smyth, G. K. Limma Powers Differential Expression Analyses for <span class="nocase">RNA-sequencing</span> and Microarray Studies. <em>Nucleic Acids Res</em> <strong>2015</strong>, <em>43</em> (7), e47. <a href="https://doi.org/10.1093/nar/gkv007">https://doi.org/10.1093/nar/gkv007</a>.</div>
-</div>
-<div id="ref-langfelder2008wgcna" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(24) </div><div class="csl-right-inline">Langfelder, P.; Horvath, S. <span>WGCNA</span>: An <span>R</span> Package for Weighted Correlation Network Analysis. <em>BMC Bioinformatics</em> <strong>2008</strong>, <em>9</em>, 559. <a href="https://doi.org/10.1186/1471-2105-9-559">https://doi.org/10.1186/1471-2105-9-559</a>.</div>
-</div>
-<div id="ref-rasooly2023hermes2" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(25) </div><div class="csl-right-inline">Rasooly, D.; Peloso, G. M.; Pereira, A. C.; Dashti, H.; Giambartolomei, C.; Wheeler, E.; Aung, N.; Ferolito, B. R.; Pietzner, M.; Farber-Eger, E. H.; Wells, Q. S.; Kosik, N. M.; Gaziano, L.; Posner, D. C.; Bento, A. P.; Hui, Q.; Liu, C.; Aragam, K.; Wang, Z.; Charest, B.; Huffman, J. E.; Wilson, P. W. F.; Phillips, L. S.; Whittaker, J.; Munroe, P. B.; Petersen, S. E.; Cho, K.; Leach, A. R.; Magariños, M. P.; Gaziano, J. M.; VA Million Veteran Program; Langenberg, C.; Sun, Y. V.; Joseph, J.; Casas, J. P. Genome-Wide Association Analysis and <span>Mendelian</span> Randomization Proteomics Identify Drug Targets for Heart Failure. <em>Nat Commun</em> <strong>2023</strong>, <em>14</em> (1), 3826. <a href="https://doi.org/10.1038/s41467-023-39253-3">https://doi.org/10.1038/s41467-023-39253-3</a>.</div>
-</div>
-<div id="ref-szklarczyk2025string" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(26) </div><div class="csl-right-inline">Szklarczyk, D.; Nastou, K.; Koutrouli, M.; Kirsch, R.; Mehryary, F.; Hachilif, R.; Hu, D.; Peluso, M. E.; Huang, Q.; Fang, T.; Doncheva, N. T.; Pyysalo, S.; Bork, P.; Jensen, L. J.; von Mering, C. The <span>STRING</span> Database in 2025: Protein Networks with Directionality of Regulation. <em>Nucleic Acids Res</em> <strong>2025</strong>, <em>53</em> (D1), D730–D737. <a href="https://doi.org/10.1093/nar/gkae1113">https://doi.org/10.1093/nar/gkae1113</a>.</div>
-</div>
-<div id="ref-shannon2003cytoscape" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(27) </div><div class="csl-right-inline">Shannon, P.; Markiel, A.; Ozier, O.; Baliga, N. S.; Wang, J. T.; Ramage, D.; Amin, N.; Schwikowski, B.; Ideker, T. Cytoscape: A Software Environment for Integrated Models of Biomolecular Interaction Networks. <em>Genome Res</em> <strong>2003</strong>, <em>13</em> (11), 2498–2504. <a href="https://doi.org/10.1101/gr.1239303">https://doi.org/10.1101/gr.1239303</a>.</div>
-</div>
-<div id="ref-bader2003mcode" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(28) </div><div class="csl-right-inline">Bader, G. D.; Hogue, C. W. V. An Automated Method for Finding Molecular Complexes in Large Protein Interaction Networks. <em>BMC Bioinformatics</em> <strong>2003</strong>, <em>4</em>, 2. <a href="https://doi.org/10.1186/1471-2105-4-2">https://doi.org/10.1186/1471-2105-4-2</a>.</div>
-</div>
-<div id="ref-chin2014cytohubba" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(29) </div><div class="csl-right-inline">Chin, C.-H.; Chen, S.-H.; Wu, H.-H.; Ho, C.-W.; Ko, M.-T.; Lin, C.-Y. <span class="nocase">cytoHubba</span>: Identifying Hub Objects and Sub-Networks from Complex Interactome. <em>BMC Syst Biol</em> <strong>2014</strong>, <em>8 Suppl 4</em>, S11. <a href="https://doi.org/10.1186/1752-0509-8-S4-S11">https://doi.org/10.1186/1752-0509-8-S4-S11</a>.</div>
-</div>
-<div id="ref-su2004biogps" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(30) </div><div class="csl-right-inline">Su, A. I.; Wiltshire, T.; Batalov, S.; Lapp, H.; Ching, K. A.; Block, D.; Zhang, J.; Soden, R.; Hayakawa, M.; Kreiman, G.; Cooke, M. P.; Walker, J. R.; Hogenesch, J. B. A Gene Atlas of the Mouse and Human Protein-Encoding Transcriptomes. <em>Proc Natl Acad Sci U S A</em> <strong>2004</strong>, <em>101</em> (16), 6062–6067. <a href="https://doi.org/10.1073/pnas.0400782101">https://doi.org/10.1073/pnas.0400782101</a>.</div>
-</div>
-<div id="ref-wu2013biogps" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(31) </div><div class="csl-right-inline">Wu, C.; Macleod, I.; Su, A. I. <span>BioGPS</span> and <span>MyGene</span>.info: Organizing Online, Gene-Centric Information. <em>Nucleic Acids Res</em> <strong>2013</strong>, <em>41</em>, D561–565. <a href="https://doi.org/10.1093/nar/gks1114">https://doi.org/10.1093/nar/gks1114</a>.</div>
-</div>
-<div id="ref-wu2016biogps" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(32) </div><div class="csl-right-inline">Wu, C.; Jin, X.; Tsueng, G.; Afrasiabi, C.; Su, A. I. <span>BioGPS</span>: Building Your Own Mash-up of Gene Annotations and Expression Profiles. <em>Nucleic Acids Res</em> <strong>2016</strong>, <em>44</em> (D1), D313–316. <a href="https://doi.org/10.1093/nar/gkv1104">https://doi.org/10.1093/nar/gkv1104</a>.</div>
-</div>
-<div id="ref-uhlen2005hpa" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(33) </div><div class="csl-right-inline">Uhlén, M.; Björling, E.; Agaton, C.; Szigyarto, C. A.-K.; Amini, B.; Andersen, E.; Andersson, A.-C.; Angelidou, P.; Asplund, A.; Asplund, C.; Berglund, L.; Bergström, K.; Brumer, H.; Cerjan, D.; Ekström, M.; Elobeid, A.; Eriksson, C.; Fagerberg, L.; Falk, R.; Fall, J.; Forsberg, M.; Björklund, M. G.; Gumbel, K.; Halimi, A.; Hallin, I.; Hamsten, C.; Hansson, M.; Hedhammar, M.; Hercules, G.; Kampf, C.; Larsson, K.; Lindskog, M.; Lodewyckx, W.; Lund, J.; Lundeberg, J.; Magnusson, K.; Malm, E.; Nilsson, P.; Odling, J.; Oksvold, P.; Olsson, I.; Oster, E.; Ottosson, J.; Paavilainen, L.; Persson, A.; Rimini, R.; Rockberg, J.; Runeson, M.; Sivertsson, A.; Sköllermo, A.; Steen, J.; Stenvall, M.; Sterky, F.; Strömberg, S.; Sundberg, M.; Tegel, H.; Tourle, S.; Wahlund, E.; Waldén, A.; Wan, J.; Wernérus, H.; Westberg, J.; Wester, K.; Wrethagen, U.; Xu, L. L.; Hober, S.; Pontén, F. A Human Protein Atlas for Normal and Cancer Tissues Based on Antibody Proteomics. <em>Mol Cell Proteomics</em> <strong>2005</strong>, <em>4</em> (12), 1920–1932. <a href="https://doi.org/10.1074/mcp.M500279-MCP200">https://doi.org/10.1074/mcp.M500279-MCP200</a>.</div>
-</div>
-<div id="ref-uhlen2015hpa" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(34) </div><div class="csl-right-inline">Uhlén, M.; Fagerberg, L.; Hallström, B. M.; Lindskog, C.; Oksvold, P.; Mardinoglu, A.; Sivertsson, Å.; Kampf, C.; Sjöstedt, E.; Asplund, A.; Olsson, I.; Edlund, K.; Lundberg, E.; Navani, S.; Szigyarto, C. A.-K.; Odeberg, J.; Djureinovic, D.; Takanen, J. O.; Hober, S.; Alm, T.; Edqvist, P.-H.; Berling, H.; Tegel, H.; Mulder, J.; Rockberg, J.; Nilsson, P.; Schwenk, J. M.; Hamsten, M.; von Feilitzen, K.; Forsberg, M.; Persson, L.; Johansson, F.; Zwahlen, M.; von Heijne, G.; Nielsen, J.; Pontén, F. Proteomics. <span class="nocase">Tissue-based</span> Map of the Human Proteome. <em>Science</em> <strong>2015</strong>, <em>347</em> (6220), 1260419. <a href="https://doi.org/10.1126/science.1260419">https://doi.org/10.1126/science.1260419</a>.</div>
-</div>
-<div id="ref-tran2019hpaanalyze" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(35) </div><div class="csl-right-inline">Tran, A. N.; Dussaq, A. M.; Kennell, T.; Willey, C. D.; Hjelmeland, A. B. <span>HPAanalyze</span>: An <span>R</span> Package That Facilitates the Retrieval and Analysis of the <span>Human Protein Atlas</span> Data. <em>BMC Bioinformatics</em> <strong>2019</strong>, <em>20</em> (1), 463. <a href="https://doi.org/10.1186/s12859-019-3059-z">https://doi.org/10.1186/s12859-019-3059-z</a>.</div>
-</div>
-<div id="ref-xu2024clusterprofiler" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(36) </div><div class="csl-right-inline">Xu, S.; Hu, E.; Cai, Y.; Xie, Z.; Luo, X.; Zhan, L.; Tang, W.; Wang, Q.; Liu, B.; Wang, R.; Xie, W.; Wu, T.; Xie, L.; Yu, G. Using <span class="nocase">clusterProfiler</span> to Characterize Multiomics Data. <em>Nat Protoc</em> <strong>2024</strong>, <em>19</em> (11), 3292–3320. <a href="https://doi.org/10.1038/s41596-024-01020-z">https://doi.org/10.1038/s41596-024-01020-z</a>.</div>
-</div>
-<div id="ref-zeng2024iobr2" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(37) </div><div class="csl-right-inline">Zeng, D.; Fang, Y.; Qiu, W.; Luo, P.; Wang, S.; Shen, R.; Gu, W.; Huang, X.; Mao, Q.; Wang, G.; Lai, Y.; Rong, G.; Xu, X.; Shi, M.; Wu, Z.; Yu, G.; Liao, W. Enhancing Immuno-Oncology Investigations Through Multidimensional Decoding of Tumor Microenvironment with <span>IOBR</span> 2.0. <em>Cell Rep Methods</em> <strong>2024</strong>, <em>4</em> (12), 100910. <a href="https://doi.org/10.1016/j.crmeth.2024.100910">https://doi.org/10.1016/j.crmeth.2024.100910</a>.</div>
-</div>
-<div id="ref-newman2015cibersort" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(38) </div><div class="csl-right-inline">Newman, A. M.; Liu, C. L.; Green, M. R.; Gentles, A. J.; Feng, W.; Xu, Y.; Hoang, C. D.; Diehn, M.; Alizadeh, A. A. Robust Enumeration of Cell Subsets from Tissue Expression Profiles. <em>Nat Methods</em> <strong>2015</strong>, <em>12</em> (5), 453–457. <a href="https://doi.org/10.1038/nmeth.3337">https://doi.org/10.1038/nmeth.3337</a>.</div>
-</div>
-<div id="ref-becht2016mcpcounter" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(39) </div><div class="csl-right-inline">Becht, E.; Giraldo, N. A.; Lacroix, L.; Buttard, B.; Elarouci, N.; Petitprez, F.; Selves, J.; Laurent-Puig, P.; Sautès-Fridman, C.; Fridman, W. H.; de Reyniès, A. Estimating the&nbsp;Population Abundance of Tissue-Infiltrating Immune and Stromal Cell Populations Using Gene Expression. <em>Genome Biol</em> <strong>2016</strong>, <em>17</em> (1), 218. <a href="https://doi.org/10.1186/s13059-016-1070-5">https://doi.org/10.1186/s13059-016-1070-5</a>.</div>
-</div>
-<div id="ref-lawlor2008mr" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(40) </div><div class="csl-right-inline">Lawlor, D. A.; Harbord, R. M.; Sterne, J. A. C.; Timpson, N.; Davey Smith, G. Mendelian Randomization: Using Genes as Instruments for Making Causal Inferences in Epidemiology. <em>Stat Med</em> <strong>2008</strong>, <em>27</em> (8), 1133–1163. <a href="https://doi.org/10.1002/sim.3034">https://doi.org/10.1002/sim.3034</a>.</div>
-</div>
-<div id="ref-burgess2013mr-ivw" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(41) </div><div class="csl-right-inline">Burgess, S.; Butterworth, A.; Thompson, S. G. Mendelian Randomization Analysis with Multiple Genetic Variants Using Summarized Data. <em>Genet Epidemiol</em> <strong>2013</strong>, <em>37</em> (7), 658–665. <a href="https://doi.org/10.1002/gepi.21758">https://doi.org/10.1002/gepi.21758</a>.</div>
-</div>
-<div id="ref-bowden2015mr-egger" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(42) </div><div class="csl-right-inline">Bowden, J.; Davey Smith, G.; Burgess, S. Mendelian Randomization with Invalid Instruments: Effect Estimation and Bias Detection Through <span>Egger</span> Regression. <em>Int J Epidemiol</em> <strong>2015</strong>, <em>44</em> (2), 512–525. <a href="https://doi.org/10.1093/ije/dyv080">https://doi.org/10.1093/ije/dyv080</a>.</div>
-</div>
-<div id="ref-bowden2016mr-weighted" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(43) </div><div class="csl-right-inline">Bowden, J.; Davey Smith, G.; Haycock, P. C.; Burgess, S. Consistent Estimation in <span>Mendelian</span> Randomization with Some Invalid Instruments Using a Weighted <span>Median</span> Estimator. <em>Genet Epidemiol</em> <strong>2016</strong>, <em>40</em> (4), 304–314. <a href="https://doi.org/10.1002/gepi.21965">https://doi.org/10.1002/gepi.21965</a>.</div>
-</div>
-<div id="ref-giambartolomei2014coloc" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(44) </div><div class="csl-right-inline">Giambartolomei, C.; Vukcevic, D.; Schadt, E. E.; Franke, L.; Hingorani, A. D.; Wallace, C.; Plagnol, V. Bayesian Test for Colocalisation Between Pairs of Genetic Association Studies Using Summary Statistics. <em>PLoS Genet</em> <strong>2014</strong>, <em>10</em> (5), e1004383. <a href="https://doi.org/10.1371/journal.pgen.1004383">https://doi.org/10.1371/journal.pgen.1004383</a>.</div>
-</div>
-<div id="ref-aibar2017aucell" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(45) </div><div class="csl-right-inline">Aibar, S.; González-Blas, C. B.; Moerman, T.; Huynh-Thu, V. A.; Imrichova, H.; Hulselmans, G.; Rambow, F.; Marine, J.-C.; Geurts, P.; Aerts, J.; van den Oord, J.; Atak, Z. K.; Wouters, J.; Aerts, S. <span>SCENIC</span>: Single-Cell Regulatory Network Inference and Clustering. <em>Nat Methods</em> <strong>2017</strong>, <em>14</em> (11), 1083–1086. <a href="https://doi.org/10.1038/nmeth.4463">https://doi.org/10.1038/nmeth.4463</a>.</div>
-</div>
-<div id="ref-hanzelmann2013gsva" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(46) </div><div class="csl-right-inline">Hänzelmann, S.; Castelo, R.; Guinney, J. <span>GSVA</span>: Gene Set Variation Analysis for Microarray and <span class="nocase">RNA-seq</span> Data. <em>BMC Bioinformatics</em> <strong>2013</strong>, <em>14</em>, 7. <a href="https://doi.org/10.1186/1471-2105-14-7">https://doi.org/10.1186/1471-2105-14-7</a>.</div>
-</div>
-<div id="ref-liberzon2011msigdb" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(47) </div><div class="csl-right-inline">Liberzon, A.; Subramanian, A.; Pinchback, R.; Thorvaldsdóttir, H.; Tamayo, P.; Mesirov, J. P. Molecular Signatures Database (<span>MSigDB</span>) 3.0. <em>Bioinformatics</em> <strong>2011</strong>, <em>27</em> (12), 1739–1740. <a href="https://doi.org/10.1093/bioinformatics/btr260">https://doi.org/10.1093/bioinformatics/btr260</a>.</div>
-</div>
-<div id="ref-kim2025pubchem" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(48) </div><div class="csl-right-inline">Kim, S.; Chen, J.; Cheng, T.; Gindulyte, A.; He, J.; He, S.; Li, Q.; Shoemaker, B. A.; Thiessen, P. A.; Yu, B.; Zaslavsky, L.; Zhang, J.; Bolton, E. E. <span>PubChem</span> 2025 Update. <em>Nucleic Acids Res</em> <strong>2025</strong>, <em>53</em> (D1), D1516–D1525. <a href="https://doi.org/10.1093/nar/gkae1059">https://doi.org/10.1093/nar/gkae1059</a>.</div>
-</div>
-<div id="ref-berman2000rcsb" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(49) </div><div class="csl-right-inline">Berman, H. M.; Westbrook, J.; Feng, Z.; Gilliland, G.; Bhat, T. N.; Weissig, H.; Shindyalov, I. N.; Bourne, P. E. The <span>Protein Data Bank</span>. <em>Nucleic Acids Res</em> <strong>2000</strong>, <em>28</em> (1), 235–242. <a href="https://doi.org/10.1093/nar/28.1.235">https://doi.org/10.1093/nar/28.1.235</a>.</div>
-</div>
-<div id="ref-waterhouse2018swissmodel" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(50) </div><div class="csl-right-inline">Waterhouse, A.; Bertoni, M.; Bienert, S.; Studer, G.; Tauriello, G.; Gumienny, R.; Heer, F. T.; de Beer, T. A. P.; Rempfer, C.; Bordoli, L.; Lepore, R.; Schwede, T. <span>SWISS-MODEL</span>: Homology Modelling of Protein Structures and Complexes. <em>Nucleic Acids Res</em> <strong>2018</strong>, <em>46</em> (W1), W296–W303. <a href="https://doi.org/10.1093/nar/gky427">https://doi.org/10.1093/nar/gky427</a>.</div>
-</div>
-<div id="ref-liu2022cb-dock2" class="csl-entry" role="listitem">
-<div class="csl-left-margin">(51) </div><div class="csl-right-inline">Liu, Y.; Yang, X.; Gan, J.; Chen, S.; Xiao, Z.-X.; Cao, Y. <span>CB-Dock2</span>: Improved Protein-Ligand Blind Docking by Integrating Cavity Detection, Docking and Homologous Template Fitting. <em>Nucleic Acids Res</em> <strong>2022</strong>, <em>50</em> (W1), W159–W164. <a href="https://doi.org/10.1093/nar/gkac394">https://doi.org/10.1093/nar/gkac394</a>.</div>
-</div>
-</div>
 </section>
 
-
-<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
-
-<ol>
-<li id="fn1"><p>-8<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section></div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
