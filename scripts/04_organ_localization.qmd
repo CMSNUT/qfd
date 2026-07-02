@@ -26,8 +26,39 @@ options(BioC_mirror = "https://mirrors.tuna.tsinghua.edu.cn/bioconductor")
 options(repos = c(CRAN = "https://mirrors.tuna.tsinghua.edu.cn/CRAN/"))
 ```
 
+# Load packages {-}
+```{r}
+library(tidyverse)
+library(data.table)
+library(openxlsx)
+library(tidytext)
+
+library(pheatmap)
+library(igraph)
+library(ggsci)
+library(ggrepel)
+library(ComplexHeatmap)
+library(circlize)
+library(magick)
+library(rsvg)
+library(pdftools)
+
+# library(hgu133a.db)
+library(hgu133plus2.db)
+library(AnnotationDbi)
+library(HPAanalyze)
+library(org.Hs.eg.db)
+```
+
 # 
 ```{r}
+rm(list = ls())
+gc()
+
+# BioGPS
+expr_bio <- read.csv("../data/raw/organ/U133AGNF1B.gcrma.avg.csv", row.names = 1, check.names = FALSE)
+
+dim(expr_bio)  
 ```
 
 # 

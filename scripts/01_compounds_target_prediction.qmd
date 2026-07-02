@@ -6,7 +6,9 @@ format:
     number-sections: true
 ---
 
-# Load packages {-}
+# Acquisition of bioactive compounds
+
+## Load packages {-}
 ```{r}
 library(tidyverse)
 library(data.table)
@@ -18,7 +20,7 @@ library(progressr)
 library(httr)
 ```
 
-# Blood-absorbed bioactive compounds
+## Blood-absorbed bioactive compounds
 
 Load Raw Compound Data from DCABM-TCM Database
 
@@ -27,10 +29,9 @@ rm(list = ls())
 
 source("utils.R")
 
-compounds_dcabm <- read.xlsx("../data/raw/qfd/compounds_dcabm.xlsx")
-
-compounds_structured <- compounds_dcabm %>%
-  mutate(Compounds = Constituents) %>%
+compounds_dcabm <- read.xlsx("../data/raw/qfd/compounds_dcabm.xlsx") %>%
+  dplyr::select(Pinyin.name, Latin.name, Blood.consitutents) %>%
+  mutate(Compounds = Blood.consitutents) %>%
   # Trim leading/trailing whitespace from all character columns
   mutate(across(where(is.character), trimws)) %>%
   
@@ -55,27 +56,29 @@ compounds_structured <- compounds_dcabm %>%
   dplyr::select(-Compounds, -temp, -temp2, -DCABM.ID) %>%
   
   # Final whitespace standardization for all character columns
-  mutate(across(where(is.character), trimws)) %>%
-  
-  dplyr::filter(!is.na(CID)) %>%
-  
-  dplyr::select(-Type) 
-# %>%
-#   
-#   # deduplication
-#   distinct(`Medicinal.materials(Latin.name)`,`Medicinal.materials(Chinese.Pinyin.name)`,CID,Compound,Formula)
+  mutate(across(where(is.character), trimws))  %>%
+  dplyr::rename(`Medicinal.materials(Latin.name)` = Latin.name,
+                `Medicinal.materials(Chinese.Pinyin.name)` = Pinyin.name) %>%
+  dplyr::select(-Blood.consitutents) %>%
+  mutate(Source = "DCABM-TCM") %>%
+  dplyr::select(
+    `Medicinal.materials(Latin.name)`,
+    `Medicinal.materials(Chinese.Pinyin.name)`,
+    Compound,
+    Formula,
+    CID,
+    Source
+  )
+``` 
 
-
-```
-
-# Load Raw Compound Data from literature
+## Load Raw Compound Data from literature
 ```{r}
 compounds_qfd <-  read.xlsx("../data/raw/qfd/compounds_literature.xlsx")
 ```
 
-# All compounds
+## All compounds
 ```{r}
-compounds_all <- compounds_structured %>%
+compounds_all <- compounds_dcabm %>%
   dplyr::select(`Medicinal.materials(Latin.name)`,
                 `Medicinal.materials(Chinese.Pinyin.name)`, 
                 Compound, 
@@ -91,40 +94,380 @@ save(
   file = "../data/processed/01_compounds_all.RData"
 )
 
-openxlsx::write.xlsx(compounds_all,"../data/processed/01_compounds_all.xlsx")
+openxlsx::write.xlsx(compounds_all,"../results/01_compounds_all.xlsx")
 ```
 
-# 
+## Process
 ```{r}
+compounds_all_processed <- openxlsx::read.xlsx("../results/01_compounds_all_manu_process.xlsx")
+```
+
+## Batch Retrieve PubChem Compound Annotations
+```{r}
+compounds_pubchem <- compounds_all_processed %>%
+  mutate(`CID` = clean_cids(CID)) %>%
+  filter(!is.na(CID)) %>%
+  distinct(CID, .keep_all = TRUE)
+
+properties <- c("IUPACName", "MolecularFormula", "MolecularWeight",
+                "SMILES")
+
+# Split unique CIDs into batches of 20 to comply with PubChem API rate limits
+unique_cids <- unique(compounds_pubchem$CID)
+cid_batches <- split(unique_cids, ceiling(seq_along(unique_cids)/20))
+
+# Set up parallel processing: use all available cores minus 2 to avoid system overload
+plan(multisession, workers = availableCores() - 2)
+
+# Execute parallel batch queries with real-time progress tracking
+with_progress({
+  p <- progressor(steps = length(cid_batches))
+  chem_info <- future_map_dfr(cid_batches, function(b) {
+    p()
+    fetch_batch(properties, b)
+  })
+})
+
+# Reset to sequential processing mode
+plan(sequential)
+
+# Merge PubChem annotations with the curated compound list and standardize final output
+compounds_final <- compounds_all_processed %>%
+  left_join(chem_info, by = "CID") %>%
+  dplyr::select(
+    `Medicinal.materials(Latin.name)`,
+    `Medicinal.materials(Chinese.Pinyin.name)`,
+    Compound, 
+    IUPACName, 
+    MolecularFormula, 
+    MolecularWeight, 
+    CID, 
+    SMILES
+  ) %>%
+  mutate(across(where(is.character), trimws))
+
+save(
+  compounds_final,
+  file = "../data/processed/02_compounds_final.RData"
+)
+
+write.xlsx(compounds_final,"../results/02_compounds_final.xlsx")
+```
+
+## Batch Download PubChem SDF Structure Files
+
+- Download 3D or 2D structure SDF files for all unique compounds from PubChem
+
+```{r}
+sdf_files <- "../data/raw/tcm/sdf/"
+
+if (!dir.exists(sdf_files)) dir.create(sdf_files,showWarnings = FALSE,recursive = TRUE)
+
+unique_cids <- unique(compounds_pubchem$CID)
+results <- download_all_sdf(unique_cids, sdf_files)
+```
+
+## Reports 
+```{r}
+print(table(compounds_final$`Medicinal.materials(Latin.name)`))
+
+compounds_final
+```
+
+# Acquisition of Potential targets
+
+## Acquisition of targets from BATMAN-TCM
+```{r}
+rm(list = ls())
+
+load("../data/raw/uniprot/uniprot_human_reviewed.RData") 
+
+uniprot_human_reviewed <- uniprot_human_reviewed %>% 
+  dplyr::select(Entry,Gene.Names.primary)
+
+load("../data/processed/02_compounds_final.RData")
+load("../data/raw/tcm/batman/batman_target_known.RData")
+load("../data/raw/tcm/batman/batman_target_pred.RData")
+
+# Known targets from BATMAN-TCM
+compound_target_known_batman <- batman_target_known %>%
+  dplyr::filter(CID %in% unique(compounds_final$CID)) %>%
+  dplyr::select(CID, Uniprot.ID) %>%
+  left_join(uniprot_human_reviewed, by = c("Uniprot.ID" = "Entry")) %>%
+  dplyr::rename(Symbol = Gene.Names.primary) %>%
+  dplyr::filter(!is.na(Symbol)) %>%
+  distinct(CID, Symbol, .keep_all = TRUE) %>%
+  mutate(Source = "BATMAN-Known")
+
+# Predicted targets from BATMAN-TCM (Score ≥ 0.80,LR=48,p_adj<0.5)
+compound_target_pred_batman <- batman_target_pred %>%
+  dplyr::filter(CID %in% unique(compounds_final$CID)) %>%
+  dplyr::select(CID, Uniprot.ID, Score) %>%
+  left_join(uniprot_human_reviewed, by = c("Uniprot.ID" = "Entry")) %>%
+  dplyr::rename(Symbol = Gene.Names.primary) %>%
+  dplyr::filter(!is.na(Symbol), Score >= 0.80) %>%
+  dplyr::select(-Score) %>%
+  distinct(CID, Symbol, .keep_all = TRUE) %>%
+  mutate(Source = "BATMAN-Pred")
+
+length(unique(compound_target_pred_batman$CID))
+length(unique(compound_target_pred_batman$Symbol))
+length(unique(compound_target_pred_batman$Symbol)) / length(unique(compound_target_pred_batman$CID))
+
+# Save processed BATMAN-TCM targets
+save(
+  compound_target_known_batman,
+  compound_target_pred_batman,
+  file = "../data/processed/03_batman_targets.RData"
+)
 
 ```
 
-# 
+## Acquisition of Targets from SwissTargetPrediction
+
 ```{r}
+rm(list = ls())
+
+source("utils.R")
+
+load("../data/raw/uniprot/uniprot_human_reviewed.RData")
+uniprot_human_reviewed <- uniprot_human_reviewed %>% 
+  dplyr::select(Entry,Gene.Names.primary)
+
+# Process SwissTargetPrediction results (Probability > 0.10)
+
+compound_target_pred_swiss <- read_compound_target("../data/raw/tcm/swiss") %>%
+  filter(`Probability*` > 0.10) %>%
+  separate_rows(`Common name`, `Uniprot ID`, sep = " ") %>%
+  mutate(
+    CID = clean_cids(CID),
+    Uniprot.ID = gsub("[[:space:]]", "", `Uniprot ID`)
+  ) %>%
+  dplyr::select(CID, Uniprot.ID) %>%
+  distinct(CID, Uniprot.ID, .keep_all = TRUE) %>%
+  left_join(uniprot_human_reviewed, by = c("Uniprot.ID" = "Entry")) %>%
+  dplyr::rename(Symbol = Gene.Names.primary) %>%
+  dplyr::filter(!is.na(Symbol)) %>%
+  distinct(CID, Symbol, .keep_all = TRUE)%>%
+  mutate(Source = "SwissTargetPrediction")
+
+length(unique(compound_target_pred_swiss$Symbol))
+
+length(unique(compound_target_pred_swiss$CID))
+
+length(unique(compound_target_pred_swiss$Symbol)) / length(unique(compound_target_pred_swiss$CID))
+
+
+# Save processed SwissTargetPrediction targets
+save(
+  compound_target_pred_swiss,
+  file = "../data/processed/04_swiss_targets.RData"
+)
+```
+
+## Acquisition of Targets from PharmMapper
+```{r}
+rm(list = ls())
+
+source("utils.R")
+
+load("../data/raw/uniprot/uniprot_human_reviewed.RData")
+uniprot_human_reviewed <- uniprot_human_reviewed %>% 
+  dplyr::select(Entry,Entry.Name, Gene.Names.primary)
+
+# Process PharmMapper results (Human only, high-confidence filters) (modify,0.5)
+compound_target_pred_pharm <- read_compound_target2("../data/raw/tcm/pharm",skip_row = 1) %>%
+  dplyr::filter(grepl("_HUMAN", Uniplot),zscore>0, `Norm Fit`>0.5) %>%
+  dplyr::select(CID, Uniplot) %>%
+  distinct(CID, Uniplot, .keep_all = TRUE) %>%
+  left_join(uniprot_human_reviewed, by = c("Uniplot" = "Entry.Name")) %>%
+  dplyr::rename(Symbol = Gene.Names.primary) %>%
+  dplyr::filter(!is.na(Symbol)) %>%
+  dplyr::select(CID,Uniprot.ID = Entry,Symbol) %>%
+  distinct(CID, Symbol, .keep_all = TRUE) %>%
+  mutate(Source = "PharmMapper")
+
+length(unique(compound_target_pred_pharm$Symbol))
+
+length(unique(compound_target_pred_pharm$CID))
+
+length(unique(compound_target_pred_pharm$Symbol)) / length(unique(compound_target_pred_pharm$CID))
+
+# Save processed PharmMapper targets
+save(
+  compound_target_pred_pharm,
+  file = "../data/processed/05_pharm_targets.RData"
+)
 
 ```
 
-# 
+## Acquisition of Targets from SEA
 ```{r}
+rm(list = ls())
+
+source("utils.R")
+
+load("../data/raw/uniprot/uniprot_human_reviewed.RData")
+uniprot_human_reviewed <- uniprot_human_reviewed %>% 
+  dplyr::select(Entry, Entry.Name, Gene.Names.primary)
+
+
+# Process SEA results (confidence filters)
+# P < 1e-5、MaxTc >= 0.3(modify)
+compound_target_pred_sea <- read.csv("../data/raw/tcm/sea/sea-results.xls") %>%
+  mutate(CID = as.numeric(gsub("compound","",Query.ID)), .before = 1) %>%
+  arrange(CID) %>%
+  mutate(CID = as.character(CID)) %>%
+  dplyr::select(-Query.ID) %>%
+  dplyr::filter(
+    grepl("_HUMAN", Target.ID), 
+    P.Value < 1e-10, 
+    Max.Tc >= 0.3
+  ) %>%
+  distinct(CID, Target.ID, .keep_all = TRUE) %>%
+  left_join(uniprot_human_reviewed, by = c("Target.ID" = "Entry.Name")) %>%
+  dplyr::rename(Symbol = Gene.Names.primary) %>%
+  dplyr::filter(!is.na(Symbol)) %>%
+  dplyr::select(CID,Uniprot.ID = Entry,Symbol) %>%
+  distinct(CID, Symbol, .keep_all = TRUE) %>%
+  mutate(Source = "SEA")
+
+length(unique(compound_target_pred_sea$Symbol))
+
+length(unique(compound_target_pred_sea$CID))
+
+length(unique(compound_target_pred_sea$Symbol)) / length(unique(compound_target_pred_sea$CID))
+
+
+# Save processed SEA targets
+save(
+  compound_target_pred_sea,
+  file = "../data/processed/06_sea_targets.RData"
+)
 
 ```
 
-# 
+## Integrate All Targets and Deduplicate
 ```{r}
+rm(list = ls())
 
+# Load all processed target datasets
+load("../data/processed/03_batman_targets.RData")
+load("../data/processed/04_swiss_targets.RData")
+load("../data/processed/05_pharm_targets.RData")
+load("../data/processed/06_sea_targets.RData")
+
+# Merge all targets 
+compound_target <- rbind(
+  compound_target_known_batman,
+  compound_target_pred_batman, 
+  compound_target_pred_swiss,
+  compound_target_pred_pharm,
+  compound_target_pred_sea
+) %>%
+  group_by(CID, Symbol) %>%  
+  summarise(
+    Source = paste(unique(na.omit(Source)), collapse = "; "),
+    across(everything(), ~ dplyr::first(.)),  
+    .groups = "drop"
+  )
+
+# Filter high-confidence targets (known or predicted by ≥1  databases)
+compound_target_final <- compound_target %>%
+  mutate(
+    is_known = str_detect(Source, "Known"),
+    platform_count = str_split(Source, "; ") %>%
+      map_dbl(~ length(unique(.)))
+  ) %>%
+  filter(
+    is_known | platform_count >= 1
+  ) %>%
+  dplyr::select(CID,Symbol,Uniprot.ID,Source)
+
+length(unique(compound_target_final$Symbol))
+
+length(unique(compound_target_final$CID))
+
+length(unique(compound_target_final$Symbol)) / length(unique(compound_target_final$CID))
+
+# Save final target list
+save(
+  compound_target_final,
+  file = "../data/processed/07_compound_target_final.RData"
+)
+
+write.xlsx(compound_target_final, "../results/03_compound_target_final.xlsx")
 ```
 
-# 
+## Target Statistics Across Prediction Platforms.
 ```{r}
+# Generate summary table for manuscript
+summary_table <- tibble(
+  Database = c(
+    "BATMAN-TCM (Known)",
+    "BATMAN-TCM (Predicted)",
+    "SwissTargetPrediction",
+    "PharmMapper",
+    "SEA",
+    "Final Integrated Results"
+  ),
+  
+  # Number of unique compounds with targets (CID)
+  `Number of compounds with targets` = c(
+    n_distinct(compound_target_known_batman$CID),
+    n_distinct(compound_target_pred_batman$CID),
+    n_distinct(compound_target_pred_swiss$CID),
+    n_distinct(compound_target_pred_pharm$CID),
+    n_distinct(compound_target_pred_sea$CID),
+    n_distinct(compound_target_final$CID)
+  ),
+  
+  # Number of unique targets based on UniProt ID
+  `Unique Targets (UniProt ID)` = c(
+    n_distinct(compound_target_known_batman$Uniprot.ID),
+    n_distinct(compound_target_pred_batman$Uniprot.ID),
+    n_distinct(compound_target_pred_swiss$Uniprot.ID),
+    n_distinct(compound_target_pred_pharm$Uniprot.ID),
+    n_distinct(compound_target_pred_sea$Uniprot.ID),
+    n_distinct(compound_target_final$Uniprot.ID)
+  )
+)
 
+# Save statistics
+
+save(summary_table, file =  "../data/processed/08_target_statistics.RData")
 ```
 
-# 
+## herb-compound-target
 ```{r}
+rm(list = ls())
 
-```
+load("../data/processed/02_compounds_final.RData")
+load("../data/processed/07_compound_target_final.RData")
 
-# 
-```{r}
+herb_compound_target <- compound_target_final %>%
+  left_join(
+    compounds_final,
+    by = "CID",
+    relationship = "many-to-many"
+  ) %>%
+  dplyr::select(
+    `Medicinal.materials(Latin.name)`, 
+    `Medicinal.materials(Chinese.Pinyin.name)`, 
+    Compound, 
+    CID, 
+    MolecularFormula, 
+    MolecularWeight, 
+    SMILES, 
+    IUPACName,
+    Symbol, 
+    Uniprot.ID
+  ) %>%
+  distinct(`Medicinal.materials(Latin.name)`, CID, Symbol, .keep_all = TRUE)
 
+length(unique(herb_compound_target$`Medicinal.materials(Latin.name)`))
+length(unique(herb_compound_target$CID))
+length(unique(herb_compound_target$Symbol))
+
+save(herb_compound_target, file = "../data/processed/09_herb_compound_target.RData")
 ```
