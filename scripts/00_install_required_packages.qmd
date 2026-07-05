@@ -56,6 +56,7 @@ if (!requireNamespace("GenomicRanges", quietly = TRUE))
     BiocManager::install("GenomicRanges", update = TRUE, force = TRUE, dependencies = TRUE)
 if (!requireNamespace("S4Vectors", quietly = TRUE)) 
     BiocManager::install("S4Vectors", update = TRUE, force = TRUE, dependencies = TRUE)
+
 if (!requireNamespace("IRanges", quietly = TRUE)) 
     BiocManager::install("IRanges", update = TRUE, force = TRUE, dependencies = TRUE)
 if (!requireNamespace("GenomeInfoDb", quietly = TRUE)) 
@@ -121,6 +122,8 @@ if (!requireNamespace("ggalluvial", quietly = TRUE)) install.packages("ggalluvia
 if (!requireNamespace("ggsankeyfier", quietly = TRUE)) install.packages("ggsankeyfier", update = TRUE, force = TRUE, dependencies = TRUE)
 
 # ############ Differential expression analysis & WGCNA ############
+
+if (!requireNamespace("sva", quietly = TRUE)) BiocManager::install("sva", update = TRUE, force = TRUE, dependencies = TRUE)
 if (!requireNamespace("limma", quietly = TRUE))  BiocManager::install("limma", update = TRUE, force = TRUE, dependencies = TRUE)
 if (!requireNamespace("DESeq2", quietly = TRUE))  BiocManager::install("DESeq2", update = TRUE, force = TRUE, dependencies = TRUE)
 if (!requireNamespace("edgeR", quietly = TRUE))  BiocManager::install("edgeR", update = TRUE, force = TRUE, dependencies = TRUE)
