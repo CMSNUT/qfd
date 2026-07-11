@@ -9,7 +9,7 @@
 <meta name="author" content="Kun Hou">
 <meta name="author" content="Xili Wu">
 
-<title>02. DEG and WGCNA – ZWHQD for HFrEF</title>
+<title>2.Transcriptomic Data Acquisition and DCM-CHF Disease Target Screening – ZWHQD for HFrEF</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -24,6 +24,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -41,10 +76,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-ac0b92811d6e88f5a4a44355feb92a8e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-f1ef0423859aea48f2b5a85ac632af29.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -72,11 +107,13 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<style>html{ scroll-behavior: smooth; }</style>
 
 
+<link rel="stylesheet" href="style.css">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="floating nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -119,7 +156,7 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">0.Install Required Packages</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../scripts/01_ingredient_target_prediction.html">
+    <a class="dropdown-item" href="../scripts/01_compounds_target_prediction.html">
  <span class="dropdown-text">1.Acquisition of Active Compounds, Targets and HCT Network Construction</span></a>
   </li>  
         <li>
@@ -168,22 +205,97 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="-1">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#load-packages" id="toc-load-packages" class="nav-link active" data-scroll-target="#load-packages">Load packages</a></li>
+  <li><a href="#acquisition-of-geo-dataset" id="toc-acquisition-of-geo-dataset" class="nav-link" data-scroll-target="#acquisition-of-geo-dataset"><span class="header-section-number">1</span> Acquisition of GEO dataset</a>
+  <ul>
+  <li><a href="#gse57338" id="toc-gse57338" class="nav-link" data-scroll-target="#gse57338"><span class="header-section-number">1.1</span> GSE57338</a></li>
+  <li><a href="#gse116250" id="toc-gse116250" class="nav-link" data-scroll-target="#gse116250"><span class="header-section-number">1.2</span> GSE116250</a></li>
+  <li><a href="#gse5406" id="toc-gse5406" class="nav-link" data-scroll-target="#gse5406"><span class="header-section-number">1.3</span> GSE5406</a></li>
+  <li><a href="#gse183852" id="toc-gse183852" class="nav-link" data-scroll-target="#gse183852"><span class="header-section-number">1.4</span> GSE183852</a></li>
+  </ul></li>
+  <li><a href="#preprocessing-of-gse57338" id="toc-preprocessing-of-gse57338" class="nav-link" data-scroll-target="#preprocessing-of-gse57338"><span class="header-section-number">2</span> Preprocessing of GSE57338</a>
+  <ul>
+  <li><a href="#load-data" id="toc-load-data" class="nav-link" data-scroll-target="#load-data"><span class="header-section-number">2.1</span> Load data</a></li>
+  <li><a href="#preprocessing" id="toc-preprocessing" class="nav-link" data-scroll-target="#preprocessing"><span class="header-section-number">2.2</span> Preprocessing</a>
+  <ul class="collapse">
+  <li><a href="#figure-s1a" id="toc-figure-s1a" class="nav-link" data-scroll-target="#figure-s1a"><span class="header-section-number">2.2.1</span> Figure S1A</a></li>
+  <li><a href="#figure-s1c-check-normalization" id="toc-figure-s1c-check-normalization" class="nav-link" data-scroll-target="#figure-s1c-check-normalization"><span class="header-section-number">2.2.2</span> Figure S1C: Check normalization</a></li>
+  <li><a href="#figure-s1b-pca" id="toc-figure-s1b-pca" class="nav-link" data-scroll-target="#figure-s1b-pca"><span class="header-section-number">2.2.3</span> Figure S1B: PCA</a></li>
+  <li><a href="#correlation-within-the-group" id="toc-correlation-within-the-group" class="nav-link" data-scroll-target="#correlation-within-the-group"><span class="header-section-number">2.2.4</span> Correlation within the group</a></li>
+  <li><a href="#figure-s1-cowplot" id="toc-figure-s1-cowplot" class="nav-link" data-scroll-target="#figure-s1-cowplot"><span class="header-section-number">2.2.5</span> Figure S1: cowplot</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#deg" id="toc-deg" class="nav-link" data-scroll-target="#deg"><span class="header-section-number">3</span> DEG</a>
+  <ul>
+  <li><a href="#degs" id="toc-degs" class="nav-link" data-scroll-target="#degs"><span class="header-section-number">3.1</span> DEGs</a></li>
+  <li><a href="#significant-degs" id="toc-significant-degs" class="nav-link" data-scroll-target="#significant-degs"><span class="header-section-number">3.2</span> Significant DEGs</a></li>
+  <li><a href="#figure-1a-volcano-plot" id="toc-figure-1a-volcano-plot" class="nav-link" data-scroll-target="#figure-1a-volcano-plot"><span class="header-section-number">3.3</span> Figure 1A: Volcano Plot</a></li>
+  <li><a href="#figure-1b.-heatmap" id="toc-figure-1b.-heatmap" class="nav-link" data-scroll-target="#figure-1b.-heatmap"><span class="header-section-number">3.4</span> Figure 1B. Heatmap</a></li>
+  <li><a href="#saving-deg-results" id="toc-saving-deg-results" class="nav-link" data-scroll-target="#saving-deg-results"><span class="header-section-number">3.5</span> Saving DEG Results</a></li>
+  </ul></li>
+  <li><a href="#wgcna" id="toc-wgcna" class="nav-link" data-scroll-target="#wgcna"><span class="header-section-number">4</span> WGCNA</a>
+  <ul>
+  <li><a href="#load-data-1" id="toc-load-data-1" class="nav-link" data-scroll-target="#load-data-1"><span class="header-section-number">4.1</span> Load Data</a></li>
+  <li><a href="#sample-clustering-checking-for-outlier-samples-quality-control" id="toc-sample-clustering-checking-for-outlier-samples-quality-control" class="nav-link" data-scroll-target="#sample-clustering-checking-for-outlier-samples-quality-control"><span class="header-section-number">4.2</span> Sample clustering (checking for outlier samples, quality control)</a>
+  <ul class="collapse">
+  <li><a href="#figure-s2a" id="toc-figure-s2a" class="nav-link" data-scroll-target="#figure-s2a"><span class="header-section-number">4.2.1</span> Figure S2A</a></li>
+  </ul></li>
+  <li><a href="#step-3-select-soft-threshold" id="toc-step-3-select-soft-threshold" class="nav-link" data-scroll-target="#step-3-select-soft-threshold"><span class="header-section-number">4.3</span> Step 3: Select soft threshold</a>
+  <ul class="collapse">
+  <li><a href="#figure-s2b" id="toc-figure-s2b" class="nav-link" data-scroll-target="#figure-s2b"><span class="header-section-number">4.3.1</span> Figure S2B</a></li>
+  </ul></li>
+  <li><a href="#step-4-construct-a-co-expression-network" id="toc-step-4-construct-a-co-expression-network" class="nav-link" data-scroll-target="#step-4-construct-a-co-expression-network"><span class="header-section-number">4.4</span> Step 4: Construct a co-expression network</a></li>
+  <li><a href="#step-5-clustering" id="toc-step-5-clustering" class="nav-link" data-scroll-target="#step-5-clustering"><span class="header-section-number">4.5</span> Step 5: Clustering</a>
+  <ul class="collapse">
+  <li><a href="#figure-1c-wgcna-gene-clustering-tree" id="toc-figure-1c-wgcna-gene-clustering-tree" class="nav-link" data-scroll-target="#figure-1c-wgcna-gene-clustering-tree"><span class="header-section-number">4.5.1</span> Figure 1C: WGCNA gene clustering tree</a></li>
+  </ul></li>
+  <li><a href="#step-6-module-correlation-with-diseases" id="toc-step-6-module-correlation-with-diseases" class="nav-link" data-scroll-target="#step-6-module-correlation-with-diseases"><span class="header-section-number">4.6</span> Step 6: Module correlation with diseases</a>
+  <ul class="collapse">
+  <li><a href="#figure-1d-module-phenotype-correlation-heatmap" id="toc-figure-1d-module-phenotype-correlation-heatmap" class="nav-link" data-scroll-target="#figure-1d-module-phenotype-correlation-heatmap"><span class="header-section-number">4.6.1</span> Figure 1D: Module phenotype correlation heatmap</a></li>
+  </ul></li>
+  <li><a href="#step-7-extract-hfrelated-modules-and-candidate-hub-genes" id="toc-step-7-extract-hfrelated-modules-and-candidate-hub-genes" class="nav-link" data-scroll-target="#step-7-extract-hfrelated-modules-and-candidate-hub-genes"><span class="header-section-number">4.7</span> Step 7: Extract HF‑related modules and candidate hub genes</a>
+  <ul class="collapse">
+  <li><a href="#figure-1e-mm-correlation-plot" id="toc-figure-1e-mm-correlation-plot" class="nav-link" data-scroll-target="#figure-1e-mm-correlation-plot"><span class="header-section-number">4.7.1</span> Figure 1E: M~M Correlation plot</a></li>
+  <li><a href="#figure-1f-gs-vs-mm-scatter-plot" id="toc-figure-1f-gs-vs-mm-scatter-plot" class="nav-link" data-scroll-target="#figure-1f-gs-vs-mm-scatter-plot"><span class="header-section-number">4.7.2</span> Figure 1F: GS vs MM scatter plot</a></li>
+  </ul></li>
+  <li><a href="#step-8-geo_genes-intersecting-degs-and-wgcna" id="toc-step-8-geo_genes-intersecting-degs-and-wgcna" class="nav-link" data-scroll-target="#step-8-geo_genes-intersecting-degs-and-wgcna"><span class="header-section-number">4.8</span> Step 8: geo_genes: intersecting DEGs and WGCNA</a></li>
+  <li><a href="#figure-1-magick" id="toc-figure-1-magick" class="nav-link" data-scroll-target="#figure-1-magick"><span class="header-section-number">4.9</span> Figure 1: magick</a></li>
+  </ul></li>
+  <li><a href="#hermes_dcm_genes" id="toc-hermes_dcm_genes" class="nav-link" data-scroll-target="#hermes_dcm_genes"><span class="header-section-number">5</span> HERMES_DCM_genes</a>
+  <ul>
+  <li><a href="#hermes_dcm_genes-1" id="toc-hermes_dcm_genes-1" class="nav-link" data-scroll-target="#hermes_dcm_genes-1"><span class="header-section-number">5.1</span> HERMES_DCM_genes</a></li>
+  <li><a href="#all-hermes_dcm_genes" id="toc-all-hermes_dcm_genes" class="nav-link" data-scroll-target="#all-hermes_dcm_genes"><span class="header-section-number">5.2</span> all hermes_dcm_genes</a></li>
+  <li><a href="#review_genes" id="toc-review_genes" class="nav-link" data-scroll-target="#review_genes"><span class="header-section-number">5.3</span> review_genes</a></li>
+  </ul></li>
+  <li><a href="#clingen" id="toc-clingen" class="nav-link" data-scroll-target="#clingen"><span class="header-section-number">6</span> clinGen</a></li>
+  <li><a href="#dcm_all_51_genes" id="toc-dcm_all_51_genes" class="nav-link" data-scroll-target="#dcm_all_51_genes"><span class="header-section-number">7</span> dcm_all_51_genes</a>
+  <ul>
+  <li><a href="#dcm-chf-related-genes" id="toc-dcm-chf-related-genes" class="nav-link" data-scroll-target="#dcm-chf-related-genes"><span class="header-section-number">7.1</span> DCM-CHF-related genes</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content column-page-right" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">02. DEG and WGCNA</h1>
+<h1 class="title">2.Transcriptomic Data Acquisition and DCM-CHF Disease Target Screening</h1>
 </div>
 
 
-<div class="quarto-title-meta-author">
+<div class="quarto-title-meta-author column-page-right">
   <div class="quarto-title-meta-heading">Authors</div>
   <div class="quarto-title-meta-heading">Affiliations</div>
   
@@ -211,7 +323,7 @@ ul.task-list li input[type="checkbox"] {
       </div>
   </div>
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-page-right">
 
       
   
@@ -223,8 +335,1293 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="load-packages" class="level1 unnumbered">
+<h1 class="unnumbered">Load packages</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(openxlsx)</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(curl)</span>
+<span id="cb1-5"><a href="#cb1-5"></a></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="fu">library</span>(GEOquery)</span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="fu">library</span>(limma)</span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="fu">library</span>(sva)</span>
+<span id="cb1-9"><a href="#cb1-9"></a></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="fu">library</span>(AnnoProbe)</span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="fu">library</span>(genefilter)</span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="fu">library</span>(org.Hs.eg.db)</span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="fu">library</span>(TxDb.Hsapiens.UCSC.hg19.knownGene)</span>
+<span id="cb1-14"><a href="#cb1-14"></a></span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="fu">library</span>(WGCNA)</span>
+<span id="cb1-16"><a href="#cb1-16"></a><span class="fu">library</span>(flashClust)</span>
+<span id="cb1-17"><a href="#cb1-17"></a><span class="fu">library</span>(robustbase) </span>
+<span id="cb1-18"><a href="#cb1-18"></a><span class="fu">library</span>(dynamicTreeCut)</span>
+<span id="cb1-19"><a href="#cb1-19"></a></span>
+<span id="cb1-20"><a href="#cb1-20"></a><span class="fu">library</span>(GenomicRanges)</span>
+<span id="cb1-21"><a href="#cb1-21"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb1-22"><a href="#cb1-22"></a><span class="fu">library</span>(ggsci)</span>
+<span id="cb1-23"><a href="#cb1-23"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb1-24"><a href="#cb1-24"></a><span class="fu">library</span>(ggvenn)</span>
+<span id="cb1-25"><a href="#cb1-25"></a><span class="fu">library</span>(corrplot)</span>
+<span id="cb1-26"><a href="#cb1-26"></a><span class="fu">library</span>(ComplexHeatmap)</span>
+<span id="cb1-27"><a href="#cb1-27"></a><span class="fu">library</span>(circlize)</span>
+<span id="cb1-28"><a href="#cb1-28"></a><span class="fu">library</span>(cowplot)</span>
+<span id="cb1-29"><a href="#cb1-29"></a><span class="fu">library</span>(magick)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="acquisition-of-geo-dataset" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Acquisition of GEO dataset</h1>
+<section id="gse57338" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="gse57338"><span class="header-section-number">1.1</span> GSE57338</h2>
+<p>313 individuals with/without Heart Failure</p>
+<p>https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE57338</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>raw_dir <span class="ot">&lt;-</span> <span class="st">"../data/raw/geo/GSE57338"</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">dir.exists</span>(raw_dir)) <span class="fu">dir.create</span>(raw_dir, <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-3"><a href="#cb2-3"></a></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="fu">Sys.setlocale</span>(<span class="st">"LC_ALL"</span>, <span class="st">"C"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5"></a>gse57338 <span class="ot">&lt;-</span> <span class="fu">getGEO</span>(<span class="st">"GSE57338"</span>, <span class="at">destdir =</span> raw_dir, <span class="at">getGPL =</span> <span class="cn">TRUE</span>, <span class="at">AnnotGPL =</span> F)</span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="fu">Sys.setlocale</span>(<span class="st">"LC_ALL"</span>, <span class="st">""</span>)</span>
+<span id="cb2-7"><a href="#cb2-7"></a></span>
+<span id="cb2-8"><a href="#cb2-8"></a>gse57338_pheno_raw <span class="ot">&lt;-</span> <span class="fu">pData</span>(gse57338[[<span class="dv">1</span>]])</span>
+<span id="cb2-9"><a href="#cb2-9"></a>gse57338_exprs_raw <span class="ot">&lt;-</span> <span class="fu">exprs</span>(gse57338[[<span class="dv">1</span>]])</span>
+<span id="cb2-10"><a href="#cb2-10"></a>gse57338_gpl <span class="ot">&lt;-</span> gse57338[[<span class="dv">1</span>]]<span class="sc">@</span>annotation</span>
+<span id="cb2-11"><a href="#cb2-11"></a></span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="fu">save</span>(</span>
+<span id="cb2-13"><a href="#cb2-13"></a>  gse57338_pheno_raw,</span>
+<span id="cb2-14"><a href="#cb2-14"></a>  gse57338_exprs_raw,</span>
+<span id="cb2-15"><a href="#cb2-15"></a>  gse57338_gpl,</span>
+<span id="cb2-16"><a href="#cb2-16"></a>  <span class="at">file =</span> <span class="st">"../data/raw/geo/gse57338_raw.RData"</span></span>
+<span id="cb2-17"><a href="#cb2-17"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="gse116250" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="gse116250"><span class="header-section-number">1.2</span> GSE116250</h2>
+<p>high throughput sequencing, GPL16791</p>
+<p>64 samples from human left ventricle tissue: 14 non-failing donors, 37 dilated cardiomyopathy, and 13 ischemic cardiomyopathy</p>
+<p>N_DCM/N_NF = 37 / 14</p>
+</section>
+<section id="gse5406" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="gse5406"><span class="header-section-number">1.3</span> GSE5406</h2>
+<p>array, GPL96</p>
+<p>https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE5406</p>
+<p>n_DCM = 86, n_IDC = 108, n_HF = 16</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>())</span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a>raw_dir <span class="ot">&lt;-</span> <span class="st">"../data/raw/geo/GSE5406"</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">dir.exists</span>(raw_dir)) <span class="fu">dir.create</span>(raw_dir, <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-5"><a href="#cb3-5"></a></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="fu">Sys.setlocale</span>(<span class="st">"LC_ALL"</span>, <span class="st">"C"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7"></a>gse5406 <span class="ot">&lt;-</span> <span class="fu">getGEO</span>(<span class="st">"GSE5406"</span>, <span class="at">destdir =</span> raw_dir, <span class="at">getGPL =</span> <span class="cn">TRUE</span>, <span class="at">AnnotGPL =</span> F)</span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="fu">Sys.setlocale</span>(<span class="st">"LC_ALL"</span>, <span class="st">""</span>)</span>
+<span id="cb3-9"><a href="#cb3-9"></a></span>
+<span id="cb3-10"><a href="#cb3-10"></a>gse5406_pheno_raw <span class="ot">&lt;-</span> <span class="fu">pData</span>(gse5406[[<span class="dv">1</span>]])</span>
+<span id="cb3-11"><a href="#cb3-11"></a>gse5406_exprs_raw <span class="ot">&lt;-</span> <span class="fu">exprs</span>(gse5406[[<span class="dv">1</span>]])</span>
+<span id="cb3-12"><a href="#cb3-12"></a>gse5406_gpl <span class="ot">&lt;-</span> gse5406[[<span class="dv">1</span>]]<span class="sc">@</span>annotation</span>
+<span id="cb3-13"><a href="#cb3-13"></a></span>
+<span id="cb3-14"><a href="#cb3-14"></a><span class="fu">save</span>(</span>
+<span id="cb3-15"><a href="#cb3-15"></a>  gse5406_pheno_raw,</span>
+<span id="cb3-16"><a href="#cb3-16"></a>  gse5406_exprs_raw,</span>
+<span id="cb3-17"><a href="#cb3-17"></a>  gse5406_gpl,</span>
+<span id="cb3-18"><a href="#cb3-18"></a>  <span class="at">file =</span> <span class="st">"../data/raw/geo/gse5406_raw.RData"</span></span>
+<span id="cb3-19"><a href="#cb3-19"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="gse183852" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="gse183852"><span class="header-section-number">1.4</span> GSE183852</h2>
+<p>scRNA-Seq</p>
+<p>https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE183852</p>
+<p><strong>NOTE</strong>: <strong>Proceed with caution!</strong> GSE183852_DCM_Integrated.Robj.gz is 11.7GB. Long download time.</p>
+<p>Alternative: download directly via browser from https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE183852</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>())</span>
+<span id="cb4-2"><a href="#cb4-2"></a></span>
+<span id="cb4-3"><a href="#cb4-3"></a>raw_dir <span class="ot">&lt;-</span> <span class="st">"../data/raw/geo/GSE183852"</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">dir.exists</span>(raw_dir)) <span class="fu">dir.create</span>(raw_dir, <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-5"><a href="#cb4-5"></a></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="fu">Sys.setlocale</span>(<span class="st">"LC_ALL"</span>, <span class="st">"C"</span>)</span>
+<span id="cb4-7"><a href="#cb4-7"></a>gse183852  <span class="ot">&lt;-</span> <span class="fu">getGEO</span>(<span class="st">"GSE183852"</span>,  <span class="at">destdir =</span> raw_dir, <span class="at">getGPL =</span> <span class="cn">TRUE</span>, <span class="at">AnnotGPL =</span> F)</span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="fu">Sys.setlocale</span>(<span class="st">"LC_ALL"</span>, <span class="st">""</span>)</span>
+<span id="cb4-9"><a href="#cb4-9"></a></span>
+<span id="cb4-10"><a href="#cb4-10"></a>gse183852_pheno_raw <span class="ot">&lt;-</span> <span class="fu">pData</span>(gse183852[[<span class="dv">1</span>]])</span>
+<span id="cb4-11"><a href="#cb4-11"></a>gse183852_gpl <span class="ot">&lt;-</span> gse183852[[<span class="dv">1</span>]]<span class="sc">@</span>annotation</span>
+<span id="cb4-12"><a href="#cb4-12"></a></span>
+<span id="cb4-13"><a href="#cb4-13"></a><span class="fu">save</span>(</span>
+<span id="cb4-14"><a href="#cb4-14"></a>  gse183852_gpl,</span>
+<span id="cb4-15"><a href="#cb4-15"></a>  gse183852_pheno_raw,</span>
+<span id="cb4-16"><a href="#cb4-16"></a>  <span class="at">file =</span> <span class="st">"../data/raw/geo/gse183852_raw.RData"</span></span>
+<span id="cb4-17"><a href="#cb4-17"></a>)</span>
+<span id="cb4-18"><a href="#cb4-18"></a></span>
+<span id="cb4-19"><a href="#cb4-19"></a>url <span class="ot">&lt;-</span> <span class="st">"https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE183852&amp;format=file&amp;file=GSE183852%5FIntegrated%5FCounts%2Ecsv%2Egz"</span></span>
+<span id="cb4-20"><a href="#cb4-20"></a>h <span class="ot">&lt;-</span> <span class="fu">new_handle</span>()</span>
+<span id="cb4-21"><a href="#cb4-21"></a><span class="fu">curl_fetch_disk</span>(url, <span class="at">path =</span> <span class="st">"../data/raw/geo/GSE183852/GSE183852_Integrated_Counts.csv.gz"</span>,<span class="at">handle =</span> h)</span>
+<span id="cb4-22"><a href="#cb4-22"></a></span>
+<span id="cb4-23"><a href="#cb4-23"></a></span>
+<span id="cb4-24"><a href="#cb4-24"></a><span class="co"># 11.7 GB</span></span>
+<span id="cb4-25"><a href="#cb4-25"></a>url <span class="ot">&lt;-</span> <span class="st">"https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE183852&amp;format=file&amp;file=GSE183852%5FDCM%5FIntegrated%2ERobj%2Egz"</span> </span>
+<span id="cb4-26"><a href="#cb4-26"></a></span>
+<span id="cb4-27"><a href="#cb4-27"></a>h <span class="ot">&lt;-</span> <span class="fu">new_handle</span>()</span>
+<span id="cb4-28"><a href="#cb4-28"></a><span class="fu">curl_fetch_disk</span>(url, <span class="at">path =</span> <span class="st">"../data/raw/geo/GSE183852/GSE183852_DCM_Integrated.Robj.gz"</span>,<span class="at">handle =</span> h)</span>
+<span id="cb4-29"><a href="#cb4-29"></a></span>
+<span id="cb4-30"><a href="#cb4-30"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>())</span>
+<span id="cb4-31"><a href="#cb4-31"></a><span class="fu">gc</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="preprocessing-of-gse57338" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Preprocessing of GSE57338</h1>
+<section id="load-data" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="load-data"><span class="header-section-number">2.1</span> Load data</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="fu">load</span>(<span class="st">"../data/raw/geo/GSE57338_raw.RData"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3"></a></span>
+<span id="cb5-4"><a href="#cb5-4"></a>HC <span class="ot">&lt;-</span> gse57338_pheno_raw<span class="sc">$</span><span class="st">`</span><span class="at">disease status:ch1</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"non-failing"</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a>HF <span class="ot">&lt;-</span> gse57338_pheno_raw<span class="sc">$</span><span class="st">`</span><span class="at">disease status:ch1</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"idiopathic dilated CMP"</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a></span>
+<span id="cb5-7"><a href="#cb5-7"></a>keep_samples <span class="ot">&lt;-</span> <span class="fu">rownames</span>(gse57338_pheno_raw)[HC <span class="sc">|</span> HF]</span>
+<span id="cb5-8"><a href="#cb5-8"></a>pheno <span class="ot">&lt;-</span> gse57338_pheno_raw[keep_samples, ]</span>
+<span id="cb5-9"><a href="#cb5-9"></a></span>
+<span id="cb5-10"><a href="#cb5-10"></a>pheno<span class="sc">$</span>group <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(pheno<span class="sc">$</span><span class="st">`</span><span class="at">disease status:ch1</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"non-failing"</span>, <span class="st">"HC"</span>, <span class="st">"HF"</span>) </span>
+<span id="cb5-11"><a href="#cb5-11"></a>pheno<span class="sc">$</span>group <span class="ot">&lt;-</span> <span class="fu">factor</span>(pheno<span class="sc">$</span>group, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"HC"</span>, <span class="st">"HF"</span>))</span>
+<span id="cb5-12"><a href="#cb5-12"></a></span>
+<span id="cb5-13"><a href="#cb5-13"></a>expr_keep <span class="ot">&lt;-</span> gse57338_exprs_raw[,keep_samples]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="preprocessing" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="preprocessing"><span class="header-section-number">2.2</span> Preprocessing</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># log2 transformation</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>ex <span class="ot">&lt;-</span> expr_keep</span>
+<span id="cb6-3"><a href="#cb6-3"></a>qx <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">quantile</span>(ex, <span class="fu">c</span>(<span class="fl">0.</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.99</span>, <span class="fl">1.0</span>), <span class="at">na.rm=</span>T))</span>
+<span id="cb6-4"><a href="#cb6-4"></a>LogC <span class="ot">&lt;-</span> (qx[<span class="dv">5</span>] <span class="sc">&gt;</span> <span class="dv">100</span>) <span class="sc">||</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a>          (qx[<span class="dv">6</span>]<span class="sc">-</span>qx[<span class="dv">1</span>] <span class="sc">&gt;</span> <span class="dv">50</span> <span class="sc">&amp;&amp;</span> qx[<span class="dv">2</span>] <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="cf">if</span> (LogC) { ex[<span class="fu">which</span>(ex <span class="sc">&lt;=</span> <span class="dv">0</span>)] <span class="ot">&lt;-</span> <span class="cn">NaN</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a>  expr_keep <span class="ot">&lt;-</span> <span class="fu">log2</span>(ex) }</span>
+<span id="cb6-8"><a href="#cb6-8"></a></span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="co"># check GPL and annotate the probes to genes.</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a></span>
+<span id="cb6-11"><a href="#cb6-11"></a>probe2gene<span class="ot">=</span><span class="fu">idmap</span>(gse57338_gpl) </span>
+<span id="cb6-12"><a href="#cb6-12"></a>expr_annotated <span class="ot">&lt;-</span> <span class="fu">filterEM</span>(expr_keep, probe2gene)</span>
+<span id="cb6-13"><a href="#cb6-13"></a></span>
+<span id="cb6-14"><a href="#cb6-14"></a><span class="co"># Processing of duplicated genes</span></span>
+<span id="cb6-15"><a href="#cb6-15"></a>expr <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(expr_annotated)</span>
+<span id="cb6-16"><a href="#cb6-16"></a><span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">duplicated</span>(<span class="fu">rownames</span>(expr)))) {</span>
+<span id="cb6-17"><a href="#cb6-17"></a>  expr <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(expr, <span class="at">by =</span> <span class="fu">list</span>(<span class="fu">rownames</span>(expr)), <span class="at">FUN =</span> mean)</span>
+<span id="cb6-18"><a href="#cb6-18"></a>  <span class="fu">rownames</span>(expr) <span class="ot">&lt;-</span> expr[,<span class="dv">1</span>]</span>
+<span id="cb6-19"><a href="#cb6-19"></a>  expr <span class="ot">&lt;-</span> expr[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb6-20"><a href="#cb6-20"></a>  expr <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(expr)</span>
+<span id="cb6-21"><a href="#cb6-21"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="figure-s1a" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="figure-s1a"><span class="header-section-number">2.2.1</span> Figure S1A</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># Express the overall distribution of values and observe where the "tail" of background noise falls</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>expr_density <span class="ot">&lt;-</span> reshape2<span class="sc">::</span><span class="fu">melt</span>(expr) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">Gene =</span> Var1, <span class="at">Sample =</span> Var2)</span>
+<span id="cb7-4"><a href="#cb7-4"></a></span>
+<span id="cb7-5"><a href="#cb7-5"></a>lancet_colors <span class="ot">&lt;-</span> <span class="fu">pal_lancet</span>()(<span class="dv">9</span>)   </span>
+<span id="cb7-6"><a href="#cb7-6"></a>col1 <span class="ot">&lt;-</span> lancet_colors[<span class="dv">2</span>]           </span>
+<span id="cb7-7"><a href="#cb7-7"></a>col2 <span class="ot">&lt;-</span> lancet_colors[<span class="dv">1</span>]           </span>
+<span id="cb7-8"><a href="#cb7-8"></a></span>
+<span id="cb7-9"><a href="#cb7-9"></a>n_samples <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">unique</span>(expr_density<span class="sc">$</span>Sample))</span>
+<span id="cb7-10"><a href="#cb7-10"></a>sample_colors <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(col1, col2))(n_samples)</span>
+<span id="cb7-11"><a href="#cb7-11"></a></span>
+<span id="cb7-12"><a href="#cb7-12"></a></span>
+<span id="cb7-13"><a href="#cb7-13"></a>pS1A <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(expr_density, <span class="fu">aes</span>(<span class="at">x =</span> value, <span class="at">color =</span> Sample)) <span class="sc">+</span>   </span>
+<span id="cb7-14"><a href="#cb7-14"></a>  <span class="fu">geom_density</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>,<span class="at">linewidth =</span> <span class="fl">0.2</span>) <span class="sc">+</span> </span>
+<span id="cb7-15"><a href="#cb7-15"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> sample_colors) <span class="sc">+</span> </span>
+<span id="cb7-16"><a href="#cb7-16"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Expression density of samples"</span>,</span>
+<span id="cb7-17"><a href="#cb7-17"></a>       <span class="at">x =</span> <span class="st">"log2(Expression)"</span>, <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span> </span>
+<span id="cb7-18"><a href="#cb7-18"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb7-19"><a href="#cb7-19"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="fu">floor</span>(<span class="fu">min</span>(expr_density<span class="sc">$</span>value)), <span class="at">to =</span> <span class="fu">ceiling</span>(<span class="fu">max</span>(expr_density<span class="sc">$</span>value)), <span class="at">by =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb7-20"><a href="#cb7-20"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">3</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> lancet_colors[<span class="dv">2</span>], <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb7-21"><a href="#cb7-21"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>,<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb7-22"><a href="#cb7-22"></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>),</span>
+<span id="cb7-23"><a href="#cb7-23"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>,<span class="at">color =</span> <span class="st">"grey5"</span>),</span>
+<span id="cb7-24"><a href="#cb7-24"></a>        <span class="at">axis.ticks.length =</span> <span class="fu">unit</span>(<span class="fl">0.5</span>, <span class="st">"mm"</span>),</span>
+<span id="cb7-25"><a href="#cb7-25"></a>  <span class="at">axis.ticks =</span> <span class="fu">element_line</span>(<span class="at">linewidth =</span> <span class="fl">0.5</span>))</span>
+<span id="cb7-26"><a href="#cb7-26"></a></span>
+<span id="cb7-27"><a href="#cb7-27"></a><span class="co"># pS1A</span></span>
+<span id="cb7-28"><a href="#cb7-28"></a></span>
+<span id="cb7-29"><a href="#cb7-29"></a><span class="fu">ggsave</span>(<span class="st">"../supplementary/figures/Figure_S1_A.png"</span>, pS1A, <span class="at">width =</span> <span class="dv">7</span>, <span class="at">height =</span> <span class="dv">5</span>,<span class="at">units =</span> <span class="st">"cm"</span>, <span class="at">dpi =</span> <span class="dv">600</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><img src="../supplementary/figures/Figure_S1A.png" class="img-fluid"></p>
+</section>
+<section id="figure-s1c-check-normalization" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="figure-s1c-check-normalization"><span class="header-section-number">2.2.2</span> Figure S1C: Check normalization</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># Filtering low expression genes</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>threshold_log2 <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a>ffun <span class="ot">&lt;-</span> <span class="fu">filterfun</span>(<span class="fu">pOverA</span>(<span class="at">p =</span> <span class="fl">0.5</span>, <span class="at">A =</span> threshold_log2))</span>
+<span id="cb8-4"><a href="#cb8-4"></a>keep <span class="ot">&lt;-</span> <span class="fu">genefilter</span>(expr, ffun)</span>
+<span id="cb8-5"><a href="#cb8-5"></a></span>
+<span id="cb8-6"><a href="#cb8-6"></a>expr_filt <span class="ot">&lt;-</span> expr[keep, ]</span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="fu">dim</span>(expr_filt)</span>
+<span id="cb8-8"><a href="#cb8-8"></a></span>
+<span id="cb8-9"><a href="#cb8-9"></a>expr_melt <span class="ot">&lt;-</span> reshape2<span class="sc">::</span><span class="fu">melt</span>(expr_filt, <span class="at">varnames =</span> <span class="fu">c</span>(<span class="st">"Gene"</span>, <span class="st">"Sample"</span>), <span class="at">value.name =</span> <span class="st">"log2_expr"</span>)</span>
+<span id="cb8-10"><a href="#cb8-10"></a></span>
+<span id="cb8-11"><a href="#cb8-11"></a></span>
+<span id="cb8-12"><a href="#cb8-12"></a>pS1C <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(expr_melt, <span class="fu">aes</span>(<span class="at">x =</span> Sample, <span class="at">y =</span> log2_expr)) <span class="sc">+</span></span>
+<span id="cb8-13"><a href="#cb8-13"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill=</span><span class="st">"lightblue"</span>, <span class="at">outlier.shape =</span> <span class="dv">1</span>, <span class="at">outlier.size =</span> <span class="fl">0.3</span>,<span class="at">outlier.stroke =</span> <span class="fl">0.1</span>, <span class="at">linewidth =</span><span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb8-14"><a href="#cb8-14"></a>  <span class="co"># scale_fill_lancet() + </span></span>
+<span id="cb8-15"><a href="#cb8-15"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Check normalization of samples"</span>, <span class="at">y =</span> <span class="st">"log2( Expression)"</span>) <span class="sc">+</span></span>
+<span id="cb8-16"><a href="#cb8-16"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb8-17"><a href="#cb8-17"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb8-18"><a href="#cb8-18"></a>        <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-19"><a href="#cb8-19"></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>),</span>
+<span id="cb8-20"><a href="#cb8-20"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>,<span class="at">color =</span> <span class="st">"grey5"</span>),</span>
+<span id="cb8-21"><a href="#cb8-21"></a>        <span class="at">axis.ticks.y.length =</span> <span class="fu">unit</span>(<span class="fl">0.5</span>, <span class="st">"mm"</span>),</span>
+<span id="cb8-22"><a href="#cb8-22"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_line</span>(<span class="at">linewidth =</span> <span class="fl">0.5</span>),</span>
+<span id="cb8-23"><a href="#cb8-23"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb8-24"><a href="#cb8-24"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">median</span>(expr_melt<span class="sc">$</span>log2_expr, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">linewidth =</span><span class="fl">0.5</span>, <span class="at">color =</span>lancet_colors[<span class="dv">2</span>])</span>
+<span id="cb8-25"><a href="#cb8-25"></a></span>
+<span id="cb8-26"><a href="#cb8-26"></a><span class="co"># pS1C</span></span>
+<span id="cb8-27"><a href="#cb8-27"></a></span>
+<span id="cb8-28"><a href="#cb8-28"></a><span class="fu">ggsave</span>(<span class="st">"../supplementary/figures/Figure_S1C.png"</span>, pS1C, <span class="at">width =</span> <span class="dv">14</span>, <span class="at">height =</span> <span class="dv">5</span>,<span class="at">units =</span> <span class="st">"cm"</span>, <span class="at">dpi =</span> <span class="dv">600</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><img src="../supplementary/figures/Figure_S1C.png" class="img-fluid"></p>
+</section>
+<section id="figure-s1b-pca" class="level3" data-number="2.2.3">
+<h3 data-number="2.2.3" class="anchored" data-anchor-id="figure-s1b-pca"><span class="header-section-number">2.2.3</span> Figure S1B: PCA</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>pca <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(<span class="fu">t</span>(expr_filt), <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-2"><a href="#cb9-2"></a></span>
+<span id="cb9-3"><a href="#cb9-3"></a>pca_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(pca<span class="sc">$</span>x[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">Group =</span> pheno<span class="sc">$</span>group)</span>
+<span id="cb9-4"><a href="#cb9-4"></a></span>
+<span id="cb9-5"><a href="#cb9-5"></a>pS1B <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(pca_df, <span class="fu">aes</span>(<span class="at">x =</span> PC1, <span class="at">y =</span> PC2, <span class="at">color =</span> Group)) <span class="sc">+</span> </span>
+<span id="cb9-6"><a href="#cb9-6"></a>  <span class="fu">scale_color_lancet</span>() <span class="sc">+</span> </span>
+<span id="cb9-7"><a href="#cb9-7"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb9-8"><a href="#cb9-8"></a>  <span class="fu">stat_ellipse</span>() <span class="sc">+</span> </span>
+<span id="cb9-9"><a href="#cb9-9"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"PCA of samples"</span>) <span class="sc">+</span></span>
+<span id="cb9-10"><a href="#cb9-10"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb9-11"><a href="#cb9-11"></a>  <span class="fu">theme</span>(</span>
+<span id="cb9-12"><a href="#cb9-12"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb9-13"><a href="#cb9-13"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>),</span>
+<span id="cb9-14"><a href="#cb9-14"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb9-15"><a href="#cb9-15"></a>    <span class="at">axis.ticks.length =</span> <span class="fu">unit</span>(<span class="fl">0.5</span>, <span class="st">"mm"</span>),</span>
+<span id="cb9-16"><a href="#cb9-16"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_line</span>(<span class="at">linewidth =</span> <span class="fl">0.5</span>),</span>
+<span id="cb9-17"><a href="#cb9-17"></a>    <span class="at">legend.position =</span> <span class="st">"right"</span>,</span>
+<span id="cb9-18"><a href="#cb9-18"></a>    <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>),</span>
+<span id="cb9-19"><a href="#cb9-19"></a>    <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>,<span class="at">color =</span> <span class="st">"grey5"</span>), </span>
+<span id="cb9-20"><a href="#cb9-20"></a>    <span class="at">legend.spacing.x =</span> <span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">"cm"</span>),</span>
+<span id="cb9-21"><a href="#cb9-21"></a>    <span class="at">legend.key.width =</span> <span class="fu">unit</span>(<span class="fl">0.5</span>, <span class="st">"cm"</span>),</span>
+<span id="cb9-22"><a href="#cb9-22"></a>    <span class="at">legend.box.margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="dv">0</span>, <span class="at">r =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">0</span>, <span class="at">l =</span> <span class="sc">-</span><span class="fl">2.5</span>, <span class="at">unit =</span> <span class="st">"mm"</span>),</span>
+<span id="cb9-23"><a href="#cb9-23"></a>    <span class="at">legend.margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="dv">0</span>, <span class="at">r =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">0</span>, <span class="at">l =</span> <span class="dv">0</span>, <span class="at">unit =</span> <span class="st">"mm"</span>)</span>
+<span id="cb9-24"><a href="#cb9-24"></a>    </span>
+<span id="cb9-25"><a href="#cb9-25"></a>  )</span>
+<span id="cb9-26"><a href="#cb9-26"></a></span>
+<span id="cb9-27"><a href="#cb9-27"></a><span class="co"># pS1B</span></span>
+<span id="cb9-28"><a href="#cb9-28"></a></span>
+<span id="cb9-29"><a href="#cb9-29"></a><span class="fu">ggsave</span>(<span class="st">"../supplementary/figures/Figure_S1B.png"</span>,pS1B, <span class="at">width =</span> <span class="dv">7</span>,<span class="at">height =</span> <span class="dv">5</span>,<span class="at">units =</span> <span class="st">"cm"</span>, <span class="at">dpi =</span> <span class="dv">600</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><img src="../supplementary/figures/Figure_S1B.png" class="img-fluid"></p>
+</section>
+<section id="correlation-within-the-group" class="level3" data-number="2.2.4">
+<h3 data-number="2.2.4" class="anchored" data-anchor-id="correlation-within-the-group"><span class="header-section-number">2.2.4</span> Correlation within the group</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>cor_mat <span class="ot">&lt;-</span> <span class="fu">cor</span>(expr_filt)</span>
+<span id="cb10-2"><a href="#cb10-2"></a></span>
+<span id="cb10-3"><a href="#cb10-3"></a>within_cor <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">colnames</span>(expr_filt), <span class="cf">function</span>(s) {</span>
+<span id="cb10-4"><a href="#cb10-4"></a>  idx <span class="ot">&lt;-</span> <span class="fu">which</span>(pheno<span class="sc">$</span>geo_accession <span class="sc">==</span> s)</span>
+<span id="cb10-5"><a href="#cb10-5"></a>  gr <span class="ot">&lt;-</span> pheno<span class="sc">$</span>group[idx]</span>
+<span id="cb10-6"><a href="#cb10-6"></a>  same_group <span class="ot">&lt;-</span> pheno<span class="sc">$</span>geo_accession[pheno<span class="sc">$</span>group <span class="sc">==</span> gr]</span>
+<span id="cb10-7"><a href="#cb10-7"></a>  same_group <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(same_group, s)</span>
+<span id="cb10-8"><a href="#cb10-8"></a>  </span>
+<span id="cb10-9"><a href="#cb10-9"></a>  <span class="cf">if</span> (<span class="fu">length</span>(same_group) <span class="sc">==</span> <span class="dv">0</span>) <span class="fu">return</span>(<span class="cn">NA</span>)</span>
+<span id="cb10-10"><a href="#cb10-10"></a>  <span class="fu">mean</span>(cor_mat[s, same_group], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb10-11"><a href="#cb10-11"></a>})</span>
+<span id="cb10-12"><a href="#cb10-12"></a></span>
+<span id="cb10-13"><a href="#cb10-13"></a>between_cor <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">colnames</span>(expr_filt), <span class="cf">function</span>(s) {</span>
+<span id="cb10-14"><a href="#cb10-14"></a>  idx <span class="ot">&lt;-</span> <span class="fu">which</span>(pheno<span class="sc">$</span>geo_accession <span class="sc">==</span> s)</span>
+<span id="cb10-15"><a href="#cb10-15"></a>  gr <span class="ot">&lt;-</span> pheno<span class="sc">$</span>group[idx]</span>
+<span id="cb10-16"><a href="#cb10-16"></a>  diff_group <span class="ot">&lt;-</span> pheno<span class="sc">$</span>geo_accession[pheno<span class="sc">$</span>group <span class="sc">!=</span> gr]</span>
+<span id="cb10-17"><a href="#cb10-17"></a>  <span class="cf">if</span>(<span class="fu">length</span>(diff_group)<span class="sc">==</span><span class="dv">0</span>) <span class="fu">return</span>(<span class="cn">NA</span>)</span>
+<span id="cb10-18"><a href="#cb10-18"></a>  <span class="fu">mean</span>(cor_mat[s, diff_group], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb10-19"><a href="#cb10-19"></a>})</span>
+<span id="cb10-20"><a href="#cb10-20"></a></span>
+<span id="cb10-21"><a href="#cb10-21"></a>mean_within <span class="ot">=</span> <span class="fu">mean</span>(within_cor, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb10-22"><a href="#cb10-22"></a>mean_between <span class="ot">=</span> <span class="fu">mean</span>(between_cor, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb10-23"><a href="#cb10-23"></a></span>
+<span id="cb10-24"><a href="#cb10-24"></a><span class="fu">cat</span>(<span class="st">"Average correlation coefficient within the group："</span>, <span class="fu">round</span>(mean_within, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb10-25"><a href="#cb10-25"></a><span class="fu">cat</span>(<span class="st">"Average correlation coefficient between groups："</span>, <span class="fu">round</span>(mean_between, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb10-26"><a href="#cb10-26"></a></span>
+<span id="cb10-27"><a href="#cb10-27"></a><span class="cf">if</span> (mean_within <span class="sc">&gt;</span> mean_between) {</span>
+<span id="cb10-28"><a href="#cb10-28"></a>  <span class="fu">cat</span>(<span class="st">"✅ No significant batch effect</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb10-29"><a href="#cb10-29"></a>} <span class="cf">else</span> {</span>
+<span id="cb10-30"><a href="#cb10-30"></a>  <span class="fu">cat</span>(<span class="st">"⚠️ Have significant batch effect, suggest batch correction(ComBat/SVA)</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb10-31"><a href="#cb10-31"></a>}</span>
+<span id="cb10-32"><a href="#cb10-32"></a></span>
+<span id="cb10-33"><a href="#cb10-33"></a><span class="fu">save</span>(pheno, expr_filt, <span class="at">file =</span> <span class="st">"../data/processed/geo/gse57338.RData"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="figure-s1-cowplot" class="level3" data-number="2.2.5">
+<h3 data-number="2.2.5" class="anchored" data-anchor-id="figure-s1-cowplot"><span class="header-section-number">2.2.5</span> Figure S1: cowplot</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>top <span class="ot">&lt;-</span> <span class="fu">plot_grid</span>(pS1A, pS1B, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>), </span>
+<span id="cb11-2"><a href="#cb11-2"></a>                 <span class="at">label_size =</span> <span class="dv">12</span>, <span class="at">label_fontface =</span> <span class="st">"bold"</span>, </span>
+<span id="cb11-3"><a href="#cb11-3"></a>                 <span class="at">align =</span> <span class="st">"h"</span>, <span class="at">axis =</span> <span class="st">"tb"</span>)  </span>
+<span id="cb11-4"><a href="#cb11-4"></a></span>
+<span id="cb11-5"><a href="#cb11-5"></a>bottom <span class="ot">&lt;-</span> <span class="fu">plot_grid</span>(pS1C, <span class="at">labels =</span> <span class="st">"C"</span>, <span class="at">label_size =</span> <span class="dv">12</span>, <span class="at">label_fontface =</span> <span class="st">"bold"</span>)</span>
+<span id="cb11-6"><a href="#cb11-6"></a></span>
+<span id="cb11-7"><a href="#cb11-7"></a></span>
+<span id="cb11-8"><a href="#cb11-8"></a>sf1_combined <span class="ot">&lt;-</span> <span class="fu">plot_grid</span>(top, bottom, <span class="at">ncol =</span> <span class="dv">1</span>, <span class="at">rel_heights =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>)) </span>
+<span id="cb11-9"><a href="#cb11-9"></a></span>
+<span id="cb11-10"><a href="#cb11-10"></a><span class="fu">ggsave</span>(<span class="st">"../supplementary/figures/Figure_S1.png"</span>, </span>
+<span id="cb11-11"><a href="#cb11-11"></a>       sf1_combined, <span class="at">width =</span> <span class="dv">14</span>, <span class="at">height =</span> <span class="dv">10</span>, <span class="at">units =</span> <span class="st">"cm"</span>, <span class="at">dpi =</span> <span class="dv">600</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><img src="../supplementary/figures/Figure_S1.png" class="img-fluid"></p>
+</section>
+</section>
+</section>
+<section id="deg" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> DEG</h1>
+<section id="degs" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="degs"><span class="header-section-number">3.1</span> DEGs</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">load</span>(<span class="st">"../data/processed/geo/gse57338.RData"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2"></a>group <span class="ot">&lt;-</span> <span class="fu">factor</span>(pheno<span class="sc">$</span>group)  </span>
+<span id="cb12-3"><a href="#cb12-3"></a>design <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> group)</span>
+<span id="cb12-4"><a href="#cb12-4"></a><span class="fu">colnames</span>(design) <span class="ot">&lt;-</span> <span class="fu">levels</span>(group)</span>
+<span id="cb12-5"><a href="#cb12-5"></a>contr <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="fu">levels</span>(group)[<span class="dv">2</span>], <span class="fu">levels</span>(group)[<span class="dv">1</span>], <span class="at">sep =</span> <span class="st">"-"</span>)</span>
+<span id="cb12-6"><a href="#cb12-6"></a>contr.matrix <span class="ot">&lt;-</span> <span class="fu">makeContrasts</span>(<span class="at">contrasts =</span> contr, <span class="at">levels =</span> design)</span>
+<span id="cb12-7"><a href="#cb12-7"></a></span>
+<span id="cb12-8"><a href="#cb12-8"></a>fit <span class="ot">&lt;-</span> <span class="fu">lmFit</span>(expr_filt, design)</span>
+<span id="cb12-9"><a href="#cb12-9"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">contrasts.fit</span>(fit, contr.matrix)</span>
+<span id="cb12-10"><a href="#cb12-10"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">eBayes</span>(fit2)</span>
+<span id="cb12-11"><a href="#cb12-11"></a></span>
+<span id="cb12-12"><a href="#cb12-12"></a>res <span class="ot">&lt;-</span> <span class="fu">topTable</span>(fit2, <span class="at">adjust =</span> <span class="st">"fdr"</span>, <span class="at">number =</span> <span class="cn">Inf</span>)</span>
+<span id="cb12-13"><a href="#cb12-13"></a></span>
+<span id="cb12-14"><a href="#cb12-14"></a><span class="fu">save</span>(res, <span class="at">file =</span> <span class="st">"../data/processed/geo/gse57338_res.RData"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="significant-degs" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="significant-degs"><span class="header-section-number">3.2</span> Significant DEGs</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># lfc &lt;- log2(1.5)</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a>lfc <span class="ot">&lt;-</span> <span class="fl">0.585</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a></span>
+<span id="cb13-4"><a href="#cb13-4"></a>deg_all <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(res) <span class="sc">%&gt;%</span></span>
+<span id="cb13-5"><a href="#cb13-5"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">log2FC =</span> logFC)</span>
+<span id="cb13-6"><a href="#cb13-6"></a></span>
+<span id="cb13-7"><a href="#cb13-7"></a>deg_up <span class="ot">&lt;-</span> deg_all <span class="sc">%&gt;%</span> <span class="fu">filter</span>(adj.P.Val <span class="sc">&lt;</span> <span class="fl">0.05</span>, log2FC <span class="sc">&gt;</span> lfc)</span>
+<span id="cb13-8"><a href="#cb13-8"></a>deg_down <span class="ot">&lt;-</span> deg_all <span class="sc">%&gt;%</span> <span class="fu">filter</span>(adj.P.Val <span class="sc">&lt;</span> <span class="fl">0.05</span>, log2FC <span class="sc">&lt;</span> <span class="sc">-</span>lfc)</span>
+<span id="cb13-9"><a href="#cb13-9"></a></span>
+<span id="cb13-10"><a href="#cb13-10"></a><span class="fu">cat</span>(<span class="st">"The number of all DEGs:"</span>, <span class="fu">nrow</span>(deg_all), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb13-11"><a href="#cb13-11"></a><span class="fu">cat</span>(<span class="st">"The number of up DEGs:"</span>, <span class="fu">nrow</span>(deg_up), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb13-12"><a href="#cb13-12"></a><span class="fu">cat</span>(<span class="st">"The number of down DEGs:"</span>, <span class="fu">nrow</span>(deg_down), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="figure-1a-volcano-plot" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="figure-1a-volcano-plot"><span class="header-section-number">3.3</span> Figure 1A: Volcano Plot</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>deg_all<span class="sc">$</span>significance <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(</span>
+<span id="cb14-2"><a href="#cb14-2"></a>  deg_all<span class="sc">$</span><span class="st">`</span><span class="at">adj.P.Val</span><span class="st">`</span> <span class="sc">&lt;</span> <span class="fl">0.05</span> <span class="sc">&amp;</span> <span class="fu">abs</span>(deg_all<span class="sc">$</span>log2FC) <span class="sc">&gt;</span> lfc,</span>
+<span id="cb14-3"><a href="#cb14-3"></a>  <span class="fu">ifelse</span>(deg_all<span class="sc">$</span>log2FC <span class="sc">&gt;</span> lfc, <span class="fu">paste0</span>(<span class="st">"Up("</span>,<span class="fu">nrow</span>(deg_up),<span class="st">")"</span>), <span class="fu">paste0</span>(<span class="st">"Down("</span>,<span class="fu">nrow</span>(deg_down),<span class="st">")"</span>)), <span class="st">"NS"</span>)</span>
+<span id="cb14-4"><a href="#cb14-4"></a></span>
+<span id="cb14-5"><a href="#cb14-5"></a>p1A <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(deg_all, <span class="fu">aes</span>(<span class="at">x =</span> log2FC, <span class="at">y =</span> <span class="sc">-</span><span class="fu">log10</span>(adj.P.Val), <span class="at">color =</span> significance)) <span class="sc">+</span></span>
+<span id="cb14-6"><a href="#cb14-6"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb14-7"><a href="#cb14-7"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="fu">pal_lancet</span>()(<span class="dv">9</span>)[<span class="dv">1</span>], <span class="st">"gray"</span>, <span class="fu">pal_lancet</span>()(<span class="dv">9</span>)[<span class="dv">2</span>])) <span class="sc">+</span></span>
+<span id="cb14-8"><a href="#cb14-8"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">c</span>(<span class="sc">-</span>lfc, lfc), <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"gray40"</span>, <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb14-9"><a href="#cb14-9"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="sc">-</span><span class="fu">log10</span>(<span class="fl">0.05</span>), <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"gray40"</span>, <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb14-10"><a href="#cb14-10"></a>  <span class="fu">labs</span>(</span>
+<span id="cb14-11"><a href="#cb14-11"></a>    <span class="co"># tag = "A",</span></span>
+<span id="cb14-12"><a href="#cb14-12"></a>    <span class="at">x =</span> <span class="st">"log2(Fold Change)"</span>, </span>
+<span id="cb14-13"><a href="#cb14-13"></a>    <span class="at">y =</span> <span class="st">"-log10(Adjusted P)"</span>) <span class="sc">+</span></span>
+<span id="cb14-14"><a href="#cb14-14"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb14-15"><a href="#cb14-15"></a>  <span class="fu">theme</span>(</span>
+<span id="cb14-16"><a href="#cb14-16"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb14-17"><a href="#cb14-17"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>),</span>
+<span id="cb14-18"><a href="#cb14-18"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>, <span class="at">color =</span> <span class="st">"grey5"</span>),</span>
+<span id="cb14-19"><a href="#cb14-19"></a>    <span class="at">legend.position =</span> <span class="st">"right"</span>,</span>
+<span id="cb14-20"><a href="#cb14-20"></a>    <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>),</span>
+<span id="cb14-21"><a href="#cb14-21"></a>    <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">l =</span> <span class="sc">-</span><span class="fl">0.2</span>, <span class="at">unit =</span> <span class="st">"cm"</span>)),</span>
+<span id="cb14-22"><a href="#cb14-22"></a>    <span class="at">legend.box.spacing =</span> <span class="fu">unit</span>(<span class="fl">0.1</span>, <span class="st">"cm"</span>),</span>
+<span id="cb14-23"><a href="#cb14-23"></a>    <span class="at">legend.box.margin =</span> <span class="fu">margin</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb14-24"><a href="#cb14-24"></a>    <span class="at">legend.margin =</span> <span class="fu">margin</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb14-25"><a href="#cb14-25"></a>    <span class="co"># plot.tag = element_text(size = 12, face = "bold"),</span></span>
+<span id="cb14-26"><a href="#cb14-26"></a>    <span class="co"># plot.tag.position = c(0.02, 0.97),</span></span>
+<span id="cb14-27"><a href="#cb14-27"></a>    <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="dv">1</span>, <span class="at">r =</span> <span class="dv">2</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">l =</span> <span class="dv">2</span>)</span>
+<span id="cb14-28"><a href="#cb14-28"></a>  ) </span>
+<span id="cb14-29"><a href="#cb14-29"></a></span>
+<span id="cb14-30"><a href="#cb14-30"></a><span class="fu">ggsave</span>(<span class="st">"../main/figures/Figure_1A.png"</span>, p1A, <span class="at">width =</span> <span class="dv">7</span>,<span class="at">height =</span> <span class="dv">5</span>, <span class="at">units =</span> <span class="st">"cm"</span>, <span class="at">dpi =</span> <span class="dv">600</span>)</span>
+<span id="cb14-31"><a href="#cb14-31"></a></span>
+<span id="cb14-32"><a href="#cb14-32"></a><span class="fu">ggsave</span>(<span class="st">"../main/figures/Figure_1A.pdf"</span>, p1A, <span class="at">width =</span> <span class="dv">7</span>,<span class="at">height =</span> <span class="dv">5</span>, <span class="at">units =</span> <span class="st">"cm"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><img src="../main/figures/Figure_1A.png" class="img-fluid"></p>
+</section>
+<section id="figure-1b.-heatmap" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="figure-1b.-heatmap"><span class="header-section-number">3.4</span> Figure 1B. Heatmap</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>deg_sig <span class="ot">&lt;-</span> deg_all <span class="sc">%&gt;%</span> <span class="fu">filter</span>(adj.P.Val <span class="sc">&lt;</span> <span class="fl">0.05</span>, <span class="fu">abs</span>(log2FC) <span class="sc">&gt;</span> lfc)</span>
+<span id="cb15-2"><a href="#cb15-2"></a></span>
+<span id="cb15-3"><a href="#cb15-3"></a>N_top <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a></span>
+<span id="cb15-5"><a href="#cb15-5"></a>up_top <span class="ot">&lt;-</span> deg_sig <span class="sc">%&gt;%</span></span>
+<span id="cb15-6"><a href="#cb15-6"></a>  <span class="fu">filter</span>(log2FC <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb15-7"><a href="#cb15-7"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(log2FC)) <span class="sc">%&gt;%</span></span>
+<span id="cb15-8"><a href="#cb15-8"></a>  <span class="fu">head</span>(N_top)</span>
+<span id="cb15-9"><a href="#cb15-9"></a></span>
+<span id="cb15-10"><a href="#cb15-10"></a>down_top <span class="ot">&lt;-</span> deg_sig <span class="sc">%&gt;%</span></span>
+<span id="cb15-11"><a href="#cb15-11"></a>  <span class="fu">filter</span>(log2FC <span class="sc">&lt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb15-12"><a href="#cb15-12"></a>  <span class="fu">arrange</span>(log2FC) <span class="sc">%&gt;%</span></span>
+<span id="cb15-13"><a href="#cb15-13"></a>  <span class="fu">head</span>(N_top)</span>
+<span id="cb15-14"><a href="#cb15-14"></a></span>
+<span id="cb15-15"><a href="#cb15-15"></a>heat_genes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rownames</span>(up_top), <span class="fu">rownames</span>(down_top))</span>
+<span id="cb15-16"><a href="#cb15-16"></a></span>
+<span id="cb15-17"><a href="#cb15-17"></a>sample_order <span class="ot">&lt;-</span> pheno <span class="sc">%&gt;%</span></span>
+<span id="cb15-18"><a href="#cb15-18"></a>  <span class="fu">arrange</span>(group) <span class="sc">%&gt;%</span>   </span>
+<span id="cb15-19"><a href="#cb15-19"></a>  <span class="fu">pull</span>(geo_accession)  </span>
+<span id="cb15-20"><a href="#cb15-20"></a></span>
+<span id="cb15-21"><a href="#cb15-21"></a>deg_top100 <span class="ot">&lt;-</span> expr_filt[heat_genes, sample_order]</span>
+<span id="cb15-22"><a href="#cb15-22"></a></span>
+<span id="cb15-23"><a href="#cb15-23"></a>deg_top100_z <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">scale</span>(<span class="fu">t</span>(deg_top100)))</span>
+<span id="cb15-24"><a href="#cb15-24"></a></span>
+<span id="cb15-25"><a href="#cb15-25"></a>breaks <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb15-26"><a href="#cb15-26"></a>palette <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="fu">pal_lancet</span>()(<span class="dv">9</span>)[<span class="dv">1</span>], <span class="st">"white"</span>, <span class="fu">pal_lancet</span>()(<span class="dv">9</span>)[<span class="dv">2</span>]))(<span class="dv">99</span>)</span>
+<span id="cb15-27"><a href="#cb15-27"></a><span class="cf">if</span> (<span class="fu">length</span>(breaks) <span class="sc">==</span> <span class="fu">length</span>(palette)) {</span>
+<span id="cb15-28"><a href="#cb15-28"></a>  col_fun <span class="ot">&lt;-</span> <span class="fu">colorRamp2</span>(breaks, palette)</span>
+<span id="cb15-29"><a href="#cb15-29"></a>} <span class="cf">else</span> {</span>
+<span id="cb15-30"><a href="#cb15-30"></a>  mid_breaks <span class="ot">&lt;-</span> (breaks[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">+</span> breaks[<span class="sc">-</span><span class="fu">length</span>(breaks)]) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb15-31"><a href="#cb15-31"></a>  col_fun <span class="ot">&lt;-</span> <span class="fu">colorRamp2</span>(mid_breaks, palette)</span>
+<span id="cb15-32"><a href="#cb15-32"></a>}</span>
+<span id="cb15-33"><a href="#cb15-33"></a></span>
+<span id="cb15-34"><a href="#cb15-34"></a>sample_order <span class="ot">&lt;-</span> pheno <span class="sc">%&gt;%</span></span>
+<span id="cb15-35"><a href="#cb15-35"></a>  <span class="fu">arrange</span>(group) <span class="sc">%&gt;%</span>   </span>
+<span id="cb15-36"><a href="#cb15-36"></a>  <span class="fu">pull</span>(geo_accession)  </span>
+<span id="cb15-37"><a href="#cb15-37"></a></span>
+<span id="cb15-38"><a href="#cb15-38"></a><span class="co"># Group annotation</span></span>
+<span id="cb15-39"><a href="#cb15-39"></a>anno_col <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb15-40"><a href="#cb15-40"></a>  <span class="at">Group =</span> pheno<span class="sc">$</span>group[<span class="fu">match</span>(sample_order, pheno<span class="sc">$</span>geo_accession)]</span>
+<span id="cb15-41"><a href="#cb15-41"></a>)</span>
+<span id="cb15-42"><a href="#cb15-42"></a><span class="fu">rownames</span>(anno_col) <span class="ot">&lt;-</span> sample_order</span>
+<span id="cb15-43"><a href="#cb15-43"></a>anno_col<span class="sc">$</span>Group <span class="ot">&lt;-</span> <span class="fu">factor</span>(anno_col<span class="sc">$</span>Group, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"HF"</span>, <span class="st">"HC"</span>))</span>
+<span id="cb15-44"><a href="#cb15-44"></a></span>
+<span id="cb15-45"><a href="#cb15-45"></a>ha <span class="ot">&lt;-</span> <span class="fu">HeatmapAnnotation</span>(</span>
+<span id="cb15-46"><a href="#cb15-46"></a>  <span class="at">group_label =</span> <span class="fu">anno_block</span>(</span>
+<span id="cb15-47"><a href="#cb15-47"></a>    <span class="at">which =</span> <span class="st">"column"</span>,</span>
+<span id="cb15-48"><a href="#cb15-48"></a>    <span class="at">gp =</span> <span class="fu">gpar</span>(<span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">col =</span> <span class="cn">NA</span>),          </span>
+<span id="cb15-49"><a href="#cb15-49"></a>    <span class="at">panel_fun =</span> <span class="cf">function</span>(index, nm) {</span>
+<span id="cb15-50"><a href="#cb15-50"></a>      n <span class="ot">&lt;-</span> <span class="fu">length</span>(index)</span>
+<span id="cb15-51"><a href="#cb15-51"></a>      group_vec <span class="ot">&lt;-</span> anno_col<span class="sc">$</span>Group[index]</span>
+<span id="cb15-52"><a href="#cb15-52"></a>      col_map <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"HF"</span> <span class="ot">=</span> lancet_colors[<span class="dv">2</span>], <span class="st">"HC"</span> <span class="ot">=</span> lancet_colors[<span class="dv">1</span>])</span>
+<span id="cb15-53"><a href="#cb15-53"></a>      colors <span class="ot">&lt;-</span> col_map[group_vec]</span>
+<span id="cb15-54"><a href="#cb15-54"></a></span>
+<span id="cb15-55"><a href="#cb15-55"></a>      <span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(index)) {</span>
+<span id="cb15-56"><a href="#cb15-56"></a>        x_left <span class="ot">&lt;-</span> (i <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> n</span>
+<span id="cb15-57"><a href="#cb15-57"></a>        <span class="fu">grid.rect</span>(</span>
+<span id="cb15-58"><a href="#cb15-58"></a>          <span class="at">x =</span> x_left, <span class="at">y =</span> <span class="dv">0</span>,</span>
+<span id="cb15-59"><a href="#cb15-59"></a>          <span class="at">width =</span> <span class="dv">1</span> <span class="sc">/</span> n, <span class="at">height =</span> <span class="dv">1</span>,</span>
+<span id="cb15-60"><a href="#cb15-60"></a>          <span class="at">just =</span> <span class="fu">c</span>(<span class="st">"left"</span>, <span class="st">"bottom"</span>),</span>
+<span id="cb15-61"><a href="#cb15-61"></a>          <span class="at">gp =</span> <span class="fu">gpar</span>(<span class="at">fill =</span> colors[i], <span class="at">col =</span> <span class="cn">NA</span>)  </span>
+<span id="cb15-62"><a href="#cb15-62"></a>        )</span>
+<span id="cb15-63"><a href="#cb15-63"></a>      }</span>
+<span id="cb15-64"><a href="#cb15-64"></a>      </span>
+<span id="cb15-65"><a href="#cb15-65"></a>      rle_res <span class="ot">&lt;-</span> <span class="fu">rle</span>(<span class="fu">as.character</span>(group_vec))   </span>
+<span id="cb15-66"><a href="#cb15-66"></a>      cum_pos <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(<span class="fu">c</span>(<span class="dv">0</span>, rle_res<span class="sc">$</span>lengths[<span class="sc">-</span><span class="fu">length</span>(rle_res<span class="sc">$</span>lengths)])) <span class="sc">/</span> n</span>
+<span id="cb15-67"><a href="#cb15-67"></a>      <span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(rle_res<span class="sc">$</span>values)) {</span>
+<span id="cb15-68"><a href="#cb15-68"></a>        center_x <span class="ot">&lt;-</span> cum_pos[i] <span class="sc">+</span> (rle_res<span class="sc">$</span>lengths[i] <span class="sc">/</span> n) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb15-69"><a href="#cb15-69"></a>        <span class="fu">grid.text</span>(</span>
+<span id="cb15-70"><a href="#cb15-70"></a>          <span class="at">label =</span> rle_res<span class="sc">$</span>values[i],</span>
+<span id="cb15-71"><a href="#cb15-71"></a>          <span class="at">x =</span> center_x,</span>
+<span id="cb15-72"><a href="#cb15-72"></a>          <span class="at">y =</span> <span class="fl">0.5</span>,</span>
+<span id="cb15-73"><a href="#cb15-73"></a>          <span class="at">gp =</span> <span class="fu">gpar</span>(<span class="at">fontsize =</span> <span class="dv">8</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>, <span class="at">col =</span> <span class="st">"white"</span>)</span>
+<span id="cb15-74"><a href="#cb15-74"></a>        )</span>
+<span id="cb15-75"><a href="#cb15-75"></a>      }</span>
+<span id="cb15-76"><a href="#cb15-76"></a>    }</span>
+<span id="cb15-77"><a href="#cb15-77"></a>  ),</span>
+<span id="cb15-78"><a href="#cb15-78"></a>  <span class="at">show_legend =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb15-79"><a href="#cb15-79"></a>  <span class="at">show_annotation_name =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb15-80"><a href="#cb15-80"></a>  <span class="at">annotation_height =</span> <span class="fu">unit</span>(<span class="fl">0.3</span>, <span class="st">"cm"</span>)</span>
+<span id="cb15-81"><a href="#cb15-81"></a>)</span>
+<span id="cb15-82"><a href="#cb15-82"></a></span>
+<span id="cb15-83"><a href="#cb15-83"></a><span class="fu">ht_opt</span>(<span class="at">HEATMAP_LEGEND_PADDING =</span> <span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">"mm"</span>))</span>
+<span id="cb15-84"><a href="#cb15-84"></a>p1B <span class="ot">&lt;-</span> <span class="fu">Heatmap</span>(</span>
+<span id="cb15-85"><a href="#cb15-85"></a>  deg_top100_z,</span>
+<span id="cb15-86"><a href="#cb15-86"></a>  <span class="at">name =</span> <span class="st">"Log2FC"</span>,</span>
+<span id="cb15-87"><a href="#cb15-87"></a>  <span class="at">col =</span> col_fun,</span>
+<span id="cb15-88"><a href="#cb15-88"></a>  <span class="at">show_row_names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb15-89"><a href="#cb15-89"></a>  <span class="at">show_column_names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb15-90"><a href="#cb15-90"></a>  <span class="at">cluster_rows =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb15-91"><a href="#cb15-91"></a>  <span class="at">cluster_columns =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb15-92"><a href="#cb15-92"></a>  <span class="at">show_column_dend =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb15-93"><a href="#cb15-93"></a>  <span class="at">row_dend_width =</span> <span class="fu">unit</span>(<span class="fl">0.08</span>, <span class="st">"npc"</span>), </span>
+<span id="cb15-94"><a href="#cb15-94"></a>  <span class="at">border =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb15-95"><a href="#cb15-95"></a>  <span class="at">top_annotation =</span> ha,</span>
+<span id="cb15-96"><a href="#cb15-96"></a>  <span class="co"># show_heatmap_legend = FALSE, # Annotate when drawing p1B</span></span>
+<span id="cb15-97"><a href="#cb15-97"></a>  <span class="at">heatmap_legend_param =</span> <span class="fu">list</span>(</span>
+<span id="cb15-98"><a href="#cb15-98"></a>    <span class="at">title =</span> <span class="st">""</span>,</span>
+<span id="cb15-99"><a href="#cb15-99"></a>    <span class="at">labels_gp =</span> <span class="fu">gpar</span>(<span class="at">fontsize =</span> <span class="dv">8</span>, <span class="at">color=</span><span class="st">"grey5"</span>),</span>
+<span id="cb15-100"><a href="#cb15-100"></a>    <span class="at">legend_width =</span> <span class="fu">unit</span>(<span class="fl">0.3</span>, <span class="st">"cm"</span>),</span>
+<span id="cb15-101"><a href="#cb15-101"></a>    <span class="at">legend_height =</span> <span class="fu">unit</span>(<span class="dv">3</span>, <span class="st">"cm"</span>),</span>
+<span id="cb15-102"><a href="#cb15-102"></a>    <span class="at">grid_width =</span> <span class="fu">unit</span>(<span class="fl">0.2</span>, <span class="st">"cm"</span>),</span>
+<span id="cb15-103"><a href="#cb15-103"></a>    <span class="at">legend.space =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">"mm"</span>),</span>
+<span id="cb15-104"><a href="#cb15-104"></a>    <span class="at">legend.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="st">"mm"</span>)</span>
+<span id="cb15-105"><a href="#cb15-105"></a>  )</span>
+<span id="cb15-106"><a href="#cb15-106"></a>)</span>
+<span id="cb15-107"><a href="#cb15-107"></a></span>
+<span id="cb15-108"><a href="#cb15-108"></a><span class="fu">png</span>(<span class="at">filename =</span> <span class="st">"../main/figures/Figure_1B.png"</span>, </span>
+<span id="cb15-109"><a href="#cb15-109"></a>    <span class="at">width =</span> <span class="dv">7</span>, <span class="at">height =</span> <span class="dv">5</span>, </span>
+<span id="cb15-110"><a href="#cb15-110"></a>    <span class="at">units =</span> <span class="st">"cm"</span>, </span>
+<span id="cb15-111"><a href="#cb15-111"></a>    <span class="at">pointsize =</span> <span class="dv">10</span>,</span>
+<span id="cb15-112"><a href="#cb15-112"></a>    <span class="at">res =</span> <span class="dv">600</span>)</span>
+<span id="cb15-113"><a href="#cb15-113"></a>p1B</span>
+<span id="cb15-114"><a href="#cb15-114"></a><span class="fu">dev.off</span>()</span>
+<span id="cb15-115"><a href="#cb15-115"></a></span>
+<span id="cb15-116"><a href="#cb15-116"></a><span class="fu">pdf</span>(<span class="at">file =</span> <span class="st">"../main/figures/Figure_1B.pdf"</span>, </span>
+<span id="cb15-117"><a href="#cb15-117"></a>    <span class="at">width =</span> <span class="dv">7</span>, <span class="at">height =</span> <span class="dv">5</span>,  </span>
+<span id="cb15-118"><a href="#cb15-118"></a>    <span class="at">pointsize =</span> <span class="dv">10</span>)</span>
+<span id="cb15-119"><a href="#cb15-119"></a>p1B</span>
+<span id="cb15-120"><a href="#cb15-120"></a><span class="fu">dev.off</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><img src="../main/figures/Figure_1B.png" class="img-fluid"></p>
+</section>
+<section id="saving-deg-results" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="saving-deg-results"><span class="header-section-number">3.5</span> Saving DEG Results</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">save</span>(deg_all,deg_sig,deg_up, deg_down, deg_top100, lfc, <span class="at">file =</span> <span class="st">"../data/processed/geo/gse57338_degs_results.RData"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="wgcna" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> WGCNA</h1>
+<section id="load-data-1" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="load-data-1"><span class="header-section-number">4.1</span> Load Data</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb17-2"><a href="#cb17-2"></a></span>
+<span id="cb17-3"><a href="#cb17-3"></a><span class="fu">load</span>(<span class="st">"../data/processed/geo/gse57338.RData"</span>)</span>
+<span id="cb17-4"><a href="#cb17-4"></a></span>
+<span id="cb17-5"><a href="#cb17-5"></a><span class="co"># expression matrix</span></span>
+<span id="cb17-6"><a href="#cb17-6"></a><span class="co"># WGCNA required: Sample (row) x  Gene(column)</span></span>
+<span id="cb17-7"><a href="#cb17-7"></a></span>
+<span id="cb17-8"><a href="#cb17-8"></a>dat <span class="ot">&lt;-</span> expr_filt</span>
+<span id="cb17-9"><a href="#cb17-9"></a></span>
+<span id="cb17-10"><a href="#cb17-10"></a>common_samples <span class="ot">&lt;-</span> <span class="fu">intersect</span>(<span class="fu">colnames</span>(dat), <span class="fu">rownames</span>(pheno))</span>
+<span id="cb17-11"><a href="#cb17-11"></a></span>
+<span id="cb17-12"><a href="#cb17-12"></a>dat <span class="ot">&lt;-</span> dat[, common_samples, drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb17-13"><a href="#cb17-13"></a>pheno_wgcna <span class="ot">&lt;-</span> pheno[<span class="fu">match</span>(common_samples, <span class="fu">rownames</span>(pheno)), , drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb17-14"><a href="#cb17-14"></a></span>
+<span id="cb17-15"><a href="#cb17-15"></a><span class="cf">if</span> (<span class="fu">ncol</span>(dat) <span class="sc">==</span> <span class="fu">nrow</span>(pheno_wgcna)) {</span>
+<span id="cb17-16"><a href="#cb17-16"></a>  datExpr <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(dat))</span>
+<span id="cb17-17"><a href="#cb17-17"></a>} <span class="cf">else</span> <span class="cf">if</span> (<span class="fu">nrow</span>(dat) <span class="sc">==</span> <span class="fu">nrow</span>(pheno_wgcna)) {</span>
+<span id="cb17-18"><a href="#cb17-18"></a>  datExpr <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(dat)</span>
+<span id="cb17-19"><a href="#cb17-19"></a>} <span class="cf">else</span> {</span>
+<span id="cb17-20"><a href="#cb17-20"></a>  <span class="fu">stop</span>(<span class="st">"Error: Sample dimension mismatch between expression matrix and phenotype data."</span>)</span>
+<span id="cb17-21"><a href="#cb17-21"></a>} </span>
+<span id="cb17-22"><a href="#cb17-22"></a><span class="fu">rownames</span>(datExpr) <span class="ot">&lt;-</span> common_samples</span>
+<span id="cb17-23"><a href="#cb17-23"></a></span>
+<span id="cb17-24"><a href="#cb17-24"></a><span class="fu">dim</span>(datExpr)</span>
+<span id="cb17-25"><a href="#cb17-25"></a></span>
+<span id="cb17-26"><a href="#cb17-26"></a><span class="co"># trait: group (HC=0, HF=1)</span></span>
+<span id="cb17-27"><a href="#cb17-27"></a>datTraits <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb17-28"><a href="#cb17-28"></a>  <span class="at">Group =</span> <span class="fu">factor</span>(pheno_wgcna<span class="sc">$</span>group)</span>
+<span id="cb17-29"><a href="#cb17-29"></a>)</span>
+<span id="cb17-30"><a href="#cb17-30"></a><span class="fu">rownames</span>(datTraits) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(expr_filt)</span>
+<span id="cb17-31"><a href="#cb17-31"></a></span>
+<span id="cb17-32"><a href="#cb17-32"></a>datTraits<span class="sc">$</span>Disease <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(pheno_wgcna<span class="sc">$</span>group <span class="sc">==</span> <span class="st">"HF"</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="sample-clustering-checking-for-outlier-samples-quality-control" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="sample-clustering-checking-for-outlier-samples-quality-control"><span class="header-section-number">4.2</span> Sample clustering (checking for outlier samples, quality control)</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="co"># goodSamplesGenes</span></span>
+<span id="cb18-2"><a href="#cb18-2"></a><span class="co"># Quality control: Remove bad genes/samples</span></span>
+<span id="cb18-3"><a href="#cb18-3"></a>gsg <span class="ot">&lt;-</span> <span class="fu">goodSamplesGenes</span>(datExpr, <span class="at">verbose =</span> <span class="dv">3</span>)</span>
+<span id="cb18-4"><a href="#cb18-4"></a><span class="cf">if</span> (<span class="sc">!</span>gsg<span class="sc">$</span>allOK) {</span>
+<span id="cb18-5"><a href="#cb18-5"></a>  <span class="cf">if</span> (<span class="fu">sum</span>(<span class="sc">!</span>gsg<span class="sc">$</span>goodGenes) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb18-6"><a href="#cb18-6"></a>    <span class="fu">printFlush</span>(<span class="fu">paste</span>(<span class="st">"Removing genes:"</span>, <span class="fu">paste</span>(<span class="fu">names</span>(datExpr)[<span class="sc">!</span>gsg<span class="sc">$</span>goodGenes], <span class="at">collapse =</span> <span class="st">","</span>)))</span>
+<span id="cb18-7"><a href="#cb18-7"></a>  }</span>
+<span id="cb18-8"><a href="#cb18-8"></a>  <span class="cf">if</span> (<span class="fu">sum</span>(<span class="sc">!</span>gsg<span class="sc">$</span>goodSamples) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb18-9"><a href="#cb18-9"></a>    <span class="fu">printFlush</span>(<span class="fu">paste</span>(<span class="st">"Removing samples:"</span>, <span class="fu">paste</span>(<span class="fu">rownames</span>(datExpr)[<span class="sc">!</span>gsg<span class="sc">$</span>goodSamples], <span class="at">collapse =</span> <span class="st">","</span>)))</span>
+<span id="cb18-10"><a href="#cb18-10"></a>  }</span>
+<span id="cb18-11"><a href="#cb18-11"></a>  datExpr <span class="ot">&lt;-</span> datExpr[gsg<span class="sc">$</span>goodSamples, gsg<span class="sc">$</span>goodGenes]</span>
+<span id="cb18-12"><a href="#cb18-12"></a>}</span>
+<span id="cb18-13"><a href="#cb18-13"></a></span>
+<span id="cb18-14"><a href="#cb18-14"></a><span class="co"># Screening for highly variable genes: MAD. Retain the first 5000</span></span>
+<span id="cb18-15"><a href="#cb18-15"></a>gene_mad <span class="ot">&lt;-</span> <span class="fu">apply</span>(datExpr, <span class="dv">2</span>, mad, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb18-16"><a href="#cb18-16"></a>N_top <span class="ot">&lt;-</span> <span class="dv">5000</span></span>
+<span id="cb18-17"><a href="#cb18-17"></a>n_select <span class="ot">&lt;-</span> <span class="fu">min</span>(N_top, <span class="fu">ncol</span>(datExpr))   </span>
+<span id="cb18-18"><a href="#cb18-18"></a>selected_genes <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">sort</span>(gene_mad, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span>n_select])</span>
+<span id="cb18-19"><a href="#cb18-19"></a>datExpr <span class="ot">&lt;-</span> datExpr[, selected_genes]</span>
+<span id="cb18-20"><a href="#cb18-20"></a><span class="fu">cat</span>(<span class="st">"Retain the number of highly variable genes："</span>, <span class="fu">ncol</span>(datExpr), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb18-21"><a href="#cb18-21"></a><span class="fu">save</span>(datTraits,datExpr,pheno_wgcna,<span class="at">file =</span> <span class="st">"../data/processed/geo/gse57338_datExpr.RData"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="figure-s2a" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="figure-s2a"><span class="header-section-number">4.2.1</span> Figure S2A</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="co"># Sample clustering: sampleTree</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a>sampleTree <span class="ot">&lt;-</span> <span class="fu">hclust</span>(<span class="fu">dist</span>(datExpr), <span class="at">method =</span> <span class="st">"average"</span>)</span>
+<span id="cb19-3"><a href="#cb19-3"></a>group_color <span class="ot">=</span> <span class="fu">ifelse</span>(pheno_wgcna<span class="sc">$</span>group<span class="sc">==</span><span class="st">"HF"</span>,<span class="fu">pal_lancet</span>()(<span class="dv">9</span>)[<span class="dv">2</span>],<span class="fu">pal_lancet</span>()(<span class="dv">9</span>)[<span class="dv">1</span>])</span>
+<span id="cb19-4"><a href="#cb19-4"></a>color_mat <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">Group =</span> group_color)</span>
+<span id="cb19-5"><a href="#cb19-5"></a></span>
+<span id="cb19-6"><a href="#cb19-6"></a><span class="fu">png</span>(<span class="at">filename =</span> <span class="st">"../supplementary/figures/Figure_S2A.png"</span>, </span>
+<span id="cb19-7"><a href="#cb19-7"></a>    <span class="at">width =</span> <span class="dv">14</span>, </span>
+<span id="cb19-8"><a href="#cb19-8"></a>    <span class="at">height =</span> <span class="dv">5</span>, </span>
+<span id="cb19-9"><a href="#cb19-9"></a>    <span class="at">units =</span> <span class="st">"cm"</span>, </span>
+<span id="cb19-10"><a href="#cb19-10"></a>    <span class="at">res =</span> <span class="dv">600</span>,</span>
+<span id="cb19-11"><a href="#cb19-11"></a>    <span class="at">pointsize =</span> <span class="dv">10</span>)</span>
+<span id="cb19-12"><a href="#cb19-12"></a></span>
+<span id="cb19-13"><a href="#cb19-13"></a><span class="fu">par</span>(<span class="at">ps=</span><span class="dv">10</span>, </span>
+<span id="cb19-14"><a href="#cb19-14"></a>    <span class="at">lwd =</span> <span class="fl">0.5</span>, </span>
+<span id="cb19-15"><a href="#cb19-15"></a>    <span class="at">font.lab =</span> <span class="dv">1</span>, </span>
+<span id="cb19-16"><a href="#cb19-16"></a>    <span class="at">font.main=</span><span class="dv">2</span>, </span>
+<span id="cb19-17"><a href="#cb19-17"></a>    <span class="at">mai=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), </span>
+<span id="cb19-18"><a href="#cb19-18"></a>    <span class="at">oma=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)</span>
+<span id="cb19-19"><a href="#cb19-19"></a>)  </span>
+<span id="cb19-20"><a href="#cb19-20"></a></span>
+<span id="cb19-21"><a href="#cb19-21"></a><span class="fu">plotDendroAndColors</span>(</span>
+<span id="cb19-22"><a href="#cb19-22"></a>  <span class="at">dendro =</span> sampleTree, </span>
+<span id="cb19-23"><a href="#cb19-23"></a>  <span class="at">colors =</span> color_mat, </span>
+<span id="cb19-24"><a href="#cb19-24"></a>  <span class="at">dendroLabels =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb19-25"><a href="#cb19-25"></a>  <span class="at">addGuide =</span> <span class="cn">TRUE</span>,       </span>
+<span id="cb19-26"><a href="#cb19-26"></a>  <span class="co"># guideCol = "grey",</span></span>
+<span id="cb19-27"><a href="#cb19-27"></a>  <span class="at">main =</span> <span class="st">"Sample clustering"</span>,</span>
+<span id="cb19-28"><a href="#cb19-28"></a>  <span class="at">cex.dendroLabels =</span> <span class="fl">0.8</span>,</span>
+<span id="cb19-29"><a href="#cb19-29"></a>  <span class="at">cex.colorLabels =</span> <span class="dv">1</span>,</span>
+<span id="cb19-30"><a href="#cb19-30"></a>  <span class="at">cex.axis =</span> <span class="fl">0.9</span>,</span>
+<span id="cb19-31"><a href="#cb19-31"></a>  <span class="at">cex.lab =</span> <span class="dv">1</span>,</span>
+<span id="cb19-32"><a href="#cb19-32"></a>  <span class="at">cex.main =</span> <span class="fl">1.0</span>,</span>
+<span id="cb19-33"><a href="#cb19-33"></a>  <span class="at">marAll =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="dv">3</span>, <span class="fl">0.8</span>, <span class="dv">0</span>), </span>
+<span id="cb19-34"><a href="#cb19-34"></a>  <span class="at">saveMar =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb19-35"><a href="#cb19-35"></a>  <span class="at">lwd =</span> <span class="fl">0.5</span>,</span>
+<span id="cb19-36"><a href="#cb19-36"></a>  <span class="at">mgp =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb19-37"><a href="#cb19-37"></a>)</span>
+<span id="cb19-38"><a href="#cb19-38"></a><span class="fu">dev.off</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><img src="../supplementary/figures/Figure_S2A.png" class="img-fluid"></p>
+<hr>
+</section>
+</section>
+<section id="step-3-select-soft-threshold" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="step-3-select-soft-threshold"><span class="header-section-number">4.3</span> Step 3: Select soft threshold</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="co"># load("../data/processed/geo/gse57338_datExpr.RData")</span></span>
+<span id="cb20-2"><a href="#cb20-2"></a><span class="fu">enableWGCNAThreads</span>()</span>
+<span id="cb20-3"><a href="#cb20-3"></a>powers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>), <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">12</span>, <span class="at">to=</span><span class="dv">30</span>, <span class="at">by=</span><span class="dv">2</span>))</span>
+<span id="cb20-4"><a href="#cb20-4"></a></span>
+<span id="cb20-5"><a href="#cb20-5"></a>R2_cut <span class="ot">&lt;-</span> <span class="fl">0.8</span></span>
+<span id="cb20-6"><a href="#cb20-6"></a></span>
+<span id="cb20-7"><a href="#cb20-7"></a>sft <span class="ot">&lt;-</span> <span class="fu">pickSoftThreshold</span>(</span>
+<span id="cb20-8"><a href="#cb20-8"></a>  datExpr,</span>
+<span id="cb20-9"><a href="#cb20-9"></a>  <span class="at">powerVector =</span> powers,</span>
+<span id="cb20-10"><a href="#cb20-10"></a>  <span class="at">RsquaredCut =</span> R2_cut, </span>
+<span id="cb20-11"><a href="#cb20-11"></a>  <span class="at">verbose =</span> <span class="dv">5</span>,</span>
+<span id="cb20-12"><a href="#cb20-12"></a>  <span class="at">networkType =</span> <span class="st">"unsigned"</span></span>
+<span id="cb20-13"><a href="#cb20-13"></a>)</span>
+<span id="cb20-14"><a href="#cb20-14"></a><span class="fu">disableWGCNAThreads</span>()</span>
+<span id="cb20-15"><a href="#cb20-15"></a></span>
+<span id="cb20-16"><a href="#cb20-16"></a>power <span class="ot">&lt;-</span> sft<span class="sc">$</span>powerEstimate</span>
+<span id="cb20-17"><a href="#cb20-17"></a><span class="cf">if</span>(<span class="fu">is.na</span>(power)) power <span class="ot">&lt;-</span> <span class="dv">8</span>  </span>
+<span id="cb20-18"><a href="#cb20-18"></a><span class="fu">cat</span>(<span class="st">"power = "</span>, power, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb20-19"><a href="#cb20-19"></a></span>
+<span id="cb20-20"><a href="#cb20-20"></a><span class="fu">save</span>(sft,powers, R2_cut, <span class="at">file=</span><span class="st">"../data/processed/geo/gse57338_sft.RData"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="figure-s2b" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="figure-s2b"><span class="header-section-number">4.3.1</span> Figure S2B</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">load</span>(<span class="st">"../data/processed/geo/gse57338_sft.RData"</span>)</span>
+<span id="cb21-2"><a href="#cb21-2"></a></span>
+<span id="cb21-3"><a href="#cb21-3"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb21-4"><a href="#cb21-4"></a>  <span class="at">Power =</span> sft<span class="sc">$</span>fitIndices[,<span class="dv">1</span>],</span>
+<span id="cb21-5"><a href="#cb21-5"></a>  <span class="at">R2 =</span> <span class="sc">-</span><span class="fu">sign</span>(sft<span class="sc">$</span>fitIndices[,<span class="dv">3</span>]) <span class="sc">*</span> sft<span class="sc">$</span>fitIndices[,<span class="dv">2</span>],</span>
+<span id="cb21-6"><a href="#cb21-6"></a>  <span class="at">Connectivity =</span> sft<span class="sc">$</span>fitIndices[,<span class="dv">5</span>]</span>
+<span id="cb21-7"><a href="#cb21-7"></a>)</span>
+<span id="cb21-8"><a href="#cb21-8"></a></span>
+<span id="cb21-9"><a href="#cb21-9"></a><span class="co"># Left Figure: R² vs Soft Power</span></span>
+<span id="cb21-10"><a href="#cb21-10"></a>pS2B1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> Power, <span class="at">y =</span> R2)) <span class="sc">+</span></span>
+<span id="cb21-11"><a href="#cb21-11"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> Power), <span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">color =</span> <span class="fu">pal_aaas</span>()(<span class="dv">10</span>)[<span class="dv">2</span>]) <span class="sc">+</span>  </span>
+<span id="cb21-12"><a href="#cb21-12"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> R2_cut, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="fu">pal_aaas</span>()(<span class="dv">10</span>)[<span class="dv">2</span>], <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb21-13"><a href="#cb21-13"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Soft Power"</span>, <span class="at">y =</span> <span class="fu">expression</span>(Scale <span class="sc">~</span> Free <span class="sc">~</span> R<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb21-14"><a href="#cb21-14"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb21-15"><a href="#cb21-15"></a>  <span class="fu">theme</span>(</span>
+<span id="cb21-16"><a href="#cb21-16"></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb21-17"><a href="#cb21-17"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>),     </span>
+<span id="cb21-18"><a href="#cb21-18"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>, <span class="at">color =</span> <span class="st">"grey"</span>),</span>
+<span id="cb21-19"><a href="#cb21-19"></a>    <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="at">unit =</span> <span class="st">"mm"</span>)</span>
+<span id="cb21-20"><a href="#cb21-20"></a>  )</span>
+<span id="cb21-21"><a href="#cb21-21"></a></span>
+<span id="cb21-22"><a href="#cb21-22"></a><span class="co"># Right Figure：Mean Connectivity vs Soft Power</span></span>
+<span id="cb21-23"><a href="#cb21-23"></a>pS2B2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> Power, <span class="at">y =</span> Connectivity)) <span class="sc">+</span></span>
+<span id="cb21-24"><a href="#cb21-24"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> Power), <span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">color =</span> <span class="fu">pal_aaas</span>()(<span class="dv">10</span>)[<span class="dv">2</span>]) <span class="sc">+</span></span>
+<span id="cb21-25"><a href="#cb21-25"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Soft Power"</span>, <span class="at">y =</span> <span class="st">"Mean Connectivity"</span>) <span class="sc">+</span></span>
+<span id="cb21-26"><a href="#cb21-26"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb21-27"><a href="#cb21-27"></a>  <span class="fu">theme</span>(</span>
+<span id="cb21-28"><a href="#cb21-28"></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb21-29"><a href="#cb21-29"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>),</span>
+<span id="cb21-30"><a href="#cb21-30"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>, <span class="at">color =</span> <span class="st">"grey5"</span>),</span>
+<span id="cb21-31"><a href="#cb21-31"></a>    <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="at">unit =</span> <span class="st">"mm"</span>)</span>
+<span id="cb21-32"><a href="#cb21-32"></a>  )</span>
+<span id="cb21-33"><a href="#cb21-33"></a></span>
+<span id="cb21-34"><a href="#cb21-34"></a></span>
+<span id="cb21-35"><a href="#cb21-35"></a>pS2B <span class="ot">&lt;-</span> <span class="fu">plot_grid</span>(pS2B1, pS2B2, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">align =</span> <span class="st">"h"</span>)</span>
+<span id="cb21-36"><a href="#cb21-36"></a></span>
+<span id="cb21-37"><a href="#cb21-37"></a><span class="fu">ggsave</span>(<span class="st">"../supplementary/figures/Figure_S2_B.png"</span>, </span>
+<span id="cb21-38"><a href="#cb21-38"></a>       <span class="at">plot =</span> pS2B,</span>
+<span id="cb21-39"><a href="#cb21-39"></a>       <span class="at">width =</span> <span class="dv">14</span>, </span>
+<span id="cb21-40"><a href="#cb21-40"></a>       <span class="at">height =</span> <span class="dv">5</span>, </span>
+<span id="cb21-41"><a href="#cb21-41"></a>       <span class="at">units =</span> <span class="st">"cm"</span>, </span>
+<span id="cb21-42"><a href="#cb21-42"></a>       <span class="at">dpi =</span> <span class="dv">600</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><img src="../supplementary/figures/Figure_S2B.png" class="img-fluid"></p>
+</section>
+</section>
+<section id="step-4-construct-a-co-expression-network" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="step-4-construct-a-co-expression-network"><span class="header-section-number">4.4</span> Step 4: Construct a co-expression network</h2>
+<hr>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="fu">enableWGCNAThreads</span>()</span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb22-3"><a href="#cb22-3"></a></span>
+<span id="cb22-4"><a href="#cb22-4"></a>net <span class="ot">&lt;-</span> <span class="fu">blockwiseModules</span>(</span>
+<span id="cb22-5"><a href="#cb22-5"></a>  datExpr,</span>
+<span id="cb22-6"><a href="#cb22-6"></a>  <span class="at">power =</span> power,</span>
+<span id="cb22-7"><a href="#cb22-7"></a>  <span class="at">TOMType =</span> <span class="st">"unsigned"</span>,</span>
+<span id="cb22-8"><a href="#cb22-8"></a>  <span class="at">minModuleSize =</span> <span class="dv">30</span>,      <span class="co"># Minimum number of genes in the module</span></span>
+<span id="cb22-9"><a href="#cb22-9"></a>  <span class="at">mergeCutHeight =</span> <span class="fl">0.25</span>,   <span class="co"># Merge similar modules</span></span>
+<span id="cb22-10"><a href="#cb22-10"></a>  <span class="at">numericLabels =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb22-11"><a href="#cb22-11"></a>  <span class="at">pamRespectsDendro =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb22-12"><a href="#cb22-12"></a>  <span class="at">verbose =</span> <span class="dv">3</span></span>
+<span id="cb22-13"><a href="#cb22-13"></a>)</span>
+<span id="cb22-14"><a href="#cb22-14"></a><span class="fu">disableWGCNAThreads</span>()</span>
+<span id="cb22-15"><a href="#cb22-15"></a></span>
+<span id="cb22-16"><a href="#cb22-16"></a><span class="fu">save</span>(net,<span class="at">file =</span> <span class="st">"../data/processed/geo/gse57338_net.RData"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="step-5-clustering" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="step-5-clustering"><span class="header-section-number">4.5</span> Step 5: Clustering</h2>
+<hr>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="fu">load</span>(<span class="st">"../data/processed/geo/gse57338_net.RData"</span>)</span>
+<span id="cb23-2"><a href="#cb23-2"></a></span>
+<span id="cb23-3"><a href="#cb23-3"></a><span class="co"># Convert to Color</span></span>
+<span id="cb23-4"><a href="#cb23-4"></a>moduleColors <span class="ot">&lt;-</span> <span class="fu">labels2colors</span>(net<span class="sc">$</span>colors)</span>
+<span id="cb23-5"><a href="#cb23-5"></a><span class="fu">table</span>(moduleColors) <span class="co"># Check the number of genes in each module</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="figure-1c-wgcna-gene-clustering-tree" class="level3" data-number="4.5.1">
+<h3 data-number="4.5.1" class="anchored" data-anchor-id="figure-1c-wgcna-gene-clustering-tree"><span class="header-section-number">4.5.1</span> Figure 1C: WGCNA gene clustering tree</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="fu">png</span>(</span>
+<span id="cb24-2"><a href="#cb24-2"></a>  <span class="st">"../main/figures/Figure_1C.png"</span>, </span>
+<span id="cb24-3"><a href="#cb24-3"></a>  <span class="at">width =</span> <span class="dv">14</span>, </span>
+<span id="cb24-4"><a href="#cb24-4"></a>  <span class="at">height =</span> <span class="dv">5</span>, </span>
+<span id="cb24-5"><a href="#cb24-5"></a>  <span class="at">units =</span> <span class="st">"cm"</span>, </span>
+<span id="cb24-6"><a href="#cb24-6"></a>  <span class="at">res =</span> <span class="dv">600</span>,</span>
+<span id="cb24-7"><a href="#cb24-7"></a>  <span class="at">pointsize =</span> <span class="dv">10</span></span>
+<span id="cb24-8"><a href="#cb24-8"></a>)</span>
+<span id="cb24-9"><a href="#cb24-9"></a></span>
+<span id="cb24-10"><a href="#cb24-10"></a><span class="fu">par</span>(<span class="at">ps =</span> <span class="dv">10</span>, <span class="at">font.lab =</span> <span class="dv">1</span>, <span class="at">font.main=</span><span class="dv">2</span>)</span>
+<span id="cb24-11"><a href="#cb24-11"></a><span class="fu">plotDendroAndColors</span>(</span>
+<span id="cb24-12"><a href="#cb24-12"></a>  net<span class="sc">$</span>dendrograms[[<span class="dv">1</span>]],</span>
+<span id="cb24-13"><a href="#cb24-13"></a>  moduleColors[net<span class="sc">$</span>blockGenes[[<span class="dv">1</span>]]],</span>
+<span id="cb24-14"><a href="#cb24-14"></a>  <span class="st">"Module</span><span class="sc">\n</span><span class="st">Colors "</span>,</span>
+<span id="cb24-15"><a href="#cb24-15"></a>  <span class="at">dendroLabels =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb24-16"><a href="#cb24-16"></a>  <span class="at">addGuide =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb24-17"><a href="#cb24-17"></a>  <span class="at">guideHang =</span> <span class="fl">0.2</span>,</span>
+<span id="cb24-18"><a href="#cb24-18"></a>  <span class="at">colorHeight =</span> <span class="fl">0.1</span>, </span>
+<span id="cb24-19"><a href="#cb24-19"></a>  <span class="at">cex.axis =</span> <span class="fl">0.9</span>,</span>
+<span id="cb24-20"><a href="#cb24-20"></a>  <span class="at">cex.text =</span> <span class="fl">0.8</span>,</span>
+<span id="cb24-21"><a href="#cb24-21"></a>  <span class="at">cex.dendroLabels =</span> <span class="fl">0.8</span>,</span>
+<span id="cb24-22"><a href="#cb24-22"></a>  <span class="at">cex.colorLabels =</span> <span class="fl">0.8</span>, </span>
+<span id="cb24-23"><a href="#cb24-23"></a>  <span class="at">cex.lab =</span> <span class="dv">1</span>,</span>
+<span id="cb24-24"><a href="#cb24-24"></a>  <span class="at">cex.main =</span> <span class="dv">1</span>,</span>
+<span id="cb24-25"><a href="#cb24-25"></a>  <span class="co"># main ="",</span></span>
+<span id="cb24-26"><a href="#cb24-26"></a>  <span class="at">marAll =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">2.8</span>, <span class="dv">1</span>, <span class="dv">0</span>), </span>
+<span id="cb24-27"><a href="#cb24-27"></a>  <span class="at">saveMar =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb24-28"><a href="#cb24-28"></a>  <span class="at">mgp =</span> <span class="fu">c</span>(<span class="fl">1.5</span>, <span class="fl">0.5</span>, <span class="dv">0</span>),</span>
+<span id="cb24-29"><a href="#cb24-29"></a>  <span class="at">lwd =</span> <span class="dv">1</span>,</span>
+<span id="cb24-30"><a href="#cb24-30"></a>  <span class="at">guideLwd =</span> <span class="dv">1</span></span>
+<span id="cb24-31"><a href="#cb24-31"></a>)</span>
+<span id="cb24-32"><a href="#cb24-32"></a><span class="fu">dev.off</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><img src="../main/figures/Figure_1C.png" class="img-fluid"></p>
+</section>
+</section>
+<section id="step-6-module-correlation-with-diseases" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="step-6-module-correlation-with-diseases"><span class="header-section-number">4.6</span> Step 6: Module correlation with diseases</h2>
+<hr>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="fu">load</span>(<span class="st">"../data/processed/geo/gse57338_datExpr.RData"</span>)</span>
+<span id="cb25-2"><a href="#cb25-2"></a></span>
+<span id="cb25-3"><a href="#cb25-3"></a>MEs <span class="ot">&lt;-</span> net<span class="sc">$</span>MEs</span>
+<span id="cb25-4"><a href="#cb25-4"></a>MEs0 <span class="ot">&lt;-</span> <span class="fu">moduleEigengenes</span>(datExpr, moduleColors)<span class="sc">$</span>eigengenes</span>
+<span id="cb25-5"><a href="#cb25-5"></a>MEs <span class="ot">&lt;-</span> <span class="fu">orderMEs</span>(MEs0)</span>
+<span id="cb25-6"><a href="#cb25-6"></a></span>
+<span id="cb25-7"><a href="#cb25-7"></a>datTraits <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span><span class="dv">0</span> <span class="sc">+</span> group, <span class="at">data =</span> <span class="fu">data.frame</span>(<span class="at">group =</span> pheno_wgcna<span class="sc">$</span>group))</span>
+<span id="cb25-8"><a href="#cb25-8"></a></span>
+<span id="cb25-9"><a href="#cb25-9"></a><span class="fu">colnames</span>(datTraits) <span class="ot">&lt;-</span> <span class="fu">levels</span>(<span class="fu">factor</span>(pheno_wgcna<span class="sc">$</span>group))  </span>
+<span id="cb25-10"><a href="#cb25-10"></a><span class="fu">rownames</span>(datTraits) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(pheno_wgcna)</span>
+<span id="cb25-11"><a href="#cb25-11"></a></span>
+<span id="cb25-12"><a href="#cb25-12"></a>moduleTraitCor <span class="ot">&lt;-</span> <span class="fu">cor</span>(MEs, datTraits, <span class="at">use =</span> <span class="st">"p"</span>)</span>
+<span id="cb25-13"><a href="#cb25-13"></a>moduleTraitPvalue <span class="ot">&lt;-</span> <span class="fu">corPvalueStudent</span>(moduleTraitCor, <span class="fu">nrow</span>(datExpr))</span>
+<span id="cb25-14"><a href="#cb25-14"></a></span>
+<span id="cb25-15"><a href="#cb25-15"></a></span>
+<span id="cb25-16"><a href="#cb25-16"></a>textmatrix <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="fu">signif</span>(moduleTraitCor, <span class="dv">2</span>), <span class="st">" ("</span>, <span class="fu">signif</span>(moduleTraitPvalue, <span class="dv">1</span>), <span class="st">")"</span>)</span>
+<span id="cb25-17"><a href="#cb25-17"></a><span class="fu">dim</span>(textmatrix) <span class="ot">&lt;-</span> <span class="fu">dim</span>(moduleTraitCor)</span>
+<span id="cb25-18"><a href="#cb25-18"></a></span>
+<span id="cb25-19"><a href="#cb25-19"></a>wgcna_colors <span class="ot">&lt;-</span> <span class="fu">blueWhiteRed</span>(<span class="dv">50</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="figure-1d-module-phenotype-correlation-heatmap" class="level3" data-number="4.6.1">
+<h3 data-number="4.6.1" class="anchored" data-anchor-id="figure-1d-module-phenotype-correlation-heatmap"><span class="header-section-number">4.6.1</span> Figure 1D: Module phenotype correlation heatmap</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="fu">png</span>(</span>
+<span id="cb26-2"><a href="#cb26-2"></a>  <span class="st">"../main/figures/Figure_1D.png"</span>, </span>
+<span id="cb26-3"><a href="#cb26-3"></a>  <span class="at">width =</span> <span class="dv">7</span>, </span>
+<span id="cb26-4"><a href="#cb26-4"></a>  <span class="at">height =</span> <span class="dv">14</span>, </span>
+<span id="cb26-5"><a href="#cb26-5"></a>  <span class="at">units =</span> <span class="st">"cm"</span>, </span>
+<span id="cb26-6"><a href="#cb26-6"></a>  <span class="at">res =</span> <span class="dv">600</span>,</span>
+<span id="cb26-7"><a href="#cb26-7"></a>  <span class="at">pointsize =</span> <span class="dv">10</span></span>
+<span id="cb26-8"><a href="#cb26-8"></a>)</span>
+<span id="cb26-9"><a href="#cb26-9"></a></span>
+<span id="cb26-10"><a href="#cb26-10"></a><span class="fu">par</span>(<span class="at">ps =</span> <span class="dv">10</span>, <span class="at">font.lab =</span> <span class="dv">1</span>, <span class="at">font.main=</span><span class="dv">2</span>, </span>
+<span id="cb26-11"><a href="#cb26-11"></a>    <span class="at">mar =</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">1.8</span>, <span class="fl">1.2</span>, <span class="fl">0.2</span>))</span>
+<span id="cb26-12"><a href="#cb26-12"></a></span>
+<span id="cb26-13"><a href="#cb26-13"></a><span class="fu">labeledHeatmap</span>(</span>
+<span id="cb26-14"><a href="#cb26-14"></a>  <span class="at">Matrix =</span> moduleTraitCor,</span>
+<span id="cb26-15"><a href="#cb26-15"></a>  <span class="at">xLabels =</span> <span class="fu">colnames</span>(datTraits),        <span class="co"># HC + HF</span></span>
+<span id="cb26-16"><a href="#cb26-16"></a>  <span class="at">yLabels =</span> <span class="fu">names</span>(MEs),</span>
+<span id="cb26-17"><a href="#cb26-17"></a>  <span class="at">colors =</span> wgcna_colors,</span>
+<span id="cb26-18"><a href="#cb26-18"></a>  <span class="at">textMatrix =</span> textmatrix,</span>
+<span id="cb26-19"><a href="#cb26-19"></a>  <span class="at">setStdMargins =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb26-20"><a href="#cb26-20"></a>  <span class="at">cex.text =</span> <span class="fl">0.8</span>,</span>
+<span id="cb26-21"><a href="#cb26-21"></a>  <span class="at">cex.lab =</span> <span class="fl">0.9</span>,</span>
+<span id="cb26-22"><a href="#cb26-22"></a>  <span class="at">cex.main =</span> <span class="dv">1</span>,</span>
+<span id="cb26-23"><a href="#cb26-23"></a>  <span class="at">cex.legendLabel =</span> <span class="fl">0.8</span>,</span>
+<span id="cb26-24"><a href="#cb26-24"></a>  <span class="at">zlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>),</span>
+<span id="cb26-25"><a href="#cb26-25"></a>  <span class="at">main =</span> <span class="st">"Module-Trait Correlation"</span>,</span>
+<span id="cb26-26"><a href="#cb26-26"></a>  <span class="at">xLabelsAngle =</span> <span class="dv">0</span>,        </span>
+<span id="cb26-27"><a href="#cb26-27"></a>  <span class="at">xLabelsAdj =</span> <span class="fl">0.5</span>          </span>
+<span id="cb26-28"><a href="#cb26-28"></a>)</span>
+<span id="cb26-29"><a href="#cb26-29"></a><span class="fu">dev.off</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><img src="../main/figures/Figure_1D.png" class="img-fluid"></p>
+</section>
+</section>
+<section id="step-7-extract-hfrelated-modules-and-candidate-hub-genes" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="step-7-extract-hfrelated-modules-and-candidate-hub-genes"><span class="header-section-number">4.7</span> Step 7: Extract HF‑related modules and candidate hub genes</h2>
+<hr>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>key_modules <span class="ot">&lt;-</span> <span class="fu">names</span>(MEs)[<span class="fu">abs</span>(moduleTraitCor) <span class="sc">&gt;</span> <span class="fl">0.6</span> <span class="sc">&amp;</span> moduleTraitPvalue <span class="sc">&lt;</span> <span class="fl">0.05</span>]</span>
+<span id="cb27-2"><a href="#cb27-2"></a>key_modules <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"ME"</span>,<span class="st">""</span>,key_modules)</span>
+<span id="cb27-3"><a href="#cb27-3"></a></span>
+<span id="cb27-4"><a href="#cb27-4"></a><span class="fu">print</span>(key_modules)</span>
+<span id="cb27-5"><a href="#cb27-5"></a></span>
+<span id="cb27-6"><a href="#cb27-6"></a>mod_cor_HF <span class="ot">=</span> moduleTraitCor[,<span class="st">"HF"</span>]</span>
+<span id="cb27-7"><a href="#cb27-7"></a>mod_p_HF  <span class="ot">=</span> moduleTraitPvalue[,<span class="st">"HF"</span>]</span>
+<span id="cb27-8"><a href="#cb27-8"></a>mod_name <span class="ot">=</span> <span class="fu">sub</span>(<span class="st">"ME"</span>,<span class="st">""</span>,<span class="fu">rownames</span>(moduleTraitCor))</span>
+<span id="cb27-9"><a href="#cb27-9"></a></span>
+<span id="cb27-10"><a href="#cb27-10"></a>mod_df <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb27-11"><a href="#cb27-11"></a>  <span class="at">Module =</span> mod_name,</span>
+<span id="cb27-12"><a href="#cb27-12"></a>  <span class="at">Cor_HF =</span> mod_cor_HF,</span>
+<span id="cb27-13"><a href="#cb27-13"></a>  <span class="at">Pval_HF =</span> mod_p_HF,</span>
+<span id="cb27-14"><a href="#cb27-14"></a>  <span class="at">AbsCor =</span> <span class="fu">abs</span>(mod_cor_HF)</span>
+<span id="cb27-15"><a href="#cb27-15"></a>) </span>
+<span id="cb27-16"><a href="#cb27-16"></a></span>
+<span id="cb27-17"><a href="#cb27-17"></a>mod_sig <span class="ot">&lt;-</span> mod_df <span class="sc">%&gt;%</span></span>
+<span id="cb27-18"><a href="#cb27-18"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(Pval_HF <span class="sc">&lt;</span> <span class="fl">0.05</span>, AbsCor <span class="sc">&gt;=</span> <span class="fl">0.6</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-19"><a href="#cb27-19"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(AbsCor))</span>
+<span id="cb27-20"><a href="#cb27-20"></a></span>
+<span id="cb27-21"><a href="#cb27-21"></a><span class="co"># Calculate kME values for all genes, Module membership degree, screening the internal core of the module</span></span>
+<span id="cb27-22"><a href="#cb27-22"></a>kME <span class="ot">&lt;-</span> <span class="fu">signedKME</span>(datExpr, MEs)</span>
+<span id="cb27-23"><a href="#cb27-23"></a><span class="fu">colnames</span>(kME) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"kME."</span>, <span class="fu">gsub</span>(<span class="st">"kME"</span>, <span class="st">""</span>, <span class="fu">colnames</span>(kME)))</span>
+<span id="cb27-24"><a href="#cb27-24"></a></span>
+<span id="cb27-25"><a href="#cb27-25"></a><span class="co"># Calculate GS (Gene Disease Correlation)</span></span>
+<span id="cb27-26"><a href="#cb27-26"></a><span class="fu">colnames</span>(datTraits) <span class="ot">&lt;-</span> <span class="fu">levels</span>(<span class="fu">factor</span>(pheno_wgcna<span class="sc">$</span>group))</span>
+<span id="cb27-27"><a href="#cb27-27"></a>HF <span class="ot">&lt;-</span> datTraits[, <span class="st">"HF"</span>] </span>
+<span id="cb27-28"><a href="#cb27-28"></a></span>
+<span id="cb27-29"><a href="#cb27-29"></a>GS <span class="ot">&lt;-</span> <span class="fu">apply</span>(datExpr, <span class="dv">2</span>, <span class="cf">function</span>(x) <span class="fu">cor</span>(x, HF, <span class="at">use =</span> <span class="st">"p"</span>))</span>
+<span id="cb27-30"><a href="#cb27-30"></a>GS_p <span class="ot">&lt;-</span> <span class="fu">apply</span>(datExpr, <span class="dv">2</span>, <span class="cf">function</span>(x) <span class="fu">corPvalueStudent</span>(<span class="fu">cor</span>(x, HF, <span class="at">use =</span> <span class="st">"p"</span>), <span class="at">nSamples =</span> <span class="fu">nrow</span>(datExpr)))</span>
+<span id="cb27-31"><a href="#cb27-31"></a></span>
+<span id="cb27-32"><a href="#cb27-32"></a>geneInfo <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb27-33"><a href="#cb27-33"></a>  <span class="at">Gene =</span> <span class="fu">colnames</span>(datExpr),</span>
+<span id="cb27-34"><a href="#cb27-34"></a>  <span class="at">Module =</span> moduleColors,</span>
+<span id="cb27-35"><a href="#cb27-35"></a>  <span class="at">GS_HF =</span> GS,</span>
+<span id="cb27-36"><a href="#cb27-36"></a>  <span class="at">GS_pval =</span> GS_p</span>
+<span id="cb27-37"><a href="#cb27-37"></a>)</span>
+<span id="cb27-38"><a href="#cb27-38"></a>geneInfo <span class="ot">&lt;-</span> <span class="fu">cbind</span>(geneInfo, kME)</span>
+<span id="cb27-39"><a href="#cb27-39"></a></span>
+<span id="cb27-40"><a href="#cb27-40"></a><span class="co"># Screening Hub genes (Key Modules + |kME| &gt; 0.8 + |GS| &gt; 0.5)</span></span>
+<span id="cb27-41"><a href="#cb27-41"></a></span>
+<span id="cb27-42"><a href="#cb27-42"></a>mm_cut <span class="ot">&lt;-</span> <span class="fl">0.8</span></span>
+<span id="cb27-43"><a href="#cb27-43"></a>gs_cut <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
+<span id="cb27-44"><a href="#cb27-44"></a></span>
+<span id="cb27-45"><a href="#cb27-45"></a><span class="co"># wgcna genes</span></span>
+<span id="cb27-46"><a href="#cb27-46"></a>wgcna_Genes <span class="ot">&lt;-</span> geneInfo <span class="sc">%&gt;%</span></span>
+<span id="cb27-47"><a href="#cb27-47"></a>  <span class="fu">subset</span>(Module <span class="sc">%in%</span> mod_sig<span class="sc">$</span>Module) <span class="sc">%&gt;%</span></span>
+<span id="cb27-48"><a href="#cb27-48"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb27-49"><a href="#cb27-49"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb27-50"><a href="#cb27-50"></a>    <span class="at">own_kME =</span> <span class="fu">get</span>(<span class="fu">paste0</span>(<span class="st">"kME."</span>, Module)), </span>
+<span id="cb27-51"><a href="#cb27-51"></a>    <span class="at">own_abs_kME =</span> <span class="fu">abs</span>(own_kME)</span>
+<span id="cb27-52"><a href="#cb27-52"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb27-53"><a href="#cb27-53"></a>  <span class="fu">subset</span>(own_abs_kME <span class="sc">&gt;</span> mm_cut <span class="sc">&amp;</span> <span class="fu">abs</span>(GS_HF) <span class="sc">&gt;</span> gs_cut)</span>
+<span id="cb27-54"><a href="#cb27-54"></a></span>
+<span id="cb27-55"><a href="#cb27-55"></a><span class="fu">cat</span>(<span class="st">"Number of screened wgcna genes: "</span>, <span class="fu">nrow</span>(wgcna_Genes), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb27-56"><a href="#cb27-56"></a><span class="fu">table</span>(wgcna_Genes<span class="sc">$</span>Module)</span>
+<span id="cb27-57"><a href="#cb27-57"></a></span>
+<span id="cb27-58"><a href="#cb27-58"></a></span>
+<span id="cb27-59"><a href="#cb27-59"></a><span class="co"># M~M</span></span>
+<span id="cb27-60"><a href="#cb27-60"></a>cor_ME <span class="ot">&lt;-</span> <span class="fu">cor</span>(MEs)</span>
+<span id="cb27-61"><a href="#cb27-61"></a>mod_names <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"ME"</span>,<span class="st">""</span>,<span class="fu">colnames</span>(MEs))</span>
+<span id="cb27-62"><a href="#cb27-62"></a><span class="fu">colnames</span>(cor_ME) <span class="ot">&lt;-</span> mod_names</span>
+<span id="cb27-63"><a href="#cb27-63"></a><span class="fu">rownames</span>(cor_ME) <span class="ot">&lt;-</span> mod_names</span>
+<span id="cb27-64"><a href="#cb27-64"></a>wgcnacol <span class="ot">&lt;-</span> <span class="fu">blueWhiteRed</span>(<span class="dv">100</span>)</span>
+<span id="cb27-65"><a href="#cb27-65"></a></span>
+<span id="cb27-66"><a href="#cb27-66"></a>mat <span class="ot">&lt;-</span> cor_ME</span>
+<span id="cb27-67"><a href="#cb27-67"></a>mat[<span class="fu">lower.tri</span>(mat, <span class="at">diag =</span> <span class="cn">TRUE</span>)] <span class="ot">&lt;-</span> <span class="cn">NA</span>   </span>
+<span id="cb27-68"><a href="#cb27-68"></a></span>
+<span id="cb27-69"><a href="#cb27-69"></a>df <span class="ot">&lt;-</span> reshape2<span class="sc">::</span><span class="fu">melt</span>(mat, <span class="at">na.rm =</span> <span class="cn">TRUE</span>, <span class="at">varnames =</span> <span class="fu">c</span>(<span class="st">"Var1"</span>, <span class="st">"Var2"</span>))</span>
+<span id="cb27-70"><a href="#cb27-70"></a>df<span class="sc">$</span>abs_val <span class="ot">&lt;-</span> <span class="fu">abs</span>(df<span class="sc">$</span>value) </span>
+<span id="cb27-71"><a href="#cb27-71"></a></span>
+<span id="cb27-72"><a href="#cb27-72"></a><span class="co"># GS ~ MM</span></span>
+<span id="cb27-73"><a href="#cb27-73"></a><span class="co"># module_cor &lt;- geneInfo %&gt;%</span></span>
+<span id="cb27-74"><a href="#cb27-74"></a><span class="co">#   group_by(Module) %&gt;%</span></span>
+<span id="cb27-75"><a href="#cb27-75"></a><span class="co">#   summarise(max_abs_cor = max(abs(GS_HF), na.rm = TRUE)) %&gt;%</span></span>
+<span id="cb27-76"><a href="#cb27-76"></a><span class="co">#   arrange(desc(max_abs_cor)) %&gt;%</span></span>
+<span id="cb27-77"><a href="#cb27-77"></a><span class="co">#   # slice_head(n = 4) %&gt;%</span></span>
+<span id="cb27-78"><a href="#cb27-78"></a><span class="co">#   pull(Module)</span></span>
+<span id="cb27-79"><a href="#cb27-79"></a></span>
+<span id="cb27-80"><a href="#cb27-80"></a><span class="co"># select_mod &lt;- module_cor</span></span>
+<span id="cb27-81"><a href="#cb27-81"></a>select_mod <span class="ot">&lt;-</span> mod_sig<span class="sc">$</span>Module</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="figure-1e-mm-correlation-plot" class="level3" data-number="4.7.1">
+<h3 data-number="4.7.1" class="anchored" data-anchor-id="figure-1e-mm-correlation-plot"><span class="header-section-number">4.7.1</span> Figure 1E: M~M Correlation plot</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>p1E <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> Var1, <span class="at">y =</span> Var2)) <span class="sc">+</span></span>
+<span id="cb28-2"><a href="#cb28-2"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">fill =</span> value, <span class="at">size =</span> abs_val), </span>
+<span id="cb28-3"><a href="#cb28-3"></a>             <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">stroke =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb28-4"><a href="#cb28-4"></a>  <span class="fu">scale_fill_gradientn</span>(</span>
+<span id="cb28-5"><a href="#cb28-5"></a>    <span class="at">colors =</span> wgcnacol,</span>
+<span id="cb28-6"><a href="#cb28-6"></a>    <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>),</span>
+<span id="cb28-7"><a href="#cb28-7"></a>    <span class="at">name =</span> <span class="st">"Corr"</span></span>
+<span id="cb28-8"><a href="#cb28-8"></a>  ) <span class="sc">+</span></span>
+<span id="cb28-9"><a href="#cb28-9"></a>  </span>
+<span id="cb28-10"><a href="#cb28-10"></a>  <span class="fu">scale_size_continuous</span>(</span>
+<span id="cb28-11"><a href="#cb28-11"></a>    <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),       </span>
+<span id="cb28-12"><a href="#cb28-12"></a>    <span class="at">guide =</span> <span class="st">"none"</span>        </span>
+<span id="cb28-13"><a href="#cb28-13"></a>  ) <span class="sc">+</span></span>
+<span id="cb28-14"><a href="#cb28-14"></a>  <span class="fu">coord_fixed</span>() <span class="sc">+</span></span>
+<span id="cb28-15"><a href="#cb28-15"></a></span>
+<span id="cb28-16"><a href="#cb28-16"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb28-17"><a href="#cb28-17"></a>  <span class="fu">theme</span>(</span>
+<span id="cb28-18"><a href="#cb28-18"></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),          </span>
+<span id="cb28-19"><a href="#cb28-19"></a>    <span class="at">panel.border =</span> <span class="fu">element_blank</span>(),      </span>
+<span id="cb28-20"><a href="#cb28-20"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),    </span>
+<span id="cb28-21"><a href="#cb28-21"></a>    <span class="at">axis.title =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb28-22"><a href="#cb28-22"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>, <span class="at">color =</span> <span class="st">"grey5"</span>),  </span>
+<span id="cb28-23"><a href="#cb28-23"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="dv">8</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb28-24"><a href="#cb28-24"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb28-25"><a href="#cb28-25"></a>    <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">0.3</span>),</span>
+<span id="cb28-26"><a href="#cb28-26"></a>    <span class="at">legend.key.width =</span> <span class="fu">unit</span>(<span class="fl">0.2</span>, <span class="st">"cm"</span>),   </span>
+<span id="cb28-27"><a href="#cb28-27"></a>    <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="fl">0.3</span>, <span class="st">"cm"</span>),</span>
+<span id="cb28-28"><a href="#cb28-28"></a>    <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb28-29"><a href="#cb28-29"></a>    <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb28-30"><a href="#cb28-30"></a>    <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="fl">0.1</span>, <span class="dv">1</span>, <span class="fl">0.1</span>, <span class="dv">1</span>)      </span>
+<span id="cb28-31"><a href="#cb28-31"></a>  ) <span class="sc">+</span></span>
+<span id="cb28-32"><a href="#cb28-32"></a>  </span>
+<span id="cb28-33"><a href="#cb28-33"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">position =</span> <span class="st">"top"</span>) <span class="sc">+</span> </span>
+<span id="cb28-34"><a href="#cb28-34"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">position =</span> <span class="st">"left"</span>)</span>
+<span id="cb28-35"><a href="#cb28-35"></a></span>
+<span id="cb28-36"><a href="#cb28-36"></a><span class="fu">ggsave</span>(<span class="st">"../main/figures/Figure_1E.png"</span>, p1E, <span class="at">width =</span> <span class="dv">7</span>, <span class="at">height =</span> <span class="dv">7</span>, <span class="at">units =</span> <span class="st">"cm"</span>, <span class="at">dpi =</span> <span class="dv">600</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><img src="../main/figures/Figure_1E.png" class="img-fluid"></p>
+</section>
+<section id="figure-1f-gs-vs-mm-scatter-plot" class="level3" data-number="4.7.2">
+<h3 data-number="4.7.2" class="anchored" data-anchor-id="figure-1f-gs-vs-mm-scatter-plot"><span class="header-section-number">4.7.2</span> Figure 1F: GS vs MM scatter plot</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>plot_data <span class="ot">&lt;-</span> geneInfo <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2"></a>  <span class="fu">filter</span>(Module <span class="sc">%in%</span> select_mod) <span class="sc">%&gt;%</span></span>
+<span id="cb29-3"><a href="#cb29-3"></a>  <span class="fu">mutate</span>(<span class="at">Module =</span> <span class="fu">factor</span>(Module, <span class="at">levels =</span> select_mod)) <span class="sc">%&gt;%</span></span>
+<span id="cb29-4"><a href="#cb29-4"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb29-5"><a href="#cb29-5"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb29-6"><a href="#cb29-6"></a>    <span class="at">MM =</span> <span class="fu">abs</span>(<span class="fu">get</span>(<span class="fu">paste0</span>(<span class="st">"kME."</span>, Module))),</span>
+<span id="cb29-7"><a href="#cb29-7"></a>    <span class="at">GS_abs =</span> <span class="fu">abs</span>(GS_HF),</span>
+<span id="cb29-8"><a href="#cb29-8"></a>    <span class="at">group =</span> <span class="fu">ifelse</span>(MM <span class="sc">&gt;</span> mm_cut <span class="sc">&amp;</span> GS_abs <span class="sc">&gt;</span> gs_cut, <span class="st">"selected"</span>, <span class="st">"unselected"</span>)</span>
+<span id="cb29-9"><a href="#cb29-9"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb29-10"><a href="#cb29-10"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb29-11"><a href="#cb29-11"></a></span>
+<span id="cb29-12"><a href="#cb29-12"></a>p1F <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(plot_data, <span class="fu">aes</span>(<span class="at">x =</span> MM, <span class="at">y =</span> GS_abs)) <span class="sc">+</span></span>
+<span id="cb29-13"><a href="#cb29-13"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> group), <span class="at">shape =</span> <span class="dv">16</span>, <span class="at">size =</span> <span class="fl">0.8</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb29-14"><a href="#cb29-14"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="at">selected =</span> <span class="fu">pal_aaas</span>()(<span class="dv">10</span>)[<span class="dv">1</span>], <span class="at">unselected =</span> <span class="st">"gray70"</span>)) <span class="sc">+</span></span>
+<span id="cb29-15"><a href="#cb29-15"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> mm_cut, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">col =</span> <span class="fu">pal_aaas</span>()(<span class="dv">10</span>)[<span class="dv">2</span>]) <span class="sc">+</span></span>
+<span id="cb29-16"><a href="#cb29-16"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> gs_cut, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">col =</span> <span class="fu">pal_aaas</span>()(<span class="dv">10</span>)[<span class="dv">2</span>]) <span class="sc">+</span></span>
+<span id="cb29-17"><a href="#cb29-17"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"|MM|"</span>, <span class="at">y =</span> <span class="st">"|GS|"</span>) <span class="sc">+</span></span>
+<span id="cb29-18"><a href="#cb29-18"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb29-19"><a href="#cb29-19"></a>  <span class="fu">theme</span>(</span>
+<span id="cb29-20"><a href="#cb29-20"></a>    <span class="at">legend.position =</span> <span class="st">"none"</span>,           </span>
+<span id="cb29-21"><a href="#cb29-21"></a>    <span class="co"># strip.background = element_blank(), </span></span>
+<span id="cb29-22"><a href="#cb29-22"></a>    <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb29-23"><a href="#cb29-23"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>),</span>
+<span id="cb29-24"><a href="#cb29-24"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>, <span class="at">color =</span> <span class="st">"grey5"</span>),</span>
+<span id="cb29-25"><a href="#cb29-25"></a>    <span class="at">axis.ticks.length =</span> <span class="fu">unit</span>(<span class="fl">0.4</span>,<span class="st">"mm"</span>),</span>
+<span id="cb29-26"><a href="#cb29-26"></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>()  </span>
+<span id="cb29-27"><a href="#cb29-27"></a>  ) <span class="sc">+</span></span>
+<span id="cb29-28"><a href="#cb29-28"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Module, <span class="at">ncol =</span> <span class="dv">2</span>)  </span>
+<span id="cb29-29"><a href="#cb29-29"></a></span>
+<span id="cb29-30"><a href="#cb29-30"></a><span class="fu">ggsave</span>(<span class="st">"../main/figures/Figure_1F.png"</span>, </span>
+<span id="cb29-31"><a href="#cb29-31"></a>       <span class="at">plot =</span> p1F, </span>
+<span id="cb29-32"><a href="#cb29-32"></a>       <span class="at">width =</span> <span class="dv">7</span>, <span class="at">height =</span> <span class="dv">7</span>, </span>
+<span id="cb29-33"><a href="#cb29-33"></a>       <span class="at">units =</span> <span class="st">"cm"</span>, </span>
+<span id="cb29-34"><a href="#cb29-34"></a>       <span class="at">dpi =</span> <span class="dv">600</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><img src="../main/figures/Figure_1F.png" class="img-fluid"></p>
+</section>
+</section>
+<section id="step-8-geo_genes-intersecting-degs-and-wgcna" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="step-8-geo_genes-intersecting-degs-and-wgcna"><span class="header-section-number">4.8</span> Step 8: geo_genes: intersecting DEGs and WGCNA</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>wgcna_genes_df <span class="ot">&lt;-</span> wgcna_Genes[,<span class="st">"Gene"</span>]</span>
+<span id="cb30-2"><a href="#cb30-2"></a><span class="fu">save</span>(wgcna_genes_df, <span class="at">file =</span>  <span class="st">"../data/processed/geo/gse57338_wgcna_genes.RData"</span>)</span>
+<span id="cb30-3"><a href="#cb30-3"></a></span>
+<span id="cb30-4"><a href="#cb30-4"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb30-5"><a href="#cb30-5"></a></span>
+<span id="cb30-6"><a href="#cb30-6"></a><span class="fu">load</span>(<span class="st">"../data/processed/geo/gse57338_degs_results.RData"</span>)</span>
+<span id="cb30-7"><a href="#cb30-7"></a><span class="fu">load</span>(<span class="st">"../data/processed/geo/gse57338_wgcna_genes.RData"</span>)</span>
+<span id="cb30-8"><a href="#cb30-8"></a></span>
+<span id="cb30-9"><a href="#cb30-9"></a>deg_genes <span class="ot">&lt;-</span> <span class="fu">rownames</span>(deg_sig) </span>
+<span id="cb30-10"><a href="#cb30-10"></a>wgcna_genes <span class="ot">&lt;-</span> wgcna_genes_df<span class="sc">$</span>Gene </span>
+<span id="cb30-11"><a href="#cb30-11"></a></span>
+<span id="cb30-12"><a href="#cb30-12"></a><span class="co"># geo_genes: intersecting DEGs and WGCNA</span></span>
+<span id="cb30-13"><a href="#cb30-13"></a>geo_genes <span class="ot">&lt;-</span> <span class="fu">intersect</span>(deg_genes,wgcna_genes)</span>
+<span id="cb30-14"><a href="#cb30-14"></a></span>
+<span id="cb30-15"><a href="#cb30-15"></a>deg_genes_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Gene =</span> deg_genes)</span>
+<span id="cb30-16"><a href="#cb30-16"></a></span>
+<span id="cb30-17"><a href="#cb30-17"></a>geo_genes_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Gene =</span> geo_genes) <span class="sc">%&gt;%</span></span>
+<span id="cb30-18"><a href="#cb30-18"></a>  <span class="fu">arrange</span>(Gene)</span>
+<span id="cb30-19"><a href="#cb30-19"></a></span>
+<span id="cb30-20"><a href="#cb30-20"></a>gene_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb30-21"><a href="#cb30-21"></a>  <span class="at">DEGs =</span> deg_genes,</span>
+<span id="cb30-22"><a href="#cb30-22"></a>  <span class="st">`</span><span class="at">WGCNA Genes</span><span class="st">`</span> <span class="ot">=</span> wgcna_genes</span>
+<span id="cb30-23"><a href="#cb30-23"></a>)</span>
+<span id="cb30-24"><a href="#cb30-24"></a></span>
+<span id="cb30-25"><a href="#cb30-25"></a>p <span class="ot">&lt;-</span> <span class="fu">ggvenn</span>(</span>
+<span id="cb30-26"><a href="#cb30-26"></a>  gene_list,</span>
+<span id="cb30-27"><a href="#cb30-27"></a>  <span class="at">fill_color =</span> <span class="fu">pal_aaas</span>()(<span class="dv">2</span>),</span>
+<span id="cb30-28"><a href="#cb30-28"></a>  <span class="at">stroke_color =</span> <span class="st">"white"</span>,</span>
+<span id="cb30-29"><a href="#cb30-29"></a>  <span class="at">stroke_size =</span> <span class="dv">1</span>,</span>
+<span id="cb30-30"><a href="#cb30-30"></a>  <span class="at">set_name_size =</span> <span class="dv">5</span>,</span>
+<span id="cb30-31"><a href="#cb30-31"></a>  <span class="at">text_size =</span> <span class="dv">5</span>,</span>
+<span id="cb30-32"><a href="#cb30-32"></a>  <span class="at">text_color =</span> <span class="st">"white"</span>,</span>
+<span id="cb30-33"><a href="#cb30-33"></a>  <span class="at">show_percentage =</span> <span class="cn">FALSE</span></span>
+<span id="cb30-34"><a href="#cb30-34"></a>) <span class="sc">+</span></span>
+<span id="cb30-35"><a href="#cb30-35"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size=</span><span class="dv">10</span>))</span>
+<span id="cb30-36"><a href="#cb30-36"></a></span>
+<span id="cb30-37"><a href="#cb30-37"></a><span class="co"># save</span></span>
+<span id="cb30-38"><a href="#cb30-38"></a><span class="co"># ggsave("../main/figures/Figure_1G.pdf", p, width=6, height=6, dpi=300)</span></span>
+<span id="cb30-39"><a href="#cb30-39"></a>p</span>
+<span id="cb30-40"><a href="#cb30-40"></a></span>
+<span id="cb30-41"><a href="#cb30-41"></a></span>
+<span id="cb30-42"><a href="#cb30-42"></a><span class="fu">save</span>(deg_genes_df, wgcna_genes_df,geo_genes_df, <span class="at">file =</span> <span class="st">"../data/processed/geo/geo_genes.RData"</span>)</span>
+<span id="cb30-43"><a href="#cb30-43"></a></span>
+<span id="cb30-44"><a href="#cb30-44"></a><span class="fu">write.xlsx</span>(</span>
+<span id="cb30-45"><a href="#cb30-45"></a>  <span class="fu">list</span>(</span>
+<span id="cb30-46"><a href="#cb30-46"></a>    <span class="at">DEGs =</span> deg_genes_df,</span>
+<span id="cb30-47"><a href="#cb30-47"></a>    <span class="at">WGCNAGenes =</span> wgcna_genes_df</span>
+<span id="cb30-48"><a href="#cb30-48"></a>  ),</span>
+<span id="cb30-49"><a href="#cb30-49"></a>  <span class="st">"../supplementary/tables/Table_S3.xlsx"</span></span>
+<span id="cb30-50"><a href="#cb30-50"></a>)</span>
+<span id="cb30-51"><a href="#cb30-51"></a></span>
+<span id="cb30-52"><a href="#cb30-52"></a>deg_candidate <span class="ot">&lt;-</span> deg_sig[<span class="fu">rownames</span>(deg_sig) <span class="sc">%in%</span> geo_genes, ]</span>
+<span id="cb30-53"><a href="#cb30-53"></a></span>
+<span id="cb30-54"><a href="#cb30-54"></a>up_genes <span class="ot">&lt;-</span> <span class="fu">rownames</span>(deg_candidate[ deg_candidate<span class="sc">$</span>significance <span class="sc">==</span><span class="st">"Up(151)"</span>,])</span>
+<span id="cb30-55"><a href="#cb30-55"></a></span>
+<span id="cb30-56"><a href="#cb30-56"></a>down_genes <span class="ot">&lt;-</span> <span class="fu">rownames</span>(deg_candidate[ deg_candidate<span class="sc">$</span>significance <span class="sc">==</span><span class="st">"Down(162)"</span>,])</span>
+<span id="cb30-57"><a href="#cb30-57"></a></span>
+<span id="cb30-58"><a href="#cb30-58"></a><span class="fu">cat</span>(<span class="st">"Up genes: "</span>, <span class="fu">length</span>(up_genes), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb30-59"><a href="#cb30-59"></a><span class="fu">print</span>(up_genes)</span>
+<span id="cb30-60"><a href="#cb30-60"></a></span>
+<span id="cb30-61"><a href="#cb30-61"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Down genes: "</span>, <span class="fu">length</span>(down_genes), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb30-62"><a href="#cb30-62"></a><span class="fu">print</span>(down_genes)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="figure-1-magick" class="level2" data-number="4.9">
+<h2 data-number="4.9" class="anchored" data-anchor-id="figure-1-magick"><span class="header-section-number">4.9</span> Figure 1: magick</h2>
+<p>layout: A + B / C / D + (E/F)</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>files <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb31-2"><a href="#cb31-2"></a>  <span class="st">"../main/figures/Figure_1A.png"</span>,</span>
+<span id="cb31-3"><a href="#cb31-3"></a>  <span class="st">"../main/figures/Figure_1B.png"</span>,</span>
+<span id="cb31-4"><a href="#cb31-4"></a>  <span class="st">"../main/figures/Figure_1C.png"</span>,</span>
+<span id="cb31-5"><a href="#cb31-5"></a>  <span class="st">"../main/figures/Figure_1D.png"</span>,</span>
+<span id="cb31-6"><a href="#cb31-6"></a>  <span class="st">"../main/figures/Figure_1E.png"</span>,</span>
+<span id="cb31-7"><a href="#cb31-7"></a>  <span class="st">"../main/figures/Figure_1F.png"</span></span>
+<span id="cb31-8"><a href="#cb31-8"></a>)</span>
+<span id="cb31-9"><a href="#cb31-9"></a></span>
+<span id="cb31-10"><a href="#cb31-10"></a>labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"E"</span>, <span class="st">"F"</span>)</span>
+<span id="cb31-11"><a href="#cb31-11"></a></span>
+<span id="cb31-12"><a href="#cb31-12"></a>imgs <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb31-13"><a href="#cb31-13"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(files)) {</span>
+<span id="cb31-14"><a href="#cb31-14"></a>  img <span class="ot">&lt;-</span> <span class="fu">image_read</span>(files[i])</span>
+<span id="cb31-15"><a href="#cb31-15"></a>  img <span class="ot">&lt;-</span> <span class="fu">image_annotate</span>(</span>
+<span id="cb31-16"><a href="#cb31-16"></a>    img, </span>
+<span id="cb31-17"><a href="#cb31-17"></a>    labels[i], </span>
+<span id="cb31-18"><a href="#cb31-18"></a>    <span class="at">gravity =</span> <span class="st">"northwest"</span>,  </span>
+<span id="cb31-19"><a href="#cb31-19"></a>    <span class="at">location =</span> <span class="st">"+10+10"</span>,    </span>
+<span id="cb31-20"><a href="#cb31-20"></a>    <span class="at">size =</span> <span class="dv">100</span>,  <span class="co"># px, ~ 12pt</span></span>
+<span id="cb31-21"><a href="#cb31-21"></a>    <span class="at">weight =</span> <span class="dv">700</span>,    </span>
+<span id="cb31-22"><a href="#cb31-22"></a>    <span class="at">color =</span> <span class="st">"black"</span></span>
+<span id="cb31-23"><a href="#cb31-23"></a>  )</span>
+<span id="cb31-24"><a href="#cb31-24"></a>  imgs[[i]] <span class="ot">&lt;-</span> img</span>
+<span id="cb31-25"><a href="#cb31-25"></a>}</span>
+<span id="cb31-26"><a href="#cb31-26"></a></span>
+<span id="cb31-27"><a href="#cb31-27"></a>row1 <span class="ot">&lt;-</span> <span class="fu">image_append</span>(<span class="fu">c</span>(imgs[[<span class="dv">1</span>]],imgs[[<span class="dv">2</span>]]), <span class="at">stack =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb31-28"><a href="#cb31-28"></a>row2 <span class="ot">&lt;-</span> <span class="fu">image_append</span>(<span class="fu">c</span>(imgs[[<span class="dv">3</span>]]), <span class="at">stack =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb31-29"><a href="#cb31-29"></a>ef <span class="ot">&lt;-</span> <span class="fu">image_append</span>(<span class="fu">c</span>(imgs[[<span class="dv">5</span>]],imgs[[<span class="dv">6</span>]]), <span class="at">stack =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb31-30"><a href="#cb31-30"></a>row3 <span class="ot">&lt;-</span> <span class="fu">image_append</span>(<span class="fu">c</span>(imgs[[<span class="dv">4</span>]],ef), <span class="at">stack =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb31-31"><a href="#cb31-31"></a></span>
+<span id="cb31-32"><a href="#cb31-32"></a>p1 <span class="ot">&lt;-</span> <span class="fu">image_append</span>(<span class="fu">c</span>(row1, row2, row3), <span class="at">stack =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb31-33"><a href="#cb31-33"></a></span>
+<span id="cb31-34"><a href="#cb31-34"></a><span class="fu">image_write</span>(p1, <span class="st">"../main/figures/Figure_1.png"</span>, <span class="at">format =</span> <span class="st">"png"</span>,<span class="at">depth =</span><span class="dv">16</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><img src="../main/figures/Figure_1.png" class="img-fluid"></p>
+</section>
+</section>
+<section id="hermes_dcm_genes" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> HERMES_DCM_genes</h1>
+<section id="hermes_dcm_genes-1" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="hermes_dcm_genes-1"><span class="header-section-number">5.1</span> HERMES_DCM_genes</h2>
+<p>https://www.nature.com/articles/s41467-023-39253-3</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a><span class="co"># 1. 分类型基因列表存储</span></span>
+<span id="cb32-2"><a href="#cb32-2"></a>dcm_gene_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb32-3"><a href="#cb32-3"></a>  <span class="co"># 经典临床单基因致病基因</span></span>
+<span id="cb32-4"><a href="#cb32-4"></a>  <span class="at">classic_mendelian =</span> <span class="fu">c</span>(</span>
+<span id="cb32-5"><a href="#cb32-5"></a>    <span class="st">"TTN"</span>, <span class="st">"BAG3"</span>, <span class="st">"FLNC"</span>, <span class="st">"LMNA"</span>, <span class="st">"LDB3"</span>, <span class="st">"MYPN"</span>, <span class="st">"NEXN"</span>, </span>
+<span id="cb32-6"><a href="#cb32-6"></a>    <span class="st">"OBSCN"</span>, <span class="st">"VCL"</span>, <span class="st">"MYBPC3"</span>, <span class="st">"ALPK3"</span>, <span class="st">"FHOD3"</span>, <span class="st">"PRDM16"</span></span>
+<span id="cb32-7"><a href="#cb32-7"></a>  ),</span>
+<span id="cb32-8"><a href="#cb32-8"></a>  <span class="co"># 本文新发现罕见高风险致病基因(RVAS验证)</span></span>
+<span id="cb32-9"><a href="#cb32-9"></a>  <span class="at">novel_rare_causal =</span> <span class="fu">c</span>(<span class="st">"SSPN"</span>, <span class="st">"MAP3K7"</span>, <span class="st">"NEDD4L"</span>),</span>
+<span id="cb32-10"><a href="#cb32-10"></a>  <span class="co"># GWAS多基因易感基因（按通路汇总全部62个效应基因）</span></span>
+<span id="cb32-11"><a href="#cb32-11"></a>  <span class="at">gwas_susceptible =</span> <span class="fu">c</span>(</span>
+<span id="cb32-12"><a href="#cb32-12"></a>    <span class="co"># 肌小节/骨架</span></span>
+<span id="cb32-13"><a href="#cb32-13"></a>    <span class="st">"MYPN"</span>, <span class="st">"HSPB8"</span>, <span class="st">"ALPK3"</span>, <span class="st">"ACTN2"</span>, <span class="st">"SPATS2L"</span>, <span class="st">"MAPT"</span>, <span class="st">"MYL6"</span>, </span>
+<span id="cb32-14"><a href="#cb32-14"></a>    <span class="st">"PDLIM5"</span>, <span class="st">"MTSS1"</span>, <span class="st">"STRN"</span>, <span class="st">"TMEM182"</span>, <span class="st">"PLN"</span>, <span class="st">"CSRP3"</span>, <span class="st">"SYNPO2L"</span>, </span>
+<span id="cb32-15"><a href="#cb32-15"></a>    <span class="st">"MLIP"</span>, <span class="st">"TKT"</span>,</span>
+<span id="cb32-16"><a href="#cb32-16"></a>    <span class="co"># TGF-β/Wnt纤维化通路</span></span>
+<span id="cb32-17"><a href="#cb32-17"></a>    <span class="st">"BAMBI"</span>, <span class="st">"INHBB"</span>, <span class="st">"THBS1"</span>, <span class="st">"CAMK2D"</span>, <span class="st">"MAP3K7"</span>, <span class="st">"NEDD4L"</span>, </span>
+<span id="cb32-18"><a href="#cb32-18"></a>    <span class="st">"NFATC1"</span>, <span class="st">"PRKCA"</span>, <span class="st">"RNF207"</span>,</span>
+<span id="cb32-19"><a href="#cb32-19"></a>    <span class="co"># 蛋白稳态/热休克/内质网应激</span></span>
+<span id="cb32-20"><a href="#cb32-20"></a>    <span class="st">"HSPA4"</span>, <span class="st">"HSPB7"</span>, <span class="st">"HSPB8"</span>, <span class="st">"BAG3"</span>, <span class="st">"FBXO32"</span>, <span class="st">"DNAJC18"</span>, </span>
+<span id="cb32-21"><a href="#cb32-21"></a>    <span class="st">"CRYAB"</span>, <span class="st">"DERL3"</span>,</span>
+<span id="cb32-22"><a href="#cb32-22"></a>    <span class="co"># 基质黏附</span></span>
+<span id="cb32-23"><a href="#cb32-23"></a>    <span class="st">"COL4A1"</span>, <span class="st">"ITGA5"</span>, <span class="st">"EPHB1"</span>, <span class="st">"THBS1"</span>, <span class="st">"PDLIM5"</span>, <span class="st">"SSPN"</span>,</span>
+<span id="cb32-24"><a href="#cb32-24"></a>    <span class="co"># 离子通道/心脏转录因子</span></span>
+<span id="cb32-25"><a href="#cb32-25"></a>    <span class="st">"PITX2"</span>, <span class="st">"KCNIP2"</span>, <span class="st">"SLC6A6"</span>, <span class="st">"MITF"</span>, <span class="st">"GATA4"</span>,</span>
+<span id="cb32-26"><a href="#cb32-26"></a>    <span class="co"># 代谢线粒体其他</span></span>
+<span id="cb32-27"><a href="#cb32-27"></a>    <span class="st">"CHCHD10"</span>, <span class="st">"DMPK"</span>, <span class="st">"SLC6A6"</span>, <span class="st">"RRAS2"</span>, <span class="st">"FOXN3"</span>, <span class="st">"CDKN1A"</span>, </span>
+<span id="cb32-28"><a href="#cb32-28"></a>    <span class="st">"PROM1"</span>, <span class="st">"HLF"</span></span>
+<span id="cb32-29"><a href="#cb32-29"></a>  )</span>
+<span id="cb32-30"><a href="#cb32-30"></a>)</span>
+<span id="cb32-31"><a href="#cb32-31"></a></span>
+<span id="cb32-32"><a href="#cb32-32"></a><span class="co"># 2. 转为data.frame表格，用于查看、导出csv</span></span>
+<span id="cb32-33"><a href="#cb32-33"></a><span class="co"># 拆分为长格式表格</span></span>
+<span id="cb32-34"><a href="#cb32-34"></a>dcm_gene_df <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb32-35"><a href="#cb32-35"></a>  <span class="fu">tibble</span>(</span>
+<span id="cb32-36"><a href="#cb32-36"></a>    <span class="at">gene_category =</span> <span class="st">"经典孟德尔单基因致病"</span>,</span>
+<span id="cb32-37"><a href="#cb32-37"></a>    <span class="at">gene_symbol =</span> dcm_gene_list<span class="sc">$</span>classic_mendelian</span>
+<span id="cb32-38"><a href="#cb32-38"></a>  ),</span>
+<span id="cb32-39"><a href="#cb32-39"></a>  <span class="fu">tibble</span>(</span>
+<span id="cb32-40"><a href="#cb32-40"></a>    <span class="at">gene_category =</span> <span class="st">"本研究新发现罕见致病基因"</span>,</span>
+<span id="cb32-41"><a href="#cb32-41"></a>    <span class="at">gene_symbol =</span> dcm_gene_list<span class="sc">$</span>novel_rare_causal</span>
+<span id="cb32-42"><a href="#cb32-42"></a>  ),</span>
+<span id="cb32-43"><a href="#cb32-43"></a>  <span class="fu">tibble</span>(</span>
+<span id="cb32-44"><a href="#cb32-44"></a>    <span class="at">gene_category =</span> <span class="st">"GWAS多基因易感效应基因"</span>,</span>
+<span id="cb32-45"><a href="#cb32-45"></a>    <span class="at">gene_symbol =</span> dcm_gene_list<span class="sc">$</span>gwas_susceptible</span>
+<span id="cb32-46"><a href="#cb32-46"></a>  )</span>
+<span id="cb32-47"><a href="#cb32-47"></a>)</span>
+<span id="cb32-48"><a href="#cb32-48"></a></span>
+<span id="cb32-49"><a href="#cb32-49"></a><span class="co"># 查看表格</span></span>
+<span id="cb32-50"><a href="#cb32-50"></a><span class="fu">print</span>(dcm_gene_df, <span class="at">n =</span> <span class="cn">Inf</span>)</span>
+<span id="cb32-51"><a href="#cb32-51"></a></span>
+<span id="cb32-52"><a href="#cb32-52"></a><span class="co"># 导出CSV（可选）</span></span>
+<span id="cb32-53"><a href="#cb32-53"></a><span class="co"># write.csv(dcm_gene_df, "DCM_NatureGenes_2024.csv", row.names = F)</span></span>
+<span id="cb32-54"><a href="#cb32-54"></a></span>
+<span id="cb32-55"><a href="#cb32-55"></a><span class="co"># 3. 按通路拆分单独数据框（如需通路注释）</span></span>
+<span id="cb32-56"><a href="#cb32-56"></a>pathway_gene <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb32-57"><a href="#cb32-57"></a>  <span class="at">sarcomere_cytoskeleton =</span> <span class="fu">c</span>(<span class="st">"MYPN"</span>, <span class="st">"HSPB8"</span>, <span class="st">"ALPK3"</span>, <span class="st">"ACTN2"</span>, <span class="st">"SPATS2L"</span>, <span class="st">"MAPT"</span>, <span class="st">"MYL6"</span>, <span class="st">"PDLIM5"</span>, <span class="st">"MTSS1"</span>, <span class="st">"STRN"</span>, <span class="st">"TMEM182"</span>, <span class="st">"PLN"</span>, <span class="st">"CSRP3"</span>, <span class="st">"SYNPO2L"</span>, <span class="st">"MLIP"</span>, <span class="st">"TKT"</span>),</span>
+<span id="cb32-58"><a href="#cb32-58"></a>  <span class="at">tgf_wnt_fibrosis =</span> <span class="fu">c</span>(<span class="st">"BAMBI"</span>, <span class="st">"INHBB"</span>, <span class="st">"THBS1"</span>, <span class="st">"CAMK2D"</span>, <span class="st">"MAP3K7"</span>, <span class="st">"NEDD4L"</span>, <span class="st">"NFATC1"</span>, <span class="st">"PRKCA"</span>, <span class="st">"RNF207"</span>),</span>
+<span id="cb32-59"><a href="#cb32-59"></a>  <span class="at">protein_homeostasis =</span> <span class="fu">c</span>(<span class="st">"HSPA4"</span>, <span class="st">"HSPB7"</span>, <span class="st">"HSPB8"</span>, <span class="st">"BAG3"</span>, <span class="st">"FBXO32"</span>, <span class="st">"DNAJC18"</span>, <span class="st">"CRYAB"</span>, <span class="st">"DERL3"</span>),</span>
+<span id="cb32-60"><a href="#cb32-60"></a>  <span class="at">cell_adhesion_matrix =</span> <span class="fu">c</span>(<span class="st">"COL4A1"</span>, <span class="st">"ITGA5"</span>, <span class="st">"EPHB1"</span>, <span class="st">"THBS1"</span>, <span class="st">"PDLIM5"</span>, <span class="st">"SSPN"</span>),</span>
+<span id="cb32-61"><a href="#cb32-61"></a>  <span class="at">ion_channel_transcription =</span> <span class="fu">c</span>(<span class="st">"PITX2"</span>, <span class="st">"KCNIP2"</span>, <span class="st">"SLC6A6"</span>, <span class="st">"MITF"</span>, <span class="st">"GATA4"</span>),</span>
+<span id="cb32-62"><a href="#cb32-62"></a>  <span class="at">metabolism_mitochondria =</span> <span class="fu">c</span>(<span class="st">"CHCHD10"</span>, <span class="st">"DMPK"</span>, <span class="st">"SLC6A6"</span>, <span class="st">"RRAS2"</span>, <span class="st">"FOXN3"</span>, <span class="st">"CDKN1A"</span>, <span class="st">"PROM1"</span>, <span class="st">"HLF"</span>)</span>
+<span id="cb32-63"><a href="#cb32-63"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="all-hermes_dcm_genes" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="all-hermes_dcm_genes"><span class="header-section-number">5.2</span> all hermes_dcm_genes</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>hermes_dcm_genes <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb33-2"><a href="#cb33-2"></a>  <span class="co"># 经典孟德尔单基因致病</span></span>
+<span id="cb33-3"><a href="#cb33-3"></a>  <span class="st">"TTN"</span>, <span class="st">"BAG3"</span>, <span class="st">"FLNC"</span>, <span class="st">"LMNA"</span>, <span class="st">"LDB3"</span>, <span class="st">"MYPN"</span>, <span class="st">"NEXN"</span>, <span class="st">"OBSCN"</span>, <span class="st">"VCL"</span>, <span class="st">"MYBPC3"</span>, <span class="st">"ALPK3"</span>, <span class="st">"FHOD3"</span>, <span class="st">"PRDM16"</span>,</span>
+<span id="cb33-4"><a href="#cb33-4"></a>  <span class="co"># 本研究新发现罕见致病基因</span></span>
+<span id="cb33-5"><a href="#cb33-5"></a>  <span class="st">"SSPN"</span>, <span class="st">"MAP3K7"</span>, <span class="st">"NEDD4L"</span>,</span>
+<span id="cb33-6"><a href="#cb33-6"></a>  <span class="co"># GWAS去重易感基因（剔除和上面重复的）</span></span>
+<span id="cb33-7"><a href="#cb33-7"></a>  <span class="st">"ACTN2"</span>, <span class="st">"SPATS2L"</span>, <span class="st">"MAPT"</span>, <span class="st">"MYL6"</span>, <span class="st">"PDLIM5"</span>, <span class="st">"MTSS1"</span>, <span class="st">"STRN"</span>, <span class="st">"TMEM182"</span>, <span class="st">"PLN"</span>, <span class="st">"CSRP3"</span>, <span class="st">"SYNPO2L"</span>, <span class="st">"MLIP"</span>, <span class="st">"TKT"</span>,</span>
+<span id="cb33-8"><a href="#cb33-8"></a>  <span class="st">"BAMBI"</span>, <span class="st">"INHBB"</span>, <span class="st">"THBS1"</span>, <span class="st">"CAMK2D"</span>, <span class="st">"NFATC1"</span>, <span class="st">"PRKCA"</span>, <span class="st">"RNF207"</span>,</span>
+<span id="cb33-9"><a href="#cb33-9"></a>  <span class="st">"HSPA4"</span>, <span class="st">"HSPB7"</span>, <span class="st">"FBXO32"</span>, <span class="st">"DNAJC18"</span>, <span class="st">"CRYAB"</span>, <span class="st">"DERL3"</span>,</span>
+<span id="cb33-10"><a href="#cb33-10"></a>  <span class="st">"COL4A1"</span>, <span class="st">"ITGA5"</span>, <span class="st">"EPHB1"</span>,</span>
+<span id="cb33-11"><a href="#cb33-11"></a>  <span class="st">"PITX2"</span>, <span class="st">"KCNIP2"</span>, <span class="st">"SLC6A6"</span>, <span class="st">"MITF"</span>, <span class="st">"GATA4"</span>,</span>
+<span id="cb33-12"><a href="#cb33-12"></a>  <span class="st">"CHCHD10"</span>, <span class="st">"DMPK"</span>, <span class="st">"RRAS2"</span>, <span class="st">"FOXN3"</span>, <span class="st">"CDKN1A"</span>, <span class="st">"PROM1"</span>, <span class="st">"HLF"</span></span>
+<span id="cb33-13"><a href="#cb33-13"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="review_genes" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="review_genes"><span class="header-section-number">5.3</span> review_genes</h2>
+<p>https://pmc.ncbi.nlm.nih.gov/articles/PMC13122708/</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>review_genes <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb34-2"><a href="#cb34-2"></a>  <span class="st">"TTN"</span>, <span class="st">"MYH7"</span>, <span class="st">"TNNT2"</span>,</span>
+<span id="cb34-3"><a href="#cb34-3"></a>  <span class="st">"LMNA"</span>, <span class="st">"EMD"</span>,</span>
+<span id="cb34-4"><a href="#cb34-4"></a>  <span class="st">"SCN5A"</span>, <span class="st">"CACNA1C"</span>, <span class="st">"RYR2"</span>,</span>
+<span id="cb34-5"><a href="#cb34-5"></a>  <span class="st">"DSC2"</span>, <span class="st">"DSP"</span>,</span>
+<span id="cb34-6"><a href="#cb34-6"></a>  <span class="st">"RBM20"</span>, <span class="st">"KLF13"</span>, <span class="st">"ETS1"</span>, <span class="st">"BMP10"</span></span>
+<span id="cb34-7"><a href="#cb34-7"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="clingen" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> clinGen</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>clinGen <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb35-2"><a href="#cb35-2"></a>  <span class="st">"ACTC1"</span>, <span class="st">"ACTN2"</span>, <span class="st">"BAG3"</span>, <span class="st">"BAG5"</span>, <span class="st">"DES"</span>, <span class="st">"DSP"</span>, <span class="st">"FLII"</span>, <span class="st">"FLNC"</span>,</span>
+<span id="cb35-3"><a href="#cb35-3"></a>  <span class="st">"JPH2"</span>, <span class="st">"LDB3"</span>, <span class="st">"LMNA"</span>, <span class="st">"LMOD2"</span>, <span class="st">"MYH7"</span>, <span class="st">"MYLK3"</span>, <span class="st">"MYZAP"</span>, <span class="st">"NKX2-5"</span>,</span>
+<span id="cb35-4"><a href="#cb35-4"></a>  <span class="st">"NEXN"</span>, <span class="st">"NRAP"</span>, <span class="st">"PLN"</span>, <span class="st">"PPA2"</span>, <span class="st">"PLEKHM2"</span>, <span class="st">"PPP1R13L"</span>, <span class="st">"PRDM16"</span>, <span class="st">"RBM20"</span>,</span>
+<span id="cb35-5"><a href="#cb35-5"></a>  <span class="st">"RPL3L"</span>, <span class="st">"SCN5A"</span>, <span class="st">"TBX20"</span>, <span class="st">"TNNI3"</span>, <span class="st">"TNNI3K"</span>, <span class="st">"TNNC1"</span>, <span class="st">"TNNT2"</span>, <span class="st">"TPM1"</span>,</span>
+<span id="cb35-6"><a href="#cb35-6"></a>  <span class="st">"TTN"</span>, <span class="st">"VCL"</span></span>
+<span id="cb35-7"><a href="#cb35-7"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="dcm_all_51_genes" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> dcm_all_51_genes</h1>
+<p>https://www.ahajournals.org/doi/10.1161/CIRCULATIONAHA.120.053033</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a>dcm_all_51_genes <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb36-2"><a href="#cb36-2"></a>  <span class="st">"ABCC9"</span>, <span class="st">"ACTC1"</span>, <span class="st">"ACTN2"</span>, <span class="st">"ANKRD1"</span>, <span class="st">"BAG3"</span>, <span class="st">"CSRP3"</span>, <span class="st">"DES"</span>,</span>
+<span id="cb36-3"><a href="#cb36-3"></a>  <span class="st">"DMD"</span>, <span class="st">"DNAJC19"</span>, <span class="st">"DSP"</span>, <span class="st">"ELAC2"</span>, <span class="st">"EMD"</span>, <span class="st">"FLNC"</span>, <span class="st">"GATAD1"</span>,</span>
+<span id="cb36-4"><a href="#cb36-4"></a>  <span class="st">"HCN4"</span>, <span class="st">"ILK"</span>, <span class="st">"JPH2"</span>, <span class="st">"LAMA4"</span>, <span class="st">"LMNA"</span>, <span class="st">"MIB1"</span>, <span class="st">"MYH6"</span>, <span class="st">"MYH7"</span>,</span>
+<span id="cb36-5"><a href="#cb36-5"></a>  <span class="st">"MYPN"</span>, <span class="st">"NEXN"</span>, <span class="st">"NKX2-5"</span>, <span class="st">"PDLIM3"</span>, <span class="st">"PKP2"</span>, <span class="st">"PLN"</span>, <span class="st">"RBM20"</span>,</span>
+<span id="cb36-6"><a href="#cb36-6"></a>  <span class="st">"SCN5A"</span>, <span class="st">"SDHA"</span>, <span class="st">"SGCD"</span>, <span class="st">"TGFB3"</span>, <span class="st">"TMEM43"</span>, <span class="st">"TNNC1"</span>, <span class="st">"TNNI3"</span>,</span>
+<span id="cb36-7"><a href="#cb36-7"></a>  <span class="st">"TNNT2"</span>, <span class="st">"TPM1"</span>, <span class="st">"TTN"</span>, <span class="st">"VCL"</span>, <span class="st">"LDB3"</span>, <span class="st">"TMPO"</span>, <span class="st">"EYA4"</span>, <span class="st">"PSEN1"</span>,</span>
+<span id="cb36-8"><a href="#cb36-8"></a>  <span class="st">"PSEN2"</span>, <span class="st">"CRYAB"</span>, <span class="st">"HSPB8"</span>, <span class="st">"LMNB1"</span>, <span class="st">"OPA1"</span>, <span class="st">"PRKAG2"</span>, <span class="st">"RAB3GAP2"</span></span>
+<span id="cb36-9"><a href="#cb36-9"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="dcm-chf-related-genes" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="dcm-chf-related-genes"><span class="header-section-number">7.1</span> DCM-CHF-related genes</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a><span class="fu">load</span>(<span class="st">"../data/processed/geo/gse57338_degs_results.RData"</span>)</span>
+<span id="cb37-2"><a href="#cb37-2"></a><span class="fu">load</span>(<span class="st">"../data/processed/geo/gse57338_wgcna_genes.RData"</span>)</span>
+<span id="cb37-3"><a href="#cb37-3"></a></span>
+<span id="cb37-4"><a href="#cb37-4"></a>disease_genes <span class="ot">&lt;-</span> <span class="fu">Reduce</span>(union, <span class="fu">list</span>(<span class="fu">rownames</span>(deg_sig), wgcna_genes_df<span class="sc">$</span>Gene, hermes_dcm_genes, dcm_all_51_genes,clinGen,review_genes))</span>
+<span id="cb37-5"><a href="#cb37-5"></a></span>
+<span id="cb37-6"><a href="#cb37-6"></a>disease_genes_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Gene =</span> disease_genes)</span>
+<span id="cb37-7"><a href="#cb37-7"></a></span>
+<span id="cb37-8"><a href="#cb37-8"></a><span class="fu">save</span>(disease_genes_df, </span>
+<span id="cb37-9"><a href="#cb37-9"></a>     <span class="at">file =</span> <span class="st">"../data/processed/10_disease_genes_df.RData"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -632,4 +2029,5 @@ ul.task-list li input[type="checkbox"] {
 
 
 
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

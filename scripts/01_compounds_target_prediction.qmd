@@ -30,8 +30,11 @@ rm(list = ls())
 source("utils.R")
 
 compounds_dcabm <- read.xlsx("../data/raw/qfd/compounds_dcabm.xlsx") %>%
-  dplyr::select(Pinyin.name, Latin.name, Blood.consitutents) %>%
-  mutate(Compounds = Blood.consitutents) %>%
+  dplyr::select(
+    `Medicinal.materials(Chinese.Pinyin.name)`,
+    `Medicinal.materials(Latin.name)`, 
+    Constituents) %>%
+  mutate(Compounds = Constituents) %>%
   # Trim leading/trailing whitespace from all character columns
   mutate(across(where(is.character), trimws)) %>%
   
@@ -56,10 +59,8 @@ compounds_dcabm <- read.xlsx("../data/raw/qfd/compounds_dcabm.xlsx") %>%
   dplyr::select(-Compounds, -temp, -temp2, -DCABM.ID) %>%
   
   # Final whitespace standardization for all character columns
-  mutate(across(where(is.character), trimws))  %>%
-  dplyr::rename(`Medicinal.materials(Latin.name)` = Latin.name,
-                `Medicinal.materials(Chinese.Pinyin.name)` = Pinyin.name) %>%
-  dplyr::select(-Blood.consitutents) %>%
+  mutate(across(where(is.character), trimws)) %>%
+  dplyr::select(-Constituents) %>%
   mutate(Source = "DCABM-TCM") %>%
   dplyr::select(
     `Medicinal.materials(Latin.name)`,
@@ -86,7 +87,16 @@ compounds_all <- compounds_dcabm %>%
                 CID, 
                 Source
   ) %>%
-  rbind(compounds_qfd)
+  rbind(compounds_qfd) %>%
+  group_by(Compound) %>%
+  mutate(
+    Compound_Count = n(),                         
+    Source.new = paste(unique(Source), collapse = "; ") 
+  ) %>%
+  ungroup() %>%
+  dplyr::select(-Source) %>%
+  dplyr::rename(Source = Source.new) %>%
+  distinct(Compound, .keep_all = TRUE)
 
 # Save cleaned dataset
 save(
