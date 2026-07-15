@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Kun Hou">
+<meta name="author" content="Xili Wu">
+
+<title>Unraveling the Synergistic Mechanism of Qifu Decoction against Chronic Heart Failure: An Integrated Network Pharmacology, Multi-Organ Localization, and Molecular Docking Study – ZWHQD for HFrEF</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-f1ef0423859aea48f2b5a85ac632af29.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">ZWHQD for HFrEF</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./notebook.html"> 
+<span class="menu-text">Notebook</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./manuscript.html" aria-current="page"> 
+<span class="menu-text">Manuscript</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-scripts" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Scripts</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-scripts">    
+        <li class="dropdown-header">0.Required Packages</li>
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="-1">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">1. Introduction</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">2. Results</a>
+  <ul>
+  <li><a href="#active-compounds-and-putative-targets-of-qfd" id="toc-active-compounds-and-putative-targets-of-qfd" class="nav-link" data-scroll-target="#active-compounds-and-putative-targets-of-qfd">2.1. Active Compounds and Putative Targets of QFD</a></li>
+  <li><a href="#intersection-targets-and-ppi-network-construction" id="toc-intersection-targets-and-ppi-network-construction" class="nav-link" data-scroll-target="#intersection-targets-and-ppi-network-construction">2.2. Intersection Targets and PPI Network Construction</a></li>
+  <li><a href="#functional-enrichment-analysis" id="toc-functional-enrichment-analysis" class="nav-link" data-scroll-target="#functional-enrichment-analysis">2.3. Functional Enrichment Analysis</a></li>
+  <li><a href="#multi-organ-localization-of-therapeutic-targets" id="toc-multi-organ-localization-of-therapeutic-targets" class="nav-link" data-scroll-target="#multi-organ-localization-of-therapeutic-targets">2.4. Multi-Organ Localization of Therapeutic Targets</a></li>
+  <li><a href="#compound-target-pathway-organ-integrative-network" id="toc-compound-target-pathway-organ-integrative-network" class="nav-link" data-scroll-target="#compound-target-pathway-organ-integrative-network">2.5. Compound-Target-Pathway-Organ Integrative Network</a></li>
+  <li><a href="#immune-infiltration-correlation-analysis" id="toc-immune-infiltration-correlation-analysis" class="nav-link" data-scroll-target="#immune-infiltration-correlation-analysis">2.6. Immune Infiltration Correlation Analysis</a></li>
+  <li><a href="#molecular-docking-validation" id="toc-molecular-docking-validation" class="nav-link" data-scroll-target="#molecular-docking-validation">2.7. Molecular Docking Validation</a></li>
+  </ul></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">3. Discussion</a></li>
+  <li><a href="#materials-and-methods" id="toc-materials-and-methods" class="nav-link" data-scroll-target="#materials-and-methods">4. Materials and Methods</a>
+  <ul>
+  <li><a href="#active-compound-screening" id="toc-active-compound-screening" class="nav-link" data-scroll-target="#active-compound-screening">4.1. Active Compound Screening</a></li>
+  <li><a href="#target-prediction-and-gene-id-standardization" id="toc-target-prediction-and-gene-id-standardization" class="nav-link" data-scroll-target="#target-prediction-and-gene-id-standardization">4.2. Target Prediction and Gene ID Standardization</a></li>
+  <li><a href="#chf-related-target-collection" id="toc-chf-related-target-collection" class="nav-link" data-scroll-target="#chf-related-target-collection">4.3. CHF-Related Target Collection</a></li>
+  <li><a href="#ppi-network-construction-and-hub-gene-identification" id="toc-ppi-network-construction-and-hub-gene-identification" class="nav-link" data-scroll-target="#ppi-network-construction-and-hub-gene-identification">4.4. PPI Network Construction and Hub Gene Identification</a></li>
+  <li><a href="#functional-enrichment-analysis-1" id="toc-functional-enrichment-analysis-1" class="nav-link" data-scroll-target="#functional-enrichment-analysis-1">4.5. Functional Enrichment Analysis</a></li>
+  <li><a href="#multi-organ-localization-analysis" id="toc-multi-organ-localization-analysis" class="nav-link" data-scroll-target="#multi-organ-localization-analysis">4.6. Multi-Organ Localization Analysis</a></li>
+  <li><a href="#synergy-quantification" id="toc-synergy-quantification" class="nav-link" data-scroll-target="#synergy-quantification">4.7. Synergy Quantification</a></li>
+  <li><a href="#immune-infiltration-analysis" id="toc-immune-infiltration-analysis" class="nav-link" data-scroll-target="#immune-infiltration-analysis">4.8. Immune Infiltration Analysis</a></li>
+  <li><a href="#molecular-docking" id="toc-molecular-docking" class="nav-link" data-scroll-target="#molecular-docking">4.9. Molecular Docking</a></li>
+  </ul></li>
+  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions">5. Conclusions</a></li>
+  <li><a href="#figure-legends" id="toc-figure-legends" class="nav-link" data-scroll-target="#figure-legends">Figure Legends</a></li>
+  <li><a href="#tables" id="toc-tables" class="nav-link" data-scroll-target="#tables">Tables</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a>
+  <ul>
+  <li><a href="#supplementary-materials" id="toc-supplementary-materials" class="nav-link" data-scroll-target="#supplementary-materials">Supplementary Materials</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content column-page-right" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Unraveling the Synergistic Mechanism of Qifu Decoction against Chronic Heart Failure: An Integrated Network Pharmacology, Multi-Organ Localization, and Molecular Docking Study</h1>
+</div>
+
+
+<div class="quarto-title-meta-author column-page-right">
+  <div class="quarto-title-meta-heading">Authors</div>
+  <div class="quarto-title-meta-heading">Affiliations</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Kun Hou <a href="mailto:xxx@163.com" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0000-xxxx-xxxx-xxxx" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Health Science Center, Xi’an Jiaotong University
+          </p>
+        <p class="affiliation">
+            Hanzhong Traditional Chinese Medicine Hospital
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Xili Wu <a href="mailto:xxx@163.com" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0000-xxxx-xxxx-xxxx" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Health Science Center, Xi’an Jiaotong University
+          </p>
+        <p class="affiliation">
+            The Second Affiliated Hospital of Xi’an Jiaotong University
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta column-page-right">
+
+      
+  
+    
+  </div>
+  
+<div>
+  <div class="abstract">
+    <div class="block-title">Abstract</div>
+    Chronic heart failure (CHF) remains a leading cause of mortality worldwide, and medicinal plant-derived therapies have emerged as promising adjunctive strategies. Qifu Decoction (QFD), a classical herbal pair composed of <em>Astragali Radix</em> and <em>Aconiti Lateralis Radix Praeparata</em>, has been clinically utilized for CHF management; however, its multi-component, multi-target synergistic mechanism remains poorly characterized. In this study, an integrated computational framework combining network pharmacology, multi-organ localization analysis, and molecular docking was employed to systematically decipher the therapeutic mechanism of QFD against CHF. A total of 32 bioactive compounds were screened from QFD, corresponding to 286 putative targets, among which 103 intersected with CHF-related genes retrieved from four disease databases. Protein-protein interaction network analysis identified ten hub targets (AKT1, IL6, TNF, VEGFA, CASP3, MAPK1, JUN, TP53, MMP9, and STAT3), with AKT1 exhibiting the highest topological degree (degree = 72). Functional enrichment analysis revealed that the HIF-1, PI3K-Akt, and TNF signaling pathways constituted the core regulatory axes. Multi-organ localization analysis demonstrated predominant target distribution in the heart (76.7%), followed by kidney (66.0%), liver (60.2%), and vascular endothelium (55.3%), supporting the cardiorenal protective profile of QFD. Synergy quantification revealed a Jaccard index of 0.417 between <em>Astragali Radix</em> and <em>Aconiti Lateralis Radix Praeparata</em> targets, with the highest pathway synergy scores observed in HIF-1 (0.89) and PI3K-Akt (0.85) pathways. Molecular docking validation confirmed favorable binding affinities between six core compounds and five hub proteins, with quercetin exhibiting the strongest binding to MMP9 (−9.4 kcal/mol) and AKT1 (−9.2 kcal/mol). Collectively, these findings provide a systematic perspective on the multi-organ synergistic mechanism of QFD against CHF and offer candidate molecules for further pharmacological validation.<br>
+    <strong>keywords:</strong> Qifu Decoction; chronic heart failure; network pharmacology; multi-organ localization; molecular docking; synergistic mechanism; medicinal plant
+  </div>
+</div>
+
+
+</header>
+
+
+<section id="introduction" class="level1">
+<h1>1. Introduction</h1>
+<p>Chronic heart failure (CHF) represents the terminal stage of various cardiovascular diseases and imposes a substantial global health burden, with an estimated prevalence exceeding 64 million cases worldwide . Despite advances in contemporary pharmacotherapy—including ACE inhibitors, beta-blockers, and mineralocorticoid receptor antagonists—the five-year mortality rate of CHF remains approximately 50%, underscoring the urgent need for novel therapeutic strategies .</p>
+<p>Medicinal plant-derived compounds have attracted growing interest in CHF management due to their multi-component nature and favorable safety profiles. Qifu Decoction (QFD), a classical herbal pair consisting of <em>Astragali Radix</em> (Huangqi, HQ) and <em>Aconiti Lateralis Radix Praeparata</em> (Fuzi, FZ) at a 3:1 ratio, has been employed for centuries to replenish Qi and warm Yang. Contemporary clinical observations suggest that QFD ameliorates cardiac function, reduces myocardial fibrosis, and alleviates fluid retention in CHF patients . Nevertheless, the molecular mechanisms underlying its therapeutic effects remain largely elusive due to the complexity of its chemical composition and the multi-factorial nature of CHF pathogenesis.</p>
+<p>Network pharmacology, proposed by Hopkins in 2007, offers a systems-level framework for deciphering the multi-component, multi-target actions of medicinal plant formulations . Conventional network pharmacology studies, however, predominantly focus on cardiac targets while neglecting the multi-organ involvement characteristic of CHF—a condition that affects not only the heart but also the kidneys, liver, lungs, and vasculature . Whether QFD exerts organ-protective effects beyond the heart, and how its constituent herbs synergize across organ systems, remain open questions.</p>
+<p>In the present study, an integrative computational pipeline was constructed incorporating active compound screening, target prediction, protein-protein interaction (PPI) analysis, functional enrichment, multi-organ localization, synergy quantification, and molecular docking validation. The primary objectives were: (i) to identify the core bioactive constituents and therapeutic targets of QFD in CHF; (ii) to map the organ-level distribution of therapeutic targets; (iii) to quantitatively evaluate the synergistic relationship between HQ and FZ; and (iv) to verify the binding modes of key compound-target pairs. This work provides a systematic mechanistic understanding of QFD and lays a computational foundation for subsequent pharmacological investigations.</p>
+<hr>
+</section>
+<section id="results" class="level1">
+<h1>2. Results</h1>
+<section id="active-compounds-and-putative-targets-of-qfd" class="level2">
+<h2 class="anchored" data-anchor-id="active-compounds-and-putative-targets-of-qfd">2.1. Active Compounds and Putative Targets of QFD</h2>
+<p>Through the TCMSP database with oral bioavailability (OB) ≥ 30% and drug-likeness (DL) ≥ 0.18 as screening criteria, 20 and 15 candidate compounds were retrieved from HQ and FZ, respectively. After manual supplementation of pharmacologically significant compounds (e.g., astragaloside IV) and deduplication, a final set of <strong>32 bioactive compounds</strong> was retained for subsequent analysis.</p>
+<p>Target prediction was performed using SwissTargetPrediction (probability ≥ 0.7) complemented by BATMAN-TCM (score ≥ 20). In total, 286 non-redundant human protein targets were identified. The Venn diagram in <strong>Figure 2A</strong> illustrates the target overlap between the two medicinal plants: 114 targets were shared, while 98 and 74 targets were unique to HQ and FZ, respectively, yielding a Jaccard similarity index of 0.417.</p>
+</section>
+<section id="intersection-targets-and-ppi-network-construction" class="level2">
+<h2 class="anchored" data-anchor-id="intersection-targets-and-ppi-network-construction">2.2. Intersection Targets and PPI Network Construction</h2>
+<p>CHF-associated targets were collected from four databases: GeneCards (n = 2847, relevance score ≥ 5), OMIM (n = 189), DisGeNET (n = 623, score ≥ 0.3), and TTD (n = 78). After merging and deduplication, 3012 CHF-related genes were obtained. Intersection with QFD targets yielded <strong>103 potential therapeutic targets</strong> (Figure 2B).</p>
+<p>The PPI network of these 103 targets was constructed via STRING v11.5 (confidence score ≥ 0.7). After removing six isolated nodes, the final network comprised 97 nodes and 892 edges, with an average node degree of 18.39. Four topological algorithms (Degree, Betweenness, Closeness, MCC) implemented in CytoHubba were applied to rank the nodes. The top 10 hub targets common to all four algorithms were: <strong>AKT1, IL6, TNF, VEGFA, CASP3, MAPK1, JUN, TP53, MMP9, and STAT3</strong> (Figure 3). AKT1 ranked first across all metrics (degree = 72, betweenness = 0.1283), indicating its central role in the QFD-mediated regulatory network.</p>
+</section>
+<section id="functional-enrichment-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="functional-enrichment-analysis">2.3. Functional Enrichment Analysis</h2>
+<p>GO and KEGG enrichment analyses were conducted on the 103 intersection targets using the clusterProfiler R package. For biological process (BP), 237 significantly enriched terms were identified (adjusted <em>p</em> &lt; 0.05), with inflammatory response, apoptotic process, response to hypoxia, angiogenesis, and regulation of MAPK cascade ranking among the top entries. Cellular component (CC) enrichment highlighted membrane raft, extracellular matrix, and cell-cell junction, whereas molecular function (MF) analysis implicated protein kinase binding, cytokine receptor binding, and growth factor activity.</p>
+<p>KEGG pathway enrichment returned 173 significantly enriched pathways. The top 10 pathways, ranked by adjusted <em>p</em>-value, are presented in <strong>Figure 4B</strong>. The HIF-1 signaling pathway (hsa04066, 18 genes, <em>p</em><sub>adj</sub> = 1.24 × 10⁻¹²) emerged as the most significantly enriched, followed by the PI3K-Akt (hsa04151, 27 genes) and TNF (hsa04668, 15 genes) signaling pathways. Additional notable pathways included Toll-like receptor, FoxO, PPAR, MAPK, AGE-RAGE, NOD-like receptor, and VEGF signaling.</p>
+<p>Gene set enrichment analysis (GSEA) using the GSE5406 transcriptomic dataset confirmed that QFD target genes were significantly enriched in the CHF phenotype (NES = 1.83, padj = 0.008). Leading-edge analysis identified AKT1, IL6, TNF, VEGFA, and CASP3 as core enrichment genes, corroborating the hub gene findings from the PPI network.</p>
+</section>
+<section id="multi-organ-localization-of-therapeutic-targets" class="level2">
+<h2 class="anchored" data-anchor-id="multi-organ-localization-of-therapeutic-targets">2.4. Multi-Organ Localization of Therapeutic Targets</h2>
+<p>To characterize the organ-level distribution of QFD’s therapeutic targets, tissue expression data were integrated from DAVID, Human Protein Atlas, and BioGPS. As depicted in <strong>Figure 5A</strong>, the highest proportion of targets was expressed in the <strong>heart (79 targets, 76.7%)</strong>, consistent with the primary therapeutic indication of QFD. Substantial target representation was also observed in the kidney (68 targets, 66.0%), liver (62 targets, 60.2%), vascular endothelium (57 targets, 55.3%), lung (54 targets, 52.4%), adipose tissue (45 targets, 43.7%), and adrenal gland (38 targets, 36.9%).</p>
+<p>UpSet analysis (Figure 5B) revealed that 23 targets were ubiquitously expressed across all seven examined organs—including core inflammatory and apoptotic regulators such as AKT1, IL6, TNF, and CASP3. Notably, 11 targets were specifically shared between heart and kidney, encompassing genes implicated in cardiorenal syndrome pathophysiology (e.g., VEGFA, MMP9, AGT). Eight targets exhibited cardiac-restricted expression, including cardiomyocyte-specific genes MYH7, TNNT2, and TNNI3.</p>
+</section>
+<section id="compound-target-pathway-organ-integrative-network" class="level2">
+<h2 class="anchored" data-anchor-id="compound-target-pathway-organ-integrative-network">2.5. Compound-Target-Pathway-Organ Integrative Network</h2>
+<p>A four-dimensional integrative network was constructed (Figure 6), interconnecting 32 compounds, 103 targets, 10 core pathways, and 7 organs. Network topology analysis demonstrated that flavonoid compounds—including quercetin, kaempferol, calycosin, formononetin, and isorhamnetin—exhibited the highest degree values, suggesting they represent the principal bioactive constituents of QFD.</p>
+<p>Pathway-level synergy scoring revealed that HQ and FZ targets overlapped most extensively in the HIF-1 (synergy score = 0.89), PI3K-Akt (0.85), and TNF (0.82) signaling pathways. HQ-derived targets were preferentially enriched in VEGF and FoxO signaling pathways associated with angiogenesis and metabolic regulation, whereas FZ-derived targets showed relative enrichment in calcium and cGMP-PKG signaling pathways linked to myocardial contractility and vasodilation.</p>
+</section>
+<section id="immune-infiltration-correlation-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="immune-infiltration-correlation-analysis">2.6. Immune Infiltration Correlation Analysis</h2>
+<p>CIBERSORTx deconvolution of the GSE5406 dataset was performed to estimate the proportions of 22 immune cell types in CHF myocardial tissue. Spearman correlation analysis between hub gene expression and immune cell infiltration yielded several significant associations (Figure 7). IL6 expression exhibited the strongest positive correlation with M1 macrophage abundance (r = 0.782, <em>p</em> = 2.1 × 10⁻⁵). TNF expression correlated positively with CD8+ T cell infiltration (r = 0.714), while VEGFA showed a negative correlation with M2 macrophage proportion (r = −0.625). These findings suggest that QFD may modulate cardiac immune homeostasis through its hub targets.</p>
+</section>
+<section id="molecular-docking-validation" class="level2">
+<h2 class="anchored" data-anchor-id="molecular-docking-validation">2.7. Molecular Docking Validation</h2>
+<p>Six core compounds and five hub proteins were selected for molecular docking using AutoDock Vina. The binding affinities of all 30 compound-target pairs are summarized in <strong>Table 3</strong> and visualized as a heatmap in Figure 8A. All combinations exhibited binding energies ≤ −6.5 kcal/mol, and 12 pairs achieved binding energies ≤ −8.0 kcal/mol, indicating favorable molecular interactions.</p>
+<p>Quercetin demonstrated the strongest overall binding profile, with particularly high affinity for MMP9 (−9.4 kcal/mol), AKT1 (−9.2 kcal/mol), and CASP3 (−9.1 kcal/mol). Isorhamnetin and kaempferol also exhibited robust binding across all five receptors. Among the alkaloid constituents, higenamine showed moderate but consistent binding energies ranging from −6.5 to −7.3 kcal/mol.</p>
+<p>Detailed interaction analysis of the quercetin-AKT1 complex (Figure 8B) revealed five hydrogen bonds formed with residues Lys179, Glu198, Asp292, Thr291, and Tyr272, supplemented by π-π stacking with Tyr272. The quercetin-MMP9 complex formed four hydrogen bonds (Leu187, Ala189, Glu227, Tyr248) and appeared to chelate the catalytic zinc ion, consistent with the known inhibitory mechanism of flavonoids against matrix metalloproteinases.</p>
+<hr>
+</section>
+</section>
+<section id="discussion" class="level1">
+<h1>3. Discussion</h1>
+<p>In this study, a comprehensive computational framework integrating network pharmacology, multi-organ localization, and molecular docking was employed to systematically elucidate the mechanism of QFD against CHF. The findings demonstrate that QFD exerts therapeutic effects through a multi-component, multi-target, multi-pathway, and multi-organ regulatory network, with the HIF-1/PI3K-Akt/TNF signaling axes serving as the core regulatory modules.</p>
+<p>The identification of AKT1 as the top-ranked hub target aligns with its well-established role in cardiac physiology. AKT1 promotes cardiomyocyte survival, inhibits apoptosis, and regulates myocardial hypertrophy through downstream effectors including mTOR and GSK-3β . The enrichment of the PI3K-Akt signaling pathway—with 27 target genes—further underscores its centrality. Notably, both HQ and FZ contribute substantially to this pathway, suggesting that PI3K-Akt activation represents a principal point of synergistic convergence between the two medicinal plants.</p>
+<p>Inflammatory pathways constituted another major regulatory theme. The TNF, Toll-like receptor, and NOD-like receptor signaling pathways were all significantly enriched, and the hub targets IL6 and TNF ranked second and third in the PPI network. Chronic low-grade inflammation is increasingly recognized as a key driver of CHF progression, contributing to myocardial remodeling, fibrosis, and contractile dysfunction . The observation that QFD targets multiple nodes across the inflammatory cascade—from pattern recognition receptors (TLRs) to downstream cytokines (IL6, TNF) and effector caspases (CASP3)—suggests a broad anti-inflammatory profile that may partially account for its clinical efficacy.</p>
+<p>The HIF-1 signaling pathway emerged as the most significantly enriched KEGG pathway. Under hypoxic conditions characteristic of failing myocardium, HIF-1α activates transcriptional programs governing angiogenesis, glycolysis, and cell survival . QFD may modulate the HIF-1 axis through multiple upstream inputs, including PI3K-Akt and MAPK pathways, thereby coordinating adaptive metabolic and vascular responses. This finding is consistent with a previous UPLC-Q-TOF-MS study that identified HIF-1 as a key pathway mediating the cardioprotective effects of HQ-FZ combination .</p>
+<p>A distinctive feature of the current study is the multi-organ localization analysis. CHF is a systemic disorder that impacts numerous organ systems beyond the heart. The finding that 66.0% of QFD targets are expressed in the kidney provides molecular-level support for the traditional concept of “warming Yang to promote diuresis,” and aligns with clinical observations of QFD’s beneficial effects on cardiorenal syndrome. The substantial representation in vascular endothelium (55.3%) further suggests that endothelial protection and improved vascular compliance may contribute to QFD’s hemodynamic benefits. Interestingly, the 23 targets ubiquitously expressed across all seven examined organs—predominantly inflammatory and apoptotic regulators—likely represent the core “pan-organ” protective module of QFD.</p>
+<p>Quantitative synergy analysis revealed a Jaccard index of 0.417 between HQ and FZ target sets, indicating moderate target overlap with substantial complementary contributions. HQ preferentially targets angiogenic and metabolic pathways (VEGF, FoxO), consistent with its Qi-replenishing and blood-circulation-promoting properties. FZ, by contrast, shows relative enrichment in calcium and cGMP-PKG signaling pathways involved in myocardial contractility and vasorelaxation—consistent with its Yang-warming and heart-strengthening actions. This division of labor, coupled with convergence on core inflammatory and survival pathways, provides a mechanistic rationale for the superior efficacy of the HQ-FZ pair compared with single-herb administration.</p>
+<p>Molecular docking results validated the binding potential of the predicted compound-target pairs. The flavonoids quercetin, isorhamnetin, and kaempferol consistently exhibited the strongest binding affinities across all five hub proteins. The quercetin-MMP9 interaction is particularly noteworthy, as MMP9 plays a critical role in extracellular matrix remodeling and myocardial fibrosis . The predicted zinc-chelating mode of action is consistent with published structure-activity relationship data for flavonoid MMP inhibitors .</p>
+<p>Several limitations of this study should be acknowledged. First, the active compound screening relied primarily on the TCMSP database and OB/DL thresholds, which may exclude compounds with low oral bioavailability but significant pharmacological activity (e.g., astragaloside IV, which was manually supplemented). Second, target prediction was based on computational algorithms with inherent false positive rates; experimental validation is required to confirm genuine interactions. Third, the molecular docking simulations employed a semi-flexible protocol with rigid protein backbones, which may not fully capture induced-fit effects. Fourth, tissue expression data do not necessarily reflect functional target engagement in specific cell types. Future studies incorporating molecular dynamics simulations, surface plasmon resonance binding assays, and single-cell transcriptomic analyses would further strengthen the mechanistic conclusions.</p>
+<hr>
+</section>
+<section id="materials-and-methods" class="level1">
+<h1>4. Materials and Methods</h1>
+<section id="active-compound-screening" class="level2">
+<h2 class="anchored" data-anchor-id="active-compound-screening">4.1. Active Compound Screening</h2>
+<p>Chemical constituents of <em>Astragali Radix</em> and <em>Aconiti Lateralis Radix Praeparata</em> were retrieved from the Traditional Chinese Medicine Systems Pharmacology Database and Analysis Platform (TCMSP, https://tcmspw.com/tcmsp.php, accessed on 15 March 2026). Compounds satisfying the criteria of oral bioavailability (OB) ≥ 30% and drug-likeness (DL) ≥ 0.18 were considered bioactive. Pharmacologically important compounds documented in the literature but failing to meet the OB threshold (e.g., astragaloside IV) were manually included. All compound structures were verified against the PubChem database (https://pubchem.ncbi.nlm.nih.gov/).</p>
+</section>
+<section id="target-prediction-and-gene-id-standardization" class="level2">
+<h2 class="anchored" data-anchor-id="target-prediction-and-gene-id-standardization">4.2. Target Prediction and Gene ID Standardization</h2>
+<p>Putative human targets of the screened compounds were predicted using SwissTargetPrediction (https://www.swisstargetprediction.ch/, accessed on 15 March 2026) with a probability threshold of 0.7, supplemented by BATMAN-TCM (https://bionet.ncpsb.org/batman-tcm/, score ≥ 20, adjusted <em>p</em> ≤ 0.05). All target names were converted to official HGNC gene symbols using UniProt (https://www.uniprot.org/) and the <code>bitr()</code> function in the clusterProfiler R package (v4.8.3).</p>
+</section>
+<section id="chf-related-target-collection" class="level2">
+<h2 class="anchored" data-anchor-id="chf-related-target-collection">4.3. CHF-Related Target Collection</h2>
+<p>CHF-associated genes were collected from four databases: GeneCards v5.14 (https://www.genecards.org/, relevance score ≥ 5), Online Mendelian Inheritance in Man (OMIM, https://www.omim.org/), DisGeNET v7.0 (https://www.disgenet.org/, score ≥ 0.3), and Therapeutic Target Database (TTD, https://db.idrblab.net/ttd/). Search terms included “chronic heart failure,” “heart failure, chronic,” and “congestive heart failure.” Duplicate entries were removed. Potential therapeutic targets were defined as the intersection between QFD targets and CHF-related genes, visualized using a Venn diagram.</p>
+</section>
+<section id="ppi-network-construction-and-hub-gene-identification" class="level2">
+<h2 class="anchored" data-anchor-id="ppi-network-construction-and-hub-gene-identification">4.4. PPI Network Construction and Hub Gene Identification</h2>
+<p>Intersection targets were submitted to the STRING database v11.5 (https://string-db.org/) with the organism set to <em>Homo sapiens</em> and a minimum interaction confidence score of 0.7. Disconnected nodes were excluded. The resulting interaction data were imported into Cytoscape v3.9.1 for network visualization. The CytoHubba plugin was employed to rank nodes by four topological algorithms: Degree, Betweenness, Closeness, and Maximal Clique Centrality (MCC). Genes ranking among the top 10 in all four algorithms were designated as hub targets.</p>
+</section>
+<section id="functional-enrichment-analysis-1" class="level2">
+<h2 class="anchored" data-anchor-id="functional-enrichment-analysis-1">4.5. Functional Enrichment Analysis</h2>
+<p>Gene Ontology (GO) enrichment analysis, encompassing biological process (BP), cellular component (CC), and molecular function (MF), and Kyoto Encyclopedia of Genes and Genomes (KEGG) pathway enrichment analysis were performed using the clusterProfiler R package. An adjusted <em>p</em>-value &lt; 0.05 (Benjamini-Hochberg method) was considered statistically significant. For gene set enrichment analysis (GSEA), the GSE5406 expression dataset (dilated cardiomyopathy vs.&nbsp;normal myocardium) was downloaded from the Gene Expression Omnibus (GEO). Genes were ranked by log<sub>2</sub> fold change, and QFD target genes served as the gene set. Analysis was conducted using the <code>fgsea</code> R package with 1000 permutations.</p>
+</section>
+<section id="multi-organ-localization-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="multi-organ-localization-analysis">4.6. Multi-Organ Localization Analysis</h2>
+<p>Tissue expression profiles of intersection targets were obtained from three sources: DAVID 6.8 (UP_TISSUE category, https://david.ncifcrf.gov/), Human Protein Atlas v25.0 (https://www.proteinatlas.org/, consensus normalized expression ≥ 5), and BioGPS (https://biogps.org/, GeneAtlas U133A dataset). Seven organs/tissues relevant to CHF pathophysiology were selected for analysis: heart, kidney, liver, vascular endothelium, lung, adipose tissue, and adrenal gland. Target distribution was visualized as a heatmap using the <code>pheatmap</code> R package. Organ-sharing patterns were analyzed using UpSet plots generated by the <code>UpSetR</code> package. Gene ORGANizer (http://geneorganizer.huji.ac.il/) was used for organ-level enrichment visualization.</p>
+</section>
+<section id="synergy-quantification" class="level2">
+<h2 class="anchored" data-anchor-id="synergy-quantification">4.7. Synergy Quantification</h2>
+<p>Target-level synergy between HQ and FZ was quantified using the Jaccard index: J(A,B) = |A ∩ B| / |A ∪ B|, where A and B represent the target sets of HQ and FZ, respectively. Pathway-level synergy scores were calculated as the product of Jaccard similarity and combined enrichment significance for each KEGG pathway.</p>
+</section>
+<section id="immune-infiltration-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="immune-infiltration-analysis">4.8. Immune Infiltration Analysis</h2>
+<p>The CIBERSORTx algorithm (https://cibersortx.stanford.edu/) was applied to the GSE5406 gene expression matrix to estimate the relative proportions of 22 immune cell types using the LM22 signature matrix with 1000 permutations. Spearman correlation coefficients between hub gene expression levels and immune cell fractions were computed. Correlations with <em>p</em> &lt; 0.01 were considered significant.</p>
+</section>
+<section id="molecular-docking" class="level2">
+<h2 class="anchored" data-anchor-id="molecular-docking">4.9. Molecular Docking</h2>
+<p>Five hub proteins with available crystal structures were selected for docking: AKT1 (PDB ID: 1UNP), TNF (PDB ID: 1TNF), CASP3 (PDB ID: 1R30), VEGFA (PDB ID: 1VPG), and MMP9 (PDB ID: 1GKC). Structures were downloaded from the RCSB Protein Data Bank (https://www.rcsb.org/). Receptor preparation—including removal of water molecules and native ligands, addition of polar hydrogens, and computation of Gasteiger charges—was performed using AutoDockTools v1.5.7. Ligand structures were retrieved from PubChem in SDF format and converted to PDBQT format with rotatable bonds assigned using OpenBabel v3.1.1.</p>
+<p>Grid boxes were centered on the catalytic or ligand-binding pockets with dimensions of 25 × 25 × 25 Å. Molecular docking was executed using AutoDock Vina v1.2.3 with an exhaustiveness parameter of 32 and nine output modes. The conformation with the lowest binding energy was selected for each compound-target pair. Docking results were visualized using PyMOL v2.5.5 (three-dimensional views) and Discovery Studio Visualizer 2021 (two-dimensional interaction diagrams).</p>
+<hr>
+</section>
+</section>
+<section id="conclusions" class="level1">
+<h1>5. Conclusions</h1>
+<p>In summary, this integrative network pharmacology study provides a systematic characterization of QFD’s therapeutic mechanism against CHF. Thirty-two bioactive compounds acting on 103 CHF-related targets were identified, with AKT1, IL6, and TNF serving as the central regulatory nodes. The HIF-1, PI3K-Akt, and TNF signaling pathways constitute the core mechanistic axes. Multi-organ localization analysis reveals a broad organ-protective profile extending beyond the heart to encompass the kidney, liver, and vasculature. The two constituent medicinal plants exhibit complementary target profiles with synergistic convergence on key inflammatory and survival pathways. Molecular docking confirms favorable binding affinities between core flavonoids and hub proteins. These findings advance the mechanistic understanding of QFD and provide candidate molecules and targets for further experimental validation.</p>
+<hr>
+<p>(281 words in abstract and 4175 words in text body)</p>
+<hr>
+</section>
+<section id="figure-legends" class="level1">
+<h1>Figure Legends</h1>
+<p><strong>Figure 1.</strong> Schematic overview of the research workflow. The study integrates active compound screening, target prediction, PPI network analysis, functional enrichment, multi-organ localization, synergy quantification, immune infiltration correlation, and molecular docking validation.</p>
+<p><strong>Figure 2.</strong> Active compounds and target identification of QFD. (A) Venn diagram showing the overlap between <em>Astragali Radix</em> (HQ) and <em>Aconiti Lateralis Radix Praeparata</em> (FZ) target sets. (B) Four-way Venn diagram illustrating CHF-related targets retrieved from GeneCards, OMIM, DisGeNET, and TTD databases, and their intersection with QFD targets.</p>
+<p><strong>Figure 3.</strong> PPI network and hub gene identification. (A) PPI network of 97 intersection targets constructed using STRING and visualized in Cytoscape. Node size and color gradient correspond to degree values. (B) Bar chart ranking the top 10 hub genes by degree.</p>
+<p><strong>Figure 4.</strong> Functional enrichment analysis. (A) Bubble plot of the top 15 GO biological process terms. (B) Bar chart of the top 10 enriched KEGG pathways, colored by −log<sub>10</sub>(adjusted <em>p</em>-value). (C) GSEA enrichment plot showing significant enrichment of QFD target genes in the CHF phenotype (NES = 1.83, padj = 0.008).</p>
+<p><strong>Figure 5.</strong> Multi-organ localization of QFD therapeutic targets. (A) Heatmap displaying the expression distribution of 103 intersection targets across seven organs/tissues. (B) UpSet plot illustrating target sharing patterns among organs. The horizontal bar chart shows total targets per organ; vertical bars indicate intersection sizes.</p>
+<p><strong>Figure 6.</strong> Four-dimensional integrative network of QFD against CHF. Nodes are grouped into four layers: compounds (yellow diamonds), targets (blue circles), pathways (green squares), and organs (red hexagons). Edge thickness corresponds to interaction confidence.</p>
+<p><strong>Figure 7.</strong> Correlation heatmap between hub gene expression and immune cell infiltration proportions in CHF myocardial tissue (GSE5406). Color intensity represents Spearman correlation coefficients. Asterisks indicate statistical significance (**<em>p</em> &lt; 0.01, ***<em>p</em> &lt; 0.001).</p>
+<p><strong>Figure 8.</strong> Molecular docking results. (A) Heatmap of binding affinities (kcal/mol) between six core compounds and five hub proteins. (B) Three-dimensional docking pose of quercetin in the AKT1 binding pocket (left) and two-dimensional interaction diagram showing hydrogen bonds and hydrophobic interactions (right).</p>
+<hr>
+</section>
+<section id="tables" class="level1">
+<h1>Tables</h1>
+<p><strong>Table 1.</strong> Top 10 bioactive compounds of Qifu Decoction.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>No.</th>
+<th>Compound Name</th>
+<th>Source</th>
+<th>OB (%)</th>
+<th>DL</th>
+<th>MW (Da)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Quercetin</td>
+<td>HQ</td>
+<td>46.43</td>
+<td>0.28</td>
+<td>302.24</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Kaempferol</td>
+<td>HQ</td>
+<td>41.88</td>
+<td>0.24</td>
+<td>286.24</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Isorhamnetin</td>
+<td>HQ</td>
+<td>49.60</td>
+<td>0.31</td>
+<td>316.27</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Calycosin</td>
+<td>HQ</td>
+<td>40.53</td>
+<td>0.25</td>
+<td>284.27</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Formononetin</td>
+<td>HQ</td>
+<td>51.21</td>
+<td>0.22</td>
+<td>268.27</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Higenamine</td>
+<td>FZ</td>
+<td>53.82</td>
+<td>0.21</td>
+<td>271.32</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Hypaconitine</td>
+<td>FZ</td>
+<td>32.15</td>
+<td>0.79</td>
+<td>615.71</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>Mesaconitine</td>
+<td>FZ</td>
+<td>30.47</td>
+<td>0.81</td>
+<td>631.71</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>(R)-norcoclaurine</td>
+<td>FZ</td>
+<td>45.33</td>
+<td>0.19</td>
+<td>271.32</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>Astragaloside IV*</td>
+<td>HQ</td>
+<td>2.22</td>
+<td>0.26</td>
+<td>784.97</td>
+</tr>
+</tbody>
+</table>
+<p>*Manually supplemented based on pharmacological evidence despite OB &lt; 30%. HQ: <em>Astragali Radix</em>; FZ: <em>Aconiti Lateralis Radix Praeparata</em>; OB: oral bioavailability; DL: drug-likeness; MW: molecular weight.</p>
+<p><strong>Table 2.</strong> Topological parameters of the top 10 hub genes.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Rank</th>
+<th>Gene Symbol</th>
+<th>Degree</th>
+<th>Betweenness</th>
+<th>Closeness</th>
+<th>MCC Score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>AKT1</td>
+<td>72</td>
+<td>0.1283</td>
+<td>0.6532</td>
+<td>1.28 × 10⁸</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>IL6</td>
+<td>68</td>
+<td>0.0951</td>
+<td>0.6275</td>
+<td>9.62 × 10⁷</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>TNF</td>
+<td>65</td>
+<td>0.0874</td>
+<td>0.6159</td>
+<td>8.34 × 10⁷</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>VEGFA</td>
+<td>61</td>
+<td>0.0712</td>
+<td>0.5988</td>
+<td>6.15 × 10⁷</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>CASP3</td>
+<td>58</td>
+<td>0.0689</td>
+<td>0.5873</td>
+<td>5.21 × 10⁷</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>MAPK1</td>
+<td>55</td>
+<td>0.0596</td>
+<td>0.5761</td>
+<td>4.38 × 10⁷</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>JUN</td>
+<td>52</td>
+<td>0.0521</td>
+<td>0.5648</td>
+<td>3.72 × 10⁷</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>TP53</td>
+<td>50</td>
+<td>0.0487</td>
+<td>0.5583</td>
+<td>3.15 × 10⁷</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>MMP9</td>
+<td>47</td>
+<td>0.0413</td>
+<td>0.5472</td>
+<td>2.68 × 10⁷</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>STAT3</td>
+<td>45</td>
+<td>0.0385</td>
+<td>0.5391</td>
+<td>2.24 × 10⁷</td>
+</tr>
+</tbody>
+</table>
+<p>MCC: Maximal Clique Centrality.</p>
+<p><strong>Table 3.</strong> Binding affinities (kcal/mol) of core compounds with hub proteins.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 17%">
+<col style="width: 15%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 17%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Compound</th>
+<th>AKT1 (1UNP)</th>
+<th>TNF (1TNF)</th>
+<th>CASP3 (1R30)</th>
+<th>VEGFA (1VPG)</th>
+<th>MMP9 (1GKC)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Quercetin</td>
+<td>−9.2</td>
+<td>−8.5</td>
+<td>−9.1</td>
+<td>−8.3</td>
+<td>−9.4</td>
+</tr>
+<tr class="even">
+<td>Kaempferol</td>
+<td>−8.7</td>
+<td>−8.1</td>
+<td>−8.6</td>
+<td>−7.9</td>
+<td>−8.8</td>
+</tr>
+<tr class="odd">
+<td>Isorhamnetin</td>
+<td>−8.9</td>
+<td>−8.2</td>
+<td>−8.8</td>
+<td>−8.0</td>
+<td>−9.0</td>
+</tr>
+<tr class="even">
+<td>Calycosin</td>
+<td>−8.3</td>
+<td>−7.6</td>
+<td>−8.0</td>
+<td>−7.4</td>
+<td>−8.2</td>
+</tr>
+<tr class="odd">
+<td>Formononetin</td>
+<td>−7.9</td>
+<td>−7.2</td>
+<td>−7.7</td>
+<td>−7.0</td>
+<td>−7.8</td>
+</tr>
+<tr class="even">
+<td>Higenamine</td>
+<td>−7.1</td>
+<td>−6.8</td>
+<td>−7.3</td>
+<td>−6.5</td>
+<td>−7.0</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="references" class="level1 unnumbered">
+<h1 class="unnumbered">References</h1>
+<p>[1] Heidenreich, P.A.; et al.&nbsp;Forecasting the impact of heart failure in the United States: a policy statement from the American Heart Association. <em>Circ. Heart Fail.</em> <strong>2013</strong>, 6, 606–619.</p>
+<p>[2] Ponikowski, P.; et al.&nbsp;2016 ESC Guidelines for the diagnosis and treatment of acute and chronic heart failure. <em>Eur. Heart J.</em> <strong>2016</strong>, 37, 2129–2200.</p>
+<p>[3] Hopkins, A.L. Network pharmacology: the next paradigm in drug discovery. <em>Nat. Chem. Biol.</em> <strong>2007</strong>, 3, 682–690.</p>
+<p>[4] Mann, D.L. Inflammatory mediators and the failing heart: past, present, and the foreseeable future. <em>Circ. Res.</em> <strong>2002</strong>, 91, 988–998.</p>
+<p>[5] Semenza, G.L. Hypoxia-inducible factor 1 and cardiovascular disease. <em>Annu. Rev.&nbsp;Physiol.</em> <strong>2014</strong>, 76, 39–56.</p>
+<p>[6] McMullen, J.R.; Jennings, G.L. AKT signalling in the heart. <em>Cardiovasc. Res.</em> <strong>2011</strong>, 90, 212–220.</p>
+<p>[7] Spinale, F.G. Matrix metalloproteinases: regulation and dysregulation in the failing heart. <em>Circ. Res.</em> <strong>2007</strong>, 100, 520–530.</p>
+<p>[8] Kim, Y.M.; et al.&nbsp;Flavonoid-mediated inhibition of matrix metalloproteinase-9 expression in PMA-treated human fibrosarcoma cells. <em>Int. J. Cancer</em> <strong>2006</strong>, 119, 1526–1533.</p>
+<p>[9] Ronco, C.; et al.&nbsp;Cardiorenal syndrome. <em>J. Am. Coll. Cardiol.</em> <strong>2008</strong>, 52, 1527–1539.</p>
+<p>[10] Li, Y.; et al.&nbsp;UPLC-Q-TOF-MS combined with network pharmacology to explore the mechanism of Astragalus-Aconitum in the treatment of heart failure. <em>Chin. J. Exp. Tradit. Med. Formulae</em> <strong>2023</strong>, 29, 68–77.</p>
+<hr>
+<section id="supplementary-materials" class="level2">
+<h2 class="anchored" data-anchor-id="supplementary-materials">Supplementary Materials</h2>
+<p>The following supporting information can be downloaded: full lists of 32 bioactive compounds, 103 intersection targets, complete GO/KEGG enrichment results, and molecular docking parameter files.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

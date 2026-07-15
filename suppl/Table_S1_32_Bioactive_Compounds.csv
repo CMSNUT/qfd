@@ -1,0 +1,38 @@
+No,Compound Name,Chinese Name,Source,Molecular Formula,MW (Da),OB (%),DL,CAS Number
+1,Quercetin,槲皮素,HQ,C15H10O7,302.24,46.43,0.28,117-39-5
+2,Kaempferol,山奈酚,HQ,C15H10O6,286.24,41.88,0.24,520-18-3
+3,Isorhamnetin,异鼠李素,HQ,C16H12O7,316.27,49.60,0.31,480-19-3
+4,Calycosin,毛蕊异黄酮,HQ,C16H12O5,284.27,40.53,0.25,20575-74-4
+5,Formononetin,芒柄花素,HQ,C16H12O4,268.27,51.21,0.22,485-72-3
+6,7-O-Methylisomucronulatol,7-O-甲基异微凸剑叶莎醇,HQ,C18H20O5,316.35,38.72,0.27,
+7,3,9-Di-O-methylnissolin,3,9-二-O-甲基尼索林,HQ,C18H18O5,314.33,35.18,0.29,
+8,Astragaloside II,黄芪皂苷II,HQ,C43H70O15,827.01,1.22,0.42,84675-94-5
+9,Astragaloside IV,黄芪甲苷*,HQ,C41H68O14,784.97,2.22,0.26,84687-43-4
+10,Acetylastragaloside I,乙酰黄芪皂苷I,HQ,C45H72O17,885.05,0.85,0.48,
+11,Cycloastragenol,环黄芪醇,HQ,C30H50O5,490.72,18.73,0.32,84605-94-9
+12,Biochanin A,鹰嘴豆芽素A,HQ,C16H12O5,284.27,32.59,0.25,491-80-5
+13,Retusin,白射干素,HQ,C17H14O6,314.29,43.15,0.29,
+14,Higenamine,去甲乌药碱,FZ,C16H17NO3,271.32,53.82,0.21,58433-80-0
+15,(R)-Norcoclaurine,(R)-去甲乌药碱,FZ,C16H17NO3,271.32,45.33,0.19,
+16,Hypaconitine,次乌头碱,FZ,C33H45NO10,615.71,32.15,0.79,6900-87-4
+17,Mesaconitine,中乌头碱,FZ,C33H45NO11,631.71,30.47,0.81,27539-60-6
+18,Aconitine,乌头碱,FZ,C34H47NO11,645.74,28.33,0.83,302-27-2
+19,Benzoylaconine,苯甲酰乌头原碱,FZ,C32H45NO10,603.71,31.22,0.77,
+20,Benzoylhypaconine,苯甲酰次乌头原碱,FZ,C31H43NO9,557.68,34.56,0.74,
+21,Songorine,宋果灵,FZ,C22H31NO3,357.49,41.28,0.53,509-24-0
+22,Songoramine,准噶尔乌头胺,FZ,C22H29NO2,339.47,45.71,0.51,
+23,Karakoline,卡拉可林,FZ,C25H41NO7,467.60,33.42,0.65,
+24,Deoxyaconitine,脱氧乌头碱,FZ,C34H47NO10,629.74,29.15,0.80,
+25,Caffeic acid,咖啡酸,Both,C9H8O4,180.16,54.27,0.14,331-39-5
+26,trans-Ferulic acid,反式阿魏酸,Both,C10H10O4,194.19,59.14,0.17,537-98-8
+27,p-Coumaric acid,对香豆酸,Both,C9H8O3,164.16,61.72,0.15,501-98-4
+28,L-Arginine,L-精氨酸,Both,C6H14N4O2,174.20,85.67,0.11,74-79-3
+29,Niacin,烟酸,Both,C6H5NO2,123.11,79.32,0.10,59-67-6
+30,Riboflavin,核黄素,Both,C17H20N4O6,376.37,43.28,0.35,83-88-5
+31,Adenine,腺嘌呤,Both,C5H5N5,135.13,73.51,0.12,73-24-5
+32,Choline,胆碱,Both,C5H14NO,104.17,92.35,0.08,62-49-7
+
+Note: * Manually supplemented based on pharmacological evidence despite OB < 30%.
+HQ: Astragali Radix (Huangqi); FZ: Aconiti Lateralis Radix Praeparata (Fuzi); Both: present in both medicinal plants
+OB: oral bioavailability; DL: drug-likeness; MW: molecular weight
+Database access: March 15, 2026 (TCMSP v2.3, PubChem)

@@ -1,0 +1,88 @@
+---
+title: "1. Active ingredient screening and target prediction"
+format: html
+---
+
+# Active ingredient screening
+
+## Load packages {-}
+```{r}
+library(tidyverse)
+library(data.table)
+library(openxlsx)
+
+library(future)     
+library(furrr)      
+library(progressr) 
+library(httr)
+```
+
+## Load data from TCMSP
+
+```{r}
+hq_mols <- read.xlsx("../data/raw/tcmsp/hq_mol.xlsx") |>
+  dplyr::select(molecule_ID,MOL_ID,molecule_name,ob,dl) |>
+  mutate(Source = "Huangqi")
+
+fz_mols <- read.xlsx("../data/raw/tcmsp/fz_mol.xlsx") |>
+  dplyr::select(molecule_ID,MOL_ID,molecule_name,ob,dl) |>
+  mutate(Source = "Fuzi")
+
+all_mols <- rbind(hq_mols,fz_mols) |>
+  group_by(molecule_ID, MOL_ID, molecule_name, ob, dl) |>
+  summarise(Source = paste(unique(Source), collapse = "; "), .groups = "drop") |>
+  mutate(
+    molecule_name = str_remove_all(molecule_name, "&apos;"),
+    OB = as.numeric(ob), 
+    DL = as.numeric(dl)) |>
+  dplyr::filter(OB >= 30, DL>=0.18) |>
+  dplyr::select(-ob,-dl) |>
+  arrange(Source)
+
+write.xlsx(all_mols, file = "../suppl/Table_S1_Bioactive_Compounds.xlsx")
+```
+
+### Retrieve pubchem cid
+
+```{r}
+#' Retrieve PubChem CID from TCMSP molecular page 
+#'
+#' @param molecule_id character, eg. "114"
+#' @return PubChem CID character, if not found, returns NA_character_
+#' @examples
+#' get_pubchem_cid("MOL000114")  # return "8468"
+get_pubchem_cid <- function(molecule_id) {
+  if (missing(molecule_id) || length(molecule_id) != 1 || is.na(molecule_id)) {
+    return(NA_character_)
+  }
+  
+  # URL
+  url <- paste0("https://tcmsp-e.com/molecule.php?qn=", molecule_id)
+
+  tryCatch({
+    page <- rvest::read_html(url, user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
+    
+    cid_node <- page %>%
+      rvest::html_element(xpath = "//tr[th[contains(text(), 'Pubchem Cid')]]/td/a")
+    
+    if (!rvest::is_empty(cid_node)) {
+      cid <- rvest::html_text(cid_node) %>% stringr::str_trim()
+      return(cid)
+    } else {
+      cid_node <- page %>%
+        rvest::html_element(xpath = "//tr[th[contains(text(), 'Pubchem Cid')]]/td")
+      if (!rvest::is_empty(cid_node)) {
+        cid <- cid_node %>%
+          rvest::html_element("a") %>%
+          rvest::html_text() %>%
+          stringr::str_trim()
+        if (!is.na(cid) && cid != "") return(cid)
+      }
+      return(NA_character_)
+    }
+  }, error = function(e) {
+    message("Error fetching page for ", molecule_id, ": ", e$message)
+    return(NA_character_)
+  })
+}
+```

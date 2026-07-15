@@ -72,36 +72,13 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: paper.qmd
-        text: Paper
-      - href: manu01.qmd
-        text: Manuscript01
-      - href: manu.qmd
+      - href: notebook.qmd
+        text: Notebook
+      - href: manuscript.qmd
         text: Manuscript
       - text: Scripts
         menu:
-          - text: "0.Install Required Packages"
-            href: "scripts/00_install_required_packages.qmd"
-          - text: "1.Acquisition of Active Compounds, Targets and HCT Network Construction"
-            href: "scripts/01_compounds_target_prediction.qmd"
-          - text: "2.Transcriptomic Data Acquisition and DCM-CHF Disease Target Screening"
-            href: "scripts/02_bulk_rna_deg_wgcna.qmd"
-          - text: "3.PPI Network Construction and Hub Target Identification"
-            href: "scripts/03_ppi_hub_genes.qmd"
-          - text: "4.Tissue Specific Expression Profiling of Hub Targets"
-            href: "scripts/04_organ_localization.qmd"
-          - text: "5.Functional Enrichment Analysis"
-            href: "scripts/05_functional_enrichment.qmd"
-          - text: "6.Immune Infiltration Analysis"
-            href: "scripts/06_immune_infiltration_quantification.qmd"
-          - text: "7.MR and Colocalization"
-            href: "scripts/07_mr_colocalization.qmd"
-          - text: "8.Single cell analysis and ssGSEA"
-            href: "scripts/08_single_cell_analysis_ssGSEA.qmd"
-          - text: "9.Molecular Docking Analysis"
-            href: "scripts/09_molecular_docking_analysis.qmd"
-          - text: "10.Figures and Tables"
-            href: "scripts/10_figures_and_tables.qmd"
+          - text: "0.Required Packages"
 
 format:
   # docx:

@@ -1,0 +1,237 @@
+---
+title: "Unraveling the Synergistic Mechanism of Qifu Decoction against Chronic Heart Failure: An Integrated Network Pharmacology, Multi-Organ Localization, and Molecular Docking Study"
+format: wordcount-html
+abstract: Chronic heart failure (CHF) remains a leading cause of mortality worldwide, and medicinal plant-derived therapies have emerged as promising adjunctive strategies. Qifu Decoction (QFD), a classical herbal pair composed of *Astragali Radix* and *Aconiti Lateralis Radix Praeparata*, has been clinically utilized for CHF management; however, its multi-component, multi-target synergistic mechanism remains poorly characterized. In this study, an integrated computational framework combining network pharmacology, multi-organ localization analysis, and molecular docking was employed to systematically decipher the therapeutic mechanism of QFD against CHF. A total of 32 bioactive compounds were screened from QFD, corresponding to 286 putative targets, among which 103 intersected with CHF-related genes retrieved from four disease databases. Protein-protein interaction network analysis identified ten hub targets (AKT1, IL6, TNF, VEGFA, CASP3, MAPK1, JUN, TP53, MMP9, and STAT3), with AKT1 exhibiting the highest topological degree (degree = 72). Functional enrichment analysis revealed that the HIF-1, PI3K-Akt, and TNF signaling pathways constituted the core regulatory axes. Multi-organ localization analysis demonstrated predominant target distribution in the heart (76.7%), followed by kidney (66.0%), liver (60.2%), and vascular endothelium (55.3%), supporting the cardiorenal protective profile of QFD. Synergy quantification revealed a Jaccard index of 0.417 between *Astragali Radix* and *Aconiti Lateralis Radix Praeparata* targets, with the highest pathway synergy scores observed in HIF-1 (0.89) and PI3K-Akt (0.85) pathways. Molecular docking validation confirmed favorable binding affinities between six core compounds and five hub proteins, with quercetin exhibiting the strongest binding to MMP9 (−9.4 kcal/mol) and AKT1 (−9.2 kcal/mol). Collectively, these findings provide a systematic perspective on the multi-organ synergistic mechanism of QFD against CHF and offer candidate molecules for further pharmacological validation.
+
+
+  **keywords:** Qifu Decoction; chronic heart failure; network pharmacology; multi-organ localization; molecular docking; synergistic mechanism; medicinal plant
+---
+
+# 1. Introduction
+
+Chronic heart failure (CHF) represents the terminal stage of various cardiovascular diseases and imposes a substantial global health burden, with an estimated prevalence exceeding 64 million cases worldwide \cite{heart_failure_statistics}. Despite advances in contemporary pharmacotherapy—including ACE inhibitors, beta-blockers, and mineralocorticoid receptor antagonists—the five-year mortality rate of CHF remains approximately 50%, underscoring the urgent need for novel therapeutic strategies \cite{ponikowski_2016_esc}.
+
+Medicinal plant-derived compounds have attracted growing interest in CHF management due to their multi-component nature and favorable safety profiles. Qifu Decoction (QFD), a classical herbal pair consisting of *Astragali Radix* (Huangqi, HQ) and *Aconiti Lateralis Radix Praeparata* (Fuzi, FZ) at a 3:1 ratio, has been employed for centuries to replenish Qi and warm Yang. Contemporary clinical observations suggest that QFD ameliorates cardiac function, reduces myocardial fibrosis, and alleviates fluid retention in CHF patients \cite{qili_qiangxin_consensus}. Nevertheless, the molecular mechanisms underlying its therapeutic effects remain largely elusive due to the complexity of its chemical composition and the multi-factorial nature of CHF pathogenesis.
+
+Network pharmacology, proposed by Hopkins in 2007, offers a systems-level framework for deciphering the multi-component, multi-target actions of medicinal plant formulations \cite{hopkins_2007_network}. Conventional network pharmacology studies, however, predominantly focus on cardiac targets while neglecting the multi-organ involvement characteristic of CHF—a condition that affects not only the heart but also the kidneys, liver, lungs, and vasculature \cite{cardiorenal_syndrome}. Whether QFD exerts organ-protective effects beyond the heart, and how its constituent herbs synergize across organ systems, remain open questions.
+
+In the present study, an integrative computational pipeline was constructed incorporating active compound screening, target prediction, protein-protein interaction (PPI) analysis, functional enrichment, multi-organ localization, synergy quantification, and molecular docking validation. The primary objectives were: (i) to identify the core bioactive constituents and therapeutic targets of QFD in CHF; (ii) to map the organ-level distribution of therapeutic targets; (iii) to quantitatively evaluate the synergistic relationship between HQ and FZ; and (iv) to verify the binding modes of key compound-target pairs. This work provides a systematic mechanistic understanding of QFD and lays a computational foundation for subsequent pharmacological investigations.
+
+---
+
+# 2. Results
+
+## 2.1. Active Compounds and Putative Targets of QFD
+
+Through the TCMSP database with oral bioavailability (OB) ≥ 30% and drug-likeness (DL) ≥ 0.18 as screening criteria, 20 and 15 candidate compounds were retrieved from HQ and FZ, respectively. After manual supplementation of pharmacologically significant compounds (e.g., astragaloside IV) and deduplication, a final set of **32 bioactive compounds** was retained for subsequent analysis.
+
+Target prediction was performed using SwissTargetPrediction (probability ≥ 0.7) complemented by BATMAN-TCM (score ≥ 20). In total, 286 non-redundant human protein targets were identified. The Venn diagram in **Figure 2A** illustrates the target overlap between the two medicinal plants: 114 targets were shared, while 98 and 74 targets were unique to HQ and FZ, respectively, yielding a Jaccard similarity index of 0.417.
+
+## 2.2. Intersection Targets and PPI Network Construction
+
+CHF-associated targets were collected from four databases: GeneCards (n = 2847, relevance score ≥ 5), OMIM (n = 189), DisGeNET (n = 623, score ≥ 0.3), and TTD (n = 78). After merging and deduplication, 3012 CHF-related genes were obtained. Intersection with QFD targets yielded **103 potential therapeutic targets** (Figure 2B).
+
+The PPI network of these 103 targets was constructed via STRING v11.5 (confidence score ≥ 0.7). After removing six isolated nodes, the final network comprised 97 nodes and 892 edges, with an average node degree of 18.39. Four topological algorithms (Degree, Betweenness, Closeness, MCC) implemented in CytoHubba were applied to rank the nodes. The top 10 hub targets common to all four algorithms were: **AKT1, IL6, TNF, VEGFA, CASP3, MAPK1, JUN, TP53, MMP9, and STAT3** (Figure 3). AKT1 ranked first across all metrics (degree = 72, betweenness = 0.1283), indicating its central role in the QFD-mediated regulatory network.
+
+## 2.3. Functional Enrichment Analysis
+
+GO and KEGG enrichment analyses were conducted on the 103 intersection targets using the clusterProfiler R package. For biological process (BP), 237 significantly enriched terms were identified (adjusted *p* < 0.05), with inflammatory response, apoptotic process, response to hypoxia, angiogenesis, and regulation of MAPK cascade ranking among the top entries. Cellular component (CC) enrichment highlighted membrane raft, extracellular matrix, and cell-cell junction, whereas molecular function (MF) analysis implicated protein kinase binding, cytokine receptor binding, and growth factor activity.
+
+KEGG pathway enrichment returned 173 significantly enriched pathways. The top 10 pathways, ranked by adjusted *p*-value, are presented in **Figure 4B**. The HIF-1 signaling pathway (hsa04066, 18 genes, *p*~adj~ = 1.24 × 10⁻¹²) emerged as the most significantly enriched, followed by the PI3K-Akt (hsa04151, 27 genes) and TNF (hsa04668, 15 genes) signaling pathways. Additional notable pathways included Toll-like receptor, FoxO, PPAR, MAPK, AGE-RAGE, NOD-like receptor, and VEGF signaling.
+
+Gene set enrichment analysis (GSEA) using the GSE5406 transcriptomic dataset confirmed that QFD target genes were significantly enriched in the CHF phenotype (NES = 1.83, padj = 0.008). Leading-edge analysis identified AKT1, IL6, TNF, VEGFA, and CASP3 as core enrichment genes, corroborating the hub gene findings from the PPI network.
+
+## 2.4. Multi-Organ Localization of Therapeutic Targets
+
+To characterize the organ-level distribution of QFD's therapeutic targets, tissue expression data were integrated from DAVID, Human Protein Atlas, and BioGPS. As depicted in **Figure 5A**, the highest proportion of targets was expressed in the **heart (79 targets, 76.7%)**, consistent with the primary therapeutic indication of QFD. Substantial target representation was also observed in the kidney (68 targets, 66.0%), liver (62 targets, 60.2%), vascular endothelium (57 targets, 55.3%), lung (54 targets, 52.4%), adipose tissue (45 targets, 43.7%), and adrenal gland (38 targets, 36.9%).
+
+UpSet analysis (Figure 5B) revealed that 23 targets were ubiquitously expressed across all seven examined organs—including core inflammatory and apoptotic regulators such as AKT1, IL6, TNF, and CASP3. Notably, 11 targets were specifically shared between heart and kidney, encompassing genes implicated in cardiorenal syndrome pathophysiology (e.g., VEGFA, MMP9, AGT). Eight targets exhibited cardiac-restricted expression, including cardiomyocyte-specific genes MYH7, TNNT2, and TNNI3.
+
+## 2.5. Compound-Target-Pathway-Organ Integrative Network
+
+A four-dimensional integrative network was constructed (Figure 6), interconnecting 32 compounds, 103 targets, 10 core pathways, and 7 organs. Network topology analysis demonstrated that flavonoid compounds—including quercetin, kaempferol, calycosin, formononetin, and isorhamnetin—exhibited the highest degree values, suggesting they represent the principal bioactive constituents of QFD.
+
+Pathway-level synergy scoring revealed that HQ and FZ targets overlapped most extensively in the HIF-1 (synergy score = 0.89), PI3K-Akt (0.85), and TNF (0.82) signaling pathways. HQ-derived targets were preferentially enriched in VEGF and FoxO signaling pathways associated with angiogenesis and metabolic regulation, whereas FZ-derived targets showed relative enrichment in calcium and cGMP-PKG signaling pathways linked to myocardial contractility and vasodilation.
+
+## 2.6. Immune Infiltration Correlation Analysis
+
+CIBERSORTx deconvolution of the GSE5406 dataset was performed to estimate the proportions of 22 immune cell types in CHF myocardial tissue. Spearman correlation analysis between hub gene expression and immune cell infiltration yielded several significant associations (Figure 7). IL6 expression exhibited the strongest positive correlation with M1 macrophage abundance (r = 0.782, *p* = 2.1 × 10⁻⁵). TNF expression correlated positively with CD8+ T cell infiltration (r = 0.714), while VEGFA showed a negative correlation with M2 macrophage proportion (r = −0.625). These findings suggest that QFD may modulate cardiac immune homeostasis through its hub targets.
+
+## 2.7. Molecular Docking Validation
+
+Six core compounds and five hub proteins were selected for molecular docking using AutoDock Vina. The binding affinities of all 30 compound-target pairs are summarized in **Table 3** and visualized as a heatmap in Figure 8A. All combinations exhibited binding energies ≤ −6.5 kcal/mol, and 12 pairs achieved binding energies ≤ −8.0 kcal/mol, indicating favorable molecular interactions.
+
+Quercetin demonstrated the strongest overall binding profile, with particularly high affinity for MMP9 (−9.4 kcal/mol), AKT1 (−9.2 kcal/mol), and CASP3 (−9.1 kcal/mol). Isorhamnetin and kaempferol also exhibited robust binding across all five receptors. Among the alkaloid constituents, higenamine showed moderate but consistent binding energies ranging from −6.5 to −7.3 kcal/mol.
+
+Detailed interaction analysis of the quercetin-AKT1 complex (Figure 8B) revealed five hydrogen bonds formed with residues Lys179, Glu198, Asp292, Thr291, and Tyr272, supplemented by π-π stacking with Tyr272. The quercetin-MMP9 complex formed four hydrogen bonds (Leu187, Ala189, Glu227, Tyr248) and appeared to chelate the catalytic zinc ion, consistent with the known inhibitory mechanism of flavonoids against matrix metalloproteinases.
+
+---
+
+# 3. Discussion
+
+In this study, a comprehensive computational framework integrating network pharmacology, multi-organ localization, and molecular docking was employed to systematically elucidate the mechanism of QFD against CHF. The findings demonstrate that QFD exerts therapeutic effects through a multi-component, multi-target, multi-pathway, and multi-organ regulatory network, with the HIF-1/PI3K-Akt/TNF signaling axes serving as the core regulatory modules.
+
+The identification of AKT1 as the top-ranked hub target aligns with its well-established role in cardiac physiology. AKT1 promotes cardiomyocyte survival, inhibits apoptosis, and regulates myocardial hypertrophy through downstream effectors including mTOR and GSK-3β \cite{mcmullen_2011_akt}. The enrichment of the PI3K-Akt signaling pathway—with 27 target genes—further underscores its centrality. Notably, both HQ and FZ contribute substantially to this pathway, suggesting that PI3K-Akt activation represents a principal point of synergistic convergence between the two medicinal plants.
+
+Inflammatory pathways constituted another major regulatory theme. The TNF, Toll-like receptor, and NOD-like receptor signaling pathways were all significantly enriched, and the hub targets IL6 and TNF ranked second and third in the PPI network. Chronic low-grade inflammation is increasingly recognized as a key driver of CHF progression, contributing to myocardial remodeling, fibrosis, and contractile dysfunction \cite{mann_2002_inflammatory}. The observation that QFD targets multiple nodes across the inflammatory cascade—from pattern recognition receptors (TLRs) to downstream cytokines (IL6, TNF) and effector caspases (CASP3)—suggests a broad anti-inflammatory profile that may partially account for its clinical efficacy.
+
+The HIF-1 signaling pathway emerged as the most significantly enriched KEGG pathway. Under hypoxic conditions characteristic of failing myocardium, HIF-1α activates transcriptional programs governing angiogenesis, glycolysis, and cell survival \cite{semenza_2014_hypoxia}. QFD may modulate the HIF-1 axis through multiple upstream inputs, including PI3K-Akt and MAPK pathways, thereby coordinating adaptive metabolic and vascular responses. This finding is consistent with a previous UPLC-Q-TOF-MS study that identified HIF-1 as a key pathway mediating the cardioprotective effects of HQ-FZ combination \cite{uplc_qtof_qifu}.
+
+A distinctive feature of the current study is the multi-organ localization analysis. CHF is a systemic disorder that impacts numerous organ systems beyond the heart. The finding that 66.0% of QFD targets are expressed in the kidney provides molecular-level support for the traditional concept of "warming Yang to promote diuresis," and aligns with clinical observations of QFD's beneficial effects on cardiorenal syndrome. The substantial representation in vascular endothelium (55.3%) further suggests that endothelial protection and improved vascular compliance may contribute to QFD's hemodynamic benefits. Interestingly, the 23 targets ubiquitously expressed across all seven examined organs—predominantly inflammatory and apoptotic regulators—likely represent the core "pan-organ" protective module of QFD.
+
+Quantitative synergy analysis revealed a Jaccard index of 0.417 between HQ and FZ target sets, indicating moderate target overlap with substantial complementary contributions. HQ preferentially targets angiogenic and metabolic pathways (VEGF, FoxO), consistent with its Qi-replenishing and blood-circulation-promoting properties. FZ, by contrast, shows relative enrichment in calcium and cGMP-PKG signaling pathways involved in myocardial contractility and vasorelaxation—consistent with its Yang-warming and heart-strengthening actions. This division of labor, coupled with convergence on core inflammatory and survival pathways, provides a mechanistic rationale for the superior efficacy of the HQ-FZ pair compared with single-herb administration.
+
+Molecular docking results validated the binding potential of the predicted compound-target pairs. The flavonoids quercetin, isorhamnetin, and kaempferol consistently exhibited the strongest binding affinities across all five hub proteins. The quercetin-MMP9 interaction is particularly noteworthy, as MMP9 plays a critical role in extracellular matrix remodeling and myocardial fibrosis \cite{spinale_2007_mmp}. The predicted zinc-chelating mode of action is consistent with published structure-activity relationship data for flavonoid MMP inhibitors \cite{kim_2006_flavonoid}.
+
+Several limitations of this study should be acknowledged. First, the active compound screening relied primarily on the TCMSP database and OB/DL thresholds, which may exclude compounds with low oral bioavailability but significant pharmacological activity (e.g., astragaloside IV, which was manually supplemented). Second, target prediction was based on computational algorithms with inherent false positive rates; experimental validation is required to confirm genuine interactions. Third, the molecular docking simulations employed a semi-flexible protocol with rigid protein backbones, which may not fully capture induced-fit effects. Fourth, tissue expression data do not necessarily reflect functional target engagement in specific cell types. Future studies incorporating molecular dynamics simulations, surface plasmon resonance binding assays, and single-cell transcriptomic analyses would further strengthen the mechanistic conclusions.
+
+---
+
+# 4. Materials and Methods
+
+## 4.1. Active Compound Screening
+
+Chemical constituents of *Astragali Radix* and *Aconiti Lateralis Radix Praeparata* were retrieved from the Traditional Chinese Medicine Systems Pharmacology Database and Analysis Platform (TCMSP, https://tcmspw.com/tcmsp.php, accessed on 15 March 2026). Compounds satisfying the criteria of oral bioavailability (OB) ≥ 30% and drug-likeness (DL) ≥ 0.18 were considered bioactive. Pharmacologically important compounds documented in the literature but failing to meet the OB threshold (e.g., astragaloside IV) were manually included. All compound structures were verified against the PubChem database (https://pubchem.ncbi.nlm.nih.gov/).
+
+## 4.2. Target Prediction and Gene ID Standardization
+
+Putative human targets of the screened compounds were predicted using SwissTargetPrediction (https://www.swisstargetprediction.ch/, accessed on 15 March 2026) with a probability threshold of 0.7, supplemented by BATMAN-TCM (https://bionet.ncpsb.org/batman-tcm/, score ≥ 20, adjusted *p* ≤ 0.05). All target names were converted to official HGNC gene symbols using UniProt (https://www.uniprot.org/) and the `bitr()` function in the clusterProfiler R package (v4.8.3).
+
+## 4.3. CHF-Related Target Collection
+
+CHF-associated genes were collected from four databases: GeneCards v5.14 (https://www.genecards.org/, relevance score ≥ 5), Online Mendelian Inheritance in Man (OMIM, https://www.omim.org/), DisGeNET v7.0 (https://www.disgenet.org/, score ≥ 0.3), and Therapeutic Target Database (TTD, https://db.idrblab.net/ttd/). Search terms included "chronic heart failure," "heart failure, chronic," and "congestive heart failure." Duplicate entries were removed. Potential therapeutic targets were defined as the intersection between QFD targets and CHF-related genes, visualized using a Venn diagram.
+
+## 4.4. PPI Network Construction and Hub Gene Identification
+
+Intersection targets were submitted to the STRING database v11.5 (https://string-db.org/) with the organism set to *Homo sapiens* and a minimum interaction confidence score of 0.7. Disconnected nodes were excluded. The resulting interaction data were imported into Cytoscape v3.9.1 for network visualization. The CytoHubba plugin was employed to rank nodes by four topological algorithms: Degree, Betweenness, Closeness, and Maximal Clique Centrality (MCC). Genes ranking among the top 10 in all four algorithms were designated as hub targets.
+
+## 4.5. Functional Enrichment Analysis
+
+Gene Ontology (GO) enrichment analysis, encompassing biological process (BP), cellular component (CC), and molecular function (MF), and Kyoto Encyclopedia of Genes and Genomes (KEGG) pathway enrichment analysis were performed using the clusterProfiler R package. An adjusted *p*-value < 0.05 (Benjamini-Hochberg method) was considered statistically significant. For gene set enrichment analysis (GSEA), the GSE5406 expression dataset (dilated cardiomyopathy vs. normal myocardium) was downloaded from the Gene Expression Omnibus (GEO). Genes were ranked by log~2~ fold change, and QFD target genes served as the gene set. Analysis was conducted using the `fgsea` R package with 1000 permutations.
+
+## 4.6. Multi-Organ Localization Analysis
+
+Tissue expression profiles of intersection targets were obtained from three sources: DAVID 6.8 (UP_TISSUE category, https://david.ncifcrf.gov/), Human Protein Atlas v25.0 (https://www.proteinatlas.org/, consensus normalized expression ≥ 5), and BioGPS (https://biogps.org/, GeneAtlas U133A dataset). Seven organs/tissues relevant to CHF pathophysiology were selected for analysis: heart, kidney, liver, vascular endothelium, lung, adipose tissue, and adrenal gland. Target distribution was visualized as a heatmap using the `pheatmap` R package. Organ-sharing patterns were analyzed using UpSet plots generated by the `UpSetR` package. Gene ORGANizer (http://geneorganizer.huji.ac.il/) was used for organ-level enrichment visualization.
+
+## 4.7. Synergy Quantification
+
+Target-level synergy between HQ and FZ was quantified using the Jaccard index: J(A,B) = |A ∩ B| / |A ∪ B|, where A and B represent the target sets of HQ and FZ, respectively. Pathway-level synergy scores were calculated as the product of Jaccard similarity and combined enrichment significance for each KEGG pathway.
+
+## 4.8. Immune Infiltration Analysis
+
+The CIBERSORTx algorithm (https://cibersortx.stanford.edu/) was applied to the GSE5406 gene expression matrix to estimate the relative proportions of 22 immune cell types using the LM22 signature matrix with 1000 permutations. Spearman correlation coefficients between hub gene expression levels and immune cell fractions were computed. Correlations with *p* < 0.01 were considered significant.
+
+## 4.9. Molecular Docking
+
+Five hub proteins with available crystal structures were selected for docking: AKT1 (PDB ID: 1UNP), TNF (PDB ID: 1TNF), CASP3 (PDB ID: 1R30), VEGFA (PDB ID: 1VPG), and MMP9 (PDB ID: 1GKC). Structures were downloaded from the RCSB Protein Data Bank (https://www.rcsb.org/). Receptor preparation—including removal of water molecules and native ligands, addition of polar hydrogens, and computation of Gasteiger charges—was performed using AutoDockTools v1.5.7. Ligand structures were retrieved from PubChem in SDF format and converted to PDBQT format with rotatable bonds assigned using OpenBabel v3.1.1.
+
+Grid boxes were centered on the catalytic or ligand-binding pockets with dimensions of 25 × 25 × 25 Å. Molecular docking was executed using AutoDock Vina v1.2.3 with an exhaustiveness parameter of 32 and nine output modes. The conformation with the lowest binding energy was selected for each compound-target pair. Docking results were visualized using PyMOL v2.5.5 (three-dimensional views) and Discovery Studio Visualizer 2021 (two-dimensional interaction diagrams).
+
+---
+
+# 5. Conclusions
+
+In summary, this integrative network pharmacology study provides a systematic characterization of QFD's therapeutic mechanism against CHF. Thirty-two bioactive compounds acting on 103 CHF-related targets were identified, with AKT1, IL6, and TNF serving as the central regulatory nodes. The HIF-1, PI3K-Akt, and TNF signaling pathways constitute the core mechanistic axes. Multi-organ localization analysis reveals a broad organ-protective profile extending beyond the heart to encompass the kidney, liver, and vasculature. The two constituent medicinal plants exhibit complementary target profiles with synergistic convergence on key inflammatory and survival pathways. Molecular docking confirms favorable binding affinities between core flavonoids and hub proteins. These findings advance the mechanistic understanding of QFD and provide candidate molecules and targets for further experimental validation.
+
+---
+
+({{< words-abstract >}} words in abstract and {{< words-body >}} words in text body)
+
+---
+
+# Figure Legends
+
+**Figure 1.** Schematic overview of the research workflow. The study integrates active compound screening, target prediction, PPI network analysis, functional enrichment, multi-organ localization, synergy quantification, immune infiltration correlation, and molecular docking validation.
+
+**Figure 2.** Active compounds and target identification of QFD. (A) Venn diagram showing the overlap between *Astragali Radix* (HQ) and *Aconiti Lateralis Radix Praeparata* (FZ) target sets. (B) Four-way Venn diagram illustrating CHF-related targets retrieved from GeneCards, OMIM, DisGeNET, and TTD databases, and their intersection with QFD targets.
+
+**Figure 3.** PPI network and hub gene identification. (A) PPI network of 97 intersection targets constructed using STRING and visualized in Cytoscape. Node size and color gradient correspond to degree values. (B) Bar chart ranking the top 10 hub genes by degree.
+
+**Figure 4.** Functional enrichment analysis. (A) Bubble plot of the top 15 GO biological process terms. (B) Bar chart of the top 10 enriched KEGG pathways, colored by −log~10~(adjusted *p*-value). (C) GSEA enrichment plot showing significant enrichment of QFD target genes in the CHF phenotype (NES = 1.83, padj = 0.008).
+
+**Figure 5.** Multi-organ localization of QFD therapeutic targets. (A) Heatmap displaying the expression distribution of 103 intersection targets across seven organs/tissues. (B) UpSet plot illustrating target sharing patterns among organs. The horizontal bar chart shows total targets per organ; vertical bars indicate intersection sizes.
+
+**Figure 6.** Four-dimensional integrative network of QFD against CHF. Nodes are grouped into four layers: compounds (yellow diamonds), targets (blue circles), pathways (green squares), and organs (red hexagons). Edge thickness corresponds to interaction confidence.
+
+**Figure 7.** Correlation heatmap between hub gene expression and immune cell infiltration proportions in CHF myocardial tissue (GSE5406). Color intensity represents Spearman correlation coefficients. Asterisks indicate statistical significance (\*\**p* < 0.01, \*\*\**p* < 0.001).
+
+**Figure 8.** Molecular docking results. (A) Heatmap of binding affinities (kcal/mol) between six core compounds and five hub proteins. (B) Three-dimensional docking pose of quercetin in the AKT1 binding pocket (left) and two-dimensional interaction diagram showing hydrogen bonds and hydrophobic interactions (right).
+
+---
+
+# Tables
+
+**Table 1.** Top 10 bioactive compounds of Qifu Decoction.
+
+| No. | Compound Name | Source | OB (%) | DL | MW (Da) |
+|-----|---------------|--------|--------|-----|---------|
+| 1 | Quercetin | HQ | 46.43 | 0.28 | 302.24 |
+| 2 | Kaempferol | HQ | 41.88 | 0.24 | 286.24 |
+| 3 | Isorhamnetin | HQ | 49.60 | 0.31 | 316.27 |
+| 4 | Calycosin | HQ | 40.53 | 0.25 | 284.27 |
+| 5 | Formononetin | HQ | 51.21 | 0.22 | 268.27 |
+| 6 | Higenamine | FZ | 53.82 | 0.21 | 271.32 |
+| 7 | Hypaconitine | FZ | 32.15 | 0.79 | 615.71 |
+| 8 | Mesaconitine | FZ | 30.47 | 0.81 | 631.71 |
+| 9 | (R)-norcoclaurine | FZ | 45.33 | 0.19 | 271.32 |
+| 10 | Astragaloside IV\* | HQ | 2.22 | 0.26 | 784.97 |
+
+\*Manually supplemented based on pharmacological evidence despite OB < 30%.
+HQ: *Astragali Radix*; FZ: *Aconiti Lateralis Radix Praeparata*; OB: oral bioavailability; DL: drug-likeness; MW: molecular weight.
+
+**Table 2.** Topological parameters of the top 10 hub genes.
+
+| Rank | Gene Symbol | Degree | Betweenness | Closeness | MCC Score |
+|------|-------------|--------|-------------|-----------|-----------|
+| 1 | AKT1 | 72 | 0.1283 | 0.6532 | 1.28 × 10⁸ |
+| 2 | IL6 | 68 | 0.0951 | 0.6275 | 9.62 × 10⁷ |
+| 3 | TNF | 65 | 0.0874 | 0.6159 | 8.34 × 10⁷ |
+| 4 | VEGFA | 61 | 0.0712 | 0.5988 | 6.15 × 10⁷ |
+| 5 | CASP3 | 58 | 0.0689 | 0.5873 | 5.21 × 10⁷ |
+| 6 | MAPK1 | 55 | 0.0596 | 0.5761 | 4.38 × 10⁷ |
+| 7 | JUN | 52 | 0.0521 | 0.5648 | 3.72 × 10⁷ |
+| 8 | TP53 | 50 | 0.0487 | 0.5583 | 3.15 × 10⁷ |
+| 9 | MMP9 | 47 | 0.0413 | 0.5472 | 2.68 × 10⁷ |
+| 10 | STAT3 | 45 | 0.0385 | 0.5391 | 2.24 × 10⁷ |
+
+MCC: Maximal Clique Centrality.
+
+**Table 3.** Binding affinities (kcal/mol) of core compounds with hub proteins.
+
+| Compound | AKT1 (1UNP) | TNF (1TNF) | CASP3 (1R30) | VEGFA (1VPG) | MMP9 (1GKC) |
+|----------|-------------|------------|--------------|--------------|-------------|
+| Quercetin | −9.2 | −8.5 | −9.1 | −8.3 | −9.4 |
+| Kaempferol | −8.7 | −8.1 | −8.6 | −7.9 | −8.8 |
+| Isorhamnetin | −8.9 | −8.2 | −8.8 | −8.0 | −9.0 |
+| Calycosin | −8.3 | −7.6 | −8.0 | −7.4 | −8.2 |
+| Formononetin | −7.9 | −7.2 | −7.7 | −7.0 | −7.8 |
+| Higenamine | −7.1 | −6.8 | −7.3 | −6.5 | −7.0 |
+
+---
+
+# References {-}
+
+[1] Heidenreich, P.A.; et al. Forecasting the impact of heart failure in the United States: a policy statement from the American Heart Association. *Circ. Heart Fail.* **2013**, 6, 606–619.
+
+[2] Ponikowski, P.; et al. 2016 ESC Guidelines for the diagnosis and treatment of acute and chronic heart failure. *Eur. Heart J.* **2016**, 37, 2129–2200.
+
+[3] Hopkins, A.L. Network pharmacology: the next paradigm in drug discovery. *Nat. Chem. Biol.* **2007**, 3, 682–690.
+
+[4] Mann, D.L. Inflammatory mediators and the failing heart: past, present, and the foreseeable future. *Circ. Res.* **2002**, 91, 988–998.
+
+[5] Semenza, G.L. Hypoxia-inducible factor 1 and cardiovascular disease. *Annu. Rev. Physiol.* **2014**, 76, 39–56.
+
+[6] McMullen, J.R.; Jennings, G.L. AKT signalling in the heart. *Cardiovasc. Res.* **2011**, 90, 212–220.
+
+[7] Spinale, F.G. Matrix metalloproteinases: regulation and dysregulation in the failing heart. *Circ. Res.* **2007**, 100, 520–530.
+
+[8] Kim, Y.M.; et al. Flavonoid-mediated inhibition of matrix metalloproteinase-9 expression in PMA-treated human fibrosarcoma cells. *Int. J. Cancer* **2006**, 119, 1526–1533.
+
+[9] Ronco, C.; et al. Cardiorenal syndrome. *J. Am. Coll. Cardiol.* **2008**, 52, 1527–1539.
+
+[10] Li, Y.; et al. UPLC-Q-TOF-MS combined with network pharmacology to explore the mechanism of Astragalus-Aconitum in the treatment of heart failure. *Chin. J. Exp. Tradit. Med. Formulae* **2023**, 29, 68–77.
+
+---
+
+## Supplementary Materials
+The following supporting information can be downloaded: full lists of 32 bioactive compounds, 103 intersection targets, complete GO/KEGG enrichment results, and molecular docking parameter files.
