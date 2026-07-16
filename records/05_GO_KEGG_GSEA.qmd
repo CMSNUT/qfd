@@ -1,5 +1,0 @@
----
-title: "5. GO and KEGG functional enrichment analysis+GSEA validation"
-format: html
----
-

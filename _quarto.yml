@@ -76,9 +76,6 @@ website:
         text: Notebook
       - href: manuscript.qmd
         text: Manuscript
-      - text: Scripts
-        menu:
-          - text: "0.Required Packages"
 
 format:
   # docx:

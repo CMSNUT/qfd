@@ -1,5 +1,0 @@
----
-title: "1. Retrieval and preliminary screening of active ingredients in medicinal plants"
-format: html
----
-
