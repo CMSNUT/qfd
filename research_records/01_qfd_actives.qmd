@@ -2,7 +2,7 @@
 title: "P1. Screening of bioactive components from Qifu Decoction"
 date: "2025-11-21"
 format: 
-  wordcount-html:
+  html:
     theme: cosmo
     toc: true
     page-layout: full
@@ -37,76 +37,59 @@ format:
 
 - **用途**：体外成分基线数据、早期入血原型成分佐证、配伍溶出规律依据。
 
-::: {#tab-tan2012-invitro}
-Compound.English	Compound.Chinese	Source	Chemical_Category	In_vitro_Detection	In_vivo_Blood_Absorption
-Aconitine	乌头碱	Aconitum carmichaelii	Diester-type alkaloid (highly toxic)	Detected	Undetectable
-Mesaconitine	中乌头碱	Aconitum carmichaelii	Diester-type alkaloid (highly toxic)	Detected	Undetectable
-Hypaconitine	次乌头碱	Aconitum carmichaelii	Diester-type alkaloid (highly toxic)	Detected	Undetectable
-Benzoylmesaconine	苯甲酰中乌头原碱	Aconitum carmichaelii	Monoester-type alkaloid	Detected	Detectable
-Benzoylhypaconine	苯甲酰次乌头原碱	Aconitum carmichaelii	Monoester-type alkaloid	Detected	Detectable
-Aconine	乌头原碱	Aconitum carmichaelii	Amine-type alkaloid	Detected	Detectable
-Hypaconine	次乌头原碱	Aconitum carmichaelii	Amine-type alkaloid	Detected	Detectable
-Neoline	尼奥林	Aconitum carmichaelii	Amine-type alkaloid	Detected	Detectable
-Talatizamine	塔拉乌头胺	Aconitum carmichaelii	Amine-type alkaloid	Detected	Detectable
-Chasmanine	查斯曼宁	Aconitum carmichaelii	Amine-type alkaloid	Detected	Detectable
-14-Acetyltalatizamine	14 - 乙酰塔拉胺	Aconitum carmichaelii	Amine-type alkaloid	Detected	Detectable
-Mesaconine	新乌宁碱	Aconitum carmichaelii	Amine-type alkaloid	Detected	Detectable
-Fuziline	附子灵	Aconitum carmichaelii	Amine-type alkaloid	Detected	Undetectable
-Salsolinol	萨尔索林	Aconitum carmichaelii	Minor alkaloid	Detected	Undetectable
-Deoxyaconitine	脱氧乌头碱	Aconitum carmichaelii	Diester-type alkaloid	Detected	Undetectable
-3-Deoxyaconine	3 - 脱氧乌头原碱	Aconitum carmichaelii	Amine-type alkaloid	Detected	Undetectable
-Methylhypaconine	甲基次乌头原碱	Aconitum carmichaelii	Amine-type alkaloid	Detected	Undetectable
-Methylmesaconine	甲基新乌宁碱	Aconitum carmichaelii	Amine-type alkaloid	Detected	Undetectable
-Isotalatizamine	异塔拉乌头胺	Aconitum carmichaelii	Amine-type alkaloid	Detected	Undetectable
-Vilmorrianine	维乌头胺	Aconitum carmichaelii	Amine-type alkaloid	Detected	Undetectable
-Karacoline	卡拉可林	Aconitum carmichaelii	Amine-type alkaloid	Detected	Undetectable
-Songorine	松果灵	Aconitum carmichaelii	Diterpenoid alkaloid	Detected	Undetectable
-Hetisine	异替辛	Aconitum carmichaelii	Diterpenoid alkaloid	Detected	Undetectable
-Spicatine	穗乌头碱	Aconitum carmichaelii	Minor alkaloid	Detected	Undetectable
-Bullatine A	雪上一枝蒿甲素	Aconitum carmichaelii	Minor alkaloid	Detected	Undetectable
-Bullatine B	雪上一枝蒿乙素	Aconitum carmichaelii	Minor alkaloid	Detected	Undetectable
-Other minor Aconitum alkaloids (6 species)	附子微量生物碱（6 种）	Aconitum carmichaelii	Minor alkaloid	Detected	Undetectable
-Calycosin-7-glucoside	毛蕊异黄酮 - 7 - 葡萄糖苷	Astragalus membranaceus	Flavonoid glycoside	Detected	Detectable
-Ononin	芒柄花苷	Astragalus membranaceus	Flavonoid glycoside	Detected	Detectable
-Calycosin	毛蕊异黄酮	Astragalus membranaceus	Flavonoid	Detected	Detectable
-Formononetin	芒柄花素	Astragalus membranaceus	Flavonoid	Detected	Detectable
-Kaempferol	山奈酚	Astragalus membranaceus	Flavonoid	Detected	Undetectable
-Quercetin	槲皮素	Astragalus membranaceus	Flavonoid	Detected	Undetectable
-Rutin	芦丁	Astragalus membranaceus	Flavonoid glycoside	Detected	Undetectable
-Isorhamnetin	异鼠李素	Astragalus membranaceus	Flavonoid	Detected	Undetectable
-Other minor Astragalus flavonoids (4 species)	黄芪微量黄酮（4 种）	Astragalus membranaceus	Flavonoid	Detected	Undetectable
-Astragaloside IV	黄芪甲苷 IV	Astragalus membranaceus	Triterpenoid saponin	Detected	Detectable
-Astragaloside II	黄芪甲苷 II	Astragalus membranaceus	Triterpenoid saponin	Detected	Undetectable
-Astragaloside III	黄芪甲苷 III	Astragalus membranaceus	Triterpenoid saponin	Detected	Undetectable
-Isoastragaloside I	异黄芪皂苷 I	Astragalus membranaceus	Triterpenoid saponin	Detected	Undetectable
-Isoastragaloside II	异黄芪皂苷 II	Astragalus membranaceus	Triterpenoid saponin	Detected	Undetectable
-Other minor Astragalus saponins (6 species)	黄芪微量皂苷（6 种）	Astragalus membranaceus	Triterpenoid saponin	Detected	Undetectable
+::: {#supptbl-tan2012}
+| Compound.English | Compound.Chinese | Source | Chemical_Category | In_vitro_Detection | In_vivo_Blood_Absorption |
+|------------------|------------------|--------|-------------------|--------------------|--------------------------|
+| Karakolidine | 卡拉可定 | Aconitum carmichaelii | Amine-type diterpenoid alkaloid | Detected | Detectable |
+| Chuanfumine | 川乌明 | Aconitum carmichaelii | Amine-type diterpenoid alkaloid | Detected | Detectable |
+| Mesaconine | 新乌宁碱 | Aconitum carmichaelii | Amine-type diterpenoid alkaloid | Detected | Detectable |
+| 16β-hydroxycardiopetaline | 16β-羟基卡品碱 | Aconitum carmichaelii | Amine-type diterpenoid alkaloid | Detected | Undetectable |
+| Senbusine A | 森布辛A | Aconitum carmichaelii | Amine-type diterpenoid alkaloid | Detected | Undetectable |
+| Isotalatizidine | 异塔拉替定 | Aconitum carmichaelii | Amine-type diterpenoid alkaloid | Detected | Undetectable |
+| Aconine | 乌头原碱 | Aconitum carmichaelii | Amine-type diterpenoid alkaloid | Detected | Detectable |
+| Songorine | 松果灵 | Aconitum carmichaelii | Diterpenoid alkaloid | Detected | Detectable |
+| Hetisine | 异替辛 | Aconitum carmichaelii | Diterpenoid alkaloid | Detected | Undetectable |
+| Hypaconine | 次乌头原碱 | Aconitum carmichaelii | Amine-type diterpenoid alkaloid | Detected | Detectable |
+| Fuziline | 附子灵 | Aconitum carmichaelii | Amine-type diterpenoid alkaloid | Detected | Detectable |
+| Neoline | 尼奥林 | Aconitum carmichaelii | Amine-type diterpenoid alkaloid | Detected | Detectable |
+| Talatisamine | 塔拉乌头胺 | Aconitum carmichaelii | Amine-type diterpenoid alkaloid | Detected | Detectable |
+| Guan fu base H | 关附碱H | Aconitum carmichaelii | Amine-type diterpenoid alkaloid | Detected | Undetectable |
+| 14-Acetyneoline | 14-乙酰尼奥林 | Aconitum carmichaelii | Amine-type diterpenoid alkaloid | Detected | Undetectable |
+| 14-Acetylkarakoline | 14-乙酰卡拉可林 | Aconitum carmichaelii | Amine-type diterpenoid alkaloid | Detected | Detectable |
+| Calycosin-7-O-β-D-glucoside | 毛蕊异黄酮-7-O-β-D-葡萄糖苷 | Astragalus membranaceus | Flavonoid glycoside | Detected | Detectable |
+| 14-Acetyltalatizamine | 14-乙酰塔拉乌头胺 | Aconitum carmichaelii | Amine-type diterpenoid alkaloid | Detected | Undetectable |
+| Benzoylmesaconitine | 苯甲酰中乌头碱 | Aconitum carmichaelii | Monoester-type diterpenoid alkaloid | Detected | Detectable |
+| Calycosin-7-O-β-D-glc-6"-O-acetate | 毛蕊异黄酮-7-葡萄糖-6"-乙酸酯 | Astragalus membranaceus | Acetylated flavonoid glycoside | Detected | Undetectable |
+| Benzoylaconine | 苯甲酰乌头原碱 | Aconitum carmichaelii | Monoester-type diterpenoid alkaloid | Detected | Detectable |
+| Formononetin-O-β-D-glucoside | 芒柄花苷 | Astragalus membranaceus | Flavonoid glycoside | Detected | Detectable |
+| Benzoylhypaconine | 苯甲酰次乌头原碱 | Aconitum carmichaelii | Monoester-type diterpenoid alkaloid | Detected | Detectable |
+| 9,10-dimethoxy-pterocarpan-3-O-β-D-glucoside | 9,10-二甲氧基紫檀烷-3-O-β-D-葡萄糖苷 | Astragalus membranaceus | Pterocarpan glycoside | Detected | Detectable |
+| 2'-hydroxy-3',4'-dimethoxyisoflavan-7-O-β-D-glucoside | 2'-羟基-3',4'-二甲氧基异黄烷-7-O-葡萄糖苷 | Astragalus membranaceus | Isoflavan glycoside | Detected | Detectable |
+| Benzoyldeoxyaconine | 苯甲酰脱氧乌头原碱 | Aconitum carmichaelii | Monoester-type diterpenoid alkaloid | Detected | Undetectable |
+| Calycosin | 毛蕊异黄酮 | Astragalus membranaceus | Flavonoid | Detected | Detectable |
+| Formononetin-7-O-β-D-glc-6'-O-acetate | 芒柄花素-7-葡萄糖-6'-乙酸酯 | Astragalus membranaceus | Acetylated flavonoid glycoside | Detected | Undetectable |
+| 9,10-dimethoxy-pterocarpan-3-O-β-D-glc-6'-O-acetate | 9,10-二甲氧基紫檀烷-3-葡萄糖-6'-乙酸酯 | Astragalus membranaceus | Acetylated pterocarpan glycoside | Detected | Undetectable |
+| 2'-hydroxy-3',4'-dimethoxyisoflavan-7-O-β-D-glc-6'-O-acetate | 2'-羟基-3',4'-二甲氧基异黄烷-7-葡萄糖-6'-乙酸酯 | Astragalus membranaceus | Acetylated isoflavan glycoside | Detected | Undetectable |
+| Astragaloside IV | 黄芪甲苷IV | Astragalus membranaceus | Triterpenoid saponin | Detected | Detectable |
+| Isoastragaloside IV | 异黄芪皂苷IV | Astragalus membranaceus | Triterpenoid saponin | Detected | Undetectable |
+| Agroastragaloside III | 农黄芪皂苷III | Astragalus membranaceus | Triterpenoid saponin | Detected | Undetectable |
+| Astragaloside II | 黄芪皂苷II | Astragalus membranaceus | Triterpenoid saponin | Detected | Detectable |
+| Soyasaponin I | 大豆皂苷I | Astragalus membranaceus | Triterpenoid saponin | Detected | Detectable |
+| Formononetin | 芒柄花素 | Astragalus membranaceus | Flavonoid | Detected | Detectable |
+| Astragaloside II isomer 1 | 黄芪皂苷II 异构体1 | Astragalus membranaceus | Triterpenoid saponin | Detected | Undetectable |
+| 9,10-dimethoxypterocarpan | 9,10-二甲氧基紫檀烷 | Astragalus membranaceus | Pterocarpan | Detected | Undetectable |
+| Astragaloside II isomer 2 | 黄芪皂苷II 异构体2 | Astragalus membranaceus | Triterpenoid saponin | Detected | Undetectable |
+| 7,2'-dihydroxy-3',4'-dimethoxyisoflavan | 7,2'-二羟基-3',4'-二甲氧基异黄烷 | Astragalus membranaceus | Isoflavan | Detected | Undetectable |
+| Astragaloside I | 黄芪皂苷I | Astragalus membranaceus | Triterpenoid saponin | Detected | Undetectable |
+| Astragaloside I isomer 1 | 黄芪皂苷I 异构体1 | Astragalus membranaceus | Triterpenoid saponin | Detected | Undetectable |
+| Astragaloside I isomer 2 | 黄芪皂苷I 异构体2 | Astragalus membranaceus | Triterpenoid saponin | Detected | Undetectable |
+| Acetylastragaloside I | 乙酰黄芪皂苷I | Astragalus membranaceus | Acetylated triterpenoid saponin | Detected | Undetectable |
 
-**Table S1.** Chemical components of Qifu Decoction in aqueous extract (in vitro) identified by Tan 2012 (PMID:21594877).
-*Note: All data were experimentally determined via HPLC-ESI-MS. Highly toxic diester-type alkaloids were only detected in aqueous extract but undetectable in rat serum.*
+Chemical components of Qifu Decoction in aqueous extract (in vitro) identified by Tan 2012 (PMID:21594877).
+Note: A total of 44 major components were experimentally identified by LC-TOF-MS, covering diterpenoid alkaloids, flavonoids, and triterpenoid saponins. Components marked “Detectable” represent prototype ingredients absorbed into rat plasma after oral administration.
 :::
 
-::: {#tab-tan2012-invivo}
-| Compound.English              | Compound.Chinese      | Source                     | Chemical_Category          |
-|-------------------------------|-----------------------|----------------------------|----------------------------|
-| Calycosin-7-glucoside         | 毛蕊异黄酮-7-葡萄糖苷 | Astragalus membranaceus    | Flavonoid glycoside        |
-| Ononin                        | 芒柄花苷              | Astragalus membranaceus    | Flavonoid glycoside        |
-| Calycosin                     | 毛蕊异黄酮            | Astragalus membranaceus    | Flavonoid                  |
-| Formononetin                  | 芒柄花素              | Astragalus membranaceus    | Flavonoid                  |
-| Astragaloside IV              | 黄芪甲苷IV            | Astragalus membranaceus    | Triterpenoid saponin       |
-| Benzoylmesaconine             | 苯甲酰中乌头原碱      | Aconitum carmichaelii      | Monoester-type alkaloid    |
-| Benzoylhypaconine             | 苯甲酰次乌头原碱      | Aconitum carmichaelii      | Monoester-type alkaloid    |
-| Aconine                       | 乌头原碱              | Aconitum carmichaelii      | Amine-type alkaloid        |
-| Hypaconine                    | 次乌头原碱            | Aconitum carmichaelii      | Amine-type alkaloid        |
-| Neoline                       | 尼奥林                | Aconitum carmichaelii      | Amine-type alkaloid        |
-| Talatizamine                  | 塔拉乌头胺            | Aconitum carmichaelii      | Amine-type alkaloid        |
-| Chasmanine                    | 查斯曼宁              | Aconitum carmichaelii      | Amine-type alkaloid        |
-| 14-Acetyltalatizamine         | 14-乙酰塔拉胺         | Aconitum carmichaelii      | Amine-type alkaloid        |
-| Mesaconine                    | 新乌宁碱              | Aconitum carmichaelii      | Amine-type alkaloid        |
 
-**Table S2.** Validated blood-absorbed prototype components of Qifu Decoction identified by serum pharmacochemistry (Tan 2012, PMID:21594877).
-*Note: No in vivo metabolites were identified in this study. These 14 blood-absorbed prototypes were regarded as the fundamental bioactive substances of Qifu Decoction in vivo.*
-:::
 
 
 ## Zhang2024
@@ -114,12 +97,16 @@ Other minor Astragalus saponins (6 species)	黄芪微量皂苷（6 种）	Astrag
 - **PubMed ID**：38522367 
 - **期刊**：Journal of Pharmaceutical and Biomedical Analysis（JPBA，SCI二区） 
 - **核心数据**：
-  - 依托UHPLC-Q-TOF-MS血清药物化学+多基质代谢组学研究，明确芪附汤体外水煎液含**41种化学成分**（附子27种、黄芪14种）；
-  - 大鼠口服后血清中共检出**24种入血有效成分**，包含14种原型成分、10种体内Ⅰ/Ⅱ相代谢产物；
+  - 依托UHPLC-Q-TOF-MS血清药物化学+多基质代谢组学研究，明确芪附汤体外水煎液含**41种化学成分**（附子27种、黄芪14种）,包括27种二萜类生物碱、7种类黄酮和7种皂苷；
+  - 大鼠口服后血清中共检出**24种入血有效成分**，SUS-Plot得分图显示，包含14种原型成分、10种体内Ⅰ/Ⅱ相代谢产物； 
+  - 相关性分析结果显示，共**11种成分**被鉴定为芪附汤治疗心衰的潜在活性成分，包括**8种原型成分**和**3种代谢产物**。 senbusine B, mesaconine, songorine, neoline, chasmanine, 14-acetyltalatizamine, calycosin, formononetin,demethyl dehydrogen isotalatizidine, demethyl neoline, dehydration karakoline。
   - 筛选得到尼奥林、毛蕊异黄酮2种核心药效成分，结合细胞实验证实二者可靶向调控心肌损伤通路，发挥抗心力衰竭作用。
 - **核心价值**：目前芪附汤抗心衰物质基础最新、最完整的质谱实验研究，首次完整建立“体外成分-入血原型-体内代谢物”三维物质库，同时完成成分药效验证，可直接作为本研究**真实活性成分筛选的唯一金标准数据集**，彻底规避纯数据库筛选的假阳性问题。 
 - **用途**：本研究**核心数据金标准**，最终入血成分筛选唯一核心依据。
 
+::: {#supptbl-zhang2012}
+
+:::
 
 
 

@@ -1,5 +1,7 @@
 ---
-title: "1.Screening of bioactive components from Qifu Decoction"
+title: "Research NoteBook"
 ---
+
+# Network Pharmacology
 
 - [1.Screening of bioactive components from Qifu Decoction](research_records/01_qfd_actives.html)
