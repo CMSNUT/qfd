@@ -1,6 +1,6 @@
 ---
-title: "Synergistic Mechanisms of *Aconitum carmichaelii* and *Astragalus membranaceus* Combination Against DCM-HF"
-subtitle: "Integrating Network Pharmacology, Multi-Omics, Causal Inference & Molecular Docking"
+title: "Unraveling the Synergistic Mechanism of *Astragali Radix*-*Aconiti Lateralis Radix Praeparata* herb pair against Chronic Heart Failure"
+subtitle: "An Integrated Network Pharmacology, Multi-Omics Organ Localization, and Molecular Docking Study"
 format:
   html:
     theme: cosmo
@@ -13,720 +13,111 @@ execute:
   eval: false
 ---
 
-# 研究概述
+---
 
-## 研究背景
-慢性心力衰竭（Chronic Heart Failure, CHF）是各种心血管疾病的终末期表现，其病理机制涉及心肌重构、炎症反应、细胞凋亡、血管内皮功能障碍等多维度网络紊乱。传统单一靶点药物难以覆盖CHF的复杂病理网络。
-
-芪附汤（Qifu Decoction, QFD）由黄芪（Astragali Radix）与附子（Aconiti Lateralis Radix Praeparata）组成，为中医"益气温阳"经典药对，临床用于心衰治疗疗效确切。然而其多成分-多靶点-多通路的协同作用机制尚未系统阐明。
-
-## 核心科学问题
-(1)芪附汤中32种活性成分如何通过多靶点协同作用于CHF病理网络？
-
-(2)药效靶点在心脏、肾脏、肝脏、血管内皮等多器官的分布特征是什么？
-
-(3)黄芪与附子在靶点、通路层面各自的贡献与协同模式如何？
-
-(4)核心活性成分与关键靶点的分子结合模式及亲和力如何？
-
-## 研究目标
-- 系统筛选芪附汤活性成分并预测其作用靶点
-
-- 构建芪附汤干预CHF的"成分-靶点-通路-器官"四维调控网络
-
-- 定量评估黄芪-附子药对的协同效应
-
-- 解析核心活性成分与Hub靶点的分子结合机制
-
-- 为后续实验验证提供计算依据与候选分子
+# 芪附汤干预慢性心力衰竭的纯计算研究方案  
+## Qifu Decoction against Chronic Heart Failure: A Comprehensive In Silico Protocol  
 
 ---
 
-# 整体技术路线
+# Overview
+
+## Background  
+Chronic heart failure (CHF) involves a multidimensional pathological network encompassing neuroendocrine activation, ventricular remodelling, energy metabolic dysregulation, and immuno‑inflammatory responses; hence, single‑target interventions are rarely sufficient to achieve comprehensive therapeutic efficacy. 
+
+Qifu decoction (QFD), a famous prescription recorded in Wei Shi Jia  Cang Fang, consists of Astragali Radix (Huangqi in Chinese, the dried root of Astragalus membranaceus (Fisch.) Bge.) and Aconiti Lateralis Radix Praeparaia (Fuzi in Chinese, the lateral root of Aconitum carmichaelii Debeaux) with a mass ratio of 2:1.
+
+In clinical practice, this herbal pair is used under the principle of “supplementing qi and warming yang” and has demonstrated consistent efficacy against heart failure. However, the multicomponent, multi‑target, and multi‑organ synergistic mechanisms underlying the Huangqi‑Fuzi herb pair remain inadequately characterised. This study aims to integrate network pharmacology, multi‑organ expression profiling, and molecular docking to quantitatively dissect the molecular basis of the synergistic action of this herb pair in CHF.
+
+Evaluating the pharmacological mechanism of traditional Chinese medicine (TCM) is difficult because the active components and their possible synergistic actions are unclear. [@gao2024synergy; @yang2025synergy]
+
+## Key Scientific Questions  
+- How do the orally bioavailable and blood‑borne active constituents of Qifu Decoction cooperatively interfere with CHF via a multi‑target network?
+- What are the respective contributions of Huangqi (qi‑supplementing) and Fuzi (yang‑warming) at the levels of targets, pathways, and organ distribution, and what quantitative synergistic patterns emerge?
+- Do the core pharmacological targets form a spatially coordinated regulatory network across multiple organs, such as heart, kidney, liver, and vasculature?
+- Can the binding modes and affinities of key active compounds to hub targets provide structural evidence to support the predicted pharmacological effects?
+
+## Objectives  
+- To establish the pharmacologically active substance basis and target spectrum of Qifu Decoction based on blood‑absorbed constituents.
+- To identify core hub genes and assign their contributions to Huangqi or Fuzi.
+- To construct a four‑dimensional “component–target–pathway–organ” network and quantitatively evaluate the synergistic effects.
+- To validate core component–target interactions through molecular docking.
+- To provide a clear set of candidate molecules and a theoretical framework for subsequent experimental validation.
+
+---
+
+# Technical Workflow 
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                    Module 1: 活性成分筛选与靶点预测              │
-│  TCMSP (OB≥30%, DL≥0.18) → SwissTargetPrediction → BATMAN-TCM  │
-│                    32 compounds × 286 targets                   │
-└────────────────────────────┬────────────────────────────────────┘
-                             │
-┌────────────────────────────▼────────────────────────────────────┐
-│                    Module 2: CHF疾病靶点整合                    │
-│  GeneCards + OMIM + DisGeNET + TTD → 交集靶点识别 (103 targets) │
-└────────────────────────────┬────────────────────────────────────┘
-                             │
-┌────────────────────────────▼────────────────────────────────────┐
-│                    Module 3: PPI网络与Hub基因                   │
-│  STRING v11.5 (confidence≥0.7) → Cytoscape + CytoHubba         │
-│  4种拓扑算法 (Degree/Betweenness/Closeness/ECC) → Top10 Hub     │
-└────────────────────────────┬────────────────────────────────────┘
-                             │
-          ┌──────────────────┴──────────────────┐
-          │                                     │
-┌─────────▼─────────┐               ┌───────────▼───────────┐
-│ Module 4: 功能富集  │               │ Module 5: 多器官定位    │
-│ GO/KEGG + GSEA     │               │ DAVID/HPA/BioGPS      │
-│ clusterProfiler    │               │ Gene ORGANizer        │
-└─────────┬─────────┘               └───────────┬───────────┘
-          │                                     │
-          └──────────────────┬──────────────────┘
-                             │
-┌────────────────────────────▼────────────────────────────────────┐
-│              Module 6: 四维整合网络 + 药对协同定量               │
-│  成分-靶点-通路-器官 二部网络 → Jaccard指数 + 通路协同得分      │
-└────────────────────────────┬────────────────────────────────────┘
-                             │
-┌────────────────────────────▼────────────────────────────────────┐
-│                    Module 7: 分子对接验证                       │
-│  AutoDock Vina 1.2.3 → 5受体 × 6配体 = 30组对接                │
-│  PyMOL + DS Visualizer → 3D/2D相互作用分析                      │
-└─────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────┐
+│        Module 1: Active Component Screening and Target Prediction           │
+│                     (Confirmed vs. High‑Confidence Predicted)               │
+│  TCMSP / TMMC 2.0 (OB ≥ 30%, DL ≥ 0.18) + LC‑MS blood‑entry verification  │
+│  → STITCH / PubChem / SwissTargetPrediction / SEA / PharmMapper / BATMAN   │
+│  → standardisation (UniProt ID mapping) → distinguish confirmed targets    │
+│                    from high‑confidence predicted targets                   │
+└──────────────────────────────────────┬───────────────────────────────────────┘
+                                       │
+┌──────────────────────────────────────▼───────────────────────────────────────┐
+│              Module 2: CHF Disease Target Integration and Intersection       │
+│   DisGeNET v7.0 + GeneCards (relevance score ≥ 5) + OMIM + TTD              │
+│   → remove duplicates → intersect with blood‑borne component targets        │
+│                    → obtain drug‑disease overlapping targets                 │
+└──────────────────────────────────────┬───────────────────────────────────────┘
+                                       │
+┌──────────────────────────────────────▼───────────────────────────────────────┐
+│      Module 3: PPI Network, MCODE Clustering, and Hub Gene Selection         │
+│                          (Three Algorithms)                                  │
+│   STRING v11.5 (combined score ≥ 0.7, species: Homo sapiens)                │
+│   → Cytoscape v3.10.0 + CytoHubba plugin                                    │
+│   Degree / Betweenness Centrality / MCC                                     │
+│   → Top 20 in each ranking → intersect across three methods                 │
+│                    → Comprehensive Top 10 Hub Genes                          │
+└──────────────────────────────────────┬───────────────────────────────────────┘
+                                       │
+                     ┌─────────────────┼──────────────────┐
+                     │                 │                  │
+┌────────────────────▼─────────────┐ ┌─▼──────────────────▼───┐ ┌─────────────▼──────────────────┐
+│      Module 4: Functional         │ │  Module 5: Immune       │ │  Module 6: Multi‑Organ         │
+│      Enrichment Analysis          │ │  Infiltration           │ │  Localisation                   │
+│                                   │ │  Correlation            │ │  (Five Dimensions)              │
+│  GO (BP/CC/MF) + KEGG pathways    │ │  GSE5406 (CHF           │ │  DAVID / HPA / BioGPS /         │
+│  + GSEA (fgsea)                   │ │  transcriptomic data)   │ │  Gene ORGANizer                 │
+│  clusterProfiler (R package)      │ │  + MCP‑counter          │ │  → organ‑specific expression    │
+│  Adjusted p < 0.05                │ │  → 8 immune + 2 stromal │ │    profiles across:             │
+│                                   │ │    cell fractions       │ │    Heart / Kidney / Liver /     │
+│                                   │ │  → Pearson correlation  │ │    Lung / Vasculature           │
+│                                   │ │    with 10 hub genes    │ │  → validated by GSE5406         │
+│                                   │ │  → immunomodulatory     │ │    organ expression data        │
+│                                   │ │    potential assessment │ │                                 │
+└────────────────────┬─────────────┘ └─────────────────────────┘ └─────────────────┬─────────────┘
+                     │                                                             │
+                     └──────────────────────┬──────────────────────────────────────┘
+                                            │
+┌───────────────────────────────────────────▼───────────────────────────────────────┐
+│   Module 7: Four‑Dimensional Integrative Network + Quantitative Synergy           │
+│               (Component–Target–Pathway–Organ)                                    │
+│   Construct bipartite network: components → targets → pathways → organs          │
+│   Assign each target/pathway to Huangqi, Fuzi, or shared category                │
+│   Quantitative synergy evaluation:                                                │
+│   • Jaccard similarity index (target overlap between two herbs)                  │
+│   • Pathway enrichment score ratio (herb‑driven pathway dominance)               │
+│   • Synergy index = (combined effect) / (sum of individual effects)              │
+│   → Visualise with Cytoscape                                                     │
+└───────────────────────────────────────────┬───────────────────────────────────────┘
+                                            │
+┌───────────────────────────────────────────▼───────────────────────────────────────┐
+│          Module 8: Molecular Docking Validation                                   │
+│          (Top 10 Hub Genes × Core Active Components)                              │
+│   Retrieve 3D structures of hub proteins from PDB / AlphaFold                     │
+│   Prepare ligands (core components) via OpenBabel / Chem3D                       │
+│   AutoDock Vina (exhaustiveness = 8, grid box covering active site)              │
+│   → binding affinity matrix (ΔG, kcal/mol)                                       │
+│   → threshold: ΔG ≤ −6.0 kcal/mol as valid binding                               │
+│   → PyMOL for 3D visualisation / Discovery Studio for 2D interaction             │
+│     diagrams (hydrogen bonds, hydrophobic contacts, π‑π stacking)                │
+└───────────────────────────────────────────────────────────────────────────────────┘
 ```
-
----
-
-# 详细分析模块
-
-## Module 1: 活性成分筛选与靶点预测
-
-### 目的
-从黄芪与附子中筛选具有良好口服生物利用度和类药性的活性成分，并预测其潜在作用靶点。
-
-### 数据源与数据库
-| 数据库 | 版本 | 用途 | 官方链接 | 检索日期 |
-|--------|------|------|----------|----------|
-| TCMSP | v2.3 | 中药成分检索与ADME筛选 | https://old.tcmsp-e.com/ | 2026-03-15 |
-| SwissTargetPrediction | - | 靶点预测（概率≥0.7） | https://www.swisstargetprediction.ch/ | 2026-03-15 |
-| BATMAN-TCM | - | 靶点预测（score≥20） | http://bionet.ncpsb.org/batman-tcm/ | 2026-03-15 |
-| PubChem | - | 化合物结构与属性验证 | https://pubchem.ncbi.nlm.nih.gov/ | 2026-03-15 |
-| UniProt | - | 靶点基因名标准化（Homo sapiens） | https://www.uniprot.org/ | 2026-03-15 |
-
-### 筛选标准
-- **口服生物利用度（OB）≥ 30%** — TCMSP内置OB值
-
-- **类药性（DL）≥ 0.18** — 基于Tanimoto系数
-
-- **SwissTargetPrediction概率 ≥ 0.7**
-
-- **BATMAN-TCM评分 ≥ 20**
-
-- **物种限定：Homo sapiens**
-
-### 特殊处理
-- 黄芪甲苷（Astragaloside IV）：OB值仅2.22%，但为黄芪标志性成分且药理证据充分，手动补充纳入
-
-- 靶点基因名统一标准化为HGNC官方符号，去除重复项
-
-### 预期产出
-- 32种生物活性化合物清单（黄芪13种 + 附子11种 + 共有8种）
-
-- 286个非冗余靶点（黄芪212个 + 附子188个）
-
-- 输出文件：**Table_S1_32_Bioactive_Compounds.csv**
-
----
-
-## Module 2: CHF疾病靶点整合与交集识别
-
-### 目的
-整合多源疾病数据库，获取CHF相关致病基因，与药物靶点取交集获得潜在药效靶点。
-
-### 数据源与数据库
-| 数据库 | 版本 | 检索关键词 | 用途 |
-|--------|------|-----------|------|
-| GeneCards | v5.14 | "chronic heart failure", "heart failure" | 疾病基因整合（relevance score筛选） |
-| OMIM | - | "heart failure", "cardiomyopathy, dilated" | 孟德尔遗传疾病基因 |
-| DisGeNET | v7.0 | "chronic heart failure", CUI: C0018802 | 疾病-基因关联 |
-| TTD | - | "heart failure", "cardiac failure" | 治疗靶点数据库 |
-
-### 分析步骤
-- 分别从4个数据库检索CHF相关基因，合并去重
-
-- GeneCards按relevance score排序，取前500个
-
-- 与Module 1的286个药物靶点取交集
-
-- 韦恩图可视化（VennDiagram R包）
-
-### 质量控制
-- 基因名统一通过*org.Hs.eg.db*映射为*ENTREZ ID*
-
-- 排除假基因、非编码RNA
-
-- 交叉验证：**至少2个数据库**支持的靶点优先
-
-### 预期产出
-- 103个交集靶标（芪附汤干预CHF的潜在药效靶点）
-
-- 四数据库韦恩图 + 药对靶点韦恩图
-
-- 输出文件：**Table_S2_103_Intersection_Targets.csv**
-
----
-
-## Module 3: PPI网络构建与Hub基因筛选
-
-### 目的
-构建蛋白-蛋白相互作用网络，识别网络中的核心节点（Hub基因）。
-
-### 工具与参数
-| 工具 | 版本 | 参数设置 |
-|------|------|----------|
-| STRING | v11.5 | organism = Homo sapiens, confidence score ≥ 0.7, 去除孤立节点 |
-| Cytoscape | 3.9.1 | 网络可视化与拓扑分析 |
-| CytoHubba | - | 4种算法：Degree, Betweenness, Closeness, ECC |
-
-### 分析步骤
-- 将103个交集靶点导入STRING，获取PPI关系
-
-- 导出TSV文件，导入Cytoscape
-
-- 使用CytoHubba插件计算4种拓扑参数
-
-- 4种算法排名取交集，确定Top 10 Hub基因
-
-- 按度值大小调整节点大小，构建可视化网络
-
-### Hub基因判定标准
-- Degree、Betweenness、Closeness、MCC四种算法排名均进入前20
-
-- 取并集后按综合排名筛选Top 10
-
-### 预期产出
-- PPI网络图（节点103个，边数约650条）
-
-- Top 10 Hub基因：AKT1, IL6, TNF, VEGFA, CASP3, MAPK1, JUN, TP53, MMP9, STAT3
-
-- Hub基因拓扑参数条形图
-
-- 输出文件：**Table_S2含PPI Degree列**
-
----
-
-## Module 4: 功能富集分析
-
-### 目的
-系统解析103个交集靶点的生物学功能与信号通路富集特征。
-
-### 工具与参数
-| 工具 | 版本 | 参数 |
-|------|------|------|
-| R | 4.3.2 | 分析环境 |
-| clusterProfiler | 4.8.3 | GO/KEGG富集分析 |
-| org.Hs.eg.db | 3.17.0 | 人类基因注释库 |
-| fgsea | 1.26.0 | GSEA富集分析 |
-| ggplot2 | 3.4.4 | 可视化 |
-
-### 分析内容
-**(A) GO富集分析**
-- Biological Process (BP) — 取Top 50
-
-- Cellular Component (CC) — 取Top 30
-
-- Molecular Function (MF) — 取Top 30
-
-- 显著性阈值：p.adjust < 0.05（BH法校正）
-
-**(B) KEGG通路富集分析**
-- 物种：hsa（Homo sapiens）
-
-- 取Top 50通路
-
-- 显著性阈值：p.adjust < 0.05
-
-**(C) GSEA基因集富集分析**
-- 背景基因集：KEGG通路基因集（c2.cp.kegg.v7.5.1.symbols.gmt）
-
-- 排序方式：按log2FC降序（基于GSE5406心衰vs对照表达谱）
-
-- 置换次数：1000次
-
-- 显著性：NES > |1.5| 且 padj < 0.05
-
-### 3.4.4 可视化方案
-- GO/KEGG气泡图（dotplot）：x=GeneRatio, y=通路名, color=p.adjust, size=GeneCount
-
-- GSEA富集曲线：核心富集基因标注
-
-- 富集弦图（可选）：基因-通路关联
-
-### 预期产出
-- GO-BP 50条、GO-CC 30条、GO-MF 30条、KEGG 50条完整富集结果
-- GSEA显著通路列表（核心富集基因为AKT1, IL6, TNF, VEGFA, CASP3等）
-- 输出文件：**Table_S3-S6_GO_KEGG_Enrichment.csv**
-
----
-
-## Module 5: 多器官定位分析
-
-### 目的
-突破传统单器官（心脏）局限，解析药效靶点在多器官组织的分布特征，揭示心-肾-肝-血管轴协同调控机制。
-
-### 数据源与工具
-| 数据库/工具 | 用途 |
-|-------------|------|
-| DAVID | 基因-组织富集分析 |
-| HPA (Human Protein Atlas) | 蛋白组织表达验证 |
-| BioGPS | 基因组织表达谱 |
-| Gene ORGANizer | 器官水平富集分析 |
-| GSE5406 | 心衰心肌转录组验证（GEO数据集） |
-
-### 分析器官
-7个目标器官/组织：
-
-- **心脏**（Heart）— 核心靶器官，含心肌特异性基因验证
-
-- **肾脏**（Kidney）— 心肾轴，肾素-血管紧张素系统
-
-- **肝脏**（Liver）— 药物代谢与炎症因子合成
-
-- **血管内皮**（Vascular Endothelium）— 内皮功能障碍
-
-- **肺**（Lung）— 肺淤血与炎症
-
-- **脂肪组织**（Adipose Tissue）— 脂肪因子与代谢
-
-- **肾上腺**（Adrenal Gland）— 醛固酮与交感神经激活
-
-### 分析步骤
-- 将103个靶点提交DAVID进行TISSUE富集分析
-
-- HPA验证核心Hub基因的组织表达特异性
-
-- Gene ORGANizer进行器官水平富集，计算各器官靶点占比
-
-- 构建器官-靶点二部矩阵（103基因 × 7器官，二值化）
-
-- UpSet图可视化器官间靶点共享模式
-
-- 热图展示Top 30 Hub基因在7器官的分布
-
-### 预期产出
-- 7器官靶点分布统计（心脏76.7% > 肾脏66.0% > 肝脏60.2% > 血管内皮55.3% ...）
-
-- 多器官热图 + UpSet图
-
-- 7器官共有核心靶点23个（炎症+凋亡核心节点）
-
-- 心脏-肾脏特异性共享靶点11个
-
----
-
-## Module 6: 四维整合网络与药对协同定量
-
-### 目的
-构建"成分-靶点-通路-器官"四维整合网络，定量评估黄芪与附子的协同效应。
-
-### 工具
-- Cytoscape 3.9.1 — 二部网络构建与可视化
-- R 4.3.2 — 协同指数计算
-
-### 网络构建
-**节点类型（4类）：**
-- 成分节点（32个）：按来源着色（黄芪=蓝，附子=红，共有=紫）
-
-- 靶点节点（103个）：按度值调整大小
-
-- 通路节点（Top 20 KEGG）：按富集显著性着色
-
-- 器官节点（7个）：按靶点数量调整大小
-
-**边类型（3类）：**
-- 成分-靶点边（预测关系）
-
-- 靶点-通路边（富集关系）
-
-- 靶点-器官边（表达关系）
-
-### 药对协同定量指标
-| 指标 | 公式/方法 | 结果 |
-|------|----------|------|
-| Jaccard相似系数 | 共享靶点 / (HQ靶点 ∪ FZ靶点) | 0.417 |
-| 靶点重叠率 | 共享靶点 / min(HQ, FZ) | 0.606 |
-| 通路协同得分 | 共享通路基因数 / 通路总基因数 | HIF-1: 0.89, PI3K-Akt: 0.85 |
-| 黄芪优势通路 | HQ独有富集通路 | VEGF signaling, FoxO signaling |
-| 附子优势通路 | FZ独有富集通路 | Calcium signaling, cGMP-PKG signaling |
-
-### 预期产出
-- 四维整合网络图（分层布局）
-
-- 药对协同定量分析表
-
-- 黄芪-附子通路贡献Venn图
-
----
-
-## Module 7: 分子对接验证
-
-### 目的
-通过分子对接验证核心活性成分与Hub靶点的结合亲和力与结合模式，为网络药理学预测提供结构生物学证据。
-
-### 对接体系
-**5个受体蛋白（Hub靶点Top 5）：**
-| 受体 | PDB ID | 分辨率 | 网格中心(x,y,z) | 网格尺寸 |
-|------|--------|--------|----------------|----------|
-| AKT1 | 1UNP | 2.80 Å | (17.5, 12.3, -5.8) | 25×25×25 Å |
-| TNF | 1TNF | 2.60 Å | (3.2, -8.5, 15.7) | 25×25×25 Å |
-| CASP3 | 1R30 | 2.50 Å | (12.8, 20.1, 8.3) | 25×25×25 Å |
-| VEGFA | 1VPG | 2.00 Å | (-5.3, 18.7, 11.2) | 25×25×25 Å |
-| MMP9 | 1GKC | 2.10 Å | (25.4, -10.8, 3.6) | 25×25×25 Å |
-
-**6个配体分子（核心活性成分）：**
-- Quercetin（槲皮素，黄芪）— C15H10O7, 302.24 Da
-
-- Kaempferol（山奈酚，黄芪）— C15H10O6, 286.24 Da
-
-- Isorhamnetin（异鼠李素，黄芪）— C16H12O7, 316.27 Da
-
-- Calycosin（毛蕊异黄酮，黄芪）— C16H12O5, 284.27 Da
-
-- Formononetin（芒柄花素，黄芪）— C16H12O4, 268.27 Da
-
-- Higenamine（去甲乌药碱，附子）— C16H17NO3, 271.32 Da
-
-**总对接组数：5 × 6 = 30组**
-
-### 软件与参数
-| 软件 | 版本 | 用途 |
-|------|------|------|
-| AutoDockTools | 1.5.7 | 受体/配体准备，Gasteiger电荷 |
-| AutoDock Vina | 1.2.3 | 半柔性分子对接 |
-| OpenBabel | 3.1.1 | 格式转换（SDF→PDB） |
-| PyMOL | 2.5.5 | 3D可视化与氢键分析 |
-| Discovery Studio Visualizer | 2021 | 2D相互作用图 |
-
-**Vina核心参数：**
-- exhaustiveness = 32（充分采样）
-
-- num_modes = 9（输出9个构象）
-
-- energy_range = 3 kcal/mol
-
-- 半柔性对接（受体刚性，配体全柔性）
-
-### 受体制备流程
--  从RCSB PDB下载晶体结构
-
-- 去除水分子（HOH）
-
-- 去除原配体/抑制剂
-
-- 添加极性氢原子
-
-- 计算Gasteiger电荷
-
-- 合并非极性氢
-
-- 保存为.pdbqt格式
-
-### 3.7.5 配体制备流程
-- 从PubChem下载SDF格式
-
-- OpenBabel转换为PDB
-
-- AutoDockTools添加Gasteiger电荷
-
-- 设置可旋转键（所有非环单键）
-
-- 保存为.pdbqt格式
-
-### 3.7.6 结合能判定标准
-| 结合能范围 | 结合强度 | 置信度 |
-|-----------|---------|--------|
-| ≤ -9.0 kcal/mol | 极强结合 | 高 |
-| -7.0 ~ -9.0 kcal/mol | 强结合 | 较高 |
-| -5.0 ~ -7.0 kcal/mol | 中等结合 | 中等 |
-| > -5.0 kcal/mol | 弱结合 | 低 |
-
-### 3.7.7 可视化分析
-- **3D图（PyMOL）**：受体卡通+配体棍棒+氢键虚线+活性位点表面
-- **2D图（DS Visualizer）**：氢键、疏水相互作用、π-π堆积、π-阳离子、静电作用
-- **结合能热力图**：5×6矩阵热图展示全部对接结果
-
-### 预期产出
-- 30组对接结合能矩阵（Quercetin-MMP9最强：-9.4 kcal/mol）
-- 代表性对接3D/2D图（每组选结合能最低构象）
-- 关键相互作用残基分析（如Quercetin-AKT1形成5个氢键）
-- 输出文件：Molecular_Docking_Parameters.txt
-
----
-
-# 附加模块：免疫浸润关联分析
-
-## 目的
-解析Hub基因与CHF心肌免疫微环境的关联，补充网络药理学的免疫学维度。
-
-## 数据源
-- GEO数据集：GSE5406（心衰心肌 vs 正常心肌转录组）
-
-- 平台：GPL96（Affymetrix HG-U133A）
-
-- 样本量：n=16（心衰n=10，对照n=6）
-
-## 分析方法
-- **CIBERSORTx**：LM22基因集，1000次置换，估算22种免疫细胞比例
-
-- **相关性分析**：Pearson相关，计算Top 10 Hub基因与22种免疫细胞的相关系数
-
-- 显著性阈值：p < 0.01 且 |r| > 0.6
-
-## 预期产出
-- Hub基因-免疫细胞相关性热图
-
-- Top 5显著关联：
-
-  - IL6 ↔ M1巨噬细胞（r=0.782, p=2.1e-05）
-  
-  - TNF ↔ CD8+ T细胞（r=0.714, p=1.5e-04）
-  
-  - STAT3 ↔ Treg细胞（r=0.698, p=2.3e-04）
-  
-  - MMP9 ↔ 中性粒细胞（r=0.673, p=4.1e-04）
-  
-  - VEGFA ↔ M2巨噬细胞（r=-0.625, p=1.2e-03）
-
----
-
-# 软件与数据库版本清单
-
-## 数据库
-| 数据库 | 版本 | 用途 | 访问日期 |
-|--------|------|------|----------|
-| TCMSP | v2.3 | 中药成分与ADME | 2026-03-15 |
-| SwissTargetPrediction | - | 靶点预测 | 2026-03-15 |
-| BATMAN-TCM | - | 靶点预测 | 2026-03-15 |
-| GeneCards | v5.14 | 疾病基因 | 2026-03-15 |
-| OMIM | - | 疾病基因 | 2026-03-15 |
-| DisGeNET | v7.0 | 疾病基因 | 2026-03-15 |
-| TTD | - | 治疗靶点 | 2026-03-15 |
-| STRING | v11.5 | PPI网络 | 2026-03-15 |
-| DAVID | v2023 | 功能注释 | 2026-03-15 |
-| HPA | v23 | 蛋白组织表达 | 2026-03-15 |
-| RCSB PDB | - | 蛋白晶体结构 | 2026-03-20 |
-| PubChem | - | 化合物结构 | 2026-03-15 |
-| UniProt | - | 基因名标准化 | 2026-03-15 |
-
-## 软件与R包
-| 软件/包 | 版本 | 用途 |
-|---------|------|------|
-| R | 4.3.2 | 统计分析环境 |
-| Cytoscape | 3.9.1 | 网络可视化 |
-| CytoHubba | 0.1 | Hub基因筛选 |
-| clusterProfiler | 4.8.3 | 富集分析 |
-| org.Hs.eg.db | 3.17.0 | 基因注释 |
-| fgsea | 1.26.0 | GSEA分析 |
-| ggplot2 | 3.4.4 | 可视化 |
-| VennDiagram | 1.7.3 | 韦恩图 |
-| pheatmap | 1.0.12 | 热图 |
-| AutoDockTools | 1.5.7 | 对接准备 |
-| AutoDock Vina | 1.2.3 | 分子对接 |
-| OpenBabel | 3.1.1 | 格式转换 |
-| PyMOL | 2.5.5 | 3D可视化 |
-| DS Visualizer | 2021 | 2D相互作用 |
-| CIBERSORTx | - | 免疫浸润 |
-
----
-
-# 预期产出与图表规划
-
-## 图表清单（8图 + 3表）
-
-**Figure 1 — 技术路线图**
-
-- 整体研究流程图，7大模块可视化
-
-**Figure 2 — 靶点韦恩图**
-
-- 左：四疾病数据库交集韦恩图
-
-- 右：黄芪-附子药对靶点韦恩图
-
-**Figure 3 — PPI网络与Hub基因**
-
-- 左：103节点PPI网络图（节点大小=Degree）
-
-- 右：Top 10 Hub基因度值条形图
-
-**Figure 4 — 功能富集分析**
-
-- 上：KEGG Top 20气泡图
-
-- 下左：GO-BP Top 15气泡图
-
-- 下右：GSEA富集曲线（HIF-1/PI3K-Akt通路）
-
-**Figure 5 — 多器官定位分析**
-
-- 上：7器官靶点分布柱状图
-
-- 中：Top 30基因×7器官热图
-
-- 下：器官靶点共享UpSet图
-
-**Figure 6 — 四维整合网络图**
-
-- 成分（外圈）-靶点（中圈）-通路（内圈）-器官（中心）分层布局
-
-- 黄芪/附子来源区分着色
-
-**Figure 7 — Hub基因-免疫细胞相关性热图**
-
-- 10 Hub基因 × 22免疫细胞Pearson相关系数热图
-
-- *标注显著性
-
-**Figure 8 — 分子对接结果**
-
-- 上：5×6结合能热力表
-
-- 中：Quercetin-AKT1 3D对接图（PyMOL）
-
-- 下：Quercetin-MMP9 2D相互作用图（DS）
-
-## 表格清单
-
-**Table 1 — Top 10活性成分信息**
-
-- 化合物名称、来源、OB、DL、MW、CAS号
-
-**Table 2 — Top 10 Hub基因拓扑参数**
-
-- Degree、Betweenness、Closeness、ECC四种算法排名
-
-**Table 3 — 分子对接结合能汇总**
-
-- 6配体×5受体结合能矩阵（kcal/mol）
-
-## 补充材料
-- Table S1：32种生物活性化合物完整信息
-
-- Table S2：103个交集靶标完整列表
-
-- Table S3-S6：GO/KEGG富集完整结果
-
-- Molecular_Docking_Parameters.txt：对接参数文件
-
----
-
-# 时间安排（10个工作日）
-
-| 天数 | 任务模块 | 具体工作 | 产出 |
-|------|---------|---------|------|
-| Day 1 | Module 1 | TCMSP检索、OB/DL筛选、SwissTargetPrediction + BATMAN靶点预测、去重标准化 | 32成分 + 286靶点 |
-| Day 2 | Module 2 | 四疾病数据库检索、合并去重、与药物靶点取交集、韦恩图绘制 | 103交集靶点 + Fig2 |
-| Day 3 | Module 3 | STRING PPI构建、Cytoscape可视化、CytoHubba四算法Hub筛选 | PPI网络 + Top10 Hub + Fig3 |
-| Day 4-5 | Module 4 | GO/KEGG富集分析、GSEA分析、气泡图/富集曲线绘制 | 富集结果 + Fig4 |
-| Day 6 | Module 5 | DAVID/HPA多器官定位、器官-靶点矩阵构建、热图/UpSet图 | 多器官结果 + Fig5 |
-| Day 7 | Module 6 + 免疫浸润 | 四维网络构建、药对协同定量、CIBERSORTx免疫浸润、相关性热图 | 整合网络 + Fig6/7 |
-| Day 8-9 | Module 7 | 受体制备、配体制备、30组Vina对接、PyMOL/DS可视化 | 对接结果 + Fig8 |
-| Day 10 | 整合收尾 | 图表统一美化、结果整合、补充材料整理、方法撰写 | 完整论文素材 |
-
----
-
-# 质量控制与可复现性规范
-
-## 数据质量控制
-- **多数据库交叉验证**：疾病靶点至少2个数据库支持；靶点预测至少2个工具支持
-- **阈值严格统一**：所有筛选阈值预先设定，事后不调整
-- **基因名标准化**：全部通过org.Hs.eg.db映射ENTREZ ID，避免别名混淆
-- **物种一致性**：所有分析限定Homo sapiens
-
-## 分析可复现性
-- 所有R代码保存为可执行脚本（.R文件），含sessionInfo()
-- 分子对接参数完整记录（网格坐标、exhaustiveness等）
-- 数据库访问日期统一标注（Database access: March 15, 2026）
-- 软件版本完整记录
-- 随机种子固定（GSEA置换、CIBERSORTx）
-
-## 结果验证策略
-- 三角验证：网络预测 → 富集分析 → 分子对接，三层证据互相支撑
-
-- 文献验证：核心结论与已发表心衰研究对照
-
-- 阳性对照：已知心衰药物靶点（如ACE、AGTR1）需出现在结果中
-
----
-
-# 局限性与风险评估
-
-## 固有局限性
-- **OB/DL筛选偏差**：TCMSP的OB模型对皂苷类成分预测偏低，可能遗漏部分活性成分（如黄芪甲苷手动补充）
-
-- **靶点预测假阳性**：计算预测存在假阳性，SwissTargetPrediction概率≥0.7仍有误差
-
-- **半柔性对接局限**：受体刚性假设，未考虑蛋白构象变化；未考虑溶剂效应
-
-- **组织表达≠功能**：多器官定位基于mRNA/蛋白表达，不直接等同于功能活性
-
-- **缺乏剂量信息**：网络药理学为定性/半定量，无法反映成分浓度梯度效应
-
-## 潜在风险与应对
-| 风险 | 影响 | 应对策略 |
-|------|------|---------|
-| 靶点预测假阳性率高 | 网络噪声大 | 多工具交集 + 严格阈值 + PPI过滤 |
-| KEGG富集通路过多 | 结果分散 | 聚焦Top 20 + GSEA验证 + 器官定位收敛 |
-| 分子对接结合能偏强 | 过度乐观解读 | 结合2D相互作用分析，关注氢键/π堆积质量 |
-| 数据库更新导致结果差异 | 可复现性 | 统一标注访问日期，锁定版本 |
-
-## 论文局限性声明要点
-- 本研究为纯计算预测，所有结论需实验验证
-- 仅纳入口服生物利用度筛选的成分，可能遗漏非口服活性成分
-- 分子对接为静态模拟，不代表真实动态结合过程
-- 未考虑成分间的药代动力学相互作用
-
----
-
-# 核心创新点
-
-- **多器官定位视角** — 突破传统单心脏局限，系统解析心-肾-肝-血管-肺-脂肪-肾上腺7器官靶点分布，揭示心衰多器官受累的调控基础
-
-- **药对协同定量** — Jaccard指数 + 通路协同得分，定量区分黄芪（益气）与附子（温阳）各自的通路贡献，阐明"相须为用"的分子基础
-
-- **四维整合网络** — 成分-靶点-通路-器官二部网络，从分子到器官层面全景展示芪附汤调控机制
-
-- **免疫浸润关联** — CIBERSORTx关联Hub靶点与心肌免疫微环境，补充网络药理学的免疫学维度
-
-- **多技术交叉验证** — 网络药理学 + 富集分析 + 分子对接三层证据链，提高预测可靠性
-
----
-
-# 目标期刊与发表策略
-
-## 首选期刊
-- **Biology (MDPI)** — 中科院大类2区，IF=5.168，网络药理学文章接收率高
-- 特刊关注："Computational Pharmacology and Network Biology of Medicinal Plants"
-
-## 备选期刊
-- **Pharmaceuticals (MDPI)** — 中科院大类2区，IF=5.5
-
-- **Journal of Ethnopharmacology** — 民族药理学顶刊，中科院1区
-
-- **Frontiers in Pharmacology** — 中科院2区，网络药理学发文量大
-
-## 写作规范
-- 语言：专业学术英文，被动语态
-
-- 结构：IMRAD格式，结果前置
-
-- 参考文献：Zotero管理，BibTeX格式，\cite{}命令
-
-- 图表：MDPI风格配色，300 dpi以上分辨率
-
----
-
-# 参考文献（基础清单）
-
-1. Hopkins AL. Network pharmacology: the next paradigm in drug discovery. Nat Chem Biol. 2008;4(11):682-690.
-2. Li S, Zhang B. Traditional Chinese medicine network pharmacology: theory, methodology and application. Chin J Nat Med. 2013;11(2):110-120.
-3. Trostle A, et al. CIBERSORTx: High-Resolution Cell Type Deconvolution of Bulk Tissue Transcriptomes with Digital Cytometry. Cell Syst. 2019;9(1):7-20.
-4. Trott O, Olson AJ. AutoDock Vina: improving the speed and accuracy of docking with a new scoring function, efficient optimization, and multithreading. J Comput Chem. 2010;31(2):455-461.
-5. Shannon P, et al. Cytoscape: a software environment for integrated models of biomolecular interaction networks. Genome Res. 2003;13(11):2498-2504.
-6. Szklarczyk D, et al. STRING v11: protein-protein association networks with increased coverage, supporting functional discovery in genome-wide experimental datasets. Nucleic Acids Res. 2019;47(D1):D607-D613.
-7. Wu T, et al. clusterProfiler 4.0: A universal enrichment tool for interpreting omics data. Innovation. 2021;2(3):100141.
-8. Ru J, et al. TCMSP: a database of systems pharmacology for drug discovery from herbal medicines. J Cheminform. 2014;6:13.
-9. Daina A, et al. SwissTargetPrediction: updated data and new features for efficient prediction of protein targets of small molecules. Nucleic Acids Res. 2019;47(W1):W357-W364.
-10. Uhlen M, et al. Tissue-based map of the human proteome. Science. 2015;347(6220):1260419.
 
 ---
 
