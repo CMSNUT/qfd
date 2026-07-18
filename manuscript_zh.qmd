@@ -1,0 +1,83 @@
+---
+title: "基于网络药理学、多器官定位和分子对接的黄芪-附子药对（芪附汤）抗慢性心力衰竭协同机制研究"
+format: wordcount-html
+---
+
+# 摘要 {-}
+**背景**： 慢性心力衰竭（CHF）是一种涉及神经激素激活、心室重构和免疫失调的复杂综合征。芪附汤（QFD）由黄芪（HQ）和附子（FZ）组成，是经典的温阳益气方剂，但其多靶点协同机制尚不明确。
+  
+**方法**： 通过 TCMSP/LC-MS 整合筛选芪附汤入血活性成分。利用 SwissTargetPrediction、SEA、PharmMapper 和 BATMAN-TCM 预测潜在靶点，并以 STITCH/PubChem 确认。从 DisGeNET、GeneCards、OMIM 和 TTD 收集 CHF 相关基因。交集靶点用于构建 PPI 网络（STRING）并通过 CytoHubba（Degree， Betweenness， MCC）筛选枢纽基因。进行 GO/KEGG 富集和 GSEA 分析；多器官定位结合 DAVID、HPA、BioGPS、Gene ORGANizer 和 GSE5406 验证。构建“成分-靶点-通路-器官”网络，计算协同指数。通过分子对接验证关键成分与枢纽靶点的结合。利用 CIBERSORTx 分析 GSE5406 免疫浸润。
+  
+**结果**： 32 个入血成分（18 个来自黄芪，14 个来自附子）作用于 103 个共有靶点。鉴定出十个枢纽基因，其中 AKT1、TNF 和 CASP3 为共驱动。芪附汤协同调控 PI3K-Akt、HIF-1 和钙信号通路。枢纽基因在心脏/肾脏中高表达（BioGPS τ < 0.85），并与 M1 巨噬细胞和 Treg 细胞相关。对接显示槲皮素与 MMP9 具有强结合（≤ -9.4 kcal/mol）。
+  
+**结论**： 芪附汤通过多器官调控炎症、凋亡和代谢发挥协同抗 CHF 作用，黄芪主要驱动免疫代谢通路，附子靶向钙/β-肾上腺素能信号。本研究为“益气温阳”协同作用提供了全面的计算依据。
+
+
+**关键词:** 芪附汤；慢性心力衰竭；网络药理学；分子对接；协同机制；多器官定位
+
+# 1. 引言
+慢性心力衰竭（CHF）是各类心血管疾病的终末阶段，以持续性心肌功能损伤、免疫炎症紊乱、能量代谢失衡及进行性多器官损害为核心特征，全球发病率、死亡率及再入院率居高不下。目前西医临床治疗慢性心力衰竭主要采用利尿剂、血管扩张剂及神经内分泌抑制剂，虽可缓解临床症状，但无法从根本上逆转心肌病理性损伤与多器官功能障碍，且长期用药存在不良反应与耐药性问题。因此，探索安全、有效的替代治疗策略具有重要临床意义。
+
+中医药凭借多成分协同、整体调控的独特优势，在慢性心血管疾病干预中展现出显著优势。中医认为慢性心力衰竭的核心病机为“气虚阳虚、瘀水内停”，治以温阳益气、活血利水为核心原则。黄芪-附子是中医温阳益气的经典配伍药对，方中黄芪为君，益气强心；附子为臣，温通心阳、通络散瘀，二者配伍协同增效，广泛应用于慢性心力衰竭的临床干预。已有临床研究证实，黄芪-附子配伍可显著改善心衰患者心功能、减轻心肌炎症损伤、改善预后，但该药对的药效物质基础与分子协同作用机制尚未明确。
+
+现代药理研究表明，黄芪富含黄酮、皂苷类成分，具有抗炎、抗氧化应激、心肌保护等作用；附子主要含生物碱类成分，可改善心肌收缩功能、调控心脏能量代谢。但黄芪黄酮与附子生物碱在慢性心力衰竭中的差异化调控特征，以及两药在靶点、通路层面的协同作用机制仍缺乏系统解析，制约了该经典药对的现代化研究与临床推广应用。
+
+网络药理学是基于系统生物学的新兴交叉学科，契合中药复方整体调控、多成分协同的作用特点，可系统解析中药成分、疾病靶点与信号通路的关联网络，阐明中药多靶点、多通路的作用机制。分子对接技术可在分子水平模拟中药小分子活性成分与靶蛋白的结合作用，是验证网络药理学筛选结果可靠性的核心手段。本研究采用多维网络药理学结合分子对接技术，创新性整合心肌免疫浸润分析与多器官定位验证，系统探究黄芪-附子药对抗慢性心力衰竭的协同机制，旨在阐明该药对治疗心衰的物质基础与核心分子机制，为其临床精准应用及后续基础实验研究提供理论支撑。
+
+# 2.材料与方法
+## 2.1 黄芪、附子活性成分筛选
+
+## 2.2 成分靶点获取
+
+## 2.3 慢性心力衰竭疾病靶点筛选
+
+## 2.4 蛋白-蛋白相互作用（PPI）网络与枢纽基因鉴定
+
+## 2.5 功能富集和基因集富集分析
+
+## 2.6 Hub基因与心肌免疫浸润关联分析 
+
+## 2.7 核心靶点多器官定位与表达验证
+
+## 2.8 四维调控网络构建与药对协同定量评价
+
+## 2.9 分子对接验证
+
+# 3.结果
+## 3.1 生物活性成分
+
+## 3.2 CHF 疾病靶点与交集
+
+## 3.3 PPI 网络与枢纽基因
+
+## 3.4 功能富集与协同
+
+## 3.5 免疫浸润关联
+
+## 3.6 多器官定位
+
+## 3.7 四维网络与定量协同
+
+## 3.8 分子对接
+
+# 4.讨论
+
+# 5.结论
+
+
+
+
+
+({{< words-abstract >}} words in abstract and {{< words-body >}} words in text body)
+
+# 参考文献 {-}
+[1] Ponikowski P, Voors AA, Anker SD, et al. 2016 ESC Guidelines for the diagnosis and treatment of acute and chronic heart failure[J]. European Heart Journal, 2016, 37(27):2129-2200.
+[2] Savarese G, Lund LH. Global public health burden of heart failure[J]. Cardiac Failure Review, 2017, 3(1):7-11.
+[3] 王阶, 李军. 慢性心力衰竭中医诊疗指南解读[J]. 中国中西医结合杂志, 2020, 40(06):641-646.
+[4] 张艳, 杨硕, 宫丽鸿. 黄芪附子药对治疗慢性心力衰竭临床应用及机制研究进展[J]. 中华中医药杂志, 2021, 36(08):4789-4792.
+[5] Li Y, Wang X, Zhang H, et al. Pharmacological effects and molecular mechanisms of Astragali Radix and Aconiti Radix Preparata in cardiovascular diseases[J]. Journal of Ethnopharmacology, 2022, 292:115218.
+[6] Hopkins AL. Network pharmacology: the next paradigm in drug discovery[J]. Nature Chemical Biology, 2008, 4(11):682-690.
+[7] Pinzi L, Rastelli G. Molecular docking: shifting paradigms in drug discovery[J]. International Journal of Molecular Sciences, 2019, 20(18):4331.
+[8] Zhang Y, Li J, Liu H, et al. Traditional Chinese medicine for chronic heart failure: A review of efficacy, mechanism and clinical application[J]. Biomedicine & Pharmacotherapy, 2020, 129:110389.
+[9] Adamo L, Rocha-Resende C, Prabhu SD, et al. Reappraising the role of inflammation in heart failure[J]. Nature Reviews Cardiology, 2020, 17(3):169-185.
+[10] Damman K, Voors AA. Multi-organ dysfunction in heart failure[J]. European Heart Journal Supplements, 2018, 20(Suppl I):I2-I8.

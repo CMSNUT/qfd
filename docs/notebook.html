@@ -25,7 +25,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -122,39 +142,97 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#模块1-黄芪附子活性成分筛选" id="toc-模块1-黄芪附子活性成分筛选" class="nav-link active" data-scroll-target="#模块1-黄芪附子活性成分筛选">模块1: 黄芪、附子活性成分筛选</a>
+  <li><a href="#模块1-芪附汤活性成分筛选" id="toc-模块1-芪附汤活性成分筛选" class="nav-link active" data-scroll-target="#模块1-芪附汤活性成分筛选">模块1: 芪附汤活性成分筛选</a>
   <ul>
-  <li><a href="#目的" id="toc-目的" class="nav-link" data-scroll-target="#目的">目的</a></li>
-  <li><a href="#数据" id="toc-数据" class="nav-link" data-scroll-target="#数据">数据</a></li>
-  <li><a href="#筛选标准" id="toc-筛选标准" class="nav-link" data-scroll-target="#筛选标准">筛选标准</a></li>
-  <li><a href="#输出" id="toc-输出" class="nav-link" data-scroll-target="#输出">输出</a></li>
+  <li><a href="#研究目的" id="toc-研究目的" class="nav-link" data-scroll-target="#研究目的">研究目的</a></li>
+  <li><a href="#数据工具" id="toc-数据工具" class="nav-link" data-scroll-target="#数据工具">数据工具</a></li>
+  <li><a href="#研究内容" id="toc-研究内容" class="nav-link" data-scroll-target="#研究内容">研究内容</a></li>
+  <li><a href="#输出图表" id="toc-输出图表" class="nav-link" data-scroll-target="#输出图表">输出图表</a></li>
   <li><a href="#研究记录" id="toc-研究记录" class="nav-link" data-scroll-target="#研究记录">研究记录</a></li>
   </ul></li>
-  <li><a href="#模块2" id="toc-模块2" class="nav-link" data-scroll-target="#模块2">模块2:</a>
+  <li><a href="#模块2-活性成分靶点获取" id="toc-模块2-活性成分靶点获取" class="nav-link" data-scroll-target="#模块2-活性成分靶点获取">模块2: 活性成分靶点获取</a>
   <ul>
-  <li><a href="#目的-1" id="toc-目的-1" class="nav-link" data-scroll-target="#目的-1">目的</a></li>
-  <li><a href="#数据-1" id="toc-数据-1" class="nav-link" data-scroll-target="#数据-1">数据</a>
-  <ul class="collapse">
-  <li><a href="#module-2-chf疾病靶点整合与交集识别" id="toc-module-2-chf疾病靶点整合与交集识别" class="nav-link" data-scroll-target="#module-2-chf疾病靶点整合与交集识别">Module 2: CHF疾病靶点整合与交集识别</a></li>
-  <li><a href="#module-3-ppi网络构建与hub基因筛选mcc算法" id="toc-module-3-ppi网络构建与hub基因筛选mcc算法" class="nav-link" data-scroll-target="#module-3-ppi网络构建与hub基因筛选mcc算法">Module 3: PPI网络构建与Hub基因筛选（MCC算法）</a></li>
-  <li><a href="#module-4-功能富集分析与gsea" id="toc-module-4-功能富集分析与gsea" class="nav-link" data-scroll-target="#module-4-功能富集分析与gsea">Module 4: 功能富集分析与GSEA</a></li>
-  <li><a href="#module-5-多器官定位分析五维验证含biogps" id="toc-module-5-多器官定位分析五维验证含biogps" class="nav-link" data-scroll-target="#module-5-多器官定位分析五维验证含biogps">Module 5: 多器官定位分析（五维验证，含BioGPS）</a>
+  <li><a href="#研究目的-1" id="toc-研究目的-1" class="nav-link" data-scroll-target="#研究目的-1">研究目的</a></li>
+  <li><a href="#数据工具-1" id="toc-数据工具-1" class="nav-link" data-scroll-target="#数据工具-1">数据工具</a></li>
+  <li><a href="#研究内容-1" id="toc-研究内容-1" class="nav-link" data-scroll-target="#研究内容-1">研究内容</a></li>
+  <li><a href="#输出图表-1" id="toc-输出图表-1" class="nav-link" data-scroll-target="#输出图表-1">输出图表</a></li>
+  <li><a href="#研究记录-1" id="toc-研究记录-1" class="nav-link" data-scroll-target="#研究记录-1">研究记录</a></li>
+  </ul></li>
+  <li><a href="#模块3-chf疾病靶点筛选" id="toc-模块3-chf疾病靶点筛选" class="nav-link" data-scroll-target="#模块3-chf疾病靶点筛选">模块3: CHF疾病靶点筛选</a>
+  <ul>
+  <li><a href="#研究目的-2" id="toc-研究目的-2" class="nav-link" data-scroll-target="#研究目的-2">研究目的</a></li>
+  <li><a href="#数据工具-2" id="toc-数据工具-2" class="nav-link" data-scroll-target="#数据工具-2">数据工具</a></li>
+  <li><a href="#研究内容-2" id="toc-研究内容-2" class="nav-link" data-scroll-target="#研究内容-2">研究内容</a></li>
+  <li><a href="#输出图表-2" id="toc-输出图表-2" class="nav-link" data-scroll-target="#输出图表-2">输出图表</a></li>
+  <li><a href="#研究记录-2" id="toc-研究记录-2" class="nav-link" data-scroll-target="#研究记录-2">研究记录</a></li>
+  </ul></li>
+  <li><a href="#模块4-靶点交集分析" id="toc-模块4-靶点交集分析" class="nav-link" data-scroll-target="#模块4-靶点交集分析">模块4: 靶点交集分析</a>
+  <ul>
+  <li><a href="#研究目的-3" id="toc-研究目的-3" class="nav-link" data-scroll-target="#研究目的-3">研究目的</a></li>
+  <li><a href="#数据工具-3" id="toc-数据工具-3" class="nav-link" data-scroll-target="#数据工具-3">数据工具</a></li>
+  <li><a href="#研究内容-3" id="toc-研究内容-3" class="nav-link" data-scroll-target="#研究内容-3">研究内容</a></li>
+  <li><a href="#输出图表-3" id="toc-输出图表-3" class="nav-link" data-scroll-target="#输出图表-3">输出图表</a></li>
+  <li><a href="#研究记录-3" id="toc-研究记录-3" class="nav-link" data-scroll-target="#研究记录-3">研究记录</a></li>
+  </ul></li>
+  <li><a href="#模块5-ppi网络构建与hub基因筛选" id="toc-模块5-ppi网络构建与hub基因筛选" class="nav-link" data-scroll-target="#模块5-ppi网络构建与hub基因筛选">模块5: PPI网络构建与Hub基因筛选</a>
+  <ul>
+  <li><a href="#研究目的-4" id="toc-研究目的-4" class="nav-link" data-scroll-target="#研究目的-4">研究目的</a></li>
+  <li><a href="#数据工具-4" id="toc-数据工具-4" class="nav-link" data-scroll-target="#数据工具-4">数据工具</a></li>
+  <li><a href="#研究内容-4" id="toc-研究内容-4" class="nav-link" data-scroll-target="#研究内容-4">研究内容</a></li>
+  <li><a href="#输出图表-4" id="toc-输出图表-4" class="nav-link" data-scroll-target="#输出图表-4">输出图表</a></li>
+  <li><a href="#研究记录-4" id="toc-研究记录-4" class="nav-link" data-scroll-target="#研究记录-4">研究记录</a></li>
+  </ul></li>
+  <li><a href="#模块6-富集分析与gsea" id="toc-模块6-富集分析与gsea" class="nav-link" data-scroll-target="#模块6-富集分析与gsea">模块6: 富集分析与GSEA</a>
+  <ul>
+  <li><a href="#研究目的-5" id="toc-研究目的-5" class="nav-link" data-scroll-target="#研究目的-5">研究目的</a></li>
+  <li><a href="#数据工具-5" id="toc-数据工具-5" class="nav-link" data-scroll-target="#数据工具-5">数据工具</a></li>
+  <li><a href="#研究内容-5" id="toc-研究内容-5" class="nav-link" data-scroll-target="#研究内容-5">研究内容</a></li>
+  <li><a href="#输出图表-5" id="toc-输出图表-5" class="nav-link" data-scroll-target="#输出图表-5">输出图表</a></li>
+  <li><a href="#研究记录-5" id="toc-研究记录-5" class="nav-link" data-scroll-target="#研究记录-5">研究记录</a></li>
+  </ul></li>
+  <li><a href="#模块7hub基因与心肌免疫浸润的关联分析" id="toc-模块7hub基因与心肌免疫浸润的关联分析" class="nav-link" data-scroll-target="#模块7hub基因与心肌免疫浸润的关联分析">模块7：Hub基因与心肌免疫浸润的关联分析</a>
+  <ul>
+  <li><a href="#研究目的-6" id="toc-研究目的-6" class="nav-link" data-scroll-target="#研究目的-6">研究目的</a></li>
+  <li><a href="#数据工具-6" id="toc-数据工具-6" class="nav-link" data-scroll-target="#数据工具-6">数据工具</a></li>
+  <li><a href="#研究内容-6" id="toc-研究内容-6" class="nav-link" data-scroll-target="#研究内容-6">研究内容</a></li>
+  <li><a href="#输出图表-6" id="toc-输出图表-6" class="nav-link" data-scroll-target="#输出图表-6">输出图表</a></li>
+  <li><a href="#研究记录-6" id="toc-研究记录-6" class="nav-link" data-scroll-target="#研究记录-6">研究记录</a></li>
+  </ul></li>
+  <li><a href="#模块8-核心靶点多器官定位与表达验证分析" id="toc-模块8-核心靶点多器官定位与表达验证分析" class="nav-link" data-scroll-target="#模块8-核心靶点多器官定位与表达验证分析">模块8: 核心靶点多器官定位与表达验证分析</a>
+  <ul>
+  <li><a href="#研究目的-7" id="toc-研究目的-7" class="nav-link" data-scroll-target="#研究目的-7">研究目的</a></li>
+  <li><a href="#数据工具-7" id="toc-数据工具-7" class="nav-link" data-scroll-target="#数据工具-7">数据工具</a></li>
+  <li><a href="#研究内容-7" id="toc-研究内容-7" class="nav-link" data-scroll-target="#研究内容-7">研究内容</a></li>
+  <li><a href="#输出图表-7" id="toc-输出图表-7" class="nav-link" data-scroll-target="#输出图表-7">输出图表</a></li>
+  <li><a href="#研究记录-7" id="toc-研究记录-7" class="nav-link" data-scroll-target="#研究记录-7">研究记录</a>
   <ul class="collapse">
   <li><a href="#分析器官" id="toc-分析器官" class="nav-link" data-scroll-target="#分析器官">5.1 分析器官</a></li>
   <li><a href="#五维策略" id="toc-五维策略" class="nav-link" data-scroll-target="#五维策略">5.2 五维策略</a></li>
   <li><a href="#整合" id="toc-整合" class="nav-link" data-scroll-target="#整合">5.3 整合</a></li>
   </ul></li>
-  <li><a href="#module-6-四维整合网络与药对协同定量" id="toc-module-6-四维整合网络与药对协同定量" class="nav-link" data-scroll-target="#module-6-四维整合网络与药对协同定量">Module 6: 四维整合网络与药对协同定量</a></li>
-  <li><a href="#module-7-分子对接验证" id="toc-module-7-分子对接验证" class="nav-link" data-scroll-target="#module-7-分子对接验证">Module 7: 分子对接验证</a></li>
-  <li><a href="#附加模块免疫浸润关联分析" id="toc-附加模块免疫浸润关联分析" class="nav-link" data-scroll-target="#附加模块免疫浸润关联分析">附加模块：免疫浸润关联分析</a></li>
   </ul></li>
-  <li><a href="#软件与数据库版本清单部分示例" id="toc-软件与数据库版本清单部分示例" class="nav-link" data-scroll-target="#软件与数据库版本清单部分示例">4. 软件与数据库版本清单（部分示例）</a></li>
+  <li><a href="#模块9-药材-成分-靶点-通路-器官整合网络构建与药对协同定量分析" id="toc-模块9-药材-成分-靶点-通路-器官整合网络构建与药对协同定量分析" class="nav-link" data-scroll-target="#模块9-药材-成分-靶点-通路-器官整合网络构建与药对协同定量分析">模块9: 药材-成分-靶点-通路-器官整合网络构建与药对协同定量分析</a>
+  <ul>
+  <li><a href="#研究目的-8" id="toc-研究目的-8" class="nav-link" data-scroll-target="#研究目的-8">研究目的</a></li>
+  <li><a href="#数据工具-8" id="toc-数据工具-8" class="nav-link" data-scroll-target="#数据工具-8">数据工具</a></li>
+  <li><a href="#研究内容-8" id="toc-研究内容-8" class="nav-link" data-scroll-target="#研究内容-8">研究内容</a></li>
+  <li><a href="#输出图表-8" id="toc-输出图表-8" class="nav-link" data-scroll-target="#输出图表-8">输出图表</a></li>
+  <li><a href="#研究记录-8" id="toc-研究记录-8" class="nav-link" data-scroll-target="#研究记录-8">研究记录</a></li>
+  </ul></li>
+  <li><a href="#模块10-分子对接验证" id="toc-模块10-分子对接验证" class="nav-link" data-scroll-target="#模块10-分子对接验证">模块10: 分子对接验证</a>
+  <ul>
+  <li><a href="#研究目的-9" id="toc-研究目的-9" class="nav-link" data-scroll-target="#研究目的-9">研究目的</a></li>
+  <li><a href="#数据工具-9" id="toc-数据工具-9" class="nav-link" data-scroll-target="#数据工具-9">数据工具</a></li>
+  <li><a href="#研究内容-9" id="toc-研究内容-9" class="nav-link" data-scroll-target="#研究内容-9">研究内容</a></li>
+  <li><a href="#输出图表-9" id="toc-输出图表-9" class="nav-link" data-scroll-target="#输出图表-9">输出图表</a></li>
+  <li><a href="#研究记录-9" id="toc-研究记录-9" class="nav-link" data-scroll-target="#研究记录-9">研究记录</a></li>
   <li><a href="#图表规划" id="toc-图表规划" class="nav-link" data-scroll-target="#图表规划">5. 图表规划</a>
   <ul class="collapse">
   <li><a href="#图表清单" id="toc-图表清单" class="nav-link" data-scroll-target="#图表清单">5.1 图表清单</a></li>
   <li><a href="#补充材料" id="toc-补充材料" class="nav-link" data-scroll-target="#补充材料">5.2 补充材料</a></li>
   </ul></li>
   </ul></li>
+  <li><a href="#reference" id="toc-reference" class="nav-link" data-scroll-target="#reference">Reference</a></li>
   </ul>
 </nav>
 </nav>
@@ -212,14 +290,14 @@ ul.task-list li input[type="checkbox"] {
 
 
 <hr>
-<section id="模块1-黄芪附子活性成分筛选" class="level1">
-<h1>模块1: 黄芪、附子活性成分筛选</h1>
-<section id="目的" class="level2">
-<h2 class="anchored" data-anchor-id="目的">目的</h2>
+<section id="模块1-芪附汤活性成分筛选" class="level1">
+<h1>模块1: 芪附汤活性成分筛选</h1>
+<section id="研究目的" class="level2">
+<h2 class="anchored" data-anchor-id="研究目的">研究目的</h2>
 <p>以中药多组分入血起效为核心原则，结合数据库筛选与实验文献佐证，筛选药对潜在活性成分，排除无体内药效、无入血证据的无效成分。</p>
 </section>
-<section id="数据" class="level2">
-<h2 class="anchored" data-anchor-id="数据">数据</h2>
+<section id="数据工具" class="level2">
+<h2 class="anchored" data-anchor-id="数据工具">数据工具</h2>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -229,53 +307,53 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="https://tm-mc.kr/">TM-MC2.0</a></td>
+<td><a href="https://tm-mc.kr/">TM-MC2.0</a> <span class="citation" data-cites="kim2024tm-mc2">[<a href="#ref-kim2024tm-mc2" role="doc-biblioref">1</a>]</span></td>
 <td>化合物信息与ADME参数</td>
 </tr>
 <tr class="even">
-<td>已发表芪附汤/黄芪-附子LC-MS文献</td>
+<td>QFD的LC-MS文献1 <span class="citation" data-cites="tan2012qfda">[<a href="#ref-tan2012qfda" role="doc-biblioref">2</a>]</span></td>
+<td>入血/组织成分确认</td>
+</tr>
+<tr class="odd">
+<td>QFD的LC-MS文献2 <span class="citation" data-cites="zhang2024qfd">[<a href="#ref-zhang2024qfd" role="doc-biblioref">3</a>]</span></td>
 <td>入血/组织成分确认</td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="筛选标准" class="level2">
-<h2 class="anchored" data-anchor-id="筛选标准">筛选标准</h2>
+<section id="研究内容" class="level2">
+<h2 class="anchored" data-anchor-id="研究内容">研究内容</h2>
 <ul>
-<li><strong>ADME初筛</strong>：OB ≥ 30% 且 DL ≥ 0.18（TMMC2.0）<br>
-</li>
-<li><strong>入血确认</strong>：至少一篇LC-MS/MS文献报道在血浆或心肌组织中检测到原型或主要代谢物<br>
-</li>
-<li><strong>补充纳入</strong>：未满足OB/DL但药理活性明确且入血证据充分者（如黄芪甲苷、某些附子生物碱）<br>
-</li>
-<li><strong>靶点筛选</strong>：确证靶点直接收录；预测靶点需至少在2个工具中命中，且符合各工具阈值<br>
-</li>
-<li><strong>物种限定</strong>：Homo sapiens</li>
+<li><strong>成分数据获取</strong>：依托TMMC2.0数据库，全面检索黄芪、附子的全部化学成分，整理成分名称、结构式、理化性质等基础信息。</li>
+<li><strong>药代参数筛选</strong>：口服生物利用度OB=Y、类药性DL≥0.18，初步筛选具备体内吸收、成药潜力的候选成分。</li>
+<li><strong>入血活性验证筛选</strong>：检索国内外已发表的芪附汤、黄芪、附子相关LC-MS入血成分分析文献，纳入体内可吸收、入血定植、已被实验证实的原型成分及代谢产物，补充数据库筛选遗漏的活性成分，剔除无入血证据、仅体外存在的成分。</li>
+<li><strong>特征成分分类</strong>：将最终筛选的活性成分分为两类，即黄芪特征成分（以黄酮类为主，如毛蕊异黄酮、芒柄花素等）、附子特征成分（以生物碱类为主，如乌头碱、次乌头碱、新乌头碱等），为后续差异化机制分析奠定基础。</li>
 </ul>
 </section>
-<section id="输出" class="level2">
-<h2 class="anchored" data-anchor-id="输出">输出</h2>
+<section id="输出图表" class="level2">
+<h2 class="anchored" data-anchor-id="输出图表">输出图表</h2>
 <ul>
-<li>芪附汤候选药效成分库（标注来源、OB、DL、入血文献）<br>
+<li>表1：黄芪、附子核心入血活性成分信息表（含成分名称、分类、OB、DL、LC-MS入血文献依据）<br>
 </li>
-<li>成分-靶点关系表，区分“确证”与“高置信度预测”，标注归属药物</li>
+<li>表S1：多数据库获取的全部黄芪、附子活性成分原始信息表</li>
 </ul>
 </section>
 <section id="研究记录" class="level2">
 <h2 class="anchored" data-anchor-id="研究记录">研究记录</h2>
 <ul>
-<li><a href="research_records/01_qfd_actives.html">1.Screening of bioactive components from Qifu Decoction</a></li>
+<li><a href="research_records/01_qfd_actives.html">1.芪附汤活性成分筛选</a></li>
 </ul>
 <hr>
 </section>
 </section>
-<section id="模块2" class="level1">
-<h1>模块2:</h1>
-<section id="目的-1" class="level2">
-<h2 class="anchored" data-anchor-id="目的-1">目的</h2>
+<section id="模块2-活性成分靶点获取" class="level1">
+<h1>模块2: 活性成分靶点获取</h1>
+<section id="研究目的-1" class="level2">
+<h2 class="anchored" data-anchor-id="研究目的-1">研究目的</h2>
+<p>整合多权威靶点数据库，区分确证靶点与高置信度预测靶点，依托UniProt数据库完成人类靶点基因标准化。</p>
 </section>
-<section id="数据-1" class="level2">
-<h2 class="anchored" data-anchor-id="数据-1">数据</h2>
+<section id="数据工具-1" class="level2">
+<h2 class="anchored" data-anchor-id="数据工具-1">数据工具</h2>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -285,48 +363,71 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td>TMMC2.0（整合TCMSP/TCMIP等）</td>
-<td>化合物信息与ADME参数</td>
+<td>STITCH</td>
+<td>确证靶点（有实验证据）+ 预测靶点</td>
 </tr>
 <tr class="even">
-<td>已发表芪附汤/黄芪-附子LC-MS文献</td>
-<td>入血/组织成分确认</td>
-</tr>
-<tr class="odd">
-<td>STITCH、PubChem BioAssay</td>
+<td>PubChem BioAssay</td>
 <td>确证靶点（有实验证据）</td>
 </tr>
-<tr class="even">
-<td>SwissTargetPrediction（Probability&gt;0.1）</td>
-<td>靶点预测</td>
-</tr>
 <tr class="odd">
+<td>SwissTargetPrediction（Probability&gt;0.1）</td>
+<td>预测靶点</td>
+</tr>
+<tr class="even">
 <td>SEA（p&lt;0.01）</td>
 <td>靶点预测</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>PharmMapper（Norm Fit&gt;0.7）</td>
 <td>靶点预测</td>
 </tr>
-<tr class="odd">
-<td>BATMAN-TCM（Score≥20）</td>
+<tr class="even">
+<td>BATMAN-TCM（Score≥84）</td>
 <td>靶点预测</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>UniProt</td>
 <td>靶点基因名标准化（Homo sapiens）</td>
 </tr>
 </tbody>
 </table>
+</section>
+<section id="研究内容-1" class="level2">
+<h2 class="anchored" data-anchor-id="研究内容-1">研究内容</h2>
+<ul>
+<li><strong>多源靶点数据获取</strong>：基于筛选得到的黄芪、附子活性成分，分别在七大权威数据库检索潜在靶点：<a href="https://stitch-db.org/">STITCH v5.0（TMMC2.0）</a>、<a href="">Pubchem</a>、<a href="">TCMSP</a>、<a href="">BATMAN</a>、<a href="">SwissTargetPrediction</a>、<a href="">SEA</a>、<a href="">PharmMapper</a>。</li>
+<li><strong>靶点置信度分级</strong>：将靶点分为两类，
+<ul>
+<li>确证靶点：已有文献、实验验证的成分-蛋白结合靶点；</li>
+<li>高置信度预测靶点：数据库预测得分靠前、置信度高的潜在靶点，剔除低置信度、无参考价值的预测靶点。</li>
+</ul></li>
+<li>靶点基因标准化处理：统一依托UniProt数据库（Homo sapiens人类物种）进行靶点校正，批量校正蛋白名称、别名、简称，全部转换为标准人类基因官方名称，剔除非人源靶点、无效靶点、重复靶点，最终分别得到黄芪活性成分靶点集、附子活性成分靶点集、芪附药对总靶点集。</li>
+</ul>
+</section>
+<section id="输出图表-1" class="level2">
+<h2 class="anchored" data-anchor-id="输出图表-1">输出图表</h2>
+<ul>
+<li>表S2：药对活性成分-靶点表(标准化基因名)</li>
+</ul>
+</section>
+<section id="研究记录-1" class="level2">
+<h2 class="anchored" data-anchor-id="研究记录-1">研究记录</h2>
+<ul>
+<li><a href="research_records/02_ingredient_target.html">2.活性成分靶点获取</a></li>
+</ul>
 <hr>
-<section id="module-2-chf疾病靶点整合与交集识别" class="level3">
-<h3 class="anchored" data-anchor-id="module-2-chf疾病靶点整合与交集识别">Module 2: CHF疾病靶点整合与交集识别</h3>
+</section>
+</section>
+<section id="模块3-chf疾病靶点筛选" class="level1">
+<h1>模块3: CHF疾病靶点筛选</h1>
+<section id="研究目的-2" class="level2">
+<h2 class="anchored" data-anchor-id="研究目的-2">研究目的</h2>
+<p>整合四大数据库，收集CHF致病靶点，同步完成UniProt基因标准化，构建完整的CHF疾病靶点库。</p>
+</section>
+<section id="数据工具-2" class="level2">
+<h2 class="anchored" data-anchor-id="数据工具-2">数据工具</h2>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 30%">
-<col style="width: 46%">
-<col style="width: 23%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>数据库</th>
@@ -336,48 +437,127 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td>DisGeNET v7.0</td>
-<td>CUI: C0018802, “Chronic heart failure”</td>
+<td><a href="https://disgenet.com/">DisGeNET v7.0</a> <span class="citation" data-cites="pinero2017disgenet">[<a href="#ref-pinero2017disgenet" role="doc-biblioref">4</a>]</span></td>
+<td>“Chronic heart failure”</td>
 <td>直接提取</td>
 </tr>
 <tr class="even">
-<td>GeneCards</td>
-<td>“chronic heart failure”, “heart failure”</td>
+<td><a href="https://www.genecards.org/">GeneCards</a> <span class="citation" data-cites="stelzer2016genecards">[<a href="#ref-stelzer2016genecards" role="doc-biblioref">5</a>]</span></td>
+<td>“chronic heart failure”</td>
 <td>Relevance score≥中位数</td>
 </tr>
 <tr class="odd">
-<td>OMIM</td>
-<td>“heart failure”, “cardiomyopathy”</td>
+<td><a href="https://www.omim.org/">OMIM</a> [@]</td>
+<td>“Chroni cheart failure”</td>
 <td>人工筛选</td>
 </tr>
 <tr class="even">
-<td>TTD</td>
-<td>“heart failure”</td>
+<td><a href="https://ttd.idrblab.cn/">TTD</a> <span class="citation" data-cites="zhang2026ttd">[<a href="#ref-zhang2026ttd" role="doc-biblioref">6</a>]</span></td>
+<td>“Chronic heart failure”</td>
 <td>治疗靶点</td>
 </tr>
 </tbody>
 </table>
 <p>合并去重，UniProt标准化，与Module 1入血成分靶点取交集，得到“芪附汤干预CHF潜在药效靶点集”，并拆分黄芪贡献靶点、附子贡献靶点及共有靶点。</p>
+</section>
+<section id="研究内容-2" class="level2">
+<h2 class="anchored" data-anchor-id="研究内容-2">研究内容</h2>
+<ul>
+<li><strong>疾病靶点检索</strong>：基于TMMC2.0（DisGeNET v7.0模块）、GeneCards、OMIM、TTD四大数据库，以“Chronic Heart Failure”“慢性心力衰竭”为核心关键词检索，获取全部与CHF发病、进展、预后相关的疾病靶点。</li>
+<li><strong>靶点筛选与去重</strong>：保留GeneCards评分、TTD疾病关联度高的核心靶点，剔除冗余、重复、与CHF无直接关联的靶点。</li>
+<li><strong>标准化校正</strong>：统一通过UniProt人类数据库完成所有疾病靶点的基因名标准化、物种校正，确保与药物靶点数据集格式、名称完全统一，为后续交集分析提供数据基础。</li>
+</ul>
+</section>
+<section id="输出图表-2" class="level2">
+<h2 class="anchored" data-anchor-id="输出图表-2">输出图表</h2>
+</section>
+<section id="研究记录-2" class="level2">
+<h2 class="anchored" data-anchor-id="研究记录-2">研究记录</h2>
+<ul>
+<li><a href="research_records/03_disease_target.html">3.CHF疾病靶点筛选</a></li>
+</ul>
 <hr>
 </section>
-<section id="module-3-ppi网络构建与hub基因筛选mcc算法" class="level3">
-<h3 class="anchored" data-anchor-id="module-3-ppi网络构建与hub基因筛选mcc算法">Module 3: PPI网络构建与Hub基因筛选（MCC算法）</h3>
+</section>
+<section id="模块4-靶点交集分析" class="level1">
+<h1>模块4: 靶点交集分析</h1>
+<section id="研究目的-3" class="level2">
+<h2 class="anchored" data-anchor-id="研究目的-3">研究目的</h2>
+<p>筛选芪附药对干预CHF潜在药效靶点</p>
+</section>
+<section id="数据工具-3" class="level2">
+<h2 class="anchored" data-anchor-id="数据工具-3">数据工具</h2>
+</section>
+<section id="研究内容-3" class="level2">
+<h2 class="anchored" data-anchor-id="研究内容-3">研究内容</h2>
 <ul>
-<li><strong>PPI网络</strong>：STRING v11.5，置信度≥0.7，隐藏孤立节点，Cytoscape 3.9.1可视化。<br>
-</li>
-<li><strong>MCODE模块分析</strong>：识别功能紧密的子模块。<br>
-</li>
-<li><strong>Hub基因鉴定</strong>：CytoHubba插件，综合<strong>Degree（局部中心性）</strong>、<strong>Betweenness（全局桥接性）</strong> 与<strong>MCC（最大团中心性，高灵敏度）</strong> 三种算法。
+<li>整合多数据库CHF致病靶点，构建CHF疾病基因数据集；</li>
+<li>将标准化后的黄芪-附子药对活性成分靶点与CHF疾病靶点进行韦恩交集分析，剔除无交集的无效靶点；</li>
+<li>最终获得芪附药对干预慢性心力衰竭的潜在药效靶点，即为药对抗CHF的核心候选靶点集，是后续网络分析、富集分析的核心数据。</li>
+</ul>
+</section>
+<section id="输出图表-3" class="level2">
+<h2 class="anchored" data-anchor-id="输出图表-3">输出图表</h2>
+</section>
+<section id="研究记录-3" class="level2">
+<h2 class="anchored" data-anchor-id="研究记录-3">研究记录</h2>
+<ul>
+<li><a href="research_records/04_intersection_target.html">4.靶点交集分析</a></li>
+</ul>
+</section>
+</section>
+<section id="模块5-ppi网络构建与hub基因筛选" class="level1">
+<h1>模块5: PPI网络构建与Hub基因筛选</h1>
+<section id="研究目的-4" class="level2">
+<h2 class="anchored" data-anchor-id="研究目的-4">研究目的</h2>
+</section>
+<section id="数据工具-4" class="level2">
+<h2 class="anchored" data-anchor-id="数据工具-4">数据工具</h2>
+</section>
+<section id="研究内容-4" class="level2">
+<h2 class="anchored" data-anchor-id="研究内容-4">研究内容</h2>
+</section>
+<section id="输出图表-4" class="level2">
+<h2 class="anchored" data-anchor-id="输出图表-4">输出图表</h2>
+</section>
+<section id="研究记录-4" class="level2">
+<h2 class="anchored" data-anchor-id="研究记录-4">研究记录</h2>
+<ul>
+<li><p><a href="research_records/05_ppi_hubgene.html">5.PPI网络构建与Hub基因筛选</a></p></li>
+<li><p><strong>PPI网络</strong>：STRING v11.5，置信度≥0.7，隐藏孤立节点，Cytoscape 3.9.1可视化。<br>
+</p></li>
+<li><p><strong>MCODE模块分析</strong>：识别功能紧密的子模块。<br>
+</p></li>
+<li><p><strong>Hub基因鉴定</strong>：CytoHubba插件，综合<strong>Degree（局部中心性）</strong>、<strong>Betweenness（全局桥接性）</strong> 与<strong>MCC（最大团中心性，高灵敏度）</strong> 三种算法。</p>
 <ul>
 <li><strong>筛选标准</strong>：三种算法排名均进入<strong>前20名</strong>的基因视为稳健候选；按综合平均排名取<strong>Top 10</strong>为最终核心Hub基因。<br>
 </li>
 </ul></li>
-<li><strong>药物驱动归属</strong>：基于成分映射，将Hub基因分为“附子生物碱驱动Hub”、“黄芪黄酮/皂苷驱动Hub”及“共驱动Hub”。</li>
+<li><p><strong>药物驱动归属</strong>：基于成分映射，将Hub基因分为“附子生物碱驱动Hub”、“黄芪黄酮/皂苷驱动Hub”及“共驱动Hub”。</p></li>
 </ul>
 <hr>
 </section>
-<section id="module-4-功能富集分析与gsea" class="level3">
-<h3 class="anchored" data-anchor-id="module-4-功能富集分析与gsea">Module 4: 功能富集分析与GSEA</h3>
+</section>
+<section id="模块6-富集分析与gsea" class="level1">
+<h1>模块6: 富集分析与GSEA</h1>
+<section id="研究目的-5" class="level2">
+<h2 class="anchored" data-anchor-id="研究目的-5">研究目的</h2>
+</section>
+<section id="数据工具-5" class="level2">
+<h2 class="anchored" data-anchor-id="数据工具-5">数据工具</h2>
+</section>
+<section id="研究内容-5" class="level2">
+<h2 class="anchored" data-anchor-id="研究内容-5">研究内容</h2>
+</section>
+<section id="输出图表-5" class="level2">
+<h2 class="anchored" data-anchor-id="输出图表-5">输出图表</h2>
+</section>
+<section id="研究记录-5" class="level2">
+<h2 class="anchored" data-anchor-id="研究记录-5">研究记录</h2>
+<ul>
+<li><a href="research_records/06_enrichment_analysis.html">6.PPI网络构建与Hub基因筛选</a></li>
+</ul>
+<p>PPI网络构建与Hub基因筛选</p>
 <ul>
 <li><strong>工具</strong>：R 4.3.2 + clusterProfiler 4.8.3 + org.Hs.eg.db；GSEA使用fgsea包。<br>
 </li>
@@ -389,8 +569,55 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 <hr>
 </section>
-<section id="module-5-多器官定位分析五维验证含biogps" class="level3">
-<h3 class="anchored" data-anchor-id="module-5-多器官定位分析五维验证含biogps">Module 5: 多器官定位分析（五维验证，含BioGPS）</h3>
+</section>
+<section id="模块7hub基因与心肌免疫浸润的关联分析" class="level1">
+<h1>模块7：Hub基因与心肌免疫浸润的关联分析</h1>
+<section id="研究目的-6" class="level2">
+<h2 class="anchored" data-anchor-id="研究目的-6">研究目的</h2>
+<ul>
+<li>数据：GSE5406，CIBERSORTx估算22种免疫细胞比例。<br>
+</li>
+<li>关联：Top10 Hub基因表达量与免疫细胞比例的Pearson相关系数，筛选|r|&gt;0.6且p&lt;0.01的显著对。<br>
+</li>
+<li>结果：Hub-免疫细胞相关热图，阐释温阳益气方对心肌免疫微环境（如M1巨噬、Treg）的潜在重塑。</li>
+</ul>
+</section>
+<section id="数据工具-6" class="level2">
+<h2 class="anchored" data-anchor-id="数据工具-6">数据工具</h2>
+</section>
+<section id="研究内容-6" class="level2">
+<h2 class="anchored" data-anchor-id="研究内容-6">研究内容</h2>
+</section>
+<section id="输出图表-6" class="level2">
+<h2 class="anchored" data-anchor-id="输出图表-6">输出图表</h2>
+</section>
+<section id="研究记录-6" class="level2">
+<h2 class="anchored" data-anchor-id="研究记录-6">研究记录</h2>
+<ul>
+<li><a href="research_records/07_immune_infiltration.html">7.心肌免疫浸润分析</a></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="模块8-核心靶点多器官定位与表达验证分析" class="level1">
+<h1>模块8: 核心靶点多器官定位与表达验证分析</h1>
+<section id="研究目的-7" class="level2">
+<h2 class="anchored" data-anchor-id="研究目的-7">研究目的</h2>
+</section>
+<section id="数据工具-7" class="level2">
+<h2 class="anchored" data-anchor-id="数据工具-7">数据工具</h2>
+</section>
+<section id="研究内容-7" class="level2">
+<h2 class="anchored" data-anchor-id="研究内容-7">研究内容</h2>
+</section>
+<section id="输出图表-7" class="level2">
+<h2 class="anchored" data-anchor-id="输出图表-7">输出图表</h2>
+</section>
+<section id="研究记录-7" class="level2">
+<h2 class="anchored" data-anchor-id="研究记录-7">研究记录</h2>
+<ul>
+<li><a href="research_records/08_Organ_localization.html">8.多器官定位</a></li>
+</ul>
 <section id="分析器官" class="level4">
 <h4 class="anchored" data-anchor-id="分析器官">5.1 分析器官</h4>
 <p>心脏、肾脏、肝脏、血管内皮、肺、脂肪组织、肾上腺。</p>
@@ -415,12 +642,28 @@ ul.task-list li input[type="checkbox"] {
 <hr>
 </section>
 </section>
-<section id="module-6-四维整合网络与药对协同定量" class="level3">
-<h3 class="anchored" data-anchor-id="module-6-四维整合网络与药对协同定量">Module 6: 四维整合网络与药对协同定量</h3>
+</section>
+<section id="模块9-药材-成分-靶点-通路-器官整合网络构建与药对协同定量分析" class="level1">
+<h1>模块9: 药材-成分-靶点-通路-器官整合网络构建与药对协同定量分析</h1>
+<section id="研究目的-8" class="level2">
+<h2 class="anchored" data-anchor-id="研究目的-8">研究目的</h2>
+</section>
+<section id="数据工具-8" class="level2">
+<h2 class="anchored" data-anchor-id="数据工具-8">数据工具</h2>
+</section>
+<section id="研究内容-8" class="level2">
+<h2 class="anchored" data-anchor-id="研究内容-8">研究内容</h2>
+</section>
+<section id="输出图表-8" class="level2">
+<h2 class="anchored" data-anchor-id="输出图表-8">输出图表</h2>
+</section>
+<section id="研究记录-8" class="level2">
+<h2 class="anchored" data-anchor-id="研究记录-8">研究记录</h2>
 <ul>
-<li><strong>网络</strong>：Cytoscape构建成分（黄芪/附子着色）-靶点-通路（Top20 KEGG）-器官（形状区分）二部网络。<br>
-</li>
-<li><strong>协同定量</strong>：
+<li><p><a href="research_records/09_hitpo_synerg.html">9.药材-成分-靶点-通路-器官整合网络与药对协同定量分析</a></p></li>
+<li><p><strong>网络</strong>：Cytoscape构建成分（黄芪/附子着色）-靶点-通路（Top20 KEGG）-器官（形状区分）二部网络。<br>
+</p></li>
+<li><p><strong>协同定量</strong>：</p>
 <ul>
 <li>Jaccard靶点相似系数 = |A∩B| / |A∪B|<br>
 </li>
@@ -429,90 +672,35 @@ ul.task-list li input[type="checkbox"] {
 <li>附子优势通路 vs.&nbsp;黄芪优势通路表<br>
 </li>
 </ul></li>
-<li><strong>可视化</strong>：分层布局，清晰展示“温阳”（附子偏向钙信号、β-肾上腺素等）与“益气”（黄芪偏向PI3K-Akt、HIF-1、免疫调节等）的互补。</li>
+<li><p><strong>可视化</strong>：分层布局，清晰展示“温阳”（附子偏向钙信号、β-肾上腺素等）与“益气”（黄芪偏向PI3K-Akt、HIF-1、免疫调节等）的互补。</p></li>
 </ul>
 <hr>
 </section>
-<section id="module-7-分子对接验证" class="level3">
-<h3 class="anchored" data-anchor-id="module-7-分子对接验证">Module 7: 分子对接验证</h3>
+</section>
+<section id="模块10-分子对接验证" class="level1">
+<h1>模块10: 分子对接验证</h1>
+<section id="研究目的-9" class="level2">
+<h2 class="anchored" data-anchor-id="研究目的-9">研究目的</h2>
+</section>
+<section id="数据工具-9" class="level2">
+<h2 class="anchored" data-anchor-id="数据工具-9">数据工具</h2>
+</section>
+<section id="研究内容-9" class="level2">
+<h2 class="anchored" data-anchor-id="研究内容-9">研究内容</h2>
+</section>
+<section id="输出图表-9" class="level2">
+<h2 class="anchored" data-anchor-id="输出图表-9">输出图表</h2>
+</section>
+<section id="研究记录-9" class="level2">
+<h2 class="anchored" data-anchor-id="研究记录-9">研究记录</h2>
+<ul>
+<li><a href="research_records/10_docking.html">10.分子对接结果分析</a></li>
+</ul>
 <p><strong>对接体系</strong>：选择Top3核心Hub基因（如AKT1、CASP3、TNF，均需有PDB晶体结构）与4<sub>6个代表性活性成分（至少含附子生物碱2个：去甲乌药碱、次乌头碱；黄芪黄酮/皂苷2</sub>3个：毛蕊异黄酮、芒柄花素、黄芪甲苷）。<br>
 - <strong>软件</strong>：AutoDock Vina 1.2.3，exhaustiveness=32。<br>
 - <strong>准备</strong>：受体去水、加氢、计算电荷；配体能量最小化。对接盒子覆盖原配体结合位点。<br>
 - <strong>评价</strong>：结合能≤ -5.0 kcal/mol为良好，≤ -7.0 kcal/mol为强结合；分析关键氢键、疏水相互作用。<br>
 - <strong>可视化</strong>：PyMOL 3D图 + Discovery Studio 2D指纹图，构建结合能矩阵热图。</p>
-<hr>
-</section>
-<section id="附加模块免疫浸润关联分析" class="level3">
-<h3 class="anchored" data-anchor-id="附加模块免疫浸润关联分析">附加模块：免疫浸润关联分析</h3>
-<ul>
-<li>数据：GSE5406，CIBERSORTx估算22种免疫细胞比例。<br>
-</li>
-<li>关联：Top10 Hub基因表达量与免疫细胞比例的Pearson相关系数，筛选|r|&gt;0.6且p&lt;0.01的显著对。<br>
-</li>
-<li>结果：Hub-免疫细胞相关热图，阐释温阳益气方对心肌免疫微环境（如M1巨噬、Treg）的潜在重塑。</li>
-</ul>
-<hr>
-</section>
-</section>
-<section id="软件与数据库版本清单部分示例" class="level2">
-<h2 class="anchored" data-anchor-id="软件与数据库版本清单部分示例">4. 软件与数据库版本清单（部分示例）</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>工具</th>
-<th>版本</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>TMMC2.0</td>
-<td>整合平台</td>
-<td>化合物ADME</td>
-</tr>
-<tr class="even">
-<td>SwissTargetPrediction</td>
-<td>2026</td>
-<td>靶点预测</td>
-</tr>
-<tr class="odd">
-<td>STRING</td>
-<td>v12.0</td>
-<td>PPI网络</td>
-</tr>
-<tr class="even">
-<td>Cytoscape</td>
-<td>3.10.2</td>
-<td>网络分析</td>
-</tr>
-<tr class="odd">
-<td>CytoHubba</td>
-<td>0.1</td>
-<td>Hub算法</td>
-</tr>
-<tr class="even">
-<td>R/clusterProfiler</td>
-<td>4.3.2/4.8.3</td>
-<td>富集分析</td>
-</tr>
-<tr class="odd">
-<td>AutoDock Vina</td>
-<td>1.2.3</td>
-<td>分子对接</td>
-</tr>
-<tr class="even">
-<td>CIBERSORTx</td>
-<td>-</td>
-<td>免疫浸润</td>
-</tr>
-<tr class="odd">
-<td>BioGPS</td>
-<td>GeneAtlas U133A</td>
-<td>组织表达谱</td>
-</tr>
-</tbody>
-</table>
-<p>（完整表格含访问日期与详细参数，见补充材料）</p>
 <hr>
 </section>
 <section id="图表规划" class="level2">
@@ -551,10 +739,33 @@ ul.task-list li input[type="checkbox"] {
 <li>分子对接参数与全部构象结合能表</li>
 </ul>
 <hr>
-
-
 </section>
 </section>
+</section>
+<section id="reference" class="level1 unnumbered">
+<h1 class="unnumbered">Reference</h1>
+
+
+<div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
+<div id="ref-kim2024tm-mc2" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Kim, S.-K.; Lee, M.-K.; Jang, H.; Lee, J.-J.; Lee, S.; Jang, Y.; Jang, H.; Kim, A. <span>TM-MC</span> 2.0: An Enhanced Chemical Database of Medicinal Materials in <span>Northeast Asian</span> Traditional Medicine. <em>BMC Complement. Med. Ther.</em> <strong>2024</strong>, <em>24</em>, 40, doi:<a href="https://doi.org/10.1186/s12906-023-04331-y">10.1186/s12906-023-04331-y</a>.</div>
+</div>
+<div id="ref-tan2012qfda" class="csl-entry" role="listitem">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Tan, G.; Jing, J.; Zhu, Z.; Lou, Z.; Li, W.; Zhao, L.; Zhang, G.; Chai, Y. Detection and Identification of Diterpenoid Alkaloids, Isoflavonoids and Saponins in <span>Qifu</span> Decoction and Rat Plasma by Liquid Chromatography-Time-of-Flight Mass Spectrometry. <em>Biomed. Chromatogr. BMC</em> <strong>2012</strong>, <em>26</em>, 178–191, doi:<a href="https://doi.org/10.1002/bmc.1644">10.1002/bmc.1644</a>.</div>
+</div>
+<div id="ref-zhang2024qfd" class="csl-entry" role="listitem">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">Zhang, X.; Liao, W.; Ding, X.; Zhang, Y.; Long, C.; Zhou, Q.; Wang, Y.; Wu, H.; Tan, G. Multiple-Matrices Metabolomics Combined with Serum Pharmacochemistry for Discovering the Potential Targets and Active Constituents of <span>Qifu</span> Decoction Against Heart Failure. <em>J. Pharm. Biomed. Anal.</em> <strong>2024</strong>, <em>244</em>, 116114, doi:<a href="https://doi.org/10.1016/j.jpba.2024.116114">10.1016/j.jpba.2024.116114</a>.</div>
+</div>
+<div id="ref-pinero2017disgenet" class="csl-entry" role="listitem">
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">Piñero, J.; Bravo, À.; Queralt-Rosinach, N.; Gutiérrez-Sacristán, A.; Deu-Pons, J.; Centeno, E.; García-García, J.; Sanz, F.; Furlong, L.I. <span>DisGeNET</span>: A Comprehensive Platform Integrating Information on Human Disease-Associated Genes and Variants. <em>Nucleic Acids Res.</em> <strong>2017</strong>, <em>45</em>, D833–D839, doi:<a href="https://doi.org/10.1093/nar/gkw943">10.1093/nar/gkw943</a>.</div>
+</div>
+<div id="ref-stelzer2016genecards" class="csl-entry" role="listitem">
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">Stelzer, G.; Rosen, N.; Plaschkes, I.; Zimmerman, S.; Twik, M.; Fishilevich, S.; Stein, T.I.; Nudel, R.; Lieder, I.; Mazor, Y.; et al. The <span>GeneCards Suite</span>: <span>From Gene Data Mining</span> to <span>Disease Genome Sequence Analyses</span>. <em>Curr. Protoc. Bioinforma.</em> <strong>2016</strong>, <em>54</em>, 1.30.1–1.30.33, doi:<a href="https://doi.org/10.1002/cpbi.5">10.1002/cpbi.5</a>.</div>
+</div>
+<div id="ref-zhang2026ttd" class="csl-entry" role="listitem">
+<div class="csl-left-margin">6. </div><div class="csl-right-inline">Zhang, Y.; Zhou, Y.; Xu, H.; Jiang, W.; Li, B.; Lai, D.; Wan, C.; Wang, S.; Zhao, M.; Tan, Y.; et al. Therapeutic Target Database 2026: Facilitating Targeted Therapies and Precision Medicine. <em>Nucleic Acids Res.</em> <strong>2026</strong>, <em>54</em>, D1692–D1701, doi:<a href="https://doi.org/10.1093/nar/gkaf1154">10.1093/nar/gkaf1154</a>.</div>
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
