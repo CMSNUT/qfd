@@ -140,38 +140,73 @@
     "text": "Supplementary Materials\nThe following supporting information can be downloaded: full lists of 32 bioactive compounds, 103 intersection targets, complete GO/KEGG enrichment results, and molecular docking parameter files."
   },
   {
-    "objectID": "index.html#qifu-decoction-against-chronic-heart-failure-a-comprehensive-in-silico-protocol",
-    "href": "index.html#qifu-decoction-against-chronic-heart-failure-a-comprehensive-in-silico-protocol",
+    "objectID": "index.html",
+    "href": "index.html",
     "title": "Unraveling the Synergistic Mechanism of Astragali Radix-Aconiti Lateralis Radix Praeparata herb pair against Chronic Heart Failure",
-    "section": "1.1 Qifu Decoction against Chronic Heart Failure: A Comprehensive In Silico Protocol",
-    "text": "1.1 Qifu Decoction against Chronic Heart Failure: A Comprehensive In Silico Protocol"
-  },
-  {
-    "objectID": "index.html#background",
-    "href": "index.html#background",
-    "title": "Unraveling the Synergistic Mechanism of Astragali Radix-Aconiti Lateralis Radix Praeparata herb pair against Chronic Heart Failure",
-    "section": "2.1 Background",
-    "text": "2.1 Background\nChronic heart failure (CHF) involves a multidimensional pathological network encompassing neuroendocrine activation, ventricular remodelling, energy metabolic dysregulation, and immuno‑inflammatory responses; hence, single‑target interventions are rarely sufficient to achieve comprehensive therapeutic efficacy.\nQifu decoction (QFD), a famous prescription recorded in Wei Shi Jia Cang Fang, consists of Astragali Radix (Huangqi in Chinese, the dried root of Astragalus membranaceus (Fisch.) Bge.) and Aconiti Lateralis Radix Praeparaia (Fuzi in Chinese, the lateral root of Aconitum carmichaelii Debeaux) with a mass ratio of 2:1.\nIn clinical practice, this herbal pair is used under the principle of “supplementing qi and warming yang” and has demonstrated consistent efficacy against heart failure. However, the multicomponent, multi‑target, and multi‑organ synergistic mechanisms underlying the Huangqi‑Fuzi herb pair remain inadequately characterised. This study aims to integrate network pharmacology, multi‑organ expression profiling, and molecular docking to quantitatively dissect the molecular basis of the synergistic action of this herb pair in CHF.\nEvaluating the pharmacological mechanism of traditional Chinese medicine (TCM) is difficult because the active components and their possible synergistic actions are unclear. [1,2]"
-  },
-  {
-    "objectID": "index.html#key-scientific-questions",
-    "href": "index.html#key-scientific-questions",
-    "title": "Unraveling the Synergistic Mechanism of Astragali Radix-Aconiti Lateralis Radix Praeparata herb pair against Chronic Heart Failure",
-    "section": "2.2 Key Scientific Questions",
-    "text": "2.2 Key Scientific Questions\n\nHow do the orally bioavailable and blood‑borne active constituents of Qifu Decoction cooperatively interfere with CHF via a multi‑target network?\nWhat are the respective contributions of Huangqi (qi‑supplementing) and Fuzi (yang‑warming) at the levels of targets, pathways, and organ distribution, and what quantitative synergistic patterns emerge?\nDo the core pharmacological targets form a spatially coordinated regulatory network across multiple organs, such as heart, kidney, liver, and vasculature?\nCan the binding modes and affinities of key active compounds to hub targets provide structural evidence to support the predicted pharmacological effects?"
-  },
-  {
-    "objectID": "index.html#objectives",
-    "href": "index.html#objectives",
-    "title": "Unraveling the Synergistic Mechanism of Astragali Radix-Aconiti Lateralis Radix Praeparata herb pair against Chronic Heart Failure",
-    "section": "2.3 Objectives",
-    "text": "2.3 Objectives\n\nTo establish the pharmacologically active substance basis and target spectrum of Qifu Decoction based on blood‑absorbed constituents.\nTo identify core hub genes and assign their contributions to Huangqi or Fuzi.\nTo construct a four‑dimensional “component–target–pathway–organ” network and quantitatively evaluate the synergistic effects.\nTo validate core component–target interactions through molecular docking.\nTo provide a clear set of candidate molecules and a theoretical framework for subsequent experimental validation."
-  },
-  {
-    "objectID": "notebook.html",
-    "href": "notebook.html",
-    "title": "Research NoteBook",
     "section": "",
-    "text": "Network Pharmacology\n\n1.Screening of bioactive components from Qifu Decoction"
+    "text": "1 研究背景\n慢性心力衰竭（CHF）是各类心血管疾病终末期的复杂综合征，存在心肌损伤、免疫紊乱、多器官功能受累、信号通路失调等多重病理机制，临床病机多以“气虚阳虚、瘀水内停”为主。\nQifu decoction (QFD), a famous prescription recorded in Wei Shi Jia Cang Fang, consists of Astragali Radix (Huangqi in Chinese, the dried root of Astragalus membranaceus (Fisch.) Bge.) and Aconiti Lateralis Radix Praeparaia (Fuzi in Chinese, the lateral root of Aconitum carmichaelii Debeaux) with a mass ratio of 2:1.\n黄芪-附子药对为温阳益气、治疗心衰的经典配伍，临床疗效确切，但二者抗CHF的协同作用物质基础、核心靶点、调控通路及多器官调控机制尚未明确，且黄芪黄酮类、附子生物碱类成分的差异化调控规律不清。\nEvaluating the pharmacological mechanism of traditional Chinese medicine (TCM) is difficult because the active components and their possible synergistic actions are unclear. [1,2]\n\n\n\n2 关键科学问题\n\n明确黄芪-附子药对抗CHF的入血活性核心成分，区分黄芪黄酮类、附子生物碱类特征活性物质，阐明药对药效物质基础；\n筛选并鉴定芪附药对干预CHF的核心Hub靶点，区分黄芪黄酮驱动靶点与附子生物碱驱动靶点，揭示两药协同、差异化调控的靶点机制；\n阐明核心靶点介导的功能通路、免疫浸润调控及心-肾-肝-血管等多器官分布特征，解析CHF多器官受累的分子调控基础；\n定量验证黄芪-附子的靶点、通路协同效应，通过分子对接验证核心成分与Hub靶点的结合活性，明确药对协同抗CHF的分子机制，为芪附药对的临床应用及机制研究提供科学依据。\n\n\n\n\n3 研究目标\n\n构建基于入血成分的芪附汤药效物质基础与靶点谱\n识别核心Hub基因并区分黄芪/附子驱动归属\n建立“成分-靶点-通路-器官”四维网络，量化协同效应\n通过分子对接验证核心成分-靶点结合\n为后续实验验证提供明确候选分子与理论框架\n\n\n\n\n4 技术路线\n\nAll reproducible analytical code, standardized datasets, and full methodological documentation are publicly available in the GitHub repository cmsnut/qfd.\n\n\n\n\n\n\nReferences\n\n1. Gao, Q.; Wu, H.; Chen, M.; Gu, X.; Wu, Q.; Xie, T.; Sui, X. Active Metabolites Combination Therapies: Towards the Next Paradigm for More Efficient and More Scientific Chinese Medicine. Front. Pharmacol. 15, 1392196, doi:10.3389/fphar.2024.1392196.\n\n\n2. Yang, L.; Wang, H.; Zhu, Z.; Yang, Y.; Xiong, Y.; Cui, X.; Liu, Y. Network Pharmacology-Driven Sustainability: AI and Multi-Omics Synergy for Drug Discovery in Traditional Chinese Medicine. Pharmaceuticals 18, 1074, doi:10.3390/ph18071074."
+  },
+  {
+    "objectID": "notebook.html#目的",
+    "href": "notebook.html#目的",
+    "title": "Research NoteBook",
+    "section": "目的",
+    "text": "目的\n以中药多组分入血起效为核心原则，结合数据库筛选与实验文献佐证，筛选药对潜在活性成分，排除无体内药效、无入血证据的无效成分。"
+  },
+  {
+    "objectID": "notebook.html#数据",
+    "href": "notebook.html#数据",
+    "title": "Research NoteBook",
+    "section": "数据",
+    "text": "数据\n\n\n\n数据库/工具\n用途\n\n\n\n\nTM-MC2.0\n化合物信息与ADME参数\n\n\n已发表芪附汤/黄芪-附子LC-MS文献\n入血/组织成分确认"
+  },
+  {
+    "objectID": "notebook.html#筛选标准",
+    "href": "notebook.html#筛选标准",
+    "title": "Research NoteBook",
+    "section": "筛选标准",
+    "text": "筛选标准\n\nADME初筛：OB ≥ 30% 且 DL ≥ 0.18（TMMC2.0）\n\n入血确认：至少一篇LC-MS/MS文献报道在血浆或心肌组织中检测到原型或主要代谢物\n\n补充纳入：未满足OB/DL但药理活性明确且入血证据充分者（如黄芪甲苷、某些附子生物碱）\n\n靶点筛选：确证靶点直接收录；预测靶点需至少在2个工具中命中，且符合各工具阈值\n\n物种限定：Homo sapiens"
+  },
+  {
+    "objectID": "notebook.html#输出",
+    "href": "notebook.html#输出",
+    "title": "Research NoteBook",
+    "section": "输出",
+    "text": "输出\n\n芪附汤候选药效成分库（标注来源、OB、DL、入血文献）\n\n成分-靶点关系表，区分“确证”与“高置信度预测”，标注归属药物"
+  },
+  {
+    "objectID": "notebook.html#研究记录",
+    "href": "notebook.html#研究记录",
+    "title": "Research NoteBook",
+    "section": "研究记录",
+    "text": "研究记录\n\n1.Screening of bioactive components from Qifu Decoction"
+  },
+  {
+    "objectID": "notebook.html#目的-1",
+    "href": "notebook.html#目的-1",
+    "title": "Research NoteBook",
+    "section": "目的",
+    "text": "目的"
+  },
+  {
+    "objectID": "notebook.html#数据-1",
+    "href": "notebook.html#数据-1",
+    "title": "Research NoteBook",
+    "section": "数据",
+    "text": "数据\n\n\n\n数据库/工具\n用途\n\n\n\n\nTMMC2.0（整合TCMSP/TCMIP等）\n化合物信息与ADME参数\n\n\n已发表芪附汤/黄芪-附子LC-MS文献\n入血/组织成分确认\n\n\nSTITCH、PubChem BioAssay\n确证靶点（有实验证据）\n\n\nSwissTargetPrediction（Probability&gt;0.1）\n靶点预测\n\n\nSEA（p&lt;0.01）\n靶点预测\n\n\nPharmMapper（Norm Fit&gt;0.7）\n靶点预测\n\n\nBATMAN-TCM（Score≥20）\n靶点预测\n\n\nUniProt\n靶点基因名标准化（Homo sapiens）\n\n\n\n\n\nModule 2: CHF疾病靶点整合与交集识别\n\n\n\n\n\n\n\n\n数据库\n检索词/标识\n处理\n\n\n\n\nDisGeNET v7.0\nCUI: C0018802, “Chronic heart failure”\n直接提取\n\n\nGeneCards\n“chronic heart failure”, “heart failure”\nRelevance score≥中位数\n\n\nOMIM\n“heart failure”, “cardiomyopathy”\n人工筛选\n\n\nTTD\n“heart failure”\n治疗靶点\n\n\n\n合并去重，UniProt标准化，与Module 1入血成分靶点取交集，得到“芪附汤干预CHF潜在药效靶点集”，并拆分黄芪贡献靶点、附子贡献靶点及共有靶点。\n\n\n\nModule 3: PPI网络构建与Hub基因筛选（MCC算法）\n\nPPI网络：STRING v11.5，置信度≥0.7，隐藏孤立节点，Cytoscape 3.9.1可视化。\n\nMCODE模块分析：识别功能紧密的子模块。\n\nHub基因鉴定：CytoHubba插件，综合Degree（局部中心性）、Betweenness（全局桥接性） 与MCC（最大团中心性，高灵敏度） 三种算法。\n\n筛选标准：三种算法排名均进入前20名的基因视为稳健候选；按综合平均排名取Top 10为最终核心Hub基因。\n\n\n药物驱动归属：基于成分映射，将Hub基因分为“附子生物碱驱动Hub”、“黄芪黄酮/皂苷驱动Hub”及“共驱动Hub”。\n\n\n\n\nModule 4: 功能富集分析与GSEA\n\n工具：R 4.3.2 + clusterProfiler 4.8.3 + org.Hs.eg.db；GSEA使用fgsea包。\n\nGO/KEGG富集：对全部药效靶点及分属靶点集分别进行，取p.adjust&lt;0.05的Top 15~50条目，气泡图展示。\n\nGSEA：基于GSE5406心衰vs正常表达谱log2FC排序，使用KEGG基因集，NES&gt;|1.5|，padj&lt;0.05为显著。\n\n协同比较：列出“附子优势通路”（仅附子靶点富集）与“黄芪优势通路”（仅黄芪靶点富集），以及共同显著通路。\n\n\n\n\nModule 5: 多器官定位分析（五维验证，含BioGPS）\n\n5.1 分析器官\n心脏、肾脏、肝脏、血管内皮、肺、脂肪组织、肾上腺。\n\n\n5.2 五维策略\n\n组织功能富集（DAVID）：UP_TISSUE类别，校正P&lt;0.05。\n\n蛋白表达验证（HPA）：检索Top10 Hub基因的免疫组化图像，记录染色强度与亚细胞定位。\n\n转录组表达谱（BioGPS）：提取GeneAtlas U133A数据中Hub基因在7个器官的标准化mRNA表达值，绘制热图；计算组织特异性指数τ（τ&gt;0.85为组织特异性高表达）。\n\n系统器官关联（Gene ORGANizer）：基因-器官命中频率。\n\n心肌转录组验证（GSE5406）：Hub基因在心衰vs正常心肌的差异表达（t检验，箱线图）。\n\n\n\n5.3 整合\n以热图+UpSet图展示靶点多器官分布，mRNA-蛋白双证据链锁定心脏及外周关键效应节点。\n\n\n\n\nModule 6: 四维整合网络与药对协同定量\n\n网络：Cytoscape构建成分（黄芪/附子着色）-靶点-通路（Top20 KEGG）-器官（形状区分）二部网络。\n\n协同定量：\n\nJaccard靶点相似系数 = |A∩B| / |A∪B|\n\n通路协同得分 = 共享靶基因数 / 通路总基因数\n\n附子优势通路 vs. 黄芪优势通路表\n\n\n可视化：分层布局，清晰展示“温阳”（附子偏向钙信号、β-肾上腺素等）与“益气”（黄芪偏向PI3K-Akt、HIF-1、免疫调节等）的互补。\n\n\n\n\nModule 7: 分子对接验证\n对接体系：选择Top3核心Hub基因（如AKT1、CASP3、TNF，均需有PDB晶体结构）与46个代表性活性成分（至少含附子生物碱2个：去甲乌药碱、次乌头碱；黄芪黄酮/皂苷23个：毛蕊异黄酮、芒柄花素、黄芪甲苷）。\n- 软件：AutoDock Vina 1.2.3，exhaustiveness=32。\n- 准备：受体去水、加氢、计算电荷；配体能量最小化。对接盒子覆盖原配体结合位点。\n- 评价：结合能≤ -5.0 kcal/mol为良好，≤ -7.0 kcal/mol为强结合；分析关键氢键、疏水相互作用。\n- 可视化：PyMOL 3D图 + Discovery Studio 2D指纹图，构建结合能矩阵热图。\n\n\n\n附加模块：免疫浸润关联分析\n\n数据：GSE5406，CIBERSORTx估算22种免疫细胞比例。\n\n关联：Top10 Hub基因表达量与免疫细胞比例的Pearson相关系数，筛选|r|&gt;0.6且p&lt;0.01的显著对。\n\n结果：Hub-免疫细胞相关热图，阐释温阳益气方对心肌免疫微环境（如M1巨噬、Treg）的潜在重塑。"
+  },
+  {
+    "objectID": "notebook.html#软件与数据库版本清单部分示例",
+    "href": "notebook.html#软件与数据库版本清单部分示例",
+    "title": "Research NoteBook",
+    "section": "4. 软件与数据库版本清单（部分示例）",
+    "text": "4. 软件与数据库版本清单（部分示例）\n\n\n\n工具\n版本\n用途\n\n\n\n\nTMMC2.0\n整合平台\n化合物ADME\n\n\nSwissTargetPrediction\n2026\n靶点预测\n\n\nSTRING\nv12.0\nPPI网络\n\n\nCytoscape\n3.10.2\n网络分析\n\n\nCytoHubba\n0.1\nHub算法\n\n\nR/clusterProfiler\n4.3.2/4.8.3\n富集分析\n\n\nAutoDock Vina\n1.2.3\n分子对接\n\n\nCIBERSORTx\n-\n免疫浸润\n\n\nBioGPS\nGeneAtlas U133A\n组织表达谱\n\n\n\n（完整表格含访问日期与详细参数，见补充材料）"
+  },
+  {
+    "objectID": "notebook.html#图表规划",
+    "href": "notebook.html#图表规划",
+    "title": "Research NoteBook",
+    "section": "5. 图表规划",
+    "text": "5. 图表规划\n\n5.1 图表清单\n\nFigure 1：技术路线流程图\n\nFigure 2：药物入血成分与CHF靶点交集韦恩图（区黄芪/附子贡献）\n\nFigure 3：PPI网络与Hub基因筛选（节点Degree着色，条形图展示MCC/Degree/Betweenness排名）\n\nFigure 4：功能富集分析（KEGG气泡图 + 黄芪/附子优势通路对比 + GSEA曲线）\n\nFigure 5：多器官定位面板（HPA免疫组化示例 + BioGPS mRNA热图及τ值 + GSE5406差异表达箱线图）\n\nFigure 6：成分-靶点-通路-器官四维整合网络（附协同定量标签）\n\nFigure 7：Hub基因-免疫细胞相关性热图\n\nFigure 8：分子对接结果（结合能矩阵热图 + 代表成分-靶点3D/2D相互作用图）\n\n\n\n5.2 补充材料\n\nTable S1：候选药效成分信息及入血证据\n\nTable S2：药效靶点列表与拓扑参数\n\nTable S3-S6：全部富集分析结果\n\nFigure S1：芪附汤LC-MS体内成分鉴定总离子流图\n\n分子对接参数与全部构象结合能表"
   }
 ]
