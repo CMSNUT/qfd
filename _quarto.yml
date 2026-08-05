@@ -64,18 +64,16 @@ bibliography: references.bib
 csl: multidisciplinary-digital-publishing-institute.csl
 
 website:
-  title: "ZWHQD for HFrEF"
-  description: "Integrating Network Pharmacology, Multi-Omics, Causal Inference & Molecular Docking"
+  title: "QFD4CHF"
+  description: "Synergetic Mechanisms of QFD against CHF: Integrating Network Pharmacology, Bioinformatics, and Molecular Docking"
   navbar:
     background: primary
     search: true
     left:
-      - href: index.qmd
-        text: Home
-      - href: notebook.qmd
-        text: Notebook
       - href: manuscript.qmd
         text: Manuscript
+      - href: scripts.qmd
+        text: Scripts
 
 format:
   # docx:
@@ -85,9 +83,11 @@ format:
     css: style.css
     theme: cosmo
     toc: true
-    toc-depth: 4
+    toc-depth: 3
     toc-location: left
-    toc-expand: false 
+    toc-expand: false
+    number-sections: true
+    number-depth: 3
     code-fold: false
     code-tools: false
     code-copy: true

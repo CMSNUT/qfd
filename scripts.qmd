@@ -1,0 +1,316 @@
+---
+title: "scripts"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width=8, fig.height=6, dpi=300)
+library(tidyverse)
+library(openxlsx)
+library(data.table)
+library(rmdwc)
+# remotes::install_github("sigbertklinke/rmdwc", dependencies = TRUE)
+
+library(future)     
+library(furrr)      
+library(progressr) 
+library(httr) 
+
+library(ggplot2)
+library(ggsci)
+library(ggpubr)
+library(ggvenn)
+
+library(patchwork)
+library(cowplot)
+library(magick)
+
+library(clusterProfiler)
+library(AnnotationDbi)
+library(org.Hs.eg.db)
+library(enrichplot)
+
+library(RCy3)
+library(igraph)
+library(ggraph)
+library(corrplot)
+library(pheatmap)
+library(ComplexHeatmap)
+library(circlize)
+
+library(HPAanalyze)
+
+library(GEOquery)
+library(AnnoProbe)
+# remotes::install_github("jmzeng1314/AnnoProbe", dependencies = TRUE)
+library(sva)
+library(limma)
+library(IOBR)
+# remotes::install_github("IOBR/IOBR", dependencies = TRUE)
+```
+
+---
+
+# 活性成分鉴定与靶点收集
+
+(1) 目的：揭示两药互补的化学与靶标基础。
+
+(2) 预期结果：从QFD含药血清中鉴定出数十个入血活性成分（属于AR和ALRP）；分别获得AR特异性靶点、ALRP特异性靶点及两者共享靶点。
+
+(3) 结果解析：两药既有共同的作用靶标，又各有独特的作用谱，从分子起始端就展现出“同中有异、相互补充”的配伍特征。
+
+## 活性成分
+
+- 原始数据：根据文献[@zhang2024qfd, @tan2012qfda]获得了 AR 和 ALRP 的入血活性成分信息（data/qfd_compounds/zhang2024.xlsx, tan2012.xlsx）
+
+- 输出数据：(supplementary/Table S1.xlsx)
+
+```{r}
+rm(list = ls())
+
+# 读取原始成分数据
+zhang2024 <- read.xlsx("data/qfd_compounds/zhang2024.xlsx")
+tan2012 <- read.xlsx("data/qfd_compounds/tan2012.xlsx")
+
+qfd_compounds <- rbind(zhang2024, tan2012) |>
+  distinct(Abbreviation, PubChem.CID, .keep_all = TRUE) |>
+  arrange(Abbreviation)
+
+# 从PubChem获取信息
+source("utils.R")
+
+properties <- c("IUPACName", "MolecularWeight", "SMILES")
+
+unique_cids <- unique(qfd_compounds$PubChem.CID)
+cid_batches <- split(unique_cids, ceiling(seq_along(unique_cids)/10))
+
+plan(multisession, workers = availableCores() - 2)
+with_progress({
+  p <- progressor(steps = length(cid_batches))
+  chem_info <- future_map_dfr(cid_batches, function(b) {
+    p()
+    fetch_batch(properties, b)
+  })
+})
+plan(sequential)
+
+compounds <- qfd_compounds |>
+  left_join(chem_info, by = c("PubChem.CID"="CID")) |>
+  mutate(across(where(is.character), trimws)) |>
+  arrange(Abbreviation, MolecularWeight)
+
+save(compounds,file = "data/qfd_compounds/compounds.RData")
+
+write.xlsx(list(
+  `Table S1` = compounds |>
+    dplyr::rename(`Medicinal Materials` = Medicinal.Materials,
+                `Molecular Formula` = Molecular.Formula,
+                `PubChem CID` = PubChem.CID,
+                `Molecular Weight` = MolecularWeight,
+                `IUPAC Name` = IUPACName
+                ) |>
+    dplyr::select(`Medicinal Materials`, Abbreviation, Compound,`IUPAC Name`, `Molecular Formula`, `PubChem CID`, SMILES)), 
+  file = "supplementary/Table S1.xlsx")
+
+# 下载SDF文件(data/qfd_sdfs)
+unique_cids <- unique(qfd_compounds$PubChem.CID)
+sdf_files <- "data/qfd_sdfs"
+results <- download_all_sdf(unique_cids, sdf_files)
+```
+
+## 成分靶点
+
+- 根据成分信息(名称, 分子式, CID, SMILES)从`PubChem BioAssay`, `TCMSP v2.3`, `BATMAN-TCM 2.0`， `STITCH v5.0`, `SwissTargetPrediction`, `PharmMapper`, `SEA`等7个靶点数据库或预测平台获得了成分的潜在靶点(supplementary/Table S2.xlsx)
+
+- 使用`UniProt`进行标准化
+
+### TMMC 2.0
+```{r}
+rm(list = ls())
+
+load("data/tmmc2/tmmc.RData")
+load("data/qfd_compounds/compounds.RData")
+
+targets.tmmc <- tmmc_compound_protein |>
+  dplyr::filter(ID %in% compounds$TMMC.ID) |>
+  arrange(ID)
+```
+
+### PubChem BioAssay
+```{r}
+targets.pubchem <- targets.tmmc |>
+  dplyr::filter(SOURCE == "PubChem")
+```
+
+
+### STITCH v5.0
+
+```{r}
+targets.stitch <- targets.tmmc |>
+  dplyr::filter(SOURCE == "STITCH")
+```
+
+### TCMSP v2.3
+
+```{r}
+
+```
+
+### BATMAN-TCM 2.0
+
+```{r}
+```
+
+### SwissTargetPrediction
+
+```{r}
+```
+
+### PharmMapper
+
+```{r}
+```
+
+### SEA
+
+```{r}
+```
+
+### Potential targets
+
+```{r}
+```
+
+
+# 疾病靶点获取与候选治疗靶点筛选
+
+(1) 目的：锁定与疾病直接关联的核心靶标群。
+
+(2) 预期结果：通过QFD靶点与CHF疾病靶点的取交集，获得一组数量适中、高度富集于心力衰竭病理环节的候选治疗靶点。
+
+(3) 结果解析：交集靶点集是解释QFD治疗CHF的直接分子基础，排除了大量非疾病相关噪音，为后续分析聚焦。
+
+
+## 疾病靶点
+
+- 从公共数据库`DisGeNET`, `GeneCards`, `ClinPGx(PharmGKB)`, `OMIM`, `TTD`（关键词："chronicheartfailure","heartfailure"下载CHF靶点(supplementary/Table S3.xlsx)
+
+## 候选治疗靶点
+
+- 交集靶点(supplementary/Table S3.xlsx)
+
+
+# 功能富集分析（GO/KEGG）
+
+(1) 目的：区分并定量AR与ALRP的通路分工。
+
+(2) 预期结果：
+
+- 候选靶点显著富集于PI3K-Akt、HIF-1、cAMP、Ras、TNF等经典心衰相关通路。
+
+- AR特异性靶点偏向富集于氧化应激、心肌细胞凋亡、钙信号等通路；ALRP特异性靶点偏向富集于能量代谢、炎症因子调控、血管新生等通路；共享靶点则参与共同的核心信号转导。
+
+- 通路协同评分可量化每条通路由AR或ALRP主导的程度。
+
+(3) 结果解析：在通路层面，AR偏于“护心肌、抗凋亡”，ALRP偏于“调代谢、抑炎症”，两者通过共享靶点在关键节点汇合，形成“攻守兼备”的协同调控网络。
+
+## GO
+
+## KEGG
+
+- 富集结果(supplementary/Table S4.xlsx)
+
+# PPI网络与核心Hub基因筛选
+
+(1) 目的：筛选出协同调控的中枢分子。
+
+(2) 预期结果：
+
+- 构建的PPI网络具有明显的聚集模块（MCODE模块），对应不同的生物功能。
+
+- 基于度、介数和MCC三重拓扑指标，鉴定出10个核心Hub基因（如AKT1、TNF、IL6、VEGFA、TP53、STAT3、EGFR、CASP3、PTEN、HIF1A等，实际由分析得出）。
+
+- 这些Hub基因被明确标注为`AR-driven`, `ALRP‑driven`, `Co-driven`，即部分主要由某一药对驱动，部分则由两药共同驱动。
+
+(3) 结果解析：网络的中枢节点同时受到来自两药成分的调控，这从网络拓扑层面提供了“多点协同、网络协同”的最直接证据——关键靶标在微观上实现了“1+1>2”的协同增效。
+
+
+# 多器官定位分析
+
+(1) 目的：展现QFD整体调节的空间维度
+
+(2) 预期结果：
+
+- UP_TISSUE富集显示靶蛋白主要在心脏、血管、肝肾等组织高表达。
+
+- 转录组热图及τ指数表明，多数靶点呈广泛表达（τ≤0.85），少数为心脏/肝肾高度特异性（τ>0.85），如某些心肌收缩相关蛋白。
+
+- HPA免疫组化拼图在蛋白水平验证了核心Hub蛋白在心、肾、肝、肺、血管等器官的实质细胞或间质细胞中确有表达。
+
+- GeneORGANizer证实Hub基因与心血管系统、肾脏系统、免疫系统等显著相关（p<0.05）。
+
+(3) 结果解析：QFD靶点不只作用于心脏，而是系统性地布局在参与心衰进展的多个外周器官，构成了“心-肾-肝-血管-代谢器官”的空间协同网络，印证了中医“整体观念”。
+
+
+
+# 整合网络与协同定量评估
+
+(1) 目的：用数字定义配伍协同强度。
+
+(2) 预期结果：
+
+- `Jaccard`相似系数介于0和1之间的某一数值，表明AR与ALRP靶点既有重叠（共享核心）又不失独立性（各司其职）。
+
+- 通路协同评分表清楚列出：哪些通路是“AR优势通路”（如氧化应激、凋亡），哪些是“ALRP优势通路”（如脂肪代谢、炎症），哪些是“共同驱动通路”（如PI3K-Akt）。
+
+(3) 结果解析：这些定量指标为中药配伍“相须”,“相使”的理论提供了现代分子网络度量证据，可以明确回答“协同发生在哪里、程度如何”。
+
+
+# Hub基因表达验证（GSE57338）
+
+(1) 目的：Hub基因在病变心脏中确实失调。
+
+(2) 预期结果：GSE57338数据集箱线图显示，约7-8个核心Hub基因在CHF心肌组织中表达显著上调或下调（如TNF、IL6上调，VEGFA、ADRB2等下调），且差异具有统计学意义。
+
+(3) 结果解析：这些基因的失调是CHF心肌重构的核心分子事件，QFD可通过调控这些Hub基因来逆转病理过程。
+
+
+
+# ssGSEA分析
+
+(1) 目的：病-药通路吻合。
+
+(2) 预期结果：CHF心肌中异常激活/抑制的若干KEGG通路，与QFD候选靶点所富集的通路高度交叉重合（如TNF信号、HIF-1信号等）。
+
+(3) 结果解析：QFD所含成分的作用靶点功能通路与心衰时发生紊乱的通路精准吻合，从“通路逆转”角度证实其治疗合理性。
+
+
+
+# 免疫浸润分析
+
+(1) 目的：揭示AR-ALRP的新型免疫调控协同
+
+(2) 预期结果：
+
+- CHF心肌中M1巨噬细胞、活化的CD4+T细胞等比例增加，静息型免疫细胞比例下降。
+
+- 核心Hub基因（如TNF、IL6、STAT3）与多种免疫细胞浸润比例呈强相关（|r|>0.6）。
+
+(3) 结果解析：AR和ALRP的活性成分可分别通过不同Hub靶点调节心肌免疫微环境，共同抑制有害炎症、促进修复性免疫，形成“免疫层面”的协同。
+
+
+# 分子对接结果可视化
+
+(1) 目的：验证成分-靶标的直接结合。
+
+(2) 预期结果：多数核心成分与对应Hub蛋白的对接结合能≤-7.0kcal/mol，具有强结合能力。3D/2D作用图展示出稳定的氢键和疏水相互作用。
+
+(3) 结果解析：在分子层面确认了AR和ALRP的主要入血成分确实能直接结合并调控上述关键Hub蛋白，解决了“成分能否作用于靶点”的根本质疑。
+
+
+# 结果汇总表
+
+
+# 协同作用机制模式图说明
+
+
+# 参考文献 {-}

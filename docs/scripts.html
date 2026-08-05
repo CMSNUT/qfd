@@ -9,7 +9,7 @@
 <meta name="author" content="Kun Hou">
 <meta name="author" content="Xili Wu">
 
-<title>10_docking – ZWHQD for HFrEF</title>
+<title>scripts – QFD4CHF</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -25,26 +25,46 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-ac0b92811d6e88f5a4a44355feb92a8e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-f1ef0423859aea48f2b5a85ac632af29.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -72,19 +92,21 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<style>html{ scroll-behavior: smooth; }</style>
 
 
+<link rel="stylesheet" href="style.css">
 </head>
 
-<body class="nav-fixed fullcontent quarto-light">
+<body class="floating nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ZWHQD for HFrEF</span>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">QFD4CHF</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -94,16 +116,12 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../index.html"> 
-<span class="menu-text">Home</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../notebook.html"> 
-<span class="menu-text">Notebook</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../manuscript.html"> 
+    <a class="nav-link" href="./manuscript.html"> 
 <span class="menu-text">Manuscript</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./scripts.html" aria-current="page"> 
+<span class="menu-text">Scripts</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -113,20 +131,55 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="-1">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#活性成分鉴定与靶点收集" id="toc-活性成分鉴定与靶点收集" class="nav-link active" data-scroll-target="#活性成分鉴定与靶点收集"><span class="header-section-number">1</span> 活性成分鉴定与靶点收集</a>
+  <ul class="collapse">
+  <li><a href="#活性成分" id="toc-活性成分" class="nav-link" data-scroll-target="#活性成分"><span class="header-section-number">1.1</span> 活性成分</a></li>
+  <li><a href="#成分靶点" id="toc-成分靶点" class="nav-link" data-scroll-target="#成分靶点"><span class="header-section-number">1.2</span> 成分靶点</a></li>
+  </ul></li>
+  <li><a href="#疾病靶点获取与候选治疗靶点筛选" id="toc-疾病靶点获取与候选治疗靶点筛选" class="nav-link" data-scroll-target="#疾病靶点获取与候选治疗靶点筛选"><span class="header-section-number">2</span> 疾病靶点获取与候选治疗靶点筛选</a>
+  <ul class="collapse">
+  <li><a href="#疾病靶点" id="toc-疾病靶点" class="nav-link" data-scroll-target="#疾病靶点"><span class="header-section-number">2.1</span> 疾病靶点</a></li>
+  <li><a href="#候选治疗靶点" id="toc-候选治疗靶点" class="nav-link" data-scroll-target="#候选治疗靶点"><span class="header-section-number">2.2</span> 候选治疗靶点</a></li>
+  </ul></li>
+  <li><a href="#功能富集分析gokegg" id="toc-功能富集分析gokegg" class="nav-link" data-scroll-target="#功能富集分析gokegg"><span class="header-section-number">3</span> 功能富集分析（GO/KEGG）</a>
+  <ul class="collapse">
+  <li><a href="#go" id="toc-go" class="nav-link" data-scroll-target="#go"><span class="header-section-number">3.1</span> GO</a></li>
+  <li><a href="#kegg" id="toc-kegg" class="nav-link" data-scroll-target="#kegg"><span class="header-section-number">3.2</span> KEGG</a></li>
+  </ul></li>
+  <li><a href="#ppi网络与核心hub基因筛选" id="toc-ppi网络与核心hub基因筛选" class="nav-link" data-scroll-target="#ppi网络与核心hub基因筛选"><span class="header-section-number">4</span> PPI网络与核心Hub基因筛选</a></li>
+  <li><a href="#多器官定位分析" id="toc-多器官定位分析" class="nav-link" data-scroll-target="#多器官定位分析"><span class="header-section-number">5</span> 多器官定位分析</a></li>
+  <li><a href="#整合网络与协同定量评估" id="toc-整合网络与协同定量评估" class="nav-link" data-scroll-target="#整合网络与协同定量评估"><span class="header-section-number">6</span> 整合网络与协同定量评估</a></li>
+  <li><a href="#hub基因表达验证gse57338" id="toc-hub基因表达验证gse57338" class="nav-link" data-scroll-target="#hub基因表达验证gse57338"><span class="header-section-number">7</span> Hub基因表达验证（GSE57338）</a></li>
+  <li><a href="#ssgsea分析" id="toc-ssgsea分析" class="nav-link" data-scroll-target="#ssgsea分析"><span class="header-section-number">8</span> ssGSEA分析</a></li>
+  <li><a href="#免疫浸润分析" id="toc-免疫浸润分析" class="nav-link" data-scroll-target="#免疫浸润分析"><span class="header-section-number">9</span> 免疫浸润分析</a></li>
+  <li><a href="#分子对接结果可视化" id="toc-分子对接结果可视化" class="nav-link" data-scroll-target="#分子对接结果可视化"><span class="header-section-number">10</span> 分子对接结果可视化</a></li>
+  <li><a href="#结果汇总表" id="toc-结果汇总表" class="nav-link" data-scroll-target="#结果汇总表"><span class="header-section-number">11</span> 结果汇总表</a></li>
+  <li><a href="#协同作用机制模式图说明" id="toc-协同作用机制模式图说明" class="nav-link" data-scroll-target="#协同作用机制模式图说明"><span class="header-section-number">12</span> 协同作用机制模式图说明</a></li>
+  <li><a href="#参考文献" id="toc-参考文献" class="nav-link" data-scroll-target="#参考文献">参考文献</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content column-page-right" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">10_docking</h1>
+<h1 class="title">scripts</h1>
 </div>
 
 
-<div class="quarto-title-meta-author">
+<div class="quarto-title-meta-author column-page-right">
   <div class="quarto-title-meta-heading">Authors</div>
   <div class="quarto-title-meta-heading">Affiliations</div>
   
@@ -154,7 +207,7 @@ ul.task-list li input[type="checkbox"] {
       </div>
   </div>
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-page-right">
 
       
   
@@ -166,8 +219,171 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<hr>
+<section id="活性成分鉴定与靶点收集" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> 活性成分鉴定与靶点收集</h1>
+<ol type="1">
+<li><p>目的：揭示两药互补的化学与靶标基础。</p></li>
+<li><p>预期结果：从QFD含药血清中鉴定出数十个入血活性成分（属于AR和ALRP）；分别获得AR特异性靶点、ALRP特异性靶点及两者共享靶点。</p></li>
+<li><p>结果解析：两药既有共同的作用靶标，又各有独特的作用谱，从分子起始端就展现出“同中有异、相互补充”的配伍特征。</p></li>
+</ol>
+<section id="活性成分" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="活性成分"><span class="header-section-number">1.1</span> 活性成分</h2>
+<ul>
+<li>根据文献<span class="citation" data-cites="zhang2024qfd">[<a href="#ref-zhang2024qfd" role="doc-biblioref">1</a>]</span>获得了 AR 和 ALRP 的入血活性成分信息(supplementary/Table S1.xlsx)</li>
+</ul>
+</section>
+<section id="成分靶点" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="成分靶点"><span class="header-section-number">1.2</span> 成分靶点</h2>
+<ul>
+<li><p>根据成分信息(名称, 分子式, CID, SMILES)从<code>PubChem BioAssay</code>, <code>TCMSP v2.3</code>, <code>BATMAN-TCM 2.0</code>， <code>STITCH v5.0</code>, <code>SwissTargetPrediction</code>, <code>PharmMapper</code>, <code>SEA</code>等7个靶点数据库或预测平台获得了成分的潜在靶点(supplementary/Table S2.xlsx)</p></li>
+<li><p>使用<code>UniProt</code>进行标准化</p></li>
+</ul>
+</section>
+</section>
+<section id="疾病靶点获取与候选治疗靶点筛选" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> 疾病靶点获取与候选治疗靶点筛选</h1>
+<ol type="1">
+<li><p>目的：锁定与疾病直接关联的核心靶标群。</p></li>
+<li><p>预期结果：通过QFD靶点与CHF疾病靶点的取交集，获得一组数量适中、高度富集于心力衰竭病理环节的候选治疗靶点。</p></li>
+<li><p>结果解析：交集靶点集是解释QFD治疗CHF的直接分子基础，排除了大量非疾病相关噪音，为后续分析聚焦。</p></li>
+</ol>
+<section id="疾病靶点" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="疾病靶点"><span class="header-section-number">2.1</span> 疾病靶点</h2>
+<ul>
+<li>从公共数据库<code>DisGeNET</code>, <code>GeneCards</code>, <code>ClinPGx(PharmGKB)</code>, <code>OMIM</code>, <code>TTD</code>（关键词：“chronicheartfailure”,“heartfailure”下载CHF靶点(supplementary/Table S3.xlsx)</li>
+</ul>
+</section>
+<section id="候选治疗靶点" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="候选治疗靶点"><span class="header-section-number">2.2</span> 候选治疗靶点</h2>
+<ul>
+<li>交集靶点(supplementary/Table S3.xlsx)</li>
+</ul>
+</section>
+</section>
+<section id="功能富集分析gokegg" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> 功能富集分析（GO/KEGG）</h1>
+<ol type="1">
+<li><p>目的：区分并定量AR与ALRP的通路分工。</p></li>
+<li><p>预期结果：</p></li>
+</ol>
+<ul>
+<li><p>候选靶点显著富集于PI3K-Akt、HIF-1、cAMP、Ras、TNF等经典心衰相关通路。</p></li>
+<li><p>AR特异性靶点偏向富集于氧化应激、心肌细胞凋亡、钙信号等通路；ALRP特异性靶点偏向富集于能量代谢、炎症因子调控、血管新生等通路；共享靶点则参与共同的核心信号转导。</p></li>
+<li><p>通路协同评分可量化每条通路由AR或ALRP主导的程度。</p></li>
+</ul>
+<ol start="3" type="1">
+<li>结果解析：在通路层面，AR偏于“护心肌、抗凋亡”，ALRP偏于“调代谢、抑炎症”，两者通过共享靶点在关键节点汇合，形成“攻守兼备”的协同调控网络。</li>
+</ol>
+<section id="go" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="go"><span class="header-section-number">3.1</span> GO</h2>
+</section>
+<section id="kegg" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="kegg"><span class="header-section-number">3.2</span> KEGG</h2>
+<ul>
+<li>富集结果(supplementary/Table S4.xlsx)</li>
+</ul>
+</section>
+</section>
+<section id="ppi网络与核心hub基因筛选" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> PPI网络与核心Hub基因筛选</h1>
+<ol type="1">
+<li><p>目的：筛选出协同调控的中枢分子。</p></li>
+<li><p>预期结果：</p></li>
+</ol>
+<ul>
+<li><p>构建的PPI网络具有明显的聚集模块（MCODE模块），对应不同的生物功能。</p></li>
+<li><p>基于度、介数和MCC三重拓扑指标，鉴定出10个核心Hub基因（如AKT1、TNF、IL6、VEGFA、TP53、STAT3、EGFR、CASP3、PTEN、HIF1A等，实际由分析得出）。</p></li>
+<li><p>这些Hub基因被明确标注为<code>AR-driven</code>, <code>ALRP‑driven</code>, <code>Co-driven</code>，即部分主要由某一药对驱动，部分则由两药共同驱动。</p></li>
+</ul>
+<ol start="3" type="1">
+<li>结果解析：网络的中枢节点同时受到来自两药成分的调控，这从网络拓扑层面提供了“多点协同、网络协同”的最直接证据——关键靶标在微观上实现了“1+1&gt;2”的协同增效。</li>
+</ol>
+</section>
+<section id="多器官定位分析" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> 多器官定位分析</h1>
+<ol type="1">
+<li><p>目的：展现QFD整体调节的空间维度</p></li>
+<li><p>预期结果：</p></li>
+</ol>
+<ul>
+<li><p>UP_TISSUE富集显示靶蛋白主要在心脏、血管、肝肾等组织高表达。</p></li>
+<li><p>转录组热图及τ指数表明，多数靶点呈广泛表达（τ≤0.85），少数为心脏/肝肾高度特异性（τ&gt;0.85），如某些心肌收缩相关蛋白。</p></li>
+<li><p>HPA免疫组化拼图在蛋白水平验证了核心Hub蛋白在心、肾、肝、肺、血管等器官的实质细胞或间质细胞中确有表达。</p></li>
+<li><p>GeneORGANizer证实Hub基因与心血管系统、肾脏系统、免疫系统等显著相关（p&lt;0.05）。</p></li>
+</ul>
+<ol start="3" type="1">
+<li>结果解析：QFD靶点不只作用于心脏，而是系统性地布局在参与心衰进展的多个外周器官，构成了“心-肾-肝-血管-代谢器官”的空间协同网络，印证了中医“整体观念”。</li>
+</ol>
+</section>
+<section id="整合网络与协同定量评估" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> 整合网络与协同定量评估</h1>
+<ol type="1">
+<li><p>目的：用数字定义配伍协同强度。</p></li>
+<li><p>预期结果：</p></li>
+</ol>
+<ul>
+<li><p><code>Jaccard</code>相似系数介于0和1之间的某一数值，表明AR与ALRP靶点既有重叠（共享核心）又不失独立性（各司其职）。</p></li>
+<li><p>通路协同评分表清楚列出：哪些通路是“AR优势通路”（如氧化应激、凋亡），哪些是“ALRP优势通路”（如脂肪代谢、炎症），哪些是“共同驱动通路”（如PI3K-Akt）。</p></li>
+</ul>
+<ol start="3" type="1">
+<li>结果解析：这些定量指标为中药配伍“相须”,“相使”的理论提供了现代分子网络度量证据，可以明确回答“协同发生在哪里、程度如何”。</li>
+</ol>
+</section>
+<section id="hub基因表达验证gse57338" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Hub基因表达验证（GSE57338）</h1>
+<ol type="1">
+<li><p>目的：Hub基因在病变心脏中确实失调。</p></li>
+<li><p>预期结果：GSE57338数据集箱线图显示，约7-8个核心Hub基因在CHF心肌组织中表达显著上调或下调（如TNF、IL6上调，VEGFA、ADRB2等下调），且差异具有统计学意义。</p></li>
+<li><p>结果解析：这些基因的失调是CHF心肌重构的核心分子事件，QFD可通过调控这些Hub基因来逆转病理过程。</p></li>
+</ol>
+</section>
+<section id="ssgsea分析" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> ssGSEA分析</h1>
+<ol type="1">
+<li><p>目的：病-药通路吻合。</p></li>
+<li><p>预期结果：CHF心肌中异常激活/抑制的若干KEGG通路，与QFD候选靶点所富集的通路高度交叉重合（如TNF信号、HIF-1信号等）。</p></li>
+<li><p>结果解析：QFD所含成分的作用靶点功能通路与心衰时发生紊乱的通路精准吻合，从“通路逆转”角度证实其治疗合理性。</p></li>
+</ol>
+</section>
+<section id="免疫浸润分析" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> 免疫浸润分析</h1>
+<ol type="1">
+<li><p>目的：揭示AR-ALRP的新型免疫调控协同</p></li>
+<li><p>预期结果：</p></li>
+</ol>
+<ul>
+<li><p>CHF心肌中M1巨噬细胞、活化的CD4+T细胞等比例增加，静息型免疫细胞比例下降。</p></li>
+<li><p>核心Hub基因（如TNF、IL6、STAT3）与多种免疫细胞浸润比例呈强相关（|r|&gt;0.6）。</p></li>
+</ul>
+<ol start="3" type="1">
+<li>结果解析：AR和ALRP的活性成分可分别通过不同Hub靶点调节心肌免疫微环境，共同抑制有害炎症、促进修复性免疫，形成“免疫层面”的协同。</li>
+</ol>
+</section>
+<section id="分子对接结果可视化" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> 分子对接结果可视化</h1>
+<ol type="1">
+<li><p>目的：验证成分-靶标的直接结合。</p></li>
+<li><p>预期结果：多数核心成分与对应Hub蛋白的对接结合能≤-7.0kcal/mol，具有强结合能力。3D/2D作用图展示出稳定的氢键和疏水相互作用。</p></li>
+<li><p>结果解析：在分子层面确认了AR和ALRP的主要入血成分确实能直接结合并调控上述关键Hub蛋白，解决了“成分能否作用于靶点”的根本质疑。</p></li>
+</ol>
+</section>
+<section id="结果汇总表" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> 结果汇总表</h1>
+</section>
+<section id="协同作用机制模式图说明" class="level1" data-number="12">
+<h1 data-number="12"><span class="header-section-number">12</span> 协同作用机制模式图说明</h1>
+</section>
+<section id="参考文献" class="level1 unnumbered">
+<h1 class="unnumbered">参考文献</h1>
 
 
+<div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
+<div id="ref-zhang2024qfd" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Zhang, X.; Liao, W.; Ding, X.; Zhang, Y.; Long, C.; Zhou, Q.; Wang, Y.; Wu, H.; Tan, G. Multiple-Matrices Metabolomics Combined with Serum Pharmacochemistry for Discovering the Potential Targets and Active Constituents of <span>Qifu</span> Decoction Against Heart Failure. <em>J. Pharm. Biomed. Anal.</em> <strong>2024</strong>, <em>244</em>, 116114, doi:<a href="https://doi.org/10.1016/j.jpba.2024.116114">10.1016/j.jpba.2024.116114</a>.</div>
+</div>
+</div>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -575,4 +791,5 @@ ul.task-list li input[type="checkbox"] {
 
 
 
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

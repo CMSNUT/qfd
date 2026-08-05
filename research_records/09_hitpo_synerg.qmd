@@ -1,5 +1,0 @@
----
-title: "09_hitpo_synerg"
-format: html
----
-

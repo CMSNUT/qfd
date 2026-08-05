@@ -86,7 +86,7 @@ download_all_sdf <- function(cid_list, output_dir = "sdf_files") {
     
     if (status_code(res) == 200) {
       out_file <- file.path(output_dir, paste0(cid, ".sdf"))
-      writeBin(content(res, "raw"), out_file)
+      writeBin(httr::content(res, "raw"), out_file)
       cat("OK (3D)\n")
       results <- rbind(results, data.frame(CID = cid, status = "success", type = "3d"))
       next
@@ -96,7 +96,7 @@ download_all_sdf <- function(cid_list, output_dir = "sdf_files") {
     res <- httr::GET(url, query = list(record_type = "2d"))
     if (status_code(res) == 200) {
       out_file <- file.path(output_dir, paste0(cid, ".sdf"))
-      writeBin(content(res, "raw"), out_file)
+      writeBin(httr::content(res, "raw"), out_file)
       cat("OK (2D)\n")
       results <- rbind(results, data.frame(CID = cid, status = "success", type = "2d"))
       next
@@ -119,7 +119,6 @@ download_all_sdf <- function(cid_list, output_dir = "sdf_files") {
   
   return(results)
 }
-
 
 
 #==============================================================================
@@ -286,6 +285,69 @@ chembl_to_uniprot <- function(chembl_id) {
 }
 
 
+#==============================================================================
+# Map Uniprot ID → Gene Symbol (keep only Swiss-Prot IDs)
+#==============================================================================
+get_symbol_by_uniprot <- function(uniprot_ids, unique_by = "UNIPROT") {
+  # Swiss-Prot pattern filter
+  swiss_pattern <- "^[OPQ][0-9][A-Z0-9]{3}[0-9]($|[0-9])"
+  uniprot_ids <- uniprot_ids[grepl(swiss_pattern, uniprot_ids)]
+  uniprot_clean <- sub("\\.[0-9]+$", "", uniprot_ids)
+  uniprot_clean <- unique(uniprot_clean)
+  
+  # Query with 1:1 mapping
+  result <- AnnotationDbi::select(
+    org.Hs.eg.db,
+    keys = uniprot_clean,
+    keytype = "UNIPROT",
+    columns = c("SYMBOL", "UNIPROT"),
+    multiVals = "first"
+  ) %>%
+    dplyr::select(Symbol = SYMBOL, Uniprot.ID = UNIPROT) %>%
+    dplyr::mutate(dplyr::across(where(is.character), trimws))
+  
+  # Deduplication
+  if (unique_by == "SYMBOL") {
+    result <- dplyr::distinct(result, Symbol, .keep_all = TRUE)
+  } else if (unique_by == "UNIPROT") {
+    result <- dplyr::distinct(result, Uniprot.ID, .keep_all = TRUE)
+  } else {
+    stop("unique_by must be 'SYMBOL' or 'UNIPROT'")
+  }
+  
+  return(result)
+}
 
+#==============================================================================
+# Map Gene Symbol → Uniprot ID (Swiss-Prot only)
+#==============================================================================
+get_uniprot_by_symbol <- function(symbols, unique_by = "SYMBOL") {
+  symbols <- unique(symbols)
+  swiss_pattern <- "^[OPQ][0-9][A-Z0-9]{3}[0-9]($|[0-9])"
+  
+  # 1:1 mapping
+  all_mappings <- AnnotationDbi::select(
+    org.Hs.eg.db,
+    keys = symbols,
+    keytype = "SYMBOL",
+    columns = c("SYMBOL", "UNIPROT"),
+    multiVals = "first"
+  )
+  
+  # Keep valid Swiss-Prot entries
+  all_mappings_swiss <- dplyr::filter(all_mappings, grepl(swiss_pattern, UNIPROT))
+  
+  # Deduplication
+  if (unique_by == "SYMBOL") {
+    result <- dplyr::distinct(all_mappings_swiss, SYMBOL, .keep_all = TRUE)
+  } else if (unique_by == "UNIPROT") {
+    result <- dplyr::distinct(all_mappings_swiss, UNIPROT, .keep_all = TRUE)
+  } else {
+    stop("unique_by must be 'SYMBOL' or 'UNIPROT'")
+  }
+  
+  result <- dplyr::select(result, Symbol = SYMBOL, Uniprot.ID = UNIPROT)
+  return(result)
+}
 
 
