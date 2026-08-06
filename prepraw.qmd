@@ -1,0 +1,189 @@
+---
+title: "原始数据预处理"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width=8, fig.height=6, dpi=300)
+library(tidyverse)
+library(openxlsx)
+library(data.table)
+library(rmdwc)
+# remotes::install_github("sigbertklinke/rmdwc", dependencies = TRUE)
+
+library(future)     
+library(furrr)      
+library(progressr) 
+library(httr) 
+```
+
+---
+
+# 活性成分
+
+- 原始数据：根据文献[@zhang2024qfd, @tan2012qfda]获得了 AR 和 ALRP 的入血活性成分信息（data/qfd_ingredients/raw.xlsx）
+
+- 输出数据：(supplementary/Table S1.xlsx)
+
+```{r}
+rm(list = ls())
+
+# 读取原始成分数据
+ingredients_raw <- read.xlsx("data/qfd_ingredients/raw.xlsx") |>
+  mutate(PubChem.CID = as.character(PubChem.CID)) |>
+  distinct(Abbreviation, PubChem.CID, .keep_all = TRUE) |>
+  arrange(Abbreviation)
+
+# 从PubChem获取信息
+source("utils.R")
+
+properties <- c("IUPACName", "MolecularFormula", "MolecularWeight", "SMILES")
+
+unique_cids <- unique(ingredients_raw$PubChem.CID)
+cid_batches <- split(unique_cids, ceiling(seq_along(unique_cids)/10))
+
+plan(multisession, workers = availableCores() - 2)
+with_progress({
+  p <- progressor(steps = length(cid_batches))
+  chem_info <- future_map_dfr(cid_batches, function(b) {
+    p()
+    fetch_batch(properties, b)
+  })
+})
+plan(sequential)
+
+ingredients <- ingredients_raw |>
+  left_join(chem_info, by = c("PubChem.CID"="CID")) |>
+  mutate(across(where(is.character), trimws)) |>
+  mutate(MolecularWeight = as.numeric(MolecularWeight)) |>
+  arrange(Abbreviation, MolecularWeight)
+
+save(ingredients,file = "data/qfd_ingredients/ingredients.RData")
+
+write.xlsx(list(
+  `Table S1` = ingredients |>
+    dplyr::rename(`Medicinal Materials` = Medicinal.Materials,
+                `Molecular Formula` = MolecularFormula,
+                `PubChem CID` = PubChem.CID,
+                `TMMC2 ID` = TMMC2.ID,
+                `HERB2 ID` = HERB2.ID,
+                `TCMSP ID` = TCMSP.ID,
+                `Molecular Weight` = MolecularWeight,
+                `IUPAC Name` = IUPACName
+                ) |>
+    dplyr::select(`Medicinal Materials`, Abbreviation, Ingredient,`IUPAC Name`, `Molecular Formula`,`Molecular Weight`, SMILES, `PubChem CID`, `TMMC2 ID`,`HERB2 ID`,`TCMSP ID`)), 
+  file = "supplementary/Table S1.xlsx")
+
+# 下载SDF文件(data/qfd_sdfs)
+unique_cids <- unique(ingredients$PubChem.CID)
+sdf_files <- "data/qfd_sdfs"
+results <- download_all_sdf(unique_cids, sdf_files)
+```
+
+# 成分靶点
+
+- 根据成分信息(名称, 分子式, CID, SMILES)从`PubChem BioAssay`, `TCMSP v2.3`, `BATMAN-TCM 2.0`， `STITCH v5.0`, `SwissTargetPrediction`, `PharmMapper`, `SEA`等7个靶点数据库或预测平台获得了成分的潜在靶点(supplementary/Table S2.xlsx)
+
+- 使用`UniProt`进行标准化
+
+## TMMC 2.0
+```{r}
+rm(list = ls())
+
+load("data/qfd_tagets/tmmc2/tmmc.RData")
+load("data/qfd_ingredients/ingredients.RData")
+
+targets.tmmc <- tmmc_compound_protein |>
+  dplyr::filter(ID %in% ingredients$TMMC2.ID) |>
+  arrange(ID)
+```
+
+## PubChem BioAssay
+```{r}
+targets.pubchem <- targets.tmmc |>
+  dplyr::filter(SOURCE == "PubChem") |>
+  left_join(ingredients, by =  c("ID" = "TMMC2.ID"), relationship = "many-to-many") |>
+  mutate(Class = "validated") |>
+  dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID,Symbol = PREFERRED_NAME, Source = SOURCE, Score = SCORE, Class) |>
+  distinct(Abbreviation,PubChem.CID,Symbol, Source, Class, .keep_all = TRUE) |>
+  dplyr::filter(if_all(everything(), ~ !is.na(.x))) |>
+  arrange(No., Symbol)
+
+save(targets.pubchem, file = "data/qfd_tagets/pubchem.RData")
+``` 
+
+## STITCH v5.0
+
+```{r}
+targets.stitch <- targets.tmmc |>
+  dplyr::filter(SOURCE == "STITCH") |>
+  left_join(ingredients, by =  c("ID" = "TMMC2.ID"), relationship = "many-to-many") |>
+  mutate(Class = "predicted") |>
+  dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID,Symbol = PREFERRED_NAME, Source = SOURCE, Score = SCORE, Class) |>
+  distinct(Abbreviation,PubChem.CID,Symbol, Source, Class, .keep_all = TRUE) |>
+  dplyr::filter(if_all(everything(), ~ !is.na(.x))) |>
+  arrange(No., Symbol)
+
+save(targets.stitch, file = "data/qfd_tagets/stitch.RData")
+```
+
+## TCMSP v2.3
+
+```{r}
+rm(list = ls())
+
+load("data/qfd_ingredients/ingredients.RData")
+qfd_tcmsp_target <- read.xlsx("data/qfd_tagets/tcmsp/tcmsp_qfd_targets.xlsx") |>
+  dplyr::mutate(
+    Source = "TCMSP",
+    Class = case_when(
+    is.na(validated) ~ "predicted",
+    TRUE ~ "validated"),
+    Score = SVM_score
+  ) |>
+  dplyr::select(MOL_ID,Symbol,Source, Score, Class)
+
+targets.tcmsp <- ingredients |>
+  separate_rows(TCMSP.ID, sep = ";") |>
+  mutate(TCMSP.ID = trimws(TCMSP.ID)) |>
+  left_join(qfd_tcmsp_target, by = c("TCMSP.ID" = "MOL_ID"), relationship = "many-to-many") |>
+  dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID,Symbol, Source, Score, Class) |>
+  distinct(Abbreviation,PubChem.CID,Symbol, Source, Class, .keep_all = TRUE) |>
+  dplyr::filter(if_all(everything(), ~ !is.na(.x))) |>
+  arrange(No., Symbol)
+
+save(targets.tcmsp, file = "data/qfd_tagets/tcmsp.RData")
+```
+
+## HERB 2.0
+```{r}
+rm(list = ls())
+
+load("data/qfd_ingredients/ingredients.RData")
+
+heb2_db_all <- read.xlsx("data/qfd_tagets/herb2/herb2_db_all.xlsx") |>
+  dplyr::
+
+heb2_ref_all <- read.xlsx("data/qfd_tagets/herb2/herb2_ref_all.xlsx")
+```
+
+## SwissTargetPrediction
+
+```{r}
+```
+
+## PharmMapper
+
+```{r}
+```
+
+## SEA
+
+```{r}
+```
+
+## Potential targets
+
+```{r}
+```
+
+# 参考文献 {-}
