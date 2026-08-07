@@ -14,6 +14,8 @@ library(future)
 library(furrr)      
 library(progressr) 
 library(httr) 
+
+# https://www.uniprot.org/id-mapping
 ```
 
 ---
@@ -24,6 +26,7 @@ library(httr)
 
 - 输出数据：(supplementary/Table S1.xlsx)
 
+## 从PubChem获取分子信息
 ```{r}
 rm(list = ls())
 
@@ -58,6 +61,11 @@ ingredients <- ingredients_raw |>
   arrange(Abbreviation, MolecularWeight)
 
 save(ingredients,file = "data/qfd_ingredients/ingredients.RData")
+```
+
+## 保存分子信息到Table S1
+```{r}
+load("data/qfd_ingredients/ingredients.RData")
 
 write.xlsx(list(
   `Table S1` = ingredients |>
@@ -70,10 +78,12 @@ write.xlsx(list(
                 `Molecular Weight` = MolecularWeight,
                 `IUPAC Name` = IUPACName
                 ) |>
-    dplyr::select(`Medicinal Materials`, Abbreviation, Ingredient,`IUPAC Name`, `Molecular Formula`,`Molecular Weight`, SMILES, `PubChem CID`, `TMMC2 ID`,`HERB2 ID`,`TCMSP ID`)), 
+    dplyr::select(`Medicinal Materials`, Abbreviation, Ingredient,`PubChem CID`, `Molecular Formula`,`Molecular Weight`, SMILES)), 
   file = "supplementary/Table S1.xlsx")
+```
 
-# 下载SDF文件(data/qfd_sdfs)
+## 下载SDF文件(data/qfd_sdfs)
+```{r}
 unique_cids <- unique(ingredients$PubChem.CID)
 sdf_files <- "data/qfd_sdfs"
 results <- download_all_sdf(unique_cids, sdf_files)
@@ -95,15 +105,35 @@ load("data/qfd_ingredients/ingredients.RData")
 targets.tmmc <- tmmc_compound_protein |>
   dplyr::filter(ID %in% ingredients$TMMC2.ID) |>
   arrange(ID)
+
+save(targets.tmmc, file = "data/qfd_tagets/tmmc.RData")
 ```
 
 ## PubChem BioAssay
 ```{r}
+rm(list = ls())
+
+load("data/qfd_tagets/tmmc.RData")
+load("data/qfd_ingredients/ingredients.RData")
+
+load("data/uniprot/uniprot_human_reviewed.RData")
+uniprot_human_reviewed <- uniprot_human_reviewed |> 
+  dplyr::select(STRING,Symbol = Gene.Names.primary) |>
+  separate_rows(STRING, sep = ";") |>
+  separate_rows(Symbol, sep = ";") |>
+  dplyr::filter(STRING!="") |>
+  mutate(
+    STRING = str_replace(STRING, "^9606.", ""),
+    STRING = str_remove(STRING, "\\..*")) |>
+  distinct(STRING, Symbol)
+
 targets.pubchem <- targets.tmmc |>
   dplyr::filter(SOURCE == "PubChem") |>
+  left_join(uniprot_human_reviewed, by=c("PROTEINID" = "STRING"),relationship = "many-to-many") |>
+  dplyr::filter(!is.na(Symbol)) |>
   left_join(ingredients, by =  c("ID" = "TMMC2.ID"), relationship = "many-to-many") |>
   mutate(Class = "validated") |>
-  dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID,Symbol = PREFERRED_NAME, Source = SOURCE, Score = SCORE, Class) |>
+  dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID,Symbol, Source = SOURCE, Score = SCORE, Class) |>
   distinct(Abbreviation,PubChem.CID,Symbol, Source, Class, .keep_all = TRUE) |>
   dplyr::filter(if_all(everything(), ~ !is.na(.x))) |>
   arrange(No., Symbol)
@@ -114,12 +144,30 @@ save(targets.pubchem, file = "data/qfd_tagets/pubchem.RData")
 ## STITCH v5.0
 
 ```{r}
+rm(list = ls())
+
+load("data/qfd_tagets/tmmc.RData")
+load("data/qfd_ingredients/ingredients.RData")
+
+load("data/uniprot/uniprot_human_reviewed.RData")
+uniprot_human_reviewed <- uniprot_human_reviewed |> 
+  dplyr::select(STRING,Symbol = Gene.Names.primary) |>
+  separate_rows(STRING, sep = ";") |>
+  separate_rows(Symbol, sep = ";") |>
+  dplyr::filter(STRING!="") |>
+  mutate(
+    STRING = str_replace(STRING, "^9606.", ""),
+    STRING = str_remove(STRING, "\\..*")) |>
+  distinct(STRING, Symbol)
+
 targets.stitch <- targets.tmmc |>
   dplyr::filter(SOURCE == "STITCH") |>
+  left_join(uniprot_human_reviewed, by=c("PROTEINID" = "STRING"),relationship = "many-to-many") |>
+  dplyr::filter(!is.na(Symbol)) |>
   left_join(ingredients, by =  c("ID" = "TMMC2.ID"), relationship = "many-to-many") |>
   mutate(Class = "predicted") |>
-  dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID,Symbol = PREFERRED_NAME, Source = SOURCE, Score = SCORE, Class) |>
-  distinct(Abbreviation,PubChem.CID,Symbol, Source, Class, .keep_all = TRUE) |>
+  dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID,Symbol, Source = SOURCE, Score = SCORE, Class) |>
+  distinct(Abbreviation,PubChem.CID,Symbol,Source, Class, .keep_all = TRUE) |>
   dplyr::filter(if_all(everything(), ~ !is.na(.x))) |>
   arrange(No., Symbol)
 
@@ -132,21 +180,22 @@ save(targets.stitch, file = "data/qfd_tagets/stitch.RData")
 rm(list = ls())
 
 load("data/qfd_ingredients/ingredients.RData")
-qfd_tcmsp_target <- read.xlsx("data/qfd_tagets/tcmsp/tcmsp_qfd_targets.xlsx") |>
+
+tcmsp <- read.xlsx("data/qfd_tagets/tcmsp/tcmsp_qfd_targets.xlsx") |>
   dplyr::mutate(
     Source = "TCMSP",
     Class = case_when(
-    is.na(validated) ~ "predicted",
+    validated !="validated" ~ "predicted",
     TRUE ~ "validated"),
-    Score = SVM_score
+    Score.SVM = SVM_score
   ) |>
-  dplyr::select(MOL_ID,Symbol,Source, Score, Class)
+  dplyr::select(MOL_ID,Entry,Symbol,Source, Score.SVM, Class) 
 
-targets.tcmsp <- ingredients |>
+targets.tcmsp <- ingredients  |>
   separate_rows(TCMSP.ID, sep = ";") |>
   mutate(TCMSP.ID = trimws(TCMSP.ID)) |>
-  left_join(qfd_tcmsp_target, by = c("TCMSP.ID" = "MOL_ID"), relationship = "many-to-many") |>
-  dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID,Symbol, Source, Score, Class) |>
+  left_join(tcmsp, by = c("TCMSP.ID" = "MOL_ID"), relationship = "many-to-many") |>
+  dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID,Symbol, Source, Score.SVM, Class) |>
   distinct(Abbreviation,PubChem.CID,Symbol, Source, Class, .keep_all = TRUE) |>
   dplyr::filter(if_all(everything(), ~ !is.na(.x))) |>
   arrange(No., Symbol)
@@ -160,30 +209,333 @@ rm(list = ls())
 
 load("data/qfd_ingredients/ingredients.RData")
 
-heb2_db_all <- read.xlsx("data/qfd_tagets/herb2/herb2_db_all.xlsx") |>
-  dplyr::
+herb2_db_all <- read.xlsx("data/qfd_tagets/herb2/herb2_db_all.xlsx") |>
+  mutate(Source = "HERB2", Mining = "database", Class = "validated") |>
+  dplyr::select(PubChem.CID, Symbol = Gene.symbol, Source,Mining, Class)
 
-heb2_ref_all <- read.xlsx("data/qfd_tagets/herb2/herb2_ref_all.xlsx")
+herb2_ref_all <- read.xlsx("data/qfd_tagets/herb2/herb2_ref_all.xlsx") |>
+  mutate(Source = "HERB2", Mining = "Reference", Class = "validated") |>
+  dplyr::select(PubChem.CID, Symbol = Gene.symbol, Source,Mining, Class)
+
+herb2 <- rbind(herb2_db_all, herb2_ref_all) |>
+  distinct(PubChem.CID,Symbol, Mining, Class, .keep_all = TRUE)
+
+targets.herb2 <- ingredients |>
+  left_join(herb2, by = "PubChem.CID", relationship = "many-to-many") |>
+  dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID,Symbol, Source, Mining, Class) |>
+  distinct(Abbreviation,PubChem.CID,Symbol, Source, Class, .keep_all = TRUE) |>
+  dplyr::filter(if_all(everything(), ~ !is.na(.x))) |>
+  arrange(No., Symbol)
+
+save(targets.herb2, file = "data/qfd_tagets/herb2.RData")
 ```
 
 ## SwissTargetPrediction
 
 ```{r}
+rm(list = ls())
+
+source("utils.R")
+
+load("data/qfd_ingredients/ingredients.RData")
+
+load("data/uniprot/uniprot_human_reviewed.RData")
+uniprot_human_reviewed <- uniprot_human_reviewed |> 
+  dplyr::select(Entry,Gene.Names.primary)
+
+swiss <- read_compound_target("data/qfd_tagets/swiss/") |>
+  dplyr::rename(Probability = `Probability*`, 
+                Common.name = `Common name`,
+                Uniprot.ID = `Uniprot ID`) |>
+  separate_rows(Common.name, Uniprot.ID, sep = "&") |>
+  dplyr::select(CID,Uniprot.ID,Common.name,Probability) |>
+  distinct(CID, Uniprot.ID, .keep_all = TRUE) |>
+  left_join(uniprot_human_reviewed, by = c("Uniprot.ID" = "Entry")) |>
+  dplyr::rename(Symbol = Gene.Names.primary) |>
+  dplyr::filter(!is.na(Symbol)) |>
+  distinct(CID, Symbol, .keep_all = TRUE) |>
+  mutate(
+    CID = clean_cids(CID),
+    Source = "SwissTargetPrediction",
+    Class = "predicted"
+    ) |>
+  dplyr::select(CID, Symbol,Source,Probability,Class)
+
+targets.swiss <- ingredients |>
+  left_join(swiss, by = c("PubChem.CID" = "CID"), relationship = "many-to-many") |>
+  dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID,Symbol, Source, Probability, Class) |>
+  distinct(Abbreviation,PubChem.CID, Symbol, Source, Class, .keep_all = TRUE) |>
+  dplyr::filter(if_all(everything(), ~ !is.na(.x))) |>
+  arrange(No., Symbol)
+
+
+# Save processed SwissTargetPrediction targets
+save(targets.swiss, file = "data/qfd_tagets/swiss.RData")
+```
+
+## Super-PRED
+```{r}
+rm(list = ls())
+
+source("utils.R")
+
+load("data/qfd_ingredients/ingredients.RData")
+load("data/uniprot/uniprot_human_reviewed.RData")
+uniprot_human_reviewed <- uniprot_human_reviewed |> 
+  dplyr::select(Entry,Gene.Names.primary)
+
+# known targets
+super_known <- read_compound_target("data/qfd_tagets/super/known") |>
+  dplyr::select(CID, Uniprot.ID = `UniProt ID`) |>
+  left_join(uniprot_human_reviewed, by = c("Uniprot.ID" = "Entry")) |>
+  dplyr::rename(Symbol = Gene.Names.primary) |>
+  dplyr::filter(!is.na(Symbol)) |>
+  distinct(CID, Symbol, .keep_all = TRUE) |>
+  mutate(Source = "SuperPred", Probability = "100%", `Model accuracy` = "100%", Class = "validated") |>
+  dplyr::select(CID, Symbol, Source, Probability, `Model accuracy`, Class)
+
+# Predicted targets (Prob >= 60, Model Accuracy >= 85) (modify,70/90)
+super_pred <- read_compound_target("data/qfd_tagets/super") |>
+  dplyr::select(CID, Uniprot.ID = `UniProt ID`, Probability, `Model accuracy`) |>
+  left_join(uniprot_human_reviewed, by = c("Uniprot.ID" = "Entry")) |>
+  dplyr::rename(Symbol = Gene.Names.primary) |>
+  dplyr::filter(!is.na(Symbol)) |>
+  distinct(CID, Symbol, .keep_all = TRUE)|>
+  mutate(Source = "SuperPred", Class = "predicted") |>
+  dplyr::select(CID, Symbol, Source, Probability, `Model accuracy`, Class)
+
+super <- rbind(super_known, super_pred)
+
+targets.super <- ingredients |>
+  left_join(super, by = c("PubChem.CID" = "CID"), relationship = "many-to-many") |>
+  dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID,Symbol, Source, Probability, `Model accuracy`, Class) |>
+  distinct(Abbreviation,PubChem.CID, Symbol, Source, Class, .keep_all = TRUE) |>
+  dplyr::filter(if_all(everything(), ~ !is.na(.x))) |>
+  arrange(No., Symbol)
+
+# Save processed Super-Pred targets
+save(targets.super, file = "data/qfd_tagets/super.RData")
 ```
 
 ## PharmMapper
 
 ```{r}
+rm(list = ls())
+
+source("utils.R")
+
+load("data/qfd_ingredients/ingredients.RData")
+load("data/uniprot/uniprot_human_reviewed.RData")
+uniprot_human_reviewed <- uniprot_human_reviewed |> 
+  dplyr::select(Entry,Entry.Name, Gene.Names.primary)
+
+# Process PharmMapper results (Human only, high-confidence filters) (modify,0.5)
+pharm <- read_compound_target2("data/qfd_tagets/pharm",skip_row = 1) |>
+  dplyr::filter(grepl("_HUMAN", Uniplot)) |>
+  dplyr::select(CID, Uniplot,`Norm Fit`) |>
+  distinct(CID, Uniplot, .keep_all = TRUE) |>
+  left_join(uniprot_human_reviewed, by = c("Uniplot" = "Entry.Name")) |>
+  dplyr::rename(Symbol = Gene.Names.primary) |>
+  dplyr::filter(!is.na(Symbol)) |>
+  mutate(Source = "PharmMapper",Class = "predicted") |>
+  dplyr::select(CID,Symbol, Source,`Norm Fit`,Class) |>
+  distinct(CID, Symbol, .keep_all = TRUE) 
+
+targets.pharm <- ingredients |>
+  left_join(pharm, by = c("PubChem.CID" = "CID"), relationship = "many-to-many") |>
+  dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID,Symbol, Source,`Norm Fit`, Class) |>
+  distinct(Abbreviation,PubChem.CID, Symbol, Source, Class, .keep_all = TRUE) |>
+  dplyr::filter(if_all(everything(), ~ !is.na(.x))) |>
+  arrange(No., Symbol)
+
+# Save processed PharmMapper targets
+save(targets.pharm, file = "data/qfd_tagets/pharm.RData")
 ```
 
 ## SEA
 
 ```{r}
+rm(list = ls())
+
+source("utils.R")
+
+load("data/qfd_ingredients/ingredients.RData")
+
+load("data/uniprot/uniprot_human_reviewed.RData")
+uniprot_human_reviewed <- uniprot_human_reviewed |> 
+  dplyr::select(Entry, Entry.Name, Gene.Names.primary)
+
+# Process SEA results (confidence filters)
+sea <- read.csv("data/qfd_tagets/sea/sea-results.xls") |>
+  mutate(CID = as.numeric(gsub("C","",Query.ID)), .before = 1) |>
+  arrange(CID) |>
+  mutate(CID = as.character(CID)) |>
+  dplyr::select(-Query.ID) |>
+  dplyr::filter(grepl("_HUMAN", Target.ID)) |>
+  distinct(CID, Target.ID, .keep_all = TRUE) |>
+  left_join(uniprot_human_reviewed, by = c("Target.ID" = "Entry.Name")) |>
+  dplyr::rename(Symbol = Gene.Names.primary) |>
+  dplyr::filter(!is.na(Symbol)) |>
+  mutate(Source = "SEA", Class = "predicted") |>
+  dplyr::select(CID, Symbol, Source, P.Value, Max.Tc, Class) |>
+  distinct(CID, Symbol, .keep_all = TRUE) 
+
+targets.sea <- ingredients |>
+  left_join(sea, by = c("PubChem.CID" = "CID"), relationship = "many-to-many") |>
+  dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID,Symbol, Source, P.Value, Max.Tc,Class) |>
+  distinct(Abbreviation,PubChem.CID, Symbol, Source, Class, .keep_all = TRUE) |>
+  dplyr::filter(if_all(everything(), ~ !is.na(.x))) |>
+  arrange(No., Symbol)
+
+# Save processed SEA targets
+save(targets.sea, file = "data/qfd_tagets/sea.RData")
 ```
 
 ## Potential targets
 
 ```{r}
+rm(list = ls())
+
+load("data/qfd_tagets/pubchem.RData")
+load("data/qfd_tagets/stitch.RData")
+load("data/qfd_tagets/tcmsp.RData")
+load("data/qfd_tagets/herb2.RData")
+load("data/qfd_tagets/swiss.RData")
+load("data/qfd_tagets/super.RData")
+load("data/qfd_tagets/pharm.RData")
+load("data/qfd_tagets/sea.RData")
+
+# 筛选
+# pubchem: all
+pubchem <- targets.pubchem |> dplyr::select(-Score)
+
+length(unique(pubchem$PubChem.CID))
+length(unique(pubchem$Symbol))
+length(unique(pubchem$Symbol)) / length(unique(pubchem$PubChem.CID))
+
+# stitch: Score > 0.7
+stitch <- targets.stitch |>
+  dplyr::filter(Score>=0.7) |>
+  dplyr::select(-Score)
+
+length(unique(stitch$PubChem.CID))
+length(unique(stitch$Symbol))
+length(unique(stitch$Symbol)) / length(unique(stitch$PubChem.CID))
+
+# TCMSP: all
+tcmsp <- targets.tcmsp |> dplyr::select(-Score.SVM)
+
+length(unique(tcmsp$PubChem.CID))
+length(unique(tcmsp$Symbol))
+length(unique(tcmsp$Symbol)) / length(unique(tcmsp$PubChem.CID))
+
+
+# HERB2: all
+herb2 <- targets.herb2 |> dplyr::select(-Mining)
+
+length(unique(herb2$PubChem.CID))
+length(unique(herb2$Symbol))
+length(unique(herb2$Symbol)) / length(unique(herb2$PubChem.CID))
+
+# Swiss: Probability>=0.1
+swiss <- targets.swiss |>
+  dplyr::filter(Probability>=0.1) |>
+  dplyr::select(-Probability)
+
+length(unique(swiss$PubChem.CID))
+length(unique(swiss$Symbol))
+length(unique(swiss$Symbol)) / length(unique(swiss$PubChem.CID))
+
+# Super-PRED: Probability>="80%" (+ `Model accuracy` >= "95%")
+super <- targets.super |>
+  mutate(Prob_num = as.numeric(str_remove(Probability,"%"))) |>
+  dplyr::filter((Prob_num>=80 ) | Class == "validated") |>
+  dplyr::select(-Probability,-`Model accuracy`, -Prob_num)
+
+length(unique(super$PubChem.CID))
+length(unique(super$Symbol))
+length(unique(super$Symbol)) / length(unique(super$PubChem.CID))
+  
+# PharmMapper: `Norm Fit` >= 0.70
+pharm <- targets.pharm |> 
+  dplyr::filter(`Norm Fit` >= 0.7) |>
+  dplyr::select(-`Norm Fit`)
+
+length(unique(pharm$PubChem.CID))
+length(unique(pharm$Symbol))
+length(unique(pharm$Symbol)) / length(unique(pharm$PubChem.CID))
+
+# SEA: P.Value < 0.01、Max.Tc >= 0.3
+sea <- targets.sea |> 
+  dplyr::filter(P.Value < 0.01 & Max.Tc >= 0.3) |>
+  dplyr::select(-P.Value, -Max.Tc)
+
+length(unique(sea$PubChem.CID))
+length(unique(sea$Symbol))
+length(unique(sea$Symbol)) / length(unique(sea$PubChem.CID))
+
+ingredients_targets <- rbind(
+  pubchem,
+  stitch,
+  tcmsp,
+  herb2,
+  swiss,
+  super,
+  pharm,
+  sea
+) |> 
+  group_by(No., Abbreviation, Ingredient, Type, PubChem.CID, Symbol) |>
+  summarise(
+    Source.Sum = paste(Source, collapse = ";"),  
+    Class.Sum = paste(Class, collapse = ";"), 
+    Count = n_distinct(Source),      
+    .groups = "drop"
+  ) |>
+  mutate(Class = case_when(
+    str_detect(Class.Sum, "validated") ~ "validated",
+    TRUE ~ "predicted"
+  )) 
+
+ingredients_targets.filter <-  targets |>
+  dplyr::filter(Class == "validated" | (Class == "predicted" & Count>=2))
+
+save(ingredients_targets,ingredients_targets.filter, file =  "data/qfd_tagets/ingredients_targets.RData")
 ```
+
+# 疾病靶点
+
+"chronic heart failure", "heart failure"
+
+## DisGeNet 7.0
+```{r}
+rm(list = ls())
+
+load("data/qfd_tagets/tmmc2/tmmc.RData")
+
+disgenet <- tmmc_protein_disease |>
+  dplyr::filter(DISEASENAME == "Chronic heart failure") |>
+  distinct(PREFERRED_NAME) |>
+  mutate(Source = "DisGeNet 7.0") |>
+  dplyr::select(Symbol = PREFERRED_NAME,Source) 
+
+nrow(disgenet)
+```
+
+## GeneCards
+```{r}
+```
+
+## OMIM
+```{r}
+```
+
+## TTD
+```{r}
+```
+
+## Potential targets
+```{r}
+```
+
 
 # 参考文献 {-}
