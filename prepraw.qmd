@@ -9,7 +9,16 @@ execute:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, fig.width=8, fig.height=6, dpi=300)
+knitr::opts_chunk$set(
+  echo = TRUE,
+  collapse = TRUE,
+  comment = "#>",
+  cache = FALSE,
+  class.output="scroll-100",
+  cache.path = "cached/",
+  fig.width=8, 
+  fig.height=6, 
+  dpi=300)
 
 library(tidyverse)
 library(openxlsx)
@@ -17,6 +26,7 @@ library(data.table)
 library(rmdwc)
 # remotes::install_github("sigbertklinke/rmdwc", dependencies = TRUE)
 
+library(PubChemR)
 library(future)     
 library(furrr)      
 library(progressr) 
@@ -25,13 +35,35 @@ library(httr)
 # https://www.uniprot.org/id-mapping
 
 # library(biomaRt)
+
+library(disgenet2r)
+api_key <- "b36b7049-f17d-4444-af51-e23b2262b355"
+# api_key <- "enter your API key here"
+Sys.setenv(DISGENET_API_KEY= api_key)
+# https://gitlab.com/medbio/disgenet2r
 ```
+
+```{css css_options, echo=FALSE}
+pre {
+  max-height: 300px;      
+  overflow-y: auto;       
+}
+```
+
+```{css css_scroll, echo=FALSE}
+.scroll-100 {
+  max-height: 100px;     
+  overflow-y: auto;       
+  background-color: inherit; 
+}
+```
+
 
 ---
 
 # 活性成分
 
-- 原始数据：根据文献[@zhang2024qfd, @tan2012qfda]获得了 AR 和 ALRP 的入血活性成分信息（data/qfd_ingredients/raw.xlsx）
+- 原始数据：根据文献[@zhang2024qfd; @tan2012qfda]获得了 AR 和 ALRP 的入血活性成分信息（data/qfd_ingredients/raw.xlsx）
 
 - 输出数据：(supplementary/Table S1.xlsx)
 
@@ -45,25 +77,18 @@ ingredients_raw <- read.xlsx("data/qfd_ingredients/raw.xlsx") |>
   distinct(Abbreviation, PubChem.CID, .keep_all = TRUE) |>
   arrange(Abbreviation)
 
-# 从PubChem获取信息
-source("utils.R")
-
 properties <- c("IUPACName", "MolecularFormula", "MolecularWeight", "SMILES")
-
 unique_cids <- unique(ingredients_raw$PubChem.CID)
-cid_batches <- split(unique_cids, ceiling(seq_along(unique_cids)/10))
 
-plan(multisession, workers = availableCores() - 2)
-with_progress({
-  p <- progressor(steps = length(cid_batches))
-  chem_info <- future_map_dfr(cid_batches, function(b) {
-    p()
-    fetch_batch(properties, b)
-  })
-})
-plan(sequential)
+chem_info <- get_properties(
+  properties = properties,
+  identifier = unique_cids,
+  namespace = "cid" 
+) |> 
+  retrieve(., .combine.all = TRUE)
 
 ingredients <- ingredients_raw |>
+  mutate(PubChem.CID = as.numeric(PubChem.CID)) |>
   left_join(chem_info, by = c("PubChem.CID"="CID")) |>
   mutate(across(where(is.character), trimws)) |>
   mutate(MolecularWeight = as.numeric(MolecularWeight)) |>
@@ -74,6 +99,8 @@ save(ingredients,file = "data/qfd_ingredients/ingredients.RData")
 
 ## 保存分子信息到Table S1
 ```{r}
+rm(list = ls())
+
 load("data/qfd_ingredients/ingredients.RData")
 
 write.xlsx(list(
@@ -87,15 +114,42 @@ write.xlsx(list(
                 `Molecular Weight` = MolecularWeight,
                 `IUPAC Name` = IUPACName
                 ) |>
-    dplyr::select(`Medicinal Materials`, Abbreviation, Ingredient,`PubChem CID`, `Molecular Formula`,`Molecular Weight`, SMILES)), 
+    dplyr::select(`Medicinal Materials`, Abbreviation, Ingredient,`PubChem CID`, `Molecular Formula`,`Molecular Weight`, SMILES,ConnectivitySMILES)), 
   file = "supplementary/Table S1.xlsx")
 ```
 
 ## 下载SDF文件(data/qfd_sdfs)
 ```{r}
+rm(list = ls())
+
+load("data/qfd_ingredients/ingredients.RData")
+
 unique_cids <- unique(ingredients$PubChem.CID)
 sdf_files <- "data/qfd_sdfs"
+
+source("utils.R")
 results <- download_all_sdf(unique_cids, sdf_files)
+
+# output_dir <- "data/qfd_sdfs2"    
+# 
+# if (!dir.exists(output_dir)) {
+#   dir.create(output_dir, recursive = TRUE)
+# }
+# 
+# plan(multisession, workers = 4)
+# future_walk(.x = unique_cids, .f = ~ {
+#   get_sdf(
+#     identifier = .x,
+#     namespace = "cid",
+#     path = output_dir,
+#     file_name = as.character(.x),
+#     options = list(record_type = "3d")
+#   )
+#   Sys.sleep(0.3)
+# }, .progress = TRUE)  
+# plan(sequential)
+# 
+# list.files(output_dir, pattern = "\\.sdf$")
 ```
 
 # 成分靶点
@@ -134,27 +188,19 @@ targets.pubchem <- targets.tmmc |>
   distinct(Abbreviation,PubChem.CID,PROTEINID, Source, Class, .keep_all = TRUE) |>
   dplyr::filter(if_all(everything(), ~ !is.na(.x))) |>
   arrange(No., PROTEINID)
-
-save(targets.pubchem, file = "data/qfd_targets/targets.pubchem.RData")
 ``` 
 
-## STITCH v5.0
+## STITCH v5.0 (score>=0.4)
 
 ```{r}
 rm(list = ls())
 
-load("data/qfd_targets/targets.tmmc.RData")
-load("data/qfd_ingredients/ingredients.RData")
+stitch01 <- fread("data/qfd_targets/stitch5/stitch_interactions01.tsv")
+stitch02 <- fread("data/qfd_targets/stitch5/stitch_interactions02.tsv")
 
-targets.stitch <- targets.tmmc |>
-  dplyr::filter(SOURCE == "STITCH") |>
-  dplyr::distinct(ID,PROTEINID, .keep_all = TRUE) |>
-  left_join(ingredients, by =  c("ID" = "TMMC2.ID"), relationship = "many-to-many") |>
-  mutate(Class = "validated") |>
-  dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID, PROTEINID, Source = SOURCE, Score = SCORE, Class) |>
-  distinct(Abbreviation,PubChem.CID,PROTEINID, Source, Class, .keep_all = TRUE) |>
-  dplyr::filter(if_all(everything(), ~ !is.na(.x))) |>
-  arrange(No., PROTEINID)
+targets.stitch <- rbind(stitch01, stitch02) |>
+  dplyr::filter()
+
 
 save(targets.stitch, file = "data/qfd_targets/targets.stitch.RData")
 ```
@@ -353,81 +399,6 @@ targets.sea <- ingredients |>
 save(targets.sea, file = "data/qfd_targets/targets.sea.RData")
 ```
 
-## 筛选潜在成分靶点
-
-```{r}
-rm(list = ls())
-
-# pubchem: all
-load("data/qfd_targets/targets.pubchem.RData")
-pubchem <- targets.pubchem |> dplyr::select(-Score)
-
-save(pubchem, file = "data/qfd_targets/pubchem.RData")
-write.xlsx(pubchem |> distinct(PROTEINID), file = "data/qfd_targets/pubchem.xlsx")
-
-# stitch: Score > 0.7
-load("data/qfd_targets/targets.stitch.RData")
-stitch <- targets.stitch |>
-  dplyr::filter(Score>=0.7) |>
-  dplyr::select(-Score)
-
-save(stitch, file = "data/qfd_targets/stitch.RData")
-write.xlsx(stitch |> distinct(PROTEINID), file = "data/qfd_targets/stitch.xlsx")
-
-
-# TCMSP: all
-load("data/qfd_targets/targets.tcmsp.RData")
-tcmsp <- targets.tcmsp |> dplyr::select(-Score.SVM)
-
-save(tcmsp, file = "data/qfd_targets/tcmsp.RData")
-write.xlsx(tcmsp |> distinct(Entry), file = "data/qfd_targets/tcmsp.xlsx")
-
-
-# HERB2: all
-load("data/qfd_targets/targets.herb2.RData")
-herb2 <- targets.herb2 |> dplyr::select(-Mining)
-
-save(herb2, file = "data/qfd_targets/herb2.RData")
-write.xlsx(herb2 |> distinct(Symbol), file = "data/qfd_targets/herb2.xlsx")
-
-# Swiss: Probability>=0.1
-load("data/qfd_targets/targets.swiss.RData")
-swiss <- targets.swiss |>
-  dplyr::filter(Probability>=0.1) |>
-  dplyr::select(-Probability)
-
-save(swiss, file = "data/qfd_targets/swiss.RData")
-write.xlsx(swiss |> distinct(Uniprot.ID), file = "data/qfd_targets/swiss.xlsx")
-
-# Super-PRED: Probability>="80%" (+ `Model accuracy` >= "95%")
-load("data/qfd_targets/targets.super.RData")
-super <- targets.super |>
-  mutate(Prob_num = as.numeric(str_remove(Probability,"%"))) |>
-  dplyr::filter((Prob_num>=80 ) | Class == "validated") |>
-  dplyr::select(-Probability,-`Model accuracy`, -Prob_num)
-
-save(super, file = "data/qfd_targets/super.RData")
-write.xlsx(super |> distinct(Uniprot.ID), file = "data/qfd_targets/super.xlsx")
-  
-# PharmMapper: `Norm Fit` >= 0.70
-load("data/qfd_targets/targets.pharm.RData")
-pharm <- targets.pharm |> 
-  dplyr::filter(`Norm Fit` >= 0.7) |>
-  dplyr::select(-`Norm Fit`)
-
-save(pharm, file = "data/qfd_targets/pharm.RData")
-write.xlsx(pharm |> distinct(Uniplot), file = "data/qfd_targets/pharm.xlsx")
-
-# SEA: P.Value < 0.01、Max.Tc >= 0.3
-load("data/qfd_targets/targets.sea.RData")
-sea <- targets.sea |> 
-  dplyr::filter(P.Value < 0.01 & Max.Tc >= 0.3) |>
-  dplyr::select(-P.Value, -Max.Tc)
-
-save(sea, file = "data/qfd_targets/sea.RData")
-write.xlsx(sea |> distinct(Target.ID), file = "data/qfd_targets/sea.xlsx")
-```
-
 ## Uniprot ID Mapping
 
 - pubchem_mapping.tsv.gz
@@ -438,6 +409,7 @@ write.xlsx(sea |> distinct(Target.ID), file = "data/qfd_targets/sea.xlsx")
 - super_mapping.tsv.gz
 - pharm_mapping.tsv.gz
 - sea_mapping.tsv.gz
+
 
 ```{r}
 rm(list = ls())
@@ -545,11 +517,102 @@ sea_std <- sea |>
   dplyr::filter(!is.na(Symbol)) |>
   distinct(Abbreviation,PubChem.CID,Symbol,.keep_all = TRUE) |>
   dplyr::select(-Target.ID)
+
+save(
+  pubchem_std,
+  stitch_std,
+  tcmsp_std,
+  herb2_std,
+  swiss_std,
+  super_std,
+  pharm_std,
+  sea_std,
+  file = "data/qfd_targets/ingredients.std.RData"
+)
 ```
+
+
+## 筛选潜在成分靶点
+
+```{r}
+rm(list = ls())
+
+# pubchem: all
+load("data/qfd_targets/targets.pubchem.RData")
+pubchem <- targets.pubchem |> dplyr::select(-Score)
+
+
+# stitch: Score > 0.7
+load("data/qfd_targets/targets.stitch.RData")
+stitch <- targets.stitch |>
+  dplyr::filter(Score>=0.7) |>
+  dplyr::select(-Score)
+
+save(stitch, file = "data/qfd_targets/stitch.RData")
+write.xlsx(stitch |> distinct(PROTEINID), file = "data/qfd_targets/stitch.xlsx")
+
+
+# TCMSP: all
+load("data/qfd_targets/targets.tcmsp.RData")
+tcmsp <- targets.tcmsp |> dplyr::select(-Score.SVM)
+
+save(tcmsp, file = "data/qfd_targets/tcmsp.RData")
+write.xlsx(tcmsp |> distinct(Entry), file = "data/qfd_targets/tcmsp.xlsx")
+
+
+# HERB2: all
+load("data/qfd_targets/targets.herb2.RData")
+herb2 <- targets.herb2 |> dplyr::select(-Mining)
+
+save(herb2, file = "data/qfd_targets/herb2.RData")
+write.xlsx(herb2 |> distinct(Symbol), file = "data/qfd_targets/herb2.xlsx")
+
+# Swiss: Probability>=0.1
+load("data/qfd_targets/targets.swiss.RData")
+swiss <- targets.swiss |>
+  dplyr::filter(Probability>=0.1) |>
+  dplyr::select(-Probability)
+
+save(swiss, file = "data/qfd_targets/swiss.RData")
+write.xlsx(swiss |> distinct(Uniprot.ID), file = "data/qfd_targets/swiss.xlsx")
+
+# Super-PRED: Probability>="80%" (+ `Model accuracy` >= "95%")
+load("data/qfd_targets/targets.super.RData")
+super <- targets.super |>
+  mutate(Prob_num = as.numeric(str_remove(Probability,"%"))) |>
+  dplyr::filter((Prob_num>=80 ) | Class == "validated") |>
+  dplyr::select(-Probability,-`Model accuracy`, -Prob_num)
+
+save(super, file = "data/qfd_targets/super.RData")
+write.xlsx(super |> distinct(Uniprot.ID), file = "data/qfd_targets/super.xlsx")
+  
+# PharmMapper: `Norm Fit` >= 0.70
+load("data/qfd_targets/targets.pharm.RData")
+pharm <- targets.pharm |> 
+  dplyr::filter(`Norm Fit` >= 0.7) |>
+  dplyr::select(-`Norm Fit`)
+
+save(pharm, file = "data/qfd_targets/pharm.RData")
+write.xlsx(pharm |> distinct(Uniplot), file = "data/qfd_targets/pharm.xlsx")
+
+# SEA: P.Value < 0.01、Max.Tc >= 0.3
+load("data/qfd_targets/targets.sea.RData")
+sea <- targets.sea |> 
+  dplyr::filter(P.Value < 0.01 & Max.Tc >= 0.3) |>
+  dplyr::select(-P.Value, -Max.Tc)
+
+save(sea, file = "data/qfd_targets/sea.RData")
+write.xlsx(sea |> distinct(Target.ID), file = "data/qfd_targets/sea.xlsx")
+```
+
+
+
 
 
 ## 合并潜在成分靶点
 ```{r}
+load("data/qfd_targets/ingredients.std.RData")
+
 ingredients.targets <- rbind(
   pubchem_std,
   stitch_std,
@@ -583,35 +646,39 @@ save(ingredients.targets,ingredients.targets.filter, file =  "data/qfd_targets/i
 
 "chronic heart failure", "heart failure"
 
-## DisGeNet 7.0
+## DisGeNet v25.4 (2025-12-15更新/2025-12-20检索)
 ```{r}
 rm(list = ls())
 
-load("data/qfd_targets/tmmc2/tmmc.RData")
+res <- disease2gene(disease = "UMLS_C0018801",     database = "CURATED",
+    score = c(0,1) 
+)
 
-disgenet.chf <- tmmc_protein_disease |>
-  dplyr::filter(DISEASENAME == "Chronic heart failure") |>
-  distinct(PROTEIN_ID, .keep_all = TRUE) |>
-  dplyr::select(PROTEIN_ID, Score = SCORE) 
+hf <- res@qresult
 
-nrow(disgenet.chf)
+res <- disease2gene(disease = "UMLS_C0018802",     database = "CURATED",
+    score = c(0,1) 
+)
 
-disgenet.hf <- tmmc_protein_disease |>
-  dplyr::filter(DISEASENAME == "Heart failure") |>
-  distinct(PROTEIN_ID, .keep_all = TRUE) |>
-  dplyr::select(PROTEIN_ID, Score = SCORE) 
+chf <- res@qresult
 
-nrow(disgenet.hf)
-
-disgenet <- rbind(disgenet.chf,disgenet.hf) |>
-  dplyr::group_by(PROTEIN_ID) |>
-  dplyr::slice_max(Score, n = 1, with_ties = FALSE) |>
-  dplyr::ungroup() |> 
-  mutate(Source="DisGeNet v7")
+disgenet <- rbind(hf,chf) |>
+  filter(geneNcbiType == "protein-coding") |>
+  group_by(gene_symbol) |>
+  summarise(
+    max_normalized_score = max(normalized_score, na.rm = TRUE),
+    Count = n_distinct(disease_name),
+    Source = "DisGeNet V25.4",
+    .groups = "drop"
+  )
 
 nrow(disgenet)
 
+save(hf,chf, file = "data/chf_targets/raw.RData")
+
 save(disgenet,file = "data/chf_targets/disgenet.RData")
+
+write.xlsx(disgenet, file = "data/chf_targets/disgenet.xlsx")
 ```
 
 ## GeneCards
@@ -699,14 +766,14 @@ load("data/chf_targets/ttd.RData")
 # 0.3
 disgenet.filter <- disgenet |>
 #   dplyr::filter(Score >= 0.3) |>
-#   dplyr::select(-Score)
+#   dplyr::select(-Score) |>
   distinct(PREFERRED_NAME, .keep_all = TRUE ) |> 
   dplyr::select(Symbol = PREFERRED_NAME,Source)
 
 
 genecards.filter <- genecards |>
 #   dplyr::filter(Relevance.Score >= 10) |>
-#   dplyr::select(-Relevance.Score)
+#   dplyr::select(-Relevance.Score) |>
   distinct(Symbol, .keep_all = TRUE ) |> 
   dplyr::select(Symbol,Source)
 
@@ -727,12 +794,23 @@ rm(list = ls())
 load("data/chf_targets/chf.targets.RData")
 load("data/qfd_targets/ingredients_targets.RData")
 
-oo <- intersect(chf.targets$Symbol, ingredients.targets.filter$Symbol)
+overlaping.targets <- intersect(chf.targets$Symbol, ingredients.targets.filter$Symbol)
 
-ingredients_oo <- ingredients.targets.filter |>
-  dplyr::filter(Symbol %in% oo)
+ingredients.overlaping <- ingredients.targets.filter |>
+  dplyr::filter(Symbol %in% overlaping.targets)
 
-length(unique(ingredients_oo$PubChem.CID))
+length(unique(ingredients.overlaping$PubChem.CID))
+length(unique(ingredients.overlaping$Symbol))
+
+ingredients.overlaping.validated <- ingredients.overlaping |>
+  dplyr::filter(Class == "validated") 
+length(unique(ingredients.overlaping.validated$PubChem.CID))
+length(unique(ingredients.overlaping.validated$Symbol))
+
+ingredients.overlaping.predicted <- ingredients.overlaping |>
+  dplyr::filter(Class == "predicted") 
+length(unique(ingredients.overlaping.predicted$PubChem.CID))
+length(unique(ingredients.overlaping.predicted$Symbol))
 ```
 
 

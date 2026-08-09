@@ -4,14 +4,14 @@
     "href": "scripts.html#活性成分",
     "title": "scripts",
     "section": "1.1 活性成分",
-    "text": "1.1 活性成分\n\n根据文献[1]获得了 AR 和 ALRP 的入血活性成分信息(supplementary/Table S1.xlsx)"
+    "text": "1.1 活性成分"
   },
   {
     "objectID": "scripts.html#成分靶点",
     "href": "scripts.html#成分靶点",
     "title": "scripts",
     "section": "1.2 成分靶点",
-    "text": "1.2 成分靶点\n\n根据成分信息(名称, 分子式, CID, SMILES)从PubChem BioAssay, TCMSP v2.3, BATMAN-TCM 2.0， STITCH v5.0, SwissTargetPrediction, PharmMapper, SEA等7个靶点数据库或预测平台获得了成分的潜在靶点(supplementary/Table S2.xlsx)\n使用UniProt进行标准化"
+    "text": "1.2 成分靶点"
   },
   {
     "objectID": "scripts.html#疾病靶点",
@@ -40,5 +40,138 @@
     "title": "scripts",
     "section": "3.2 KEGG",
     "text": "3.2 KEGG\n\n富集结果(supplementary/Table S4.xlsx)"
+  },
+  {
+    "objectID": "prepraw.html#从pubchem获取分子信息",
+    "href": "prepraw.html#从pubchem获取分子信息",
+    "title": "原始数据预处理",
+    "section": "1.1 从PubChem获取分子信息",
+    "text": "1.1 从PubChem获取分子信息\n\nrm(list = ls())\n\n# 读取原始成分数据\ningredients_raw &lt;- read.xlsx(\"data/qfd_ingredients/raw.xlsx\") |&gt;\n  mutate(PubChem.CID = as.character(PubChem.CID)) |&gt;\n  distinct(Abbreviation, PubChem.CID, .keep_all = TRUE) |&gt;\n  arrange(Abbreviation)\n\n# 从PubChem获取信息\nsource(\"utils.R\")\n\nproperties &lt;- c(\"IUPACName\", \"MolecularFormula\", \"MolecularWeight\", \"SMILES\")\n\nunique_cids &lt;- unique(ingredients_raw$PubChem.CID)\ncid_batches &lt;- split(unique_cids, ceiling(seq_along(unique_cids)/10))\n\nplan(multisession, workers = availableCores() - 2)\nwith_progress({\n  p &lt;- progressor(steps = length(cid_batches))\n  chem_info &lt;- future_map_dfr(cid_batches, function(b) {\n    p()\n    fetch_batch(properties, b)\n  })\n})\nplan(sequential)\n\ningredients &lt;- ingredients_raw |&gt;\n  left_join(chem_info, by = c(\"PubChem.CID\"=\"CID\")) |&gt;\n  mutate(across(where(is.character), trimws)) |&gt;\n  mutate(MolecularWeight = as.numeric(MolecularWeight)) |&gt;\n  arrange(Abbreviation, MolecularWeight)\n\nsave(ingredients,file = \"data/qfd_ingredients/ingredients.RData\")"
+  },
+  {
+    "objectID": "prepraw.html#保存分子信息到table-s1",
+    "href": "prepraw.html#保存分子信息到table-s1",
+    "title": "原始数据预处理",
+    "section": "1.2 保存分子信息到Table S1",
+    "text": "1.2 保存分子信息到Table S1\n\nload(\"data/qfd_ingredients/ingredients.RData\")\n\nwrite.xlsx(list(\n  `Table S1` = ingredients |&gt;\n    dplyr::rename(`Medicinal Materials` = Medicinal.Materials,\n                `Molecular Formula` = MolecularFormula,\n                `PubChem CID` = PubChem.CID,\n                `TMMC2 ID` = TMMC2.ID,\n                `HERB2 ID` = HERB2.ID,\n                `TCMSP ID` = TCMSP.ID,\n                `Molecular Weight` = MolecularWeight,\n                `IUPAC Name` = IUPACName\n                ) |&gt;\n    dplyr::select(`Medicinal Materials`, Abbreviation, Ingredient,`PubChem CID`, `Molecular Formula`,`Molecular Weight`, SMILES)), \n  file = \"supplementary/Table S1.xlsx\")"
+  },
+  {
+    "objectID": "prepraw.html#下载sdf文件dataqfd_sdfs",
+    "href": "prepraw.html#下载sdf文件dataqfd_sdfs",
+    "title": "原始数据预处理",
+    "section": "1.3 下载SDF文件(data/qfd_sdfs)",
+    "text": "1.3 下载SDF文件(data/qfd_sdfs)\n\nunique_cids &lt;- unique(ingredients$PubChem.CID)\nsdf_files &lt;- \"data/qfd_sdfs\"\nresults &lt;- download_all_sdf(unique_cids, sdf_files)"
+  },
+  {
+    "objectID": "prepraw.html#tmmc-2.0",
+    "href": "prepraw.html#tmmc-2.0",
+    "title": "原始数据预处理",
+    "section": "2.1 TMMC 2.0",
+    "text": "2.1 TMMC 2.0\n\nrm(list = ls())\n\nload(\"data/qfd_targets/tmmc2/tmmc.RData\")\nload(\"data/qfd_ingredients/ingredients.RData\")\n\ntargets.tmmc &lt;- tmmc_compound_protein |&gt;\n  dplyr::filter(ID %in% ingredients$TMMC2.ID) |&gt;\n  arrange(ID)\n\nsave(targets.tmmc, file = \"data/qfd_targets/targets.tmmc.RData\")"
+  },
+  {
+    "objectID": "prepraw.html#pubchem-bioassay",
+    "href": "prepraw.html#pubchem-bioassay",
+    "title": "原始数据预处理",
+    "section": "2.2 PubChem BioAssay",
+    "text": "2.2 PubChem BioAssay\n\nrm(list = ls())\n\nload(\"data/qfd_targets/targets.tmmc.RData\")\nload(\"data/qfd_ingredients/ingredients.RData\")\n\ntargets.pubchem &lt;- targets.tmmc |&gt;\n  dplyr::filter(SOURCE == \"PubChem\") |&gt;\n  dplyr::distinct(ID,PROTEINID, .keep_all = TRUE) |&gt;\n  left_join(ingredients, by =  c(\"ID\" = \"TMMC2.ID\"), relationship = \"many-to-many\") |&gt;\n  mutate(Class = \"validated\") |&gt;\n  dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID, PROTEINID, Source = SOURCE, Score = SCORE, Class) |&gt;\n  distinct(Abbreviation,PubChem.CID,PROTEINID, Source, Class, .keep_all = TRUE) |&gt;\n  dplyr::filter(if_all(everything(), ~ !is.na(.x))) |&gt;\n  arrange(No., PROTEINID)"
+  },
+  {
+    "objectID": "prepraw.html#stitch-v5.0",
+    "href": "prepraw.html#stitch-v5.0",
+    "title": "原始数据预处理",
+    "section": "2.3 STITCH v5.0",
+    "text": "2.3 STITCH v5.0\n\nrm(list = ls())\n\nload(\"data/qfd_targets/targets.tmmc.RData\")\nload(\"data/qfd_ingredients/ingredients.RData\")\n\ntargets.stitch &lt;- targets.tmmc |&gt;\n  dplyr::filter(SOURCE == \"STITCH\") |&gt;\n  dplyr::distinct(ID,PROTEINID, .keep_all = TRUE) |&gt;\n  left_join(ingredients, by =  c(\"ID\" = \"TMMC2.ID\"), relationship = \"many-to-many\") |&gt;\n  mutate(Class = \"validated\") |&gt;\n  dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID, PROTEINID, Source = SOURCE, Score = SCORE, Class) |&gt;\n  distinct(Abbreviation,PubChem.CID,PROTEINID, Source, Class, .keep_all = TRUE) |&gt;\n  dplyr::filter(if_all(everything(), ~ !is.na(.x))) |&gt;\n  arrange(No., PROTEINID)\n\nsave(targets.stitch, file = \"data/qfd_targets/targets.stitch.RData\")"
+  },
+  {
+    "objectID": "prepraw.html#tcmsp-v2.3",
+    "href": "prepraw.html#tcmsp-v2.3",
+    "title": "原始数据预处理",
+    "section": "2.4 TCMSP v2.3",
+    "text": "2.4 TCMSP v2.3\n\nrm(list = ls())\n\nload(\"data/qfd_ingredients/ingredients.RData\")\n\ntcmsp &lt;- read.xlsx(\"data/qfd_targets/tcmsp/tcmsp_qfd_targets.xlsx\") |&gt;\n  dplyr::mutate(\n    Source = \"TCMSP\",\n    Class = case_when(\n    validated !=\"validated\" ~ \"predicted\",\n    TRUE ~ \"validated\"),\n    Score.SVM = SVM_score\n  ) |&gt;\n  dplyr::select(MOL_ID,Entry,Source, Score.SVM, Class) \n\ntargets.tcmsp &lt;- ingredients  |&gt;\n  separate_rows(TCMSP.ID, sep = \";\") |&gt;\n  mutate(TCMSP.ID = trimws(TCMSP.ID)) |&gt;\n  left_join(tcmsp, by = c(\"TCMSP.ID\" = \"MOL_ID\"), relationship = \"many-to-many\") |&gt;\n  dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID,Entry, Source, Score.SVM, Class) |&gt;\n  distinct(Abbreviation,PubChem.CID,Entry, Source, Class, .keep_all = TRUE) |&gt;\n  dplyr::filter(if_all(everything(), ~ !is.na(.x))) |&gt;\n  arrange(No., Entry)\n\nsave(targets.tcmsp, file = \"data/qfd_targets/targets.tcmsp.RData\")"
+  },
+  {
+    "objectID": "prepraw.html#herb-2.0",
+    "href": "prepraw.html#herb-2.0",
+    "title": "原始数据预处理",
+    "section": "2.5 HERB 2.0",
+    "text": "2.5 HERB 2.0\n\nrm(list = ls())\n\nload(\"data/qfd_ingredients/ingredients.RData\")\n\nherb2_db_all &lt;- read.xlsx(\"data/qfd_targets/herb2/herb2_db_all.xlsx\") |&gt;\n  mutate(Source = \"HERB2\", Mining = \"database\", Class = \"validated\") |&gt;\n  dplyr::select(PubChem.CID, Symbol = Gene.symbol, Source,Mining, Class)\n\nherb2_ref_all &lt;- read.xlsx(\"data/qfd_targets/herb2/herb2_ref_all.xlsx\") |&gt;\n  mutate(Source = \"HERB2\", Mining = \"Reference\", Class = \"validated\") |&gt;\n  dplyr::select(PubChem.CID, Symbol = Gene.symbol, Source,Mining, Class)\n\n\nherb2 &lt;- rbind(herb2_db_all, herb2_ref_all) |&gt;\n  distinct(PubChem.CID,Symbol, Mining, Class, .keep_all = TRUE)\n\ntargets.herb2 &lt;- ingredients |&gt;\n  left_join(herb2, by = \"PubChem.CID\", relationship = \"many-to-many\") |&gt;\n  dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID,Symbol, Source, Mining, Class) |&gt;\n  distinct(Abbreviation,PubChem.CID,Symbol, Source, Class, .keep_all = TRUE) |&gt;\n  dplyr::filter(if_all(everything(), ~ !is.na(.x))) |&gt;\n  arrange(No., Symbol)\n\nsave(targets.herb2, file = \"data/qfd_targets/targets.herb2.RData\")"
+  },
+  {
+    "objectID": "prepraw.html#swisstargetprediction",
+    "href": "prepraw.html#swisstargetprediction",
+    "title": "原始数据预处理",
+    "section": "2.6 SwissTargetPrediction",
+    "text": "2.6 SwissTargetPrediction\n\nrm(list = ls())\n\nsource(\"utils.R\")\n\nload(\"data/qfd_ingredients/ingredients.RData\")\n\nswiss &lt;- read_compound_target(\"data/qfd_targets/swiss/\") |&gt;\n  dplyr::rename(Probability = `Probability*`, \n                Common.name = `Common name`,\n                Uniprot.ID = `Uniprot ID`) |&gt;\n  separate_rows(Uniprot.ID, sep = \"&\") |&gt;\n  separate_rows(Uniprot.ID, sep = \" \") |&gt;\n  dplyr::select(CID,Uniprot.ID, Probability) |&gt;\n  distinct(CID, Uniprot.ID, .keep_all = TRUE) |&gt;\n  dplyr::filter(!is.na(Uniprot.ID)) |&gt;\n  distinct(CID, Uniprot.ID, .keep_all = TRUE) |&gt;\n  mutate(\n    CID = clean_cids(CID),\n    Source = \"SwissTargetPrediction\",\n    Class = \"predicted\"\n    ) |&gt;\n  dplyr::select(CID, Uniprot.ID,Source,Probability,Class)\n\ntargets.swiss &lt;- ingredients |&gt;\n  left_join(swiss, by = c(\"PubChem.CID\" = \"CID\"), relationship = \"many-to-many\") |&gt;\n  dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID,Uniprot.ID, Source, Probability, Class) |&gt;\n  distinct(Abbreviation,PubChem.CID, Uniprot.ID, Source, Class, .keep_all = TRUE) |&gt;\n  dplyr::filter(if_all(everything(), ~ !is.na(.x))) |&gt;\n  arrange(No., Uniprot.ID)\n\n# Save processed SwissTargetPrediction targets\nsave(targets.swiss, file = \"data/qfd_targets/targets.swiss.RData\")"
+  },
+  {
+    "objectID": "prepraw.html#super-pred",
+    "href": "prepraw.html#super-pred",
+    "title": "原始数据预处理",
+    "section": "2.7 Super-PRED",
+    "text": "2.7 Super-PRED\n\nrm(list = ls())\n\nsource(\"utils.R\")\n\nload(\"data/qfd_ingredients/ingredients.RData\")\n\n# known targets\nsuper_known &lt;- read_compound_target(\"data/qfd_targets/super/known\") |&gt;\n  dplyr::select(CID, Uniprot.ID = `UniProt ID`) |&gt;\n  dplyr::filter(!is.na(Uniprot.ID)) |&gt;\n  distinct(CID, Uniprot.ID, .keep_all = TRUE) |&gt;\n  mutate(Source = \"SuperPred\", Probability = \"100%\", `Model accuracy` = \"100%\", Class = \"validated\") |&gt;\n  dplyr::select(CID, Uniprot.ID, Source, Probability, `Model accuracy`, Class)\n\n# Predicted targets (Prob &gt;= 60, Model Accuracy &gt;= 85) (modify,70/90)\nsuper_pred &lt;- read_compound_target(\"data/qfd_targets/super\") |&gt;\n  dplyr::select(CID, Uniprot.ID = `UniProt ID`, Probability, `Model accuracy`) |&gt;\n  dplyr::filter(!is.na(Uniprot.ID)) |&gt;\n  distinct(CID, Uniprot.ID, .keep_all = TRUE)|&gt;\n  mutate(Source = \"SuperPred\", Class = \"predicted\") |&gt;\n  dplyr::select(CID, Uniprot.ID, Source, Probability, `Model accuracy`, Class)\n\nsuper &lt;- rbind(super_known, super_pred)\n\ntargets.super &lt;- ingredients |&gt;\n  left_join(super, by = c(\"PubChem.CID\" = \"CID\"), relationship = \"many-to-many\") |&gt;\n  dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID,Uniprot.ID, Source, Probability, `Model accuracy`, Class) |&gt;\n  distinct(Abbreviation,PubChem.CID, Uniprot.ID, Source, Class, .keep_all = TRUE) |&gt;\n  dplyr::filter(if_all(everything(), ~ !is.na(.x))) |&gt;\n  arrange(No., Uniprot.ID)\n\n# Save processed Super-Pred targets\nsave(targets.super, file = \"data/qfd_targets/targets.super.RData\")"
+  },
+  {
+    "objectID": "prepraw.html#pharmmapper",
+    "href": "prepraw.html#pharmmapper",
+    "title": "原始数据预处理",
+    "section": "2.8 PharmMapper",
+    "text": "2.8 PharmMapper\n\nrm(list = ls())\n\nsource(\"utils.R\")\n\nload(\"data/qfd_ingredients/ingredients.RData\")\n\n# Process PharmMapper results (Human only, high-confidence filters) (modify,0.5)\npharm &lt;- read_compound_target2(\"data/qfd_targets/pharm\",skip_row = 1) |&gt;\n  dplyr::filter(grepl(\"_HUMAN\", Uniplot)) |&gt;\n  dplyr::select(CID, Uniplot,`Norm Fit`) |&gt;\n  distinct(CID, Uniplot, .keep_all = TRUE) |&gt;\n  dplyr::filter(!is.na(Uniplot)) |&gt;\n  mutate(Source = \"PharmMapper\",Class = \"predicted\") |&gt;\n  dplyr::select(CID,Uniplot, Source,`Norm Fit`,Class) |&gt;\n  distinct(CID, Uniplot, .keep_all = TRUE) \n\ntargets.pharm &lt;- ingredients |&gt;\n  left_join(pharm, by = c(\"PubChem.CID\" = \"CID\"), relationship = \"many-to-many\") |&gt;\n  dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID,Uniplot, Source,`Norm Fit`, Class) |&gt;\n  distinct(Abbreviation,PubChem.CID, Uniplot, Source, Class, .keep_all = TRUE) |&gt;\n  dplyr::filter(if_all(everything(), ~ !is.na(.x))) |&gt;\n  arrange(No., Uniplot)\n\n# Save processed PharmMapper targets\nsave(targets.pharm, file = \"data/qfd_targets/targets.pharm.RData\")"
+  },
+  {
+    "objectID": "prepraw.html#sea",
+    "href": "prepraw.html#sea",
+    "title": "原始数据预处理",
+    "section": "2.9 SEA",
+    "text": "2.9 SEA\n\nrm(list = ls())\n\nsource(\"utils.R\")\n\nload(\"data/qfd_ingredients/ingredients.RData\")\n\n# Process SEA results (confidence filters)\nsea &lt;- read.csv(\"data/qfd_targets/sea/sea-results.xls\") |&gt;\n  mutate(CID = as.numeric(gsub(\"C\",\"\",Query.ID)), .before = 1) |&gt;\n  arrange(CID) |&gt;\n  mutate(CID = as.character(CID)) |&gt;\n  dplyr::select(-Query.ID) |&gt;\n  dplyr::filter(grepl(\"_HUMAN\", Target.ID)) |&gt;\n  distinct(CID, Target.ID, .keep_all = TRUE) |&gt;\n  dplyr::filter(!is.na(Target.ID)) |&gt;\n  mutate(Source = \"SEA\", Class = \"predicted\") |&gt;\n  dplyr::select(CID, Target.ID, Source, P.Value, Max.Tc, Class) |&gt;\n  distinct(CID, Target.ID, .keep_all = TRUE) \n\ntargets.sea &lt;- ingredients |&gt;\n  left_join(sea, by = c(\"PubChem.CID\" = \"CID\"), relationship = \"many-to-many\") |&gt;\n  dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID,Target.ID, Source, P.Value, Max.Tc,Class) |&gt;\n  distinct(Abbreviation,PubChem.CID, Target.ID, Source, Class, .keep_all = TRUE) |&gt;\n  dplyr::filter(if_all(everything(), ~ !is.na(.x))) |&gt;\n  arrange(No., Target.ID)\n\n# Save processed SEA targets\nsave(targets.sea, file = \"data/qfd_targets/targets.sea.RData\")"
+  },
+  {
+    "objectID": "prepraw.html#uniprot-id-mapping",
+    "href": "prepraw.html#uniprot-id-mapping",
+    "title": "原始数据预处理",
+    "section": "2.10 Uniprot ID Mapping",
+    "text": "2.10 Uniprot ID Mapping\n\npubchem_mapping.tsv.gz\nstitch_mapping.tsv.gz\ntcmsp_mapping.tsv.gz\nherb2_mapping.tsv.gz\nswiss_mapping.tsv.gz\nsuper_mapping.tsv.gz\npharm_mapping.tsv.gz\nsea_mapping.tsv.gz\n\n\nrm(list = ls())\n\n# pubchem\nload(\"data/qfd_targets/pubchem.RData\")\npubchem_mapping &lt;- fread(\"data/qfd_targets/pubchem_mapping.tsv.gz\") |&gt;\n  mutate(Symbol = `Gene Names (primary)`) |&gt;\n  distinct(From, Symbol) |&gt;\n  separate_rows(Symbol, sep = \";\")\n\npubchem_std &lt;- pubchem |&gt;\n  left_join(pubchem_mapping, by = c(\"PROTEINID\" = \"From\"),\n            relationship = \"many-to-many\") |&gt;\n  dplyr::filter(!is.na(Symbol)) |&gt;\n  distinct(Abbreviation,PubChem.CID,Symbol,.keep_all = TRUE) |&gt;\n  dplyr::select(-PROTEINID)\n  \n  \n# stitch\nload(\"data/qfd_targets/stitch.RData\")\nstitch_mapping &lt;- fread(\"data/qfd_targets/stitch_mapping.tsv.gz\") |&gt;\n  mutate(Symbol = `Gene Names (primary)`) |&gt;\n  distinct(From, Symbol) |&gt;\n  separate_rows(Symbol, sep = \";\")\n\nstitch_std &lt;- stitch |&gt;\n  left_join(stitch_mapping, by = c(\"PROTEINID\" = \"From\"),\n            relationship = \"many-to-many\") |&gt;\n  dplyr::filter(!is.na(Symbol)) |&gt;\n  distinct(Abbreviation,PubChem.CID,Symbol,.keep_all = TRUE) |&gt;\n  dplyr::select(-PROTEINID)\n\n# tcmsp\nload(\"data/qfd_targets/tcmsp.RData\")\ntcmsp_mapping &lt;- fread(\"data/qfd_targets/tcmsp_mapping.tsv.gz\") |&gt;\n  mutate(Symbol = To) |&gt;\n  distinct(From, Symbol) |&gt;\n  separate_rows(Symbol, sep = \";\")\n\ntcmsp_std &lt;- tcmsp |&gt;\n  left_join(tcmsp_mapping, by = c(\"Entry\" = \"From\"),\n            relationship = \"many-to-many\") |&gt;\n  dplyr::filter(!is.na(Symbol)) |&gt;\n  distinct(Abbreviation,PubChem.CID,Symbol,.keep_all = TRUE) |&gt;\n  dplyr::select(-Entry)\n\n# herb\nload(\"data/qfd_targets/herb2.RData\")\nherb2_std &lt;- herb2 |&gt;\n  dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID,Source,Class,Symbol)\n\n# swiss\nload(\"data/qfd_targets/swiss.RData\")\nswiss_mapping &lt;- fread(\"data/qfd_targets/swiss_mapping.tsv.gz\") |&gt;\n  mutate(Symbol = To) |&gt;\n  distinct(From, Symbol) |&gt;\n  separate_rows(Symbol, sep = \";\")\n\nswiss_std &lt;- swiss |&gt;\n  left_join(swiss_mapping, by = c(\"Uniprot.ID\" = \"From\"),\n            relationship = \"many-to-many\") |&gt;\n  dplyr::filter(!is.na(Symbol)) |&gt;\n  distinct(Abbreviation,PubChem.CID,Symbol,.keep_all = TRUE) |&gt;\n  dplyr::select(-Uniprot.ID)\n\n# super\nload(\"data/qfd_targets/super.RData\")\nsuper_mapping &lt;- fread(\"data/qfd_targets/super_mapping.tsv.gz\") |&gt;\n  mutate(Symbol = To) |&gt;\n  distinct(From, Symbol) |&gt;\n  separate_rows(Symbol, sep = \";\")\n\nsuper_std &lt;- super |&gt;\n  left_join(super_mapping, by = c(\"Uniprot.ID\" = \"From\"),\n            relationship = \"many-to-many\") |&gt;\n  dplyr::filter(!is.na(Symbol)) |&gt;\n  distinct(Abbreviation,PubChem.CID,Symbol,.keep_all = TRUE) |&gt;\n  dplyr::select(-Uniprot.ID)\n\n# pharm\nload(\"data/qfd_targets/pharm.RData\")\npharm_mapping &lt;- fread(\"data/qfd_targets/pharm_mapping.tsv.gz\") |&gt;\n  mutate(Symbol = To) |&gt;\n  distinct(From, Symbol) |&gt;\n  separate_rows(Symbol, sep = \";\")\n\npharm_std &lt;- pharm |&gt;\n  left_join(pharm_mapping, by = c(\"Uniplot\" = \"From\"),\n            relationship = \"many-to-many\") |&gt;\n  dplyr::filter(!is.na(Symbol)) |&gt;\n  distinct(Abbreviation,PubChem.CID,Symbol,.keep_all = TRUE) |&gt;\n  dplyr::select(-Uniplot)\n\n# sea\nload(\"data/qfd_targets/sea.RData\")\nsea_mapping &lt;- fread(\"data/qfd_targets/sea_mapping.tsv.gz\") |&gt;\n  mutate(Symbol = To) |&gt;\n  distinct(From, Symbol) |&gt;\n  separate_rows(Symbol, sep = \";\")\n\nsea_std &lt;- sea |&gt;\n  left_join(sea_mapping, by = c(\"Target.ID\" = \"From\"),\n            relationship = \"many-to-many\") |&gt;\n  dplyr::filter(!is.na(Symbol)) |&gt;\n  distinct(Abbreviation,PubChem.CID,Symbol,.keep_all = TRUE) |&gt;\n  dplyr::select(-Target.ID)\n\nsave(\n  pubchem_std,\n  stitch_std,\n  tcmsp_std,\n  herb2_std,\n  swiss_std,\n  super_std,\n  pharm_std,\n  sea_std,\n  file = \"data/qfd_targets/ingredients.std.RData\"\n)"
+  },
+  {
+    "objectID": "prepraw.html#筛选潜在成分靶点",
+    "href": "prepraw.html#筛选潜在成分靶点",
+    "title": "原始数据预处理",
+    "section": "2.11 筛选潜在成分靶点",
+    "text": "2.11 筛选潜在成分靶点\n\nrm(list = ls())\n\n# pubchem: all\nload(\"data/qfd_targets/targets.pubchem.RData\")\npubchem &lt;- targets.pubchem |&gt; dplyr::select(-Score)\n\n\n# stitch: Score &gt; 0.7\nload(\"data/qfd_targets/targets.stitch.RData\")\nstitch &lt;- targets.stitch |&gt;\n  dplyr::filter(Score&gt;=0.7) |&gt;\n  dplyr::select(-Score)\n\nsave(stitch, file = \"data/qfd_targets/stitch.RData\")\nwrite.xlsx(stitch |&gt; distinct(PROTEINID), file = \"data/qfd_targets/stitch.xlsx\")\n\n\n# TCMSP: all\nload(\"data/qfd_targets/targets.tcmsp.RData\")\ntcmsp &lt;- targets.tcmsp |&gt; dplyr::select(-Score.SVM)\n\nsave(tcmsp, file = \"data/qfd_targets/tcmsp.RData\")\nwrite.xlsx(tcmsp |&gt; distinct(Entry), file = \"data/qfd_targets/tcmsp.xlsx\")\n\n\n# HERB2: all\nload(\"data/qfd_targets/targets.herb2.RData\")\nherb2 &lt;- targets.herb2 |&gt; dplyr::select(-Mining)\n\nsave(herb2, file = \"data/qfd_targets/herb2.RData\")\nwrite.xlsx(herb2 |&gt; distinct(Symbol), file = \"data/qfd_targets/herb2.xlsx\")\n\n# Swiss: Probability&gt;=0.1\nload(\"data/qfd_targets/targets.swiss.RData\")\nswiss &lt;- targets.swiss |&gt;\n  dplyr::filter(Probability&gt;=0.1) |&gt;\n  dplyr::select(-Probability)\n\nsave(swiss, file = \"data/qfd_targets/swiss.RData\")\nwrite.xlsx(swiss |&gt; distinct(Uniprot.ID), file = \"data/qfd_targets/swiss.xlsx\")\n\n# Super-PRED: Probability&gt;=\"80%\" (+ `Model accuracy` &gt;= \"95%\")\nload(\"data/qfd_targets/targets.super.RData\")\nsuper &lt;- targets.super |&gt;\n  mutate(Prob_num = as.numeric(str_remove(Probability,\"%\"))) |&gt;\n  dplyr::filter((Prob_num&gt;=80 ) | Class == \"validated\") |&gt;\n  dplyr::select(-Probability,-`Model accuracy`, -Prob_num)\n\nsave(super, file = \"data/qfd_targets/super.RData\")\nwrite.xlsx(super |&gt; distinct(Uniprot.ID), file = \"data/qfd_targets/super.xlsx\")\n  \n# PharmMapper: `Norm Fit` &gt;= 0.70\nload(\"data/qfd_targets/targets.pharm.RData\")\npharm &lt;- targets.pharm |&gt; \n  dplyr::filter(`Norm Fit` &gt;= 0.7) |&gt;\n  dplyr::select(-`Norm Fit`)\n\nsave(pharm, file = \"data/qfd_targets/pharm.RData\")\nwrite.xlsx(pharm |&gt; distinct(Uniplot), file = \"data/qfd_targets/pharm.xlsx\")\n\n# SEA: P.Value &lt; 0.01、Max.Tc &gt;= 0.3\nload(\"data/qfd_targets/targets.sea.RData\")\nsea &lt;- targets.sea |&gt; \n  dplyr::filter(P.Value &lt; 0.01 & Max.Tc &gt;= 0.3) |&gt;\n  dplyr::select(-P.Value, -Max.Tc)\n\nsave(sea, file = \"data/qfd_targets/sea.RData\")\nwrite.xlsx(sea |&gt; distinct(Target.ID), file = \"data/qfd_targets/sea.xlsx\")"
+  },
+  {
+    "objectID": "prepraw.html#合并潜在成分靶点",
+    "href": "prepraw.html#合并潜在成分靶点",
+    "title": "原始数据预处理",
+    "section": "2.12 合并潜在成分靶点",
+    "text": "2.12 合并潜在成分靶点\n\nload(\"data/qfd_targets/ingredients.std.RData\")\n\ningredients.targets &lt;- rbind(\n  pubchem_std,\n  stitch_std,\n  tcmsp_std,\n  herb2_std,\n  swiss_std,\n  super_std,\n  pharm_std,\n  sea_std\n) |&gt; \n  group_by(No., Abbreviation, Ingredient, Type, PubChem.CID, Symbol) |&gt;\n  summarise(\n    Source.Sum = paste(Source, collapse = \";\"),  \n    Class.Sum = paste(Class, collapse = \";\"), \n    Count = n_distinct(Source),      \n    .groups = \"drop\"\n  ) |&gt;\n  mutate(Class = case_when(\n    str_detect(Class.Sum, \"validated\") ~ \"validated\",\n    TRUE ~ \"predicted\"\n  )) |&gt;\n  mutate(Symbol = trimws(Symbol))\n\ningredients.targets.filter &lt;-  ingredients.targets |&gt;\n  dplyr::filter(Class == \"validated\" | (Class == \"predicted\" & Count&gt;=2))\n\nsave(ingredients.targets,ingredients.targets.filter, file =  \"data/qfd_targets/ingredients_targets.RData\")"
+  },
+  {
+    "objectID": "prepraw.html#disgenet-v25.4-2025-12-15更新2025-12-20检索",
+    "href": "prepraw.html#disgenet-v25.4-2025-12-15更新2025-12-20检索",
+    "title": "原始数据预处理",
+    "section": "3.1 DisGeNet v25.4 (2025-12-15更新/2025-12-20检索)",
+    "text": "3.1 DisGeNet v25.4 (2025-12-15更新/2025-12-20检索)\n\nrm(list = ls())\n\nres &lt;- disease2gene(disease = \"UMLS_C0018801\",     database = \"CURATED\",\n    score = c(0,1) \n)\n\nhf &lt;- res@qresult\n\nres &lt;- disease2gene(disease = \"UMLS_C0018802\",     database = \"CURATED\",\n    score = c(0,1) \n)\n\nchf &lt;- res@qresult\n\ndisgenet &lt;- rbind(hf,chf) |&gt;\n  filter(geneNcbiType == \"protein-coding\") |&gt;\n  group_by(gene_symbol) |&gt;\n  summarise(\n    max_normalized_score = max(normalized_score, na.rm = TRUE),\n    Count = n_distinct(disease_name),\n    Source = \"DisGeNet V25.4\",\n    .groups = \"drop\"\n  )\n\nnrow(disgenet)\n\nsave(hf,chf, file = \"data/chf_targets/raw.RData\")\n\nsave(disgenet,file = \"data/chf_targets/disgenet.RData\")\n\nwrite.xlsx(disgenet, file = \"data/chf_targets/disgenet.xlsx\")"
+  },
+  {
+    "objectID": "prepraw.html#genecards",
+    "href": "prepraw.html#genecards",
+    "title": "原始数据预处理",
+    "section": "3.2 GeneCards",
+    "text": "3.2 GeneCards\n\nrm(list = ls())\n\ngenecards.hf &lt;- read.csv(\"data/chf_targets/genecards/genecards_hf.csv\",skip = 4)\n\ngenecards.chf &lt;- read.csv(\"data/chf_targets/genecards/genecards_chf.csv\",skip = 4)\n\ngenecards &lt;- rbind(genecards.hf,genecards.chf) |&gt;\n  dplyr::group_by(Symbol) |&gt;\n  dplyr::slice_max(Relevance.Score, n = 1, with_ties = FALSE) |&gt;\n  dplyr::ungroup() |&gt;\n  dplyr::filter(!is.na(Symbol)) |&gt;\n  mutate(Source = \"GeneCards\")\n\nnrow(genecards)\n\nsave(genecards,file = \"data/chf_targets/genecards.RData\")"
+  },
+  {
+    "objectID": "prepraw.html#ttd",
+    "href": "prepraw.html#ttd",
+    "title": "原始数据预处理",
+    "section": "3.3 TTD",
+    "text": "3.3 TTD\n\nrm(list = ls())\n\nload(\"data/uniprot/uniprot_human_reviewed.RData\")\nuniprot_human_reviewed &lt;- uniprot_human_reviewed |&gt;\n  mutate(Gene.Names.primary = trimws(Gene.Names.primary),\n         Gene.Names = trimws(Gene.Names)) |&gt;\n  dplyr::filter(Gene.Names.primary != \"\") |&gt;\n  dplyr::select(Gene.Names.primary,Gene.Names) |&gt;\n  separate_rows(Gene.Names, sep = \"\\\\s+\") |&gt;\n  dplyr::filter(Gene.Names !=\"\") |&gt;\n  mutate(Gene.Names.primary = trimws(Gene.Names.primary),\n         Gene.Names = trimws(Gene.Names))\n\nttd &lt;- read.xlsx(\"data/chf_targets/ttd/ttd.xlsx\") |&gt;\n  dplyr::distinct(Symbol) |&gt;\n  left_join(uniprot_human_reviewed, \n            by = c(\"Symbol\" = \"Gene.Names\"),\n            relationship = \"many-to-many\") |&gt;\n  dplyr::filter(!is.na(Gene.Names.primary)) |&gt;\n  distinct(Gene.Names.primary) |&gt;\n  dplyr::rename(Symbol = Gene.Names.primary) |&gt;\n  mutate(Source=\"TTD\")\n\nnrow(ttd)\n\nsave(ttd,file = \"data/chf_targets/ttd.RData\")"
+  },
+  {
+    "objectID": "prepraw.html#chf-related-targets",
+    "href": "prepraw.html#chf-related-targets",
+    "title": "原始数据预处理",
+    "section": "3.4 CHF-related targets",
+    "text": "3.4 CHF-related targets\n\nrm(list = ls())\n\nload(\"data/chf_targets/disgenet.RData\")\nload(\"data/chf_targets/genecards.RData\")\n# load(\"data/chf_targets/omim.RData\")\nload(\"data/chf_targets/ttd.RData\")\n\n# 0.3\ndisgenet.filter &lt;- disgenet |&gt;\n#   dplyr::filter(Score &gt;= 0.3) |&gt;\n#   dplyr::select(-Score) |&gt;\n  distinct(PREFERRED_NAME, .keep_all = TRUE ) |&gt; \n  dplyr::select(Symbol = PREFERRED_NAME,Source)\n\n\ngenecards.filter &lt;- genecards |&gt;\n#   dplyr::filter(Relevance.Score &gt;= 10) |&gt;\n#   dplyr::select(-Relevance.Score) |&gt;\n  distinct(Symbol, .keep_all = TRUE ) |&gt; \n  dplyr::select(Symbol,Source)\n\nchf.targets &lt;- rbind(disgenet.filter, genecards.filter,  ttd) |&gt;\n  group_by(Symbol) |&gt;\n  summarise(\n    Source = paste(Source, collapse = \";\"),\n    .groups = \"drop\"\n  )\n\nsave(chf.targets, file = \"data/chf_targets/chf.targets.RData\")"
   }
 ]
