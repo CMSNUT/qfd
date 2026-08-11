@@ -31,6 +31,8 @@ library(future)
 library(furrr)      
 library(progressr) 
 library(httr) 
+library(progress)
+library(jsonlite)
 
 # https://www.uniprot.org/id-mapping
 
@@ -77,7 +79,7 @@ ingredients_raw <- read.xlsx("data/qfd_ingredients/raw.xlsx") |>
   distinct(Abbreviation, PubChem.CID, .keep_all = TRUE) |>
   arrange(Abbreviation)
 
-properties <- c("IUPACName", "MolecularFormula", "MolecularWeight", "SMILES")
+properties <- c("IUPACName", "MolecularFormula", "MolecularWeight", "SMILES","InChIKey")
 unique_cids <- unique(ingredients_raw$PubChem.CID)
 
 chem_info <- get_properties(
@@ -114,7 +116,7 @@ write.xlsx(list(
                 `Molecular Weight` = MolecularWeight,
                 `IUPAC Name` = IUPACName
                 ) |>
-    dplyr::select(`Medicinal Materials`, Abbreviation, Ingredient,`PubChem CID`, `Molecular Formula`,`Molecular Weight`, SMILES,ConnectivitySMILES)), 
+    dplyr::select(`Medicinal Materials`, Abbreviation, Ingredient,`PubChem CID`, InChIKey,`Molecular Formula`,`Molecular Weight`, SMILES,ConnectivitySMILES)), 
   file = "supplementary/Table S1.xlsx")
 ```
 
@@ -169,25 +171,50 @@ targets.tmmc <- tmmc_compound_protein |>
   dplyr::filter(ID %in% ingredients$TMMC2.ID) |>
   arrange(ID)
 
-save(targets.tmmc, file = "data/qfd_targets/targets.tmmc.RData")
+save(targets.tmmc, file = "data/qfd_targets/tmmc2/targets.tmmc.RData")
 ```
 
 ## PubChem BioAssay
 ```{r}
 rm(list = ls())
 
-load("data/qfd_targets/targets.tmmc.RData")
+# source("utils.R")
+
 load("data/qfd_ingredients/ingredients.RData")
 
-targets.pubchem <- targets.tmmc |>
-  dplyr::filter(SOURCE == "PubChem") |>
-  dplyr::distinct(ID,PROTEINID, .keep_all = TRUE) |>
-  left_join(ingredients, by =  c("ID" = "TMMC2.ID"), relationship = "many-to-many") |>
-  mutate(Class = "validated") |>
-  dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID, PROTEINID, Source = SOURCE, Score = SCORE, Class) |>
-  distinct(Abbreviation,PubChem.CID,PROTEINID, Source, Class, .keep_all = TRUE) |>
-  dplyr::filter(if_all(everything(), ~ !is.na(.x))) |>
-  arrange(No., PROTEINID)
+# load("data/qfd_targets/tmmc2/targets.tmmc.RData")
+# targets.pubchem <- targets.tmmc |>
+#   dplyr::filter(SOURCE == "PubChem") |>
+#   dplyr::distinct(ID,PROTEINID, .keep_all = TRUE) |>
+#   left_join(ingredients, by =  c("ID" = "TMMC2.ID"), relationship = "many-to-many") |>
+#   mutate(Class = "validated") |>
+#   dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID, PROTEINID, Source = SOURCE, Score = SCORE, Class) |>
+#   distinct(Abbreviation,PubChem.CID,PROTEINID, Source, Class, .keep_all = TRUE) |>
+#   dplyr::filter(if_all(everything(), ~ !is.na(.x))) |>
+#   arrange(No., PROTEINID)
+
+source("pubchemBioassay.R")
+
+cids <- as.character(ingredients$PubChem.CID)
+
+# Chemical-Target Interactions
+
+targets_cti <- get_cid_targets(cids) 
+
+save(targets_cti, file = "data/qfd_targets/pubchem/targets_cti.RData")
+
+targets_cti_human <- targets_cti |>
+  dplyr::filter(taxid == "9606") |>
+  dplyr::select(CID = cid, Symbol = genename) |>
+  distinct(CID,Symbol) |>
+  mutate(Source = "PubChem", Class="validated")
+
+save(targets_cti_human, file = "data/qfd_targets/pubchem/targets_cti_human.RData")
+
+# active_aids <- get_cid_aid_df(cids)
+# 
+# 
+# save(targets.pubchem, file = "data/qfd_targets/pubchem/targets.pubchem.RData")
 ``` 
 
 ## STITCH v5.0 (score>=0.4)
@@ -195,14 +222,45 @@ targets.pubchem <- targets.tmmc |>
 ```{r}
 rm(list = ls())
 
-stitch01 <- fread("data/qfd_targets/stitch5/stitch_interactions01.tsv")
-stitch02 <- fread("data/qfd_targets/stitch5/stitch_interactions02.tsv")
+source("utils.R")
 
-targets.stitch <- rbind(stitch01, stitch02) |>
-  dplyr::filter()
+load("data/qfd_ingredients/ingredients.RData")
 
+stitch <- read_compound_target("data/qfd_targets/stitch5/") |>
+  dplyr::filter(node1_string_internal_id > 0 & node2_string_internal_id <0 ) |>
+  arrange(node2) |>
+  mutate(
+    Source = "STITCH V5.0",
+    Class = "predicted"
+  )
 
-save(targets.stitch, file = "data/qfd_targets/targets.stitch.RData")
+targets.stitch <- ingredients  |>
+  mutate(PubChem.CID = as.character(PubChem.CID)) |>
+  left_join(stitch, by = c("PubChem.CID"="CID"), relationship = "many-to-many") |>
+  dplyr::filter(!is.na(`#node1`)) |>
+  dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID,Symbol = `#node1`, Source, Score = combined_score, Class) |>
+  distinct(Abbreviation,PubChem.CID,Symbol, Source, Class, .keep_all = TRUE) |>
+  dplyr::filter(if_all(everything(), ~ !is.na(.x))) |>
+  arrange(No., PubChem.CID)
+
+save(targets.stitch, file = "data/qfd_targets/stitch5/targets.stitch.RData")
+
+# 
+# rm(list = ls())
+# 
+# load("data/qfd_targets/tmmc2/targets.tmmc.RData")
+# load("data/qfd_ingredients/ingredients.RData")
+# 
+# targets.stitch <- targets.tmmc |>
+#   dplyr::filter(SOURCE == "STITCH") |>
+#   dplyr::distinct(ID,PREFERRED_NAME, .keep_all = TRUE) |>
+#   left_join(ingredients, by =  c("ID" = "TMMC2.ID"), relationship = "many-to-many") |>
+#   mutate(Class = "predicted") |>
+#   dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID, PREFERRED_NAME, Source = SOURCE, Score = SCORE, Class) |>
+#   dplyr::filter(Score >=0.4) |>
+#   distinct(Abbreviation,PubChem.CID,PREFERRED_NAME, Source, Class, .keep_all = TRUE) |>
+#   dplyr::filter(if_all(everything(), ~ !is.na(.x))) |>
+#   arrange(No., Ingredient) 
 ```
 
 ## TCMSP v2.3
@@ -289,6 +347,7 @@ swiss <- read_compound_target("data/qfd_targets/swiss/") |>
   dplyr::select(CID, Uniprot.ID,Source,Probability,Class)
 
 targets.swiss <- ingredients |>
+  mutate(PubChem.CID = as.character(PubChem.CID)) |>
   left_join(swiss, by = c("PubChem.CID" = "CID"), relationship = "many-to-many") |>
   dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID,Uniprot.ID, Source, Probability, Class) |>
   distinct(Abbreviation,PubChem.CID, Uniprot.ID, Source, Class, .keep_all = TRUE) |>
@@ -326,6 +385,7 @@ super_pred <- read_compound_target("data/qfd_targets/super") |>
 super <- rbind(super_known, super_pred)
 
 targets.super <- ingredients |>
+  mutate(PubChem.CID = as.character(PubChem.CID)) |>
   left_join(super, by = c("PubChem.CID" = "CID"), relationship = "many-to-many") |>
   dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID,Uniprot.ID, Source, Probability, `Model accuracy`, Class) |>
   distinct(Abbreviation,PubChem.CID, Uniprot.ID, Source, Class, .keep_all = TRUE) |>
@@ -346,7 +406,7 @@ source("utils.R")
 load("data/qfd_ingredients/ingredients.RData")
 
 # Process PharmMapper results (Human only, high-confidence filters) (modify,0.5)
-pharm <- read_compound_target2("data/qfd_targets/pharm",skip_row = 1) |>
+pharm <- read_compound_target("data/qfd_targets/pharm",skip_row = 1) |>
   dplyr::filter(grepl("_HUMAN", Uniplot)) |>
   dplyr::select(CID, Uniplot,`Norm Fit`) |>
   distinct(CID, Uniplot, .keep_all = TRUE) |>
@@ -356,6 +416,7 @@ pharm <- read_compound_target2("data/qfd_targets/pharm",skip_row = 1) |>
   distinct(CID, Uniplot, .keep_all = TRUE) 
 
 targets.pharm <- ingredients |>
+  mutate(PubChem.CID = as.character(PubChem.CID)) |>
   left_join(pharm, by = c("PubChem.CID" = "CID"), relationship = "many-to-many") |>
   dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID,Uniplot, Source,`Norm Fit`, Class) |>
   distinct(Abbreviation,PubChem.CID, Uniplot, Source, Class, .keep_all = TRUE) |>
@@ -538,7 +599,7 @@ save(
 rm(list = ls())
 
 # pubchem: all
-load("data/qfd_targets/targets.pubchem.RData")
+load("data/qfd_targets/pubchem/targets.pubchem.RData")
 pubchem <- targets.pubchem |> dplyr::select(-Score)
 
 

@@ -127,227 +127,104 @@ download_all_sdf <- function(cid_list, output_dir = "sdf_files") {
 read_compound_target <- function(folder, skip_row = 0) {
   if (!dir.exists(folder)) stop("Folder not found: ", folder)
   
-  # List all files
-  csv_files  <- list.files(folder, "\\.csv$", full.names = TRUE, ignore.case = TRUE)
-  xlsx_files <- list.files(folder, "\\.xlsx$", full.names = TRUE, ignore.case = TRUE)
-  files <- c(csv_files, xlsx_files)
-
-  if (length(files) == 0) {
-    warning("No CSV/XLSX files found.")
-    return(data.frame())
-  }
-  
-  if (!requireNamespace("readxl", quietly = TRUE)) {
-    stop("Package 'readxl' is required for XLSX files.")
-  }
-  
-  # Read single file
-  read_one_file <- function(file_path, skip_row) {
-    cid <- tools::file_path_sans_ext(basename(file_path))
-    ext <- tolower(tools::file_ext(file_path))
-    
-    if (ext == "csv") {
-      df <- read.csv(file_path, 
-                     stringsAsFactors = FALSE, 
-                     check.names = FALSE, 
-                     skip = skip_row,
-                     row.names = NULL)
-    } else if (ext == "xlsx") {
-      df <- as.data.frame(
-        readxl::read_excel(file_path, 
-                           .name_repair = "minimal", 
-                           skip = skip_row),
-        stringsAsFactors = FALSE
-      )
-    } else {
-      stop("Unsupported file type: ", ext)
-    }
-    
-    df <- cbind(CID = cid, df)
-    return(df)
-  }
-  
-  # Read and merge
-  all_dfs <- lapply(files, function(f) read_one_file(f, skip_row))
-  
-  # Safe row-bind (auto-align columns)
-  if (requireNamespace("dplyr", quietly = TRUE)) {
-    combined <- dplyr::bind_rows(all_dfs)
-  } else {
-    all_cols <- unique(unlist(lapply(all_dfs, names)))
-    combined <- do.call(rbind, lapply(all_dfs, function(df) {
-      missing <- setdiff(all_cols, names(df))
-      for (col in missing) df[[col]] <- NA
-      df[, all_cols, drop = FALSE]
-    }))
-  }
-  
-  return(combined)
-}
-
-
-read_compound_target2 <- function(folder, skip_row = 0) {
-  if (!dir.exists(folder)) stop("Folder not found: ", folder)
-  
-  # List all files
-  csv_files  <- list.files(folder, "\\.csv$", full.names = TRUE, ignore.case = TRUE)
-  xlsx_files <- list.files(folder, "\\.xlsx$", full.names = TRUE, ignore.case = TRUE)
-  files <- c(csv_files, xlsx_files)
-  
-  if (length(files) == 0) {
-    warning("No CSV/XLSX files found.")
-    return(data.frame())
-  }
-  
-  if (!requireNamespace("readxl", quietly = TRUE)) {
-    stop("Package 'readxl' is required for XLSX files.")
-  }
-  if (!requireNamespace("readr", quietly = TRUE)) {
-    stop("Package 'readr' is required for CSV files.")
-  }
-  
-  # Read single file
-  read_one_file <- function(file_path, skip_row) {
-    cid <- tools::file_path_sans_ext(basename(file_path))
-    ext <- tolower(tools::file_ext(file_path))
-    
-    if (ext == "csv") {
-      df <- readr::read_csv(file_path, 
-                            skip = skip_row,
-                            show_col_types = FALSE) 
-      df <- as.data.frame(df, stringsAsFactors = FALSE)
-    } else if (ext == "xlsx") {
-      df <- as.data.frame(
-        readxl::read_excel(file_path, 
-                           .name_repair = "minimal", 
-                           skip = skip_row),
-        stringsAsFactors = FALSE
-      )
-    } else {
-      stop("Unsupported file type: ", ext)
-    }
-    
-    df <- cbind(CID = cid, df)
-    return(df)
-  }
-  
-  # Read and merge
-  all_dfs <- lapply(files, function(f) read_one_file(f, skip_row))
-  
-  # Safe row-bind (auto-align columns)
-  if (requireNamespace("dplyr", quietly = TRUE)) {
-    combined <- dplyr::bind_rows(all_dfs)
-  } else {
-    all_cols <- unique(unlist(lapply(all_dfs, names)))
-    combined <- do.call(rbind, lapply(all_dfs, function(df) {
-      missing <- setdiff(all_cols, names(df))
-      for (col in missing) df[[col]] <- NA
-      df[, all_cols, drop = FALSE]
-    }))
-  }
-  
-  return(combined)
-}
-
-
-chembl_to_uniprot <- function(chembl_id) {
-  url <- paste0("https://www.ebi.ac.uk/chembl/api/data/target/", chembl_id, ".json")
-  
-  response <- GET(url)
-  
-  if (http_error(response)) {
-    warning(paste("API request error. Status Code:", status_code(response)))
-    return(NA)
-  }
-  
-  # JSON
-  data <- fromJSON(content(response, "text", encoding = "UTF-8"))
-  
-  # target_components
-  components <- data$target_components
-  
-  if (is.null(components) || nrow(components) == 0) {
-    warning(paste(chembl_id, "没有关联的 UniProt 条目"))
-    return(NA)
-  }
-  
-  # get UniProt accession
-  uniprot_ids <- unique(components$accession)
-  uniprot_ids <- uniprot_ids[!is.na(uniprot_ids)]
-  
-  if (length(uniprot_ids) == 0) {
-    return(NA)
-  } else if (length(uniprot_ids) == 1) {
-    return(uniprot_ids[1])
-  } else {
-    return(uniprot_ids)
-  }
-}
-
-
-#==============================================================================
-# Map Uniprot ID → Gene Symbol (keep only Swiss-Prot IDs)
-#==============================================================================
-get_symbol_by_uniprot <- function(uniprot_ids, unique_by = "UNIPROT") {
-  # Swiss-Prot pattern filter
-  swiss_pattern <- "^[OPQ][0-9][A-Z0-9]{3}[0-9]($|[0-9])"
-  uniprot_ids <- uniprot_ids[grepl(swiss_pattern, uniprot_ids)]
-  uniprot_clean <- sub("\\.[0-9]+$", "", uniprot_ids)
-  uniprot_clean <- unique(uniprot_clean)
-  
-  # Query with 1:1 mapping
-  result <- AnnotationDbi::select(
-    org.Hs.eg.db,
-    keys = uniprot_clean,
-    keytype = "UNIPROT",
-    columns = c("SYMBOL", "UNIPROT"),
-    multiVals = "first"
-  ) %>%
-    dplyr::select(Symbol = SYMBOL, Uniprot.ID = UNIPROT) %>%
-    dplyr::mutate(dplyr::across(where(is.character), trimws))
-  
-  # Deduplication
-  if (unique_by == "SYMBOL") {
-    result <- dplyr::distinct(result, Symbol, .keep_all = TRUE)
-  } else if (unique_by == "UNIPROT") {
-    result <- dplyr::distinct(result, Uniprot.ID, .keep_all = TRUE)
-  } else {
-    stop("unique_by must be 'SYMBOL' or 'UNIPROT'")
-  }
-  
-  return(result)
-}
-
-#==============================================================================
-# Map Gene Symbol → Uniprot ID (Swiss-Prot only)
-#==============================================================================
-get_uniprot_by_symbol <- function(symbols, unique_by = "SYMBOL") {
-  symbols <- unique(symbols)
-  swiss_pattern <- "^[OPQ][0-9][A-Z0-9]{3}[0-9]($|[0-9])"
-  
-  # 1:1 mapping
-  all_mappings <- AnnotationDbi::select(
-    org.Hs.eg.db,
-    keys = symbols,
-    keytype = "SYMBOL",
-    columns = c("SYMBOL", "UNIPROT"),
-    multiVals = "first"
+  # 1. 列出所有支持的文件
+  files <- c(
+    list.files(folder, "\\.csv$",  full.names = TRUE, ignore.case = TRUE),
+    list.files(folder, "\\.tsv$",  full.names = TRUE, ignore.case = TRUE),
+    list.files(folder, "\\.xlsx$", full.names = TRUE, ignore.case = TRUE)
   )
   
-  # Keep valid Swiss-Prot entries
-  all_mappings_swiss <- dplyr::filter(all_mappings, grepl(swiss_pattern, UNIPROT))
-  
-  # Deduplication
-  if (unique_by == "SYMBOL") {
-    result <- dplyr::distinct(all_mappings_swiss, SYMBOL, .keep_all = TRUE)
-  } else if (unique_by == "UNIPROT") {
-    result <- dplyr::distinct(all_mappings_swiss, UNIPROT, .keep_all = TRUE)
-  } else {
-    stop("unique_by must be 'SYMBOL' or 'UNIPROT'")
+  if (length(files) == 0) {
+    warning("No CSV/TSV/XLSX files found.")
+    return(data.frame())
   }
   
-  result <- dplyr::select(result, Symbol = SYMBOL, Uniprot.ID = UNIPROT)
-  return(result)
+  # 2. 读取单个文件（自动选择最优解析方式）
+  read_one_file <- function(file_path, skip_row) {
+    cid <- tools::file_path_sans_ext(basename(file_path))
+    ext <- tolower(tools::file_ext(file_path))
+    
+    df <- NULL
+    
+    if (ext == "csv") {
+      # 优先使用 readr，没有则回退到基础函数
+      if (requireNamespace("readr", quietly = TRUE)) {
+        df <- readr::read_csv(file_path, skip = skip_row, show_col_types = FALSE)
+      } else {
+        df <- read.csv(file_path, stringsAsFactors = FALSE, 
+                       check.names = FALSE, skip = skip_row, row.names = NULL)
+      }
+      
+    } else if (ext == "tsv") {
+      # 优先 data.table (最快) -> 其次 readr -> 最后基础函数
+      if (requireNamespace("data.table", quietly = TRUE)) {
+        df <- data.table::fread(file_path, skip = skip_row, data.table = FALSE)
+      } else if (requireNamespace("readr", quietly = TRUE)) {
+        df <- readr::read_tsv(file_path, skip = skip_row, show_col_types = FALSE)
+      } else {
+        # 基础函数读取 TSV 必须指定 sep 和 header
+        df <- read.table(file_path, sep = "\t", header = TRUE, 
+                         stringsAsFactors = FALSE, check.names = FALSE, 
+                         skip = skip_row)
+      }
+      
+    } else if (ext == "xlsx") {
+      # Excel 必须依赖 readxl，没装就直接报错
+      if (!requireNamespace("readxl", quietly = TRUE)) {
+        stop("Package 'readxl' is required for XLSX files. Please install it.")
+      }
+      df <- as.data.frame(
+        readxl::read_excel(file_path, .name_repair = "minimal", skip = skip_row),
+        stringsAsFactors = FALSE
+      )
+      
+    } else {
+      stop("Unsupported file type: ", ext)
+    }
+    
+    # 统一转为 data.frame（防止 tibble 或 data.table 干扰后续 rbind）
+    df <- as.data.frame(df, stringsAsFactors = FALSE)
+    # 添加来源列
+    df <- cbind(CID = cid, df)
+    return(df)
+  }
+  
+  # 3. 批量读取并合并
+  all_dfs <- lapply(files, function(f) read_one_file(f, skip_row))
+  
+  # 安全合并（自动补齐列）
+  if (requireNamespace("dplyr", quietly = TRUE)) {
+    combined <- dplyr::bind_rows(all_dfs)
+  } else {
+    all_cols <- unique(unlist(lapply(all_dfs, names)))
+    combined <- do.call(rbind, lapply(all_dfs, function(df) {
+      missing <- setdiff(all_cols, names(df))
+      for (col in missing) df[[col]] <- NA
+      df[, all_cols, drop = FALSE]
+    }))
+  }
+  
+  return(combined)
 }
 
 
+get_active_aids <- function(cid, retry = 3) {
+  for (attempt in 1:retry) {
+    url <- paste0("https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/",
+                  cid, "/aids/JSON/?aids_type=active")
+    response <- httr::GET(url)
+    
+    if (status_code(response) == 200) {
+      data <- jsonlite::fromJSON(content(response, "text", encoding = "UTF-8"))
+      aids <- data$InformationList$Information$AID
+      if (is.null(aids)) aids <- NA
+      return(aids)
+    } else if (status_code(response) == 404) {
+      return(NA)
+    } else {
+      Sys.sleep(1)
+    }
+  }
+  warning(paste("Failed to retrieve data for CID:", cid))
+  return(NA)
+}
