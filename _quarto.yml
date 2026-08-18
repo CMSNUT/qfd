@@ -72,8 +72,12 @@ website:
     left:
       - href: manuscript.qmd
         text: Manuscript
-      - href: scripts.qmd
-        text: Scripts
+      - text: Scripts
+        menu:
+        - text: report.qmd
+          href: "scripts/report.qmd"
+        - text: report.qmd
+          href: "scripts/pretreatment.qmd"
 
 format:
   # docx:

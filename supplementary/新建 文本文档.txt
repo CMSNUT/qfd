@@ -1,0 +1,11 @@
+label: attribute="display name" 
+labelsize=12 
+labelAlignment=center 
+position=center 
+outline=true 
+outlineColor=white 
+outlineTransparency=95 
+outlineWidth=10 
+background=false 
+color=black 
+dropShadow=false

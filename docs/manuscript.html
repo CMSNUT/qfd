@@ -8,8 +8,9 @@
 
 <meta name="author" content="Kun Hou">
 <meta name="author" content="Xili Wu">
+<meta name="keywords" content="medicinal plant pair, Astragali Radix, Aconiti Lateralis Radix Praeparata, chronic heart failure, bioinformatics analysis, molecular docking, therapeutic mechanism">
 
-<title>manuscript – QFD4CHF</title>
+<title>The Synergistic Mechanisms of Astragali Radix–Aconiti Lateralis Radix Praeparata in the Treatment of Chronic Heart Failure: An Integrated Study of Network Pharmacology, Bioinformatics, and Molecular Docking – QFD4CHF</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -99,10 +100,21 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link active" href="./manuscript.html" aria-current="page"> 
 <span class="menu-text">Manuscript</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./scripts.html"> 
-<span class="menu-text">Scripts</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-scripts" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Scripts</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-scripts">    
+        <li>
+    <a class="dropdown-item" href="./scripts/report.html">
+ <span class="dropdown-text">report.qmd</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./scripts/pretreatment.html">
+ <span class="dropdown-text">report.qmd</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -113,21 +125,54 @@ ul.task-list li input[type="checkbox"] {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
-  
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="-1">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#abstract" id="toc-abstract" class="nav-link active" data-scroll-target="#abstract">Abstract</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">1. Introduction</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">2. Results</a>
+  <ul class="collapse">
+  <li><a href="#chemical-component-dataset-construction-and-target-screening" id="toc-chemical-component-dataset-construction-and-target-screening" class="nav-link" data-scroll-target="#chemical-component-dataset-construction-and-target-screening">2.1 Chemical Component Dataset Construction and Target Screening</a></li>
+  <li><a href="#ppi-network-analysis-and-core-hub-gene-screening" id="toc-ppi-network-analysis-and-core-hub-gene-screening" class="nav-link" data-scroll-target="#ppi-network-analysis-and-core-hub-gene-screening">2.2 PPI Network Analysis and Core Hub Gene Screening</a></li>
+  <li><a href="#subcellular-and-tissue-localization-characteristics-of-core-targets" id="toc-subcellular-and-tissue-localization-characteristics-of-core-targets" class="nav-link" data-scroll-target="#subcellular-and-tissue-localization-characteristics-of-core-targets">2.3 Subcellular and Tissue Localization Characteristics of Core Targets</a></li>
+  <li><a href="#functional-enrichment-analysis-of-core-targets" id="toc-functional-enrichment-analysis-of-core-targets" class="nav-link" data-scroll-target="#functional-enrichment-analysis-of-core-targets">2.4 Functional Enrichment Analysis of Core Targets</a></li>
+  <li><a href="#immune-infiltration-characteristics-of-chf-samples" id="toc-immune-infiltration-characteristics-of-chf-samples" class="nav-link" data-scroll-target="#immune-infiltration-characteristics-of-chf-samples">2.5 Immune Infiltration Characteristics of CHF Samples</a></li>
+  <li><a href="#clinical-expression-validation-of-core-hub-genes" id="toc-clinical-expression-validation-of-core-hub-genes" class="nav-link" data-scroll-target="#clinical-expression-validation-of-core-hub-genes">2.6 Clinical Expression Validation of Core Hub Genes</a></li>
+  <li><a href="#upstream-regulatory-network-analysis" id="toc-upstream-regulatory-network-analysis" class="nav-link" data-scroll-target="#upstream-regulatory-network-analysis">2.7 Upstream Regulatory Network Analysis</a></li>
+  <li><a href="#molecular-docking-verification" id="toc-molecular-docking-verification" class="nav-link" data-scroll-target="#molecular-docking-verification">2.8 Molecular Docking Verification</a></li>
+  </ul></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">3. Discussion</a></li>
+  <li><a href="#materials-and-methods" id="toc-materials-and-methods" class="nav-link" data-scroll-target="#materials-and-methods">4. Materials and Methods</a>
+  <ul class="collapse">
+  <li><a href="#construction-of-chemical-component-dataset-for-ar-alrp-medicinal-plant-pair" id="toc-construction-of-chemical-component-dataset-for-ar-alrp-medicinal-plant-pair" class="nav-link" data-scroll-target="#construction-of-chemical-component-dataset-for-ar-alrp-medicinal-plant-pair">4.1 Construction of Chemical Component Dataset for AR-ALRP Medicinal Plant Pair</a></li>
+  <li><a href="#multi-source-target-prediction-and-data-quality-control" id="toc-multi-source-target-prediction-and-data-quality-control" class="nav-link" data-scroll-target="#multi-source-target-prediction-and-data-quality-control">4.2 Multi-Source Target Prediction and Data Quality Control</a></li>
+  <li><a href="#acquisition-of-chronic-heart-failure-disease-targets" id="toc-acquisition-of-chronic-heart-failure-disease-targets" class="nav-link" data-scroll-target="#acquisition-of-chronic-heart-failure-disease-targets">4.3 Acquisition of Chronic Heart Failure Disease Targets</a></li>
+  <li><a href="#ppi-network-construction-and-hub-gene-screening" id="toc-ppi-network-construction-and-hub-gene-screening" class="nav-link" data-scroll-target="#ppi-network-construction-and-hub-gene-screening">4.4 PPI Network Construction and Hub Gene Screening</a></li>
+  <li><a href="#multi-dimensional-bioinformatics-analysis" id="toc-multi-dimensional-bioinformatics-analysis" class="nav-link" data-scroll-target="#multi-dimensional-bioinformatics-analysis">4.5 Multi-Dimensional Bioinformatics Analysis</a></li>
+  <li><a href="#upstream-regulatory-network-construction" id="toc-upstream-regulatory-network-construction" class="nav-link" data-scroll-target="#upstream-regulatory-network-construction">4.6 Upstream Regulatory Network Construction</a></li>
+  <li><a href="#molecular-docking-analysis" id="toc-molecular-docking-analysis" class="nav-link" data-scroll-target="#molecular-docking-analysis">4.7 Molecular Docking Analysis</a></li>
+  </ul></li>
+  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions">5. Conclusions</a></li>
+  <li><a href="#figure-legends" id="toc-figure-legends" class="nav-link" data-scroll-target="#figure-legends">Figure Legends</a></li>
+  </ul>
+</nav>
+</nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
     </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content">
+<main class="content column-page-right" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">manuscript</h1>
+<h1 class="title">The Synergistic Mechanisms of <em>Astragali Radix</em>–<em>Aconiti Lateralis Radix Praeparata</em> in the Treatment of Chronic Heart Failure: An Integrated Study of Network Pharmacology, Bioinformatics, and Molecular Docking</h1>
 </div>
 
 
-<div class="quarto-title-meta-author column-page">
+<div class="quarto-title-meta-author column-page-right">
   <div class="quarto-title-meta-heading">Authors</div>
   <div class="quarto-title-meta-heading">Affiliations</div>
   
@@ -155,20 +200,1384 @@ ul.task-list li input[type="checkbox"] {
       </div>
   </div>
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta column-page-right">
 
       
   
     
   </div>
   
+<div>
+  <div class="abstract">
+    <div class="block-title">Abstract</div>
+    <p><strong>Background:</strong> Chronic heart failure (CHF) lacks comprehensive clinical interventions. Diverse Asian medicinal plants exert multi-target therapeutic effects on CHF, while the molecular mechanism of the medicinal plant pair Astragali Radix–Aconiti Lateralis Radix Praeparata (AR-ALRP) remains unclear. <strong>Methods:</strong> This study constructed a standardized AR-ALRP chemical dataset via UHPLC-Q-TOF-MS/MS data and PubChem annotation. Multi-source bioinformatics analysis, clinical dataset validation, and molecular docking were performed to screen core therapeutic targets and pathways. <strong>Results:</strong> In total, 82 plant-derived components and 261 AR-ALRP-CHF intersecting targets were identified, with 25 core hub genes such as AKT1 and IL6. Key genes were clinically dysregulated in CHF, and major plant components stably bound core targets to regulate inflammation and myocardial repair pathways. <strong>Conclusions:</strong> This study elucidates the multi-component and multi-target mechanism of AR-ALRP against CHF, providing novel insights for cardiovascular application of medicinal plant resources.</p>
+  </div>
+</div>
 
+<div>
+  <div class="keywords">
+    <div class="block-title">Keywords</div>
+    <p>medicinal plant pair, Astragali Radix, Aconiti Lateralis Radix Praeparata, chronic heart failure, bioinformatics analysis, molecular docking, therapeutic mechanism</p>
+  </div>
+</div>
 
 </header>
 
 
+<p>The Synergistic Mechanisms of Astragali Radix–Aconiti Lateralis Radix Praeparata in the Treatment of Chronic Heart Failure: An Integrated Study of Network Pharmacology, Bioinformatics, and Molecular Docking</p>
+<section id="abstract" class="level2">
+<h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
+<p><strong>Background:</strong> Chronic heart failure (CHF) lacks comprehensive clinical interventions. Diverse Asian medicinal plants exert multi-target therapeutic effects on CHF, while the molecular mechanism of the medicinal plant pair Astragali Radix–Aconiti Lateralis Radix Praeparata (AR-ALRP) remains unclear. <strong>Methods:</strong> This study constructed a standardized AR-ALRP chemical dataset via UHPLC-Q-TOF-MS/MS data and PubChem annotation. Multi-source bioinformatics analysis, clinical dataset validation, and molecular docking were performed to screen core therapeutic targets and pathways. <strong>Results:</strong> In total, 82 plant-derived components and 261 AR-ALRP-CHF intersecting targets were identified, with 25 core hub genes such as <em>AKT1</em> and <em>IL6</em>. Key genes were clinically dysregulated in CHF, and major plant components stably bound core targets to regulate inflammation and myocardial repair pathways. <strong>Conclusions:</strong> This study elucidates the multi-component and multi-target mechanism of AR-ALRP against CHF, providing novel insights for cardiovascular application of medicinal plant resources.</p>
+<p><strong>Keywords</strong>: medicinal plant pair; Astragali Radix; Aconiti Lateralis Radix Praeparata; chronic heart failure; bioinformatics analysis; molecular docking; therapeutic mechanism</p>
+</section>
+<section id="introduction" class="level1">
+<h1>1. Introduction</h1>
+<p>Chronic heart failure (CHF) is a progressive and refractory cardiovascular syndrome characterized by irreversible myocardial remodeling, persistent inflammatory activation, energy metabolism dysfunction and immune microenvironment imbalance, and it remains a leading cause of cardiovascular hospitalization and mortality worldwide . The 2022 European Society of Cardiology (ESC) CHF guidelines have standardized the novel quadruple therapy consisting of angiotensin receptor-neprilysin inhibitor (ARNI)/angiotensin-converting enzyme inhibitor (ACEI)/angiotensin II receptor blocker (ARB), β-blockers, mineralocorticoid receptor antagonists (MRA), and sodium-glucose cotransporter 2 (SGLT2) inhibitors, which has substantially improved the long-term prognosis of CHF patients . However, constrained by the single-target intervention characteristics of Western medicine, a large proportion of CHF patients still suffer from persistent symptoms, exercise intolerance and continuous disease progression, accompanied by uncorrected myocardial energy metabolism disorders and low-grade chronic inflammation . Given the limitations of monotherapy, exploring complementary multi-pathway and multi-target therapeutic strategies has become a research hotspot for optimizing comprehensive CHF management.</p>
+<p>Traditional Chinese medicinal plant pairs exhibit unique holistic advantages in treating complex cardiovascular diseases due to their multi-component, multi-target and synergistic regulatory properties, which effectively compensate for the single-mechanism defects of synthetic Western drugs . Growing pharmacological and clinical evidence confirms that bioactive metabolites from medicinal plants can comprehensively intervene in core pathological links of CHF, including myocardial inflammation, apoptosis, fibrosis and energy metabolism dysfunction, and produce synergistic cardioprotective effects with first-line clinical drugs . As a classic qi-tonifying and yang-warming herbal compatibility, the AR-ALRP plant pair is widely used in East Asian herbal clinics for cardiac insufficiency and CHF treatment. Modern studies have verified that flavonoid components from Astragali Radix (AR) exert anti-oxidative, anti-apoptotic and metabolic regulatory effects on cardiomyocytes, while diterpenoid alkaloids from processed Aconiti Lateralis Radix Praeparata (ALRP) enhance myocardial contractility and inhibit myocardial fibrotic injury . Clinical trials and retrospective studies have further proven that AR-ALRP-containing formulas can improve cardiac function grading and relieve clinical symptoms of CHF patients . Nevertheless, the systematic molecular synergistic mechanism, tissue/subcellular target distribution characteristics of AR-ALRP, and its synergistic potential with clinical quadruple therapy remain unclear, limiting the standardized clinical promotion and application of this classic herbal pair.</p>
+<p>Network pharmacology combined with multi-omics bioinformatics provides a systematic research paradigm for exploring the pharmacological mechanisms of multi-component herbal medicines, which perfectly matches the holistic and synergistic therapeutic characteristics of traditional herbal therapy . This technical system breaks through the limitations of single-target pharmacological research, enabling comprehensive mapping of the interaction network between herbal bioactive components and disease pathological targets. Furthermore, molecular docking technology can verify the stable binding activity between core herbal components and key target proteins at the molecular structural level, providing direct structural evidence for the efficacy of herbal medicines. Combined with clinical dataset validation, this integrated strategy can accurately reveal the core material basis and molecular regulatory mechanism of herbal pairs against complex diseases.</p>
+<p>To fill the above research gaps, this study adopted an integrated research strategy combining chemical dataset standardization, multi-dimensional bioinformatics analysis, clinical sample validation and molecular docking verification. Based on published UHPLC-Q-TOF-MS/MS profiling data, a high-quality standardized chemical library of AR-ALRP was constructed via PubChem database annotation. Subsequently, multi-source target screening, protein-protein interaction (PPI) network analysis, subcellular/tissue localization prediction, GO/KEGG functional enrichment analysis, and immune infiltration analysis were performed to screen core therapeutic targets and key signaling pathways of AR-ALRP against CHF. The clinical differential expression characteristics and diagnostic efficacy of core hub genes were verified based on the GEO clinical dataset, and a TF-miRNA-mRNA upstream regulatory network was constructed to explore the epigenetic regulatory mechanism. Finally, molecular docking was used to confirm the stable binding between core herbal components and key targets. This study aims to systematically elucidate the multi-component, multi-target and synergistic molecular mechanism of AR-ALRP in CHF treatment, clarify its auxiliary synergistic value with clinical quadruple therapy, and provide standardized theoretical support for the clinical transformation and rational application of this classic medicinal plant pair in cardiovascular disease treatment.</p>
+</section>
+<section id="results" class="level1">
+<h1>2. Results</h1>
+<section id="chemical-component-dataset-construction-and-target-screening" class="level2">
+<h2 class="anchored" data-anchor-id="chemical-component-dataset-construction-and-target-screening">2.1 Chemical Component Dataset Construction and Target Screening</h2>
+<p>Based on previously validated UHPLC-Q-TOF-MS/MS profiling data of Qifu decoction reported in published studies, a total of 82 chemical constituents of the AR-ALRP medicinal plant pair were systematically identified, including 47 in vitro components extracted from raw AR and ALRP plant materials and 35 in vivo blood-absorbed prototype components detected in drug-containing rat serum after oral administration. All identified components were standardized via the PubChem database to obtain unified molecular identifiers, including PubChem CID, InChIKey, molecular formula, molecular weight, and SMILES structural information. As the present study focused on bioinformatics mechanism exploration rather than phytochemical identification, all chemical component data were sourced from authoritative published experiments. A high-quality, bioavailability-based standardized chemical dataset of the AR-ALRP medicinal plant pair was successfully established, with detailed structural information of all constituents summarized in <a href="#tbl-s1" class="quarto-xref">Table&nbsp;1 (G)</a>. The overall process of chemical component screening and target screening is visualized in <strong>?@fig-2a</strong>.</p>
+<p>Through integration and de-duplication of multiple public databases, 327 AR-derived target genes and 289 ALRP-derived target genes were retrieved. A total of 1248 validated CHF-related disease targets were screened from DisGeNET, GeneCards, and TTD databases. Venn analysis identified 261 non-redundant AR-ALRP-CHF intersecting targets, consisting of 97 AR-specific targets, 83 ALRP-specific targets, and 81 co-expressed targets. The Venn diagram of target intersection analysis is presented in <strong>?@fig-2b</strong>, intuitively showing the overlapping and unique target distributions among AR, ALRP and CHF. A component-target interaction network was constructed to visualize the binding relationship between plant-derived bioactive components and CHF therapeutic targets (<strong>?@fig-2c</strong>), reflecting the multi-component and multi-target therapeutic characteristics of the AR-ALRP medicinal plant pair. <a href="#tbl-1" class="quarto-xref">Table&nbsp;1 (A)</a> summarizes the representative bioactive components of AR and ALRP with verified in vivo absorption, as well as their basic standardized structural information annotated via PubChem.</p>
+<p><strong>Table 1</strong></p>
+</section>
+<section id="ppi-network-analysis-and-core-hub-gene-screening" class="level2">
+<h2 class="anchored" data-anchor-id="ppi-network-analysis-and-core-hub-gene-screening">2.2 PPI Network Analysis and Core Hub Gene Screening</h2>
+<p>The 261 intersecting targets were imported into the STRING database to construct a protein-protein interaction (PPI) network with a confidence threshold of 0.7, yielding 258 valid protein nodes and 3876 interaction edges after removing isolated invalid nodes. The visualized PPI network is shown in <strong>?@fig-3a</strong>. Three core topological parameters (MCC, Degree, Betweenness) of each node were calculated via the cytoHubba plug-in, and rank aggregation analysis was performed to screen out the top 25 core hub genes closely associated with CHF treatment. The ranking distribution of these hub genes is displayed in <strong>?@fig-3b</strong>. Among them, <em>AKT1</em>, <em>STAT3</em>, <em>IL6</em>, <em>HDAC1</em>, and <em>HSP90AB1</em> showed the highest topological importance, serving as the core regulatory nodes of AR-ALRP against CHF. <a href="#tbl-2" class="quarto-xref">Table&nbsp;1 (B)</a> lists the top 10 core hub genes with detailed topological parameters and functional annotations, and the complete topological information of all 25 hub genes is provided in <a href="#tbl-s2" class="quarto-xref">Table&nbsp;1 (H)</a>. MCODE module analysis further identified 5 key functional modules, which were mainly involved in the regulation of myocardial inflammation, cell survival, and fibrosis progression.</p>
+<p><strong>Table 2</strong>. Top 10 core hub genes of AR-ALRP against CHF ranked by comprehensive topological score</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 8%">
+<col style="width: 11%">
+<col style="width: 16%">
+<col style="width: 53%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Gene Symbol</th>
+<th>MCC Score</th>
+<th>Degree Score</th>
+<th>Betweenness Score</th>
+<th>Main Biological Function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><em>AKT1</em></td>
+<td>986</td>
+<td>87</td>
+<td>3268.45</td>
+<td>Regulating cardiomyocyte survival and energy metabolism</td>
+</tr>
+<tr class="even">
+<td><em>STAT3</em></td>
+<td>952</td>
+<td>84</td>
+<td>3012.78</td>
+<td>Mediating inflammatory response and myocardial remodeling</td>
+</tr>
+<tr class="odd">
+<td><em>IL6</em></td>
+<td>917</td>
+<td>81</td>
+<td>2896.32</td>
+<td>Key pro-inflammatory cytokine in CHF progression</td>
+</tr>
+<tr class="even">
+<td><em>HDAC1</em></td>
+<td>883</td>
+<td>79</td>
+<td>2754.16</td>
+<td>Epigenetic regulation of myocardial fibrosis</td>
+</tr>
+<tr class="odd">
+<td><em>HSP90AB1</em></td>
+<td>851</td>
+<td>76</td>
+<td>2618.94</td>
+<td>Maintaining protein stability in cardiomyocytes</td>
+</tr>
+<tr class="even">
+<td><em>TNF</em></td>
+<td>822</td>
+<td>74</td>
+<td>2501.67</td>
+<td>Mediating myocardial inflammatory injury</td>
+</tr>
+<tr class="odd">
+<td><em>TP53</em></td>
+<td>796</td>
+<td>72</td>
+<td>2387.52</td>
+<td>Regulating cardiomyocyte apoptosis</td>
+</tr>
+<tr class="even">
+<td><em>VEGFA</em></td>
+<td>768</td>
+<td>70</td>
+<td>2215.38</td>
+<td>Improving myocardial angiogenesis</td>
+</tr>
+<tr class="odd">
+<td><em>JUN</em></td>
+<td>742</td>
+<td>68</td>
+<td>2109.74</td>
+<td>Participating in stress response of failing myocardium</td>
+</tr>
+<tr class="even">
+<td><em>MAPK3</em></td>
+<td>715</td>
+<td>66</td>
+<td>1987.26</td>
+<td>Regulating multiple CHF signaling pathways</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="subcellular-and-tissue-localization-characteristics-of-core-targets" class="level2">
+<h2 class="anchored" data-anchor-id="subcellular-and-tissue-localization-characteristics-of-core-targets">2.3 Subcellular and Tissue Localization Characteristics of Core Targets</h2>
+<p>Subcellular localization prediction based on DeepLoc 2.0 and WoLF PSORT platforms showed that the core hub proteins were mainly distributed in the nucleus, cytoplasm, and cell membrane. The detailed subcellular localization distribution of all hub genes is illustrated in <strong>?@fig-4c</strong> and <a href="#tbl-s3" class="quarto-xref">Table&nbsp;1 (I)</a>. Co-regulated hub genes were predominantly localized in the nucleus and cytoplasm, participating in gene transcription and intracellular signal transduction. Targets specifically regulated by AR were enriched in cytoplasm and mitochondria, while ALRP-specific targets were mainly distributed in cell membrane and nucleus, showing distinct spatial distribution differences. The medicinal source distribution and topological parameter comparison of AR-specific, ALRP-specific and co-expressed targets are displayed in <strong>?@fig-4a</strong> and <strong>?@fig-4b</strong>. Tissue expression analysis based on BioGPS and HPA databases verified that all core hub genes were highly expressed in human cardiac tissue, confirming the cardiac targeting property of AR-ALRP bioactive components. The comprehensive tissue expression profile of hub genes in 84 human organs is shown in <a href="#fig-s2" class="quarto-xref">Figure&nbsp;1 (R)</a>, and the immunohistochemical staining results of core genes in cardiac tissues are presented in <a href="#fig-s3" class="quarto-xref">Figure&nbsp;1 (S)</a>. AR-derived targets were widely distributed in immune and metabolic tissues, while ALRP-derived targets exhibited higher cardiac tissue specificity.</p>
+</section>
+<section id="functional-enrichment-analysis-of-core-targets" class="level2">
+<h2 class="anchored" data-anchor-id="functional-enrichment-analysis-of-core-targets">2.4 Functional Enrichment Analysis of Core Targets</h2>
+<p>GO and KEGG functional enrichment analyses were performed on 261 intersecting targets to explore the potential biological functions and signaling pathways of AR-ALRP in CHF treatment. GO enrichment results indicated that the target genes were mainly enriched in biological processes including inflammatory response regulation, myocardial cell apoptosis, and cardiac muscle contraction; molecular functions focused on cytokine activity and protein kinase binding; cellular components were consistent with subcellular localization results. The top GO functional enrichment terms are visualized in <strong>?@fig-6a</strong>, and all significant GO entries are listed in <a href="#tbl-s4" class="quarto-xref">Table&nbsp;1 (J)</a> and <a href="#fig-s7" class="quarto-xref">Figure&nbsp;1 (Y)</a>. KEGG pathway analysis screened 15 significantly enriched signaling pathways, including PI3K-AKT, NF-κB inflammatory, and MAPK pathways, which are classic pathological pathways mediating CHF progression. The top enriched KEGG pathways are shown in <strong>?@fig-6b</strong>, with full detailed information provided in <a href="#tbl-s5" class="quarto-xref">Table&nbsp;1 (K)</a> and <a href="#fig-s8" class="quarto-xref">Figure&nbsp;1 (W)</a>. Target source decomposition confirmed that key pathways were co-regulated by AR and ALRP-derived targets, and the pathway target source distribution is displayed in <strong>?@fig-6c</strong>. <a href="#tbl-3" class="quarto-xref">Table&nbsp;1 (C)</a> and <a href="#tbl-4" class="quarto-xref">Table&nbsp;1 (D)</a> display the top 10 significantly enriched GO terms and KEGG pathways, respectively.</p>
+<p><strong>Table 3</strong>. Top 10 significantly enriched GO functional terms of AR-ALRP-CHF targets</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 41%">
+<col style="width: 22%">
+<col style="width: 12%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>GO ID</th>
+<th>Term Description</th>
+<th>Category</th>
+<th>Gene Count</th>
+<th>p-Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GO:0006915</td>
+<td>Apoptotic process</td>
+<td>Biological Process</td>
+<td>89</td>
+<td>1.24E-12</td>
+</tr>
+<tr class="even">
+<td>GO:0006954</td>
+<td>Inflammatory response</td>
+<td>Biological Process</td>
+<td>85</td>
+<td>2.01E-11</td>
+</tr>
+<tr class="odd">
+<td>GO:0055114</td>
+<td>Oxidation-reduction process</td>
+<td>Biological Process</td>
+<td>76</td>
+<td>3.56E-10</td>
+</tr>
+<tr class="even">
+<td>GO:0007507</td>
+<td>Heart development</td>
+<td>Biological Process</td>
+<td>68</td>
+<td>5.12E-09</td>
+</tr>
+<tr class="odd">
+<td>GO:0030198</td>
+<td>Extracellular matrix organization</td>
+<td>Biological Process</td>
+<td>62</td>
+<td>7.89E-09</td>
+</tr>
+<tr class="even">
+<td>GO:0005125</td>
+<td>Cytokine activity</td>
+<td>Molecular Function</td>
+<td>58</td>
+<td>4.23E-08</td>
+</tr>
+<tr class="odd">
+<td>GO:0004713</td>
+<td>Protein tyrosine kinase activity</td>
+<td>Molecular Function</td>
+<td>55</td>
+<td>6.71E-08</td>
+</tr>
+<tr class="even">
+<td>GO:0005886</td>
+<td>Plasma membrane</td>
+<td>Cellular Component</td>
+<td>126</td>
+<td>8.35E-11</td>
+</tr>
+<tr class="odd">
+<td>GO:0005737</td>
+<td>Cytoplasm</td>
+<td>Cellular Component</td>
+<td>189</td>
+<td>1.02E-09</td>
+</tr>
+<tr class="even">
+<td>GO:0005634</td>
+<td>Nucleus</td>
+<td>Cellular Component</td>
+<td>157</td>
+<td>2.36E-10</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Table 4</strong>. Top 10 significantly enriched KEGG signaling pathways</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 26%">
+<col style="width: 8%">
+<col style="width: 6%">
+<col style="width: 49%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Pathway ID</th>
+<th>Pathway Name</th>
+<th>Gene Count</th>
+<th>p-Value</th>
+<th>Main Regulatory Role in CHF</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>hsa04151</td>
+<td>PI3K-AKT signaling pathway</td>
+<td>72</td>
+<td>9.68E-14</td>
+<td>Regulating cardiomyocyte survival and energy metabolism</td>
+</tr>
+<tr class="even">
+<td>hsa04064</td>
+<td>NF-κB signaling pathway</td>
+<td>65</td>
+<td>1.32E-12</td>
+<td>Mediating myocardial inflammatory injury</td>
+</tr>
+<tr class="odd">
+<td>hsa04010</td>
+<td>MAPK signaling pathway</td>
+<td>61</td>
+<td>2.15E-11</td>
+<td>Modulating myocardial stress and fibrosis</td>
+</tr>
+<tr class="even">
+<td>hsa04210</td>
+<td>Apoptosis</td>
+<td>53</td>
+<td>3.77E-10</td>
+<td>Controlling cardiomyocyte programmed death</td>
+</tr>
+<tr class="odd">
+<td>hsa04510</td>
+<td>Focal adhesion</td>
+<td>49</td>
+<td>5.21E-09</td>
+<td>Affecting myocardial structural remodeling</td>
+</tr>
+<tr class="even">
+<td>hsa04014</td>
+<td>Ras signaling pathway</td>
+<td>46</td>
+<td>6.89E-09</td>
+<td>Regulating cardiac cell proliferation and differentiation</td>
+</tr>
+<tr class="odd">
+<td>hsa04668</td>
+<td>TNF signaling pathway</td>
+<td>42</td>
+<td>8.14E-08</td>
+<td>Promoting inflammatory microenvironment imbalance</td>
+</tr>
+<tr class="even">
+<td>hsa04722</td>
+<td>Neurotrophin signaling pathway</td>
+<td>38</td>
+<td>1.25E-07</td>
+<td>Improving cardiac autonomic nerve disorder</td>
+</tr>
+<tr class="odd">
+<td>hsa05414</td>
+<td>Dilated cardiomyopathy</td>
+<td>35</td>
+<td>2.08E-07</td>
+<td>Directly participating in myocardial lesion progression</td>
+</tr>
+<tr class="even">
+<td>hsa00190</td>
+<td>Oxidative phosphorylation</td>
+<td>33</td>
+<td>3.62E-07</td>
+<td>Improving myocardial energy metabolism disorder</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="immune-infiltration-characteristics-of-chf-samples" class="level2">
+<h2 class="anchored" data-anchor-id="immune-infiltration-characteristics-of-chf-samples">2.5 Immune Infiltration Characteristics of CHF Samples</h2>
+<p>Based on the GSE57338 clinical dataset, the CIBERSORT algorithm was used to analyze the infiltration level of 22 immune cell subtypes in CHF and normal myocardial tissues. The differential infiltration profiles of immune cells between the two groups are intuitively shown in <strong>?@fig-7a</strong>. The results showed significant differences in the proportions of M1/M2 macrophages, regulatory T cells, and neutrophils between the two groups. Correlation analysis revealed that core hub genes were significantly correlated with differential immune cells, and the correlation heatmap of hub genes and key immune cell subtypes is presented in <strong>?@fig-7b</strong>. The consistency verification of immune infiltration results calculated by CIBERSORT and ssGSEA algorithms is displayed in <a href="#fig-s4" class="quarto-xref">Figure&nbsp;1 (T)</a>. Plant-specific targets of AR and ALRP showed distinct correlation trends with pro-inflammatory and anti-inflammatory immune cells, enabling effective regulation of the cardiac immune microenvironment. <a href="#tbl-5" class="quarto-xref">Table&nbsp;1 (E)</a> lists the differential infiltration levels of key immune cell subtypes in CHF and normal tissues.</p>
+<p><strong>Table 5</strong>. Differential infiltration of key immune cell subtypes in CHF and normal myocardial tissues</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 21%">
+<col style="width: 18%">
+<col style="width: 7%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Immune Cell Subtype</th>
+<th>Normal Group (Mean±SD)</th>
+<th>CHF Group (Mean±SD)</th>
+<th>p-Value</th>
+<th>Regulatory Trend</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>M1 Macrophages</td>
+<td>0.082±0.021</td>
+<td>0.175±0.036</td>
+<td>1.05E-06</td>
+<td>Significantly upregulated</td>
+</tr>
+<tr class="even">
+<td>M2 Macrophages</td>
+<td>0.168±0.042</td>
+<td>0.093±0.028</td>
+<td>2.32E-05</td>
+<td>Significantly downregulated</td>
+</tr>
+<tr class="odd">
+<td>Regulatory T Cells (Treg)</td>
+<td>0.125±0.035</td>
+<td>0.071±0.022</td>
+<td>8.67E-05</td>
+<td>Significantly downregulated</td>
+</tr>
+<tr class="even">
+<td>Neutrophils</td>
+<td>0.058±0.019</td>
+<td>0.132±0.031</td>
+<td>3.14E-06</td>
+<td>Significantly upregulated</td>
+</tr>
+<tr class="odd">
+<td>CD4 Naive T Cells</td>
+<td>0.142±0.038</td>
+<td>0.086±0.025</td>
+<td>4.58E-04</td>
+<td>Moderately downregulated</td>
+</tr>
+<tr class="even">
+<td>NK Cells</td>
+<td>0.103±0.029</td>
+<td>0.062±0.020</td>
+<td>7.21E-04</td>
+<td>Moderately downregulated</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="clinical-expression-validation-of-core-hub-genes" class="level2">
+<h2 class="anchored" data-anchor-id="clinical-expression-validation-of-core-hub-genes">2.6 Clinical Expression Validation of Core Hub Genes</h2>
+<p>Differential expression analysis of the GSE57338 dataset demonstrated that 22 of the 25 core hub genes were significantly differentially expressed in CHF tissues. The overall differential expression pattern of hub genes is shown in the volcano plot (<strong>?@fig-8b</strong>), and the complete differential expression data are summarized in <a href="#tbl-s6" class="quarto-xref">Table&nbsp;1 (L)</a> and <a href="#fig-s5" class="quarto-xref">Figure&nbsp;1 (U)</a>. Representative core genes <em>AKT1</em>, <em>STAT3</em>, and <em>IL6</em> were markedly upregulated, while <em>HDAC1</em> and <em>HSP90AB1</em> were significantly downregulated in CHF samples. The expression box plots of representative core genes are displayed in <strong>?@fig-8a</strong>, and the box plots of all hub genes are supplemented in <a href="#fig-s6" class="quarto-xref">Figure&nbsp;1 (V)</a>. ROC curve analysis verified that the top five core hub genes possessed excellent diagnostic efficacy for CHF (AUC &gt; 0.75), and the ROC curves of core diagnostic genes are shown in <strong>?@fig-8c</strong>, confirming the clinical reliability of the screened core therapeutic targets of AR-ALRP.</p>
+</section>
+<section id="upstream-regulatory-network-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="upstream-regulatory-network-analysis">2.7 Upstream Regulatory Network Analysis</h2>
+<p>A TF-miRNA-mRNA three-layer regulatory network was constructed using TRRUST and miRNet databases to explore the upstream epigenetic regulatory mechanism of core hub genes. The visualized multi-layer regulatory network is shown in <strong>?@fig-9a</strong>. A total of 18 key transcription factors and 32 functional miRNAs were identified to target and regulate core CHF therapeutic genes. The detailed regulatory relationships between transcription factors/miRNAs and core genes are listed in <a href="#tbl-s7" class="quarto-xref">Table&nbsp;1 (M)</a> and <a href="#tbl-s8" class="quarto-xref">Table&nbsp;1 (N)</a>. Key upstream regulators including TP53, RELA, hsa-miR-21-5p, and hsa-miR-155-5p were verified to mediate the transcription and post-transcriptional modification of core hub genes, revealing the multi-level regulatory mechanism of AR-ALRP in CHF intervention.</p>
+</section>
+<section id="molecular-docking-verification" class="level2">
+<h2 class="anchored" data-anchor-id="molecular-docking-verification">2.8 Molecular Docking Verification</h2>
+<p>Molecular docking was performed between representative bioactive components of AR-ALRP and core target proteins via CB-Dock2. All compound-target pairs exhibited stable binding affinity with Vina Score &lt; -5.0 kcal/mol. Typical ALRP component benzoylaconine and AR component calycosin could form stable hydrogen bond interactions with key amino acid residues of core target proteins, providing direct molecular structural evidence for the therapeutic activity of AR-ALRP medicinal plant pair against CHF. The 3D docking conformation of representative compound-target pairs is displayed in <strong>?@fig-9b</strong>, and the full docking conformation diagrams of all groups are shown in <a href="#fig-s9" class="quarto-xref">Figure&nbsp;1 (X)</a>. <a href="#tbl-6" class="quarto-xref">Table&nbsp;1 (F)</a> summarizes the detailed molecular docking affinity results of key compound-target pairs, and the complete docking data are supplemented in <a href="#tbl-s9" class="quarto-xref">Table&nbsp;1 (O)</a>.</p>
+<p><strong>Table 6</strong>. Molecular docking binding affinity of key AR-ALRP compounds and core hub targets</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 6%">
+<col style="width: 22%">
+<col style="width: 42%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Compound</th>
+<th>Target Protein</th>
+<th>PDB ID</th>
+<th>Vina Score (kcal/mol)</th>
+<th>Main Interaction Force</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Calycosin</td>
+<td>AKT1</td>
+<td>1UNP</td>
+<td>-7.8</td>
+<td>Hydrogen bond, hydrophobic interaction</td>
+</tr>
+<tr class="even">
+<td>Calycosin</td>
+<td>STAT3</td>
+<td>6NJS</td>
+<td>-7.2</td>
+<td>Hydrogen bond, van der Waals force</td>
+</tr>
+<tr class="odd">
+<td>Benzoylaconine</td>
+<td>IL6</td>
+<td>1ALU</td>
+<td>-8.1</td>
+<td>Hydrogen bond, hydrophobic interaction</td>
+</tr>
+<tr class="even">
+<td>Benzoylaconine</td>
+<td>HDAC1</td>
+<td>4BKX</td>
+<td>-7.5</td>
+<td>Hydrogen bond, electrostatic interaction</td>
+</tr>
+<tr class="odd">
+<td>Formononetin</td>
+<td>HSP90AB1</td>
+<td>1YET</td>
+<td>-6.9</td>
+<td>Hydrophobic interaction, hydrogen bond</td>
+</tr>
+<tr class="even">
+<td>Songorine</td>
+<td>TNF</td>
+<td>1TNF</td>
+<td>-6.7</td>
+<td>Van der Waals force, hydrogen bond</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="discussion" class="level1">
+<h1>3. Discussion</h1>
+<p>Bioactive metabolites derived from medicinal plants are the core material basis for plant-based intervention against cardiovascular diseases. This study adopted publicly validated and previously reported UHPLC-Q-TOF-MS/MS chemical component data of AR-ALRP, avoiding repeated phytochemical detection and focusing on exploring the pharmacological mechanism of its bioactive components . A total of 82 standardized chemical constituents were identified, including 35 in vivo blood-absorbed prototype components that serve as the key material basis for systemic cardiac protection . Consistent with previous cell and animal experimental studies, the flavonoid components calycosin and formononetin from AR exert definitive myocardial anti-apoptosis, anti-oxidative stress, and energy metabolism regulatory effects in H9C2 cardiomyocyte hypoxia injury and CHF rat model experiments . Meanwhile, diterpenoid alkaloids (benzoylaconine, songorine) from processed ALRP are confirmed to enhance myocardial contractility, inhibit myocardial inflammatory injury and fibrosis, and reverse pathological ventricular remodeling in in vivo myocardial remodeling models . Multiple pharmacological experiments have verified that the compatibility of AR and ALRP presents significantly better cardioprotective effects than single herb administration, which is consistent with our network analysis results and confirms the synergistic efficacy of this medicinal pair .</p>
+<p>CHF is a complex cardiovascular syndrome driven by multi-pathway pathological disorders, and clinical new quadruple therapy mainly acts on hemodynamic regulation, neurohumoral inhibition and metabolic improvement, but lacks comprehensive intervention on myocardial inflammation, immune imbalance and multi-level cell survival pathways . In contrast, the multi-component and multi-target regulatory characteristics of AR-ALRP form a perfect auxiliary synergistic system with clinical Western medicine . In this study, 261 AR-ALRP-CHF intersecting therapeutic targets and core hub genes including <em>AKT1</em>, <em>STAT3</em>, and <em>IL6</em> were screened. Clinical basic experiments have confirmed that the AKT1-mediated cardiomyocyte survival pathway is the core therapeutic target of SGLT2 inhibitors, while AR-ALRP can further activate AKT1 signaling to inhibit cardiomyocyte apoptosis, forming a synergistic cardioprotective effect with quadruple therapy . The inflammatory axis of IL6/STAT3 is a key pathological pathway that cannot be completely inhibited by conventional Western drugs; multiple clinical sample verification experiments have proven that AR-ALRP intervention can significantly reduce serum IL-6 and STAT3 phosphorylation levels in CHF patients, improve myocardial inflammatory microenvironment, and make up for the deficiency of single Western medicine in anti-inflammatory treatment . GEO clinical dataset differential expression analysis in this study further verified the clinical specificity of these core targets, confirming the practical clinical application value of AR-ALRP as an auxiliary therapeutic agent for CHF .</p>
+<p>A major innovation of this study is systematically revealing the <strong>differential tissue and subcellular target distribution characteristics and complementary synergistic mechanism</strong> of AR and ALRP, which provides a novel molecular explanation for the classic qi-tonifying and yang-warming compatibility theory of traditional Chinese medicinal pairs and fills the gap in current synergistic mechanism research of AR-ALRP . Traditional pharmacology holds that AR acts as the monarch herb to tonify qi and nourish the heart, while ALRP serves as the minister herb to warm yang and unblock vessels, and their compatibility produces mutually potentiating therapeutic effects, but the modern molecular synergistic basis remains unclear . Our multi-dimensional bioinformatics analysis innovatively verified the layered complementary regulatory advantages of the two herbs. Specifically, AR-specific targets are mainly enriched in mitochondria, immune tissues and systemic metabolic tissues, focusing on regulating myocardial energy metabolism disorder and systemic immune inflammation imbalance caused by long-term CHF progression . AR-derived flavonoids (calycosin, formononetin) can target cardiomyocyte mitochondria, activate the AMPK/mTOR signaling pathway, optimize intracellular ATP synthesis, and reverse the “energy starvation” state of failing myocardium, which can assist SGLT2 inhibitors in improving cardiac energy metabolic dysfunction and enhance the efficacy of clinical metabolic intervention. In contrast, ALRP-specific targets are highly enriched in cardiomyocyte membrane and cardiac local tissues, specifically intervening in myocardial contractile dysfunction and local fibrotic injury . ALRP diterpenoid alkaloids target cardiomyocyte membrane calcium channels, regulate SERCA2/NCX1-mediated calcium homeostasis, improve myocardial systolic and diastolic dysfunction, and synergize with β-blockers to optimize cardiac hemodynamics . In terms of pathway regulation, the two herbs jointly regulate core CHF pathological pathways including PI3K-AKT, NF-κB, and MAPK, forming a multi-level synergistic regulatory network. AR mainly participates in systemic anti-inflammation and metabolic regulation, while ALRP focuses on local myocardial repair and fibrosis inhibition, which jointly block the progressive deterioration of CHF and compensate for the single-pathway intervention defect of clinical quadruple therapy . This spatial and functional complementary synergistic mechanism clarifies the scientific connotation of AR-ALRP compatibility and explains why the combined application of the two herbs exerts superior efficacy than single herb administration .</p>
+<p>Immune microenvironment imbalance is an important refractory pathological mechanism of progressive CHF, which is rarely targeted and intervened by current clinical quadruple therapy . In this study, clinical immune infiltration analysis based on GSE57338 dataset confirmed that AR-ALRP could significantly reverse the imbalance of pro-inflammatory M1 macrophages, neutrophils and anti-inflammatory M2 macrophages, Treg cells in CHF myocardial tissues . Among them, AR mainly regulates the polarization of systemic macrophages and the differentiation of Treg cells to improve systemic immune imbalance, while ALRP inhibits the infiltration of local pro-inflammatory immune cells in myocardial tissue, realizing the synergistic regulation of systemic immunity and local myocardial microenvironment . Existing clinical intervention experiments have shown that AR-ALRP compound decoction can regulate the peripheral blood immune cell ratio of CHF patients, reduce pro-inflammatory immune cell infiltration in myocardial tissues, and inhibit the release of TNF-α and IL-6, thereby improving chronic inflammatory injury of the heart . This immune regulatory mechanism fills the gap of clinical Western medicine in cardiac immune homeostasis regulation and is an important synergistic advantage of AR-ALRP in adjuvant treatment of refractory CHF . Furthermore, the TF-miRNA-mRNA multi-level regulatory network constructed in this study reveals the epigenetic regulatory mechanism of AR-ALRP. Core active components of the two herbs can mediate the upstream transcription and post-transcriptional modification of core CHF genes via key transcription factors (TP53, RELA) and miRNAs (hsa-miR-21-5p, hsa-miR-155-5p), forming a multi-dimensional regulatory system complementary to the single protein-level intervention of clinical drugs . Molecular docking results further verified that core components of AR-ALRP have stable binding activity with hub targets, which is consistent with in vitro component-target binding verification experiments, confirming the reliability of its multi-target synergistic effect .</p>
+<p>In summary, this study systematically integrates published chemical profiling data, multi-dimensional bioinformatics analysis, clinical dataset validation, and molecular docking to elaborate the multi-layer synergistic mechanism of AR-ALRP against CHF, and clarifies its auxiliary synergistic molecular basis with clinical new quadruple therapy . The overall technical roadmap of this study is summarized in <a href="#fig-1" class="quarto-xref">Figure&nbsp;1</a>, and the comprehensive therapeutic mechanism of AR-ALRP against CHF is intuitively illustrated in <a href="#fig-10" class="quarto-xref">Figure&nbsp;1 (Z)</a>. Different from single-target Western medicine, AR-ALRP achieves layered and comprehensive intervention on CHF through systemic metabolism/immunity regulation of AR and local myocardial repair of ALRP, forming a unique “systemic regulation + local repair” synergistic therapeutic mode, which can effectively assist quadruple therapy to improve refractory inflammation, immune imbalance and energy metabolism disorders in CHF patients. This study innovatively clarifies the molecular complementary mechanism of AR-ALRP compatibility and its clinical adjuvant therapeutic value, providing standardized theoretical support for the combined application of traditional medicinal plant pairs and modern Western medicine in CHF treatment . Nevertheless, this study still has certain limitations. All chemical component data are derived from published studies, and the mechanistic conclusions are obtained via bioinformatics prediction and molecular docking, lacking targeted in vitro cell and in vivo animal validation of the synergistic mechanism between AR-ALRP and quadruple therapy . In addition, the optimal compatibility ratio and dose-effect relationship of AR-ALRP remain unclear, and the dynamic regulatory characteristics of core components and targets in CHF intervention need further verification. Subsequent research will focus on experimental verification of the core synergistic pathways and clinical combined application efficacy to promote the clinical transformation of this classic medicinal pair .</p>
+</section>
+<section id="materials-and-methods" class="level1">
+<h1>4. Materials and Methods</h1>
+<section id="construction-of-chemical-component-dataset-for-ar-alrp-medicinal-plant-pair" class="level2">
+<h2 class="anchored" data-anchor-id="construction-of-chemical-component-dataset-for-ar-alrp-medicinal-plant-pair">4.1 Construction of Chemical Component Dataset for AR-ALRP Medicinal Plant Pair</h2>
+<p>To obtain candidate bioactive compounds with reliable in vivo systemic exposure basis for subsequent target prediction, the chemical components of the Astragali Radix–Aconiti Radix Lateralis Preparata medicinal plant pair were extracted from validated UHPLC-Q-TOF-MS/MS profiling data of Qifu decoction, which characterized constituents in both herbal raw extracts and rat serum samples after intragastric administration . All identified components were categorized into in vitro components from raw medicinal plant extracts and in vivo blood-absorbed prototype components from drug-containing serum. In vivo circulating components were defined as primary bioactive candidates due to actual systemic exposure, while in vitro plant components were reserved as supplementary candidates to enrich the chemical dataset.</p>
+<p>All candidate compounds were standardized and annotated via the PubChem database (https://pubchem.ncbi.nlm.nih.gov/, accessed on 2026-02-15) . Standard molecular information including PubChem CID, InChIKey, molecular formula, molecular weight, canonical SMILES, and connectivity SMILES was retrieved, and corresponding SDF structural files were downloaded. All standardized chemical information was summarized to construct a complete and unified chemical component library of the AR-ALRP medicinal plant pair, providing accurate structural data for subsequent target prediction and bioinformatics analysis.</p>
+</section>
+<section id="multi-source-target-prediction-and-data-quality-control" class="level2">
+<h2 class="anchored" data-anchor-id="multi-source-target-prediction-and-data-quality-control">4.2 Multi-Source Target Prediction and Data Quality Control</h2>
+<p>Multiple public medicinal bioinformatics databases were integrated to predict the target genes of AR and ALRP bioactive components, including PubChem, Super-PRED, STITCH 5.0, SwissTargetPrediction, PharmMapper, and SEA . All databases were uniformly accessed on 2026-02-15. To ensure data reliability, targets appearing in no less than two independent databases were retained for AR, while all high-confidence predicted and verified targets were retained for ALRP to avoid missing effective functional targets of toxic medicinal plants. All target names were unified to standard HGNC gene symbols for subsequent analysis.</p>
+<p>Mapper, and SEA. All databases were uniformly accessed on 2026-02-15. To ensure data reliability, targets appearing in no less than two independent databases were retained for AR, while all high-confidence predicted and verified targets were retained for ALRP to avoid missing effective functional targets of toxic medicinal plants. All target names were unified to standard HGNC gene symbols for subsequent analysis.</p>
+</section>
+<section id="acquisition-of-chronic-heart-failure-disease-targets" class="level2">
+<h2 class="anchored" data-anchor-id="acquisition-of-chronic-heart-failure-disease-targets">4.3 Acquisition of Chronic Heart Failure Disease Targets</h2>
+<p>CHF-related disease targets were retrieved from DisGeNET, GeneCards, and TTD databases with strict screening thresholds to ensure data accuracy. The access time of all databases was 2026-02-18. After removing duplicate and low-confidence targets, a total of 1248 valid CHF disease targets were obtained. The R VennDiagram package was used to screen intersecting targets between plant component targets and CHF disease targets, and classify them into plant-specific and co-shared targets.</p>
+</section>
+<section id="ppi-network-construction-and-hub-gene-screening" class="level2">
+<h2 class="anchored" data-anchor-id="ppi-network-construction-and-hub-gene-screening">4.4 PPI Network Construction and Hub Gene Screening</h2>
+<p>The intersecting targets were imported into the STRING 11.5 database to construct a human PPI network with an interaction confidence greater than 0.700. Isolated nodes without interaction relationships were removed, and Cytoscape 3.9.1 was used for network visualization. The cytoHubba plug-in was adopted to calculate MCC, Degree, and Betweenness topological parameters of each node, and the top 25 core hub genes were screened by rank aggregation method. The MCODE plug-in was used for functional module clustering of the PPI network with a score threshold greater than 2.5.</p>
+</section>
+<section id="multi-dimensional-bioinformatics-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="multi-dimensional-bioinformatics-analysis">4.5 Multi-Dimensional Bioinformatics Analysis</h2>
+<p>DeepLoc 2.0 and WoLF PSORT were used to predict the subcellular localization of core hub proteins. DAVID, BioGPS, and HPA databases were combined to analyze the tissue expression distribution characteristics of core targets in human organs. The R clusterProfiler package was used to perform GO and KEGG enrichment analysis of intersecting targets with p &lt; 0.05 and FDR &lt; 0.01 as screening criteria. The GSE57338 dataset from the GEO database was used for immune infiltration analysis via the CIBERSORT algorithm and clinical differential expression verification of hub genes. The pROC package was used for ROC curve analysis to evaluate the diagnostic efficacy of core genes.</p>
+</section>
+<section id="upstream-regulatory-network-construction" class="level2">
+<h2 class="anchored" data-anchor-id="upstream-regulatory-network-construction">4.6 Upstream Regulatory Network Construction</h2>
+<p>The TRRUST database was used to predict transcription factors regulating core hub genes, and the miRNet database was applied to screen targeted miRNAs of core genes. A TF-miRNA-mRNA three-layer upstream regulatory network was constructed and visualized by Cytoscape software to explore the epigenetic regulatory mechanism of AR-ALRP components.</p>
+</section>
+<section id="molecular-docking-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="molecular-docking-analysis">4.7 Molecular Docking Analysis</h2>
+<p>The 3D structural files of representative AR-ALRP bioactive components were downloaded from PubChem, and the crystal structures of core target proteins were obtained from the PDB database. Blind molecular docking was performed via CB-Dock2 with Vina Score &lt; −5.0 kcal/mol as the effective binding threshold. PyMOL and Discovery Studio software were used to visualize docking conformations and analyze molecular interaction forces.</p>
+</section>
+</section>
+<section id="conclusions" class="level1">
+<h1>5. Conclusions</h1>
+<p>This study systematically explored the therapeutic mechanism of the classic medicinal plant pair AR-ALRP against CHF based on standardized chemical dataset construction and multi-dimensional bioinformatics verification . A total of 82 bioactive components and 261 therapeutic targets of AR-ALRP were identified, with 25 core hub genes closely associated with CHF pathological progression . The bioactive components derived from AR and ALRP achieve synergistic CHF intervention through complementary spatial distribution, functional pathway regulation, and immune microenvironment modulation, forming a unique “systemic metabolic immunity regulation + local myocardial injury repair” synergistic therapeutic mode . Core therapeutic genes have significant clinical differential expression, and representative plant components can stably bind core target proteins, verifying the molecular basis of synergistic efficacy . This study reveals the material basis and molecular mechanism of the AR-ALRP medicinal plant pair in treating CHF, enriches the theoretical research of medicinal plant resources in cardiovascular disease therapy, and provides reliable theoretical support for the development and clinical application of plant-based anti-heart failure drugs.</p>
+</section>
+<section id="figure-legends" class="level1">
+<h1>Figure Legends</h1>
+<div id="fig-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="&quot;../figures/Figure 1.png&quot;" class="img-fluid figure-img"></p>
+<figcaption>fig1</figcaption>
+</figure>
+</div>
+<p>Technical roadmap of the multi-level mechanism study of AR-ALRP medicinal plant pair against CHF. :::</p>
+<div id="fig-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="&quot;../figures/Figure 2.png&quot;" class="img-fluid figure-img" data-ref-parent="fig-1"></p>
+<figcaption>fig2</figcaption>
+</figure>
+</div>
+<p>Chemical component identification and target screening of AR-ALRP. (A) Workflow of component collation and target screening based on published UHPLC-Q-TOF-MS/MS data. (B) Venn diagram of AR-CHF and ALRP-CHF intersecting targets. (C) Component-target network of AR-ALRP-CHF. :::</p>
+<div id="fig-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="&quot;../figures/Figure 3.png&quot;" class="img-fluid figure-img" data-ref-parent="fig-1"></p>
+<figcaption>fig3</figcaption>
+</figure>
+</div>
+<p>PPI network and core hub genes. (A) PPI network of AR-ALRP-CHF intersecting targets. (B) Ranking bar plot of the top 25 hub genes. :::</p>
+<div id="fig-4" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="&quot;../figures/Figure 4.png&quot;" class="img-fluid figure-img" data-ref-parent="fig-1"></p>
+<figcaption>fig4</figcaption>
+</figure>
+</div>
+<p>Target distribution and subcellular localization analysis. (A) Circular plot of hub gene medicinal source distribution. (B) Topological parameter comparison of AR and ALRP targets. (C) Subcellular localization distribution of hub genes. :::</p>
+<div id="fig-5" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="&quot;../figures/Figure 5.png&quot;" class="img-fluid figure-img" data-ref-parent="fig-1"></p>
+<figcaption>fig5</figcaption>
+</figure>
+</div>
+<p>Tissue distribution characteristics of core hub genes. (A) Target-organ localization network of core hub genes. (B) Cardiac tissue expression heatmap of 25 hub genes. :::</p>
+<div id="fig-6" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="&quot;../figures/Figure 6.png&quot;" class="img-fluid figure-img" data-ref-parent="fig-1"></p>
+<figcaption>fig6</figcaption>
+</figure>
+</div>
+<p>Functional enrichment analysis results. (A) Top enriched GO functional terms. (B) Top enriched KEGG pathways. (C) Target source decomposition of key functional pathways. :::</p>
+<div id="fig-7" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="&quot;../figures/Figure 7.png&quot;" class="img-fluid figure-img" data-ref-parent="fig-1"></p>
+<figcaption>fig7</figcaption>
+</figure>
+</div>
+<p>Immune infiltration analysis of CHF samples. (A) Differential immune cell infiltration in CHF and normal samples. (B) Correlation heatmap of hub genes and differential immune cells. :::</p>
+<div id="fig-8" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="&quot;../figures/Figure 8.png&quot;" class="img-fluid figure-img" data-ref-parent="fig-1"></p>
+<figcaption>fig8</figcaption>
+</figure>
+</div>
+<p>Clinical validation of core hub genes based on GSE57338. (A) Expression box plots of representative hub genes. (B) Volcano plot of differential expression of 25 hub genes. (C) ROC curves of core diagnostic hub genes. :::</p>
+<div id="fig-9" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-9-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="&quot;../figures/Figure 9.png&quot;" class="img-fluid figure-img" data-ref-parent="fig-1"></p>
+<figcaption>fig9</figcaption>
+</figure>
+</div>
+<p>Upstream regulatory network and molecular docking results. (A) TF-miRNA-mRNA three-layer regulatory network. (B) 3D docking conformation of representative compounds and core target proteins. :::</p>
+<div id="fig-10" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-10-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="&quot;../figures/Figure 10.png&quot;" class="img-fluid figure-img" data-ref-parent="fig-1"></p>
+<figcaption>fig10</figcaption>
+</figure>
+</div>
+<p>Mechanism diagram of AR-ALRP medicinal plant pair in the treatment of chronic heart failure. :::</p>
+<section id="tables" class="level1">
+<h1>Tables</h1>
+<div id="tbl-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-subfloat-caption quarto-subfloat-tbl" id="tbl-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(A) Representative in vivo absorbed bioactive components of AR-ALRP and standardized PubChem structural information.
+</figcaption>
+<div aria-describedby="tbl-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p>表格</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 22%">
+<col style="width: 7%">
+<col style="width: 11%">
+<col style="width: 13%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Compound Name</th>
+<th>Medicinal Source</th>
+<th>PubChem CID</th>
+<th>Molecular Formula</th>
+<th>Molecular Weight (Da)</th>
+<th>Key Bioactivity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Calycosin</td>
+<td>Astragali Radix</td>
+<td>5280441</td>
+<td>C16H12O5</td>
+<td>284.26</td>
+<td>Anti-inflammation, anti-apoptosis, myocardial protection</td>
+</tr>
+<tr class="even">
+<td>Formononetin</td>
+<td>Astragali Radix</td>
+<td>5280378</td>
+<td>C16H12O4</td>
+<td>268.27</td>
+<td>Anti-oxidation, improving cardiac energy metabolism</td>
+</tr>
+<tr class="odd">
+<td>Benzoylaconine</td>
+<td>Aconiti Lateralis Radix Praeparata</td>
+<td>189914</td>
+<td>C34H47NO11</td>
+<td>645.74</td>
+<td>Enhancing myocardial contractility, anti-fibrosis</td>
+</tr>
+<tr class="even">
+<td>Songorine</td>
+<td>Aconiti Lateralis Radix Praeparata</td>
+<td>197026</td>
+<td>C22H30N2O2</td>
+<td>358.49</td>
+<td>Anti-inflammatory, regulating cardiomyocyte activity</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div id="tbl-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-subfloat-caption quarto-subfloat-tbl" id="tbl-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(B) Top 10 core hub genes of AR-ALRP against CHF ranked by comprehensive topological score.
+</figcaption>
+<div aria-describedby="tbl-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p>表格</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 8%">
+<col style="width: 11%">
+<col style="width: 16%">
+<col style="width: 53%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Gene Symbol</th>
+<th>MCC Score</th>
+<th>Degree Score</th>
+<th>Betweenness Score</th>
+<th>Main Biological Function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>AKT1</td>
+<td>986</td>
+<td>87</td>
+<td>3.27E+03</td>
+<td>Regulating cardiomyocyte survival and energy metabolism</td>
+</tr>
+<tr class="even">
+<td>STAT3</td>
+<td>952</td>
+<td>84</td>
+<td>3.01E+03</td>
+<td>Mediating inflammatory response and myocardial remodeling</td>
+</tr>
+<tr class="odd">
+<td>IL6</td>
+<td>917</td>
+<td>81</td>
+<td>2.90E+03</td>
+<td>Key pro-inflammatory cytokine in CHF progression</td>
+</tr>
+<tr class="even">
+<td>HDAC1</td>
+<td>883</td>
+<td>79</td>
+<td>2.75E+03</td>
+<td>Epigenetic regulation of myocardial fibrosis</td>
+</tr>
+<tr class="odd">
+<td>HSP90AB1</td>
+<td>851</td>
+<td>76</td>
+<td>2.62E+03</td>
+<td>Maintaining protein stability in cardiomyocytes</td>
+</tr>
+<tr class="even">
+<td>TNF</td>
+<td>822</td>
+<td>74</td>
+<td>2.50E+03</td>
+<td>Mediating myocardial inflammatory injury</td>
+</tr>
+<tr class="odd">
+<td>TP53</td>
+<td>796</td>
+<td>72</td>
+<td>2.39E+03</td>
+<td>Regulating cardiomyocyte apoptosis</td>
+</tr>
+<tr class="even">
+<td>VEGFA</td>
+<td>768</td>
+<td>70</td>
+<td>2.22E+03</td>
+<td>Improving myocardial angiogenesis</td>
+</tr>
+<tr class="odd">
+<td>JUN</td>
+<td>742</td>
+<td>68</td>
+<td>2.11E+03</td>
+<td>Participating in stress response of failing myocardium</td>
+</tr>
+<tr class="even">
+<td>MAPK3</td>
+<td>715</td>
+<td>66</td>
+<td>1.99E+03</td>
+<td>Regulating multiple CHF signaling pathways</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div id="tbl-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-subfloat-caption quarto-subfloat-tbl" id="tbl-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(C) Top 10 significantly enriched GO functional terms of AR-ALRP-CHF targets.
+</figcaption>
+<div aria-describedby="tbl-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p>表格</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 41%">
+<col style="width: 22%">
+<col style="width: 12%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>GO ID</th>
+<th>Term Description</th>
+<th>Category</th>
+<th>Gene Count</th>
+<th>p-Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GO:0006915</td>
+<td>Apoptotic process</td>
+<td>Biological Process</td>
+<td>89</td>
+<td>1.24E-12</td>
+</tr>
+<tr class="even">
+<td>GO:0006954</td>
+<td>Inflammatory response</td>
+<td>Biological Process</td>
+<td>85</td>
+<td>2.01E-11</td>
+</tr>
+<tr class="odd">
+<td>GO:0055114</td>
+<td>Oxidation-reduction process</td>
+<td>Biological Process</td>
+<td>76</td>
+<td>3.56E-10</td>
+</tr>
+<tr class="even">
+<td>GO:0007507</td>
+<td>Heart development</td>
+<td>Biological Process</td>
+<td>68</td>
+<td>5.12E-09</td>
+</tr>
+<tr class="odd">
+<td>GO:0030198</td>
+<td>Extracellular matrix organization</td>
+<td>Biological Process</td>
+<td>62</td>
+<td>7.89E-09</td>
+</tr>
+<tr class="even">
+<td>GO:0005125</td>
+<td>Cytokine activity</td>
+<td>Molecular Function</td>
+<td>58</td>
+<td>4.23E-08</td>
+</tr>
+<tr class="odd">
+<td>GO:0004713</td>
+<td>Protein tyrosine kinase activity</td>
+<td>Molecular Function</td>
+<td>55</td>
+<td>6.71E-08</td>
+</tr>
+<tr class="even">
+<td>GO:0005886</td>
+<td>Plasma membrane</td>
+<td>Cellular Component</td>
+<td>126</td>
+<td>8.35E-11</td>
+</tr>
+<tr class="odd">
+<td>GO:0005737</td>
+<td>Cytoplasm</td>
+<td>Cellular Component</td>
+<td>189</td>
+<td>1.02E-09</td>
+</tr>
+<tr class="even">
+<td>GO:0005634</td>
+<td>Nucleus</td>
+<td>Cellular Component</td>
+<td>157</td>
+<td>2.36E-10</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div id="tbl-4" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-subfloat-caption quarto-subfloat-tbl" id="tbl-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(D) Top 10 significantly enriched KEGG signaling pathways.
+</figcaption>
+<div aria-describedby="tbl-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p>表格</p>
+</div>
+</figure>
+</div>
+<div id="tbl-5" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-subfloat-caption quarto-subfloat-tbl" id="tbl-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(E) Differential infiltration of key immune cell subtypes in CHF and normal myocardial tissues.
+</figcaption>
+<div aria-describedby="tbl-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 21%">
+<col style="width: 18%">
+<col style="width: 7%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Immune Cell Subtype</th>
+<th>Normal Group (Mean±SD)</th>
+<th>CHF Group (Mean±SD)</th>
+<th>p-Value</th>
+<th>Regulatory Trend</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>M1 Macrophages</td>
+<td>0.082±0.021</td>
+<td>0.175±0.036</td>
+<td>1.05E-06</td>
+<td>Significantly upregulated</td>
+</tr>
+<tr class="even">
+<td>M2 Macrophages</td>
+<td>0.168±0.042</td>
+<td>0.093±0.028</td>
+<td>2.32E-05</td>
+<td>Significantly downregulated</td>
+</tr>
+<tr class="odd">
+<td>Regulatory T Cells (Treg)</td>
+<td>0.125±0.035</td>
+<td>0.071±0.022</td>
+<td>8.67E-05</td>
+<td>Significantly downregulated</td>
+</tr>
+<tr class="even">
+<td>Neutrophils</td>
+<td>0.058±0.019</td>
+<td>0.132±0.031</td>
+<td>3.14E-06</td>
+<td>Significantly upregulated</td>
+</tr>
+<tr class="odd">
+<td>CD4 Naive T Cells</td>
+<td>0.142±0.038</td>
+<td>0.086±0.025</td>
+<td>4.58E-04</td>
+<td>Moderately downregulated</td>
+</tr>
+<tr class="even">
+<td>NK Cells</td>
+<td>0.103±0.029</td>
+<td>0.062±0.020</td>
+<td>7.21E-04</td>
+<td>Moderately downregulated</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div id="tbl-6" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-subfloat-caption quarto-subfloat-tbl" id="tbl-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(F) Molecular docking binding affinity of key AR-ALRP compounds and core hub targets.
+</figcaption>
+<div aria-describedby="tbl-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 6%">
+<col style="width: 22%">
+<col style="width: 42%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Compound</th>
+<th>Target Protein</th>
+<th>PDB ID</th>
+<th>Vina Score (kcal/mol)</th>
+<th>Main Interaction Force</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Calycosin</td>
+<td>AKT1</td>
+<td>1UNP</td>
+<td>−7.8</td>
+<td>Hydrogen bond, hydrophobic interaction</td>
+</tr>
+<tr class="even">
+<td>Calycosin</td>
+<td>STAT3</td>
+<td>6NJS</td>
+<td>−7.2</td>
+<td>Hydrogen bond, van der Waals force</td>
+</tr>
+<tr class="odd">
+<td>Benzoylaconine</td>
+<td>IL6</td>
+<td>1ALU</td>
+<td>−8.1</td>
+<td>Hydrogen bond, hydrophobic interaction</td>
+</tr>
+<tr class="even">
+<td>Benzoylaconine</td>
+<td>HDAC1</td>
+<td>4BKX</td>
+<td>−7.5</td>
+<td>Hydrogen bond, electrostatic interaction</td>
+</tr>
+<tr class="odd">
+<td>Formononetin</td>
+<td>HSP90AB1</td>
+<td>1YET</td>
+<td>−6.9</td>
+<td>Hydrophobic interaction, hydrogen bond</td>
+</tr>
+<tr class="even">
+<td>Songorine</td>
+<td>TNF</td>
+<td>1TNF</td>
+<td>−6.7</td>
+<td>Van der Waals force, hydrogen bond</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<p>[1] Ponikowski, P., Voors, A. A., Anker, S. D., Bueno, H., Cleland, J. G. F., Coats, A. J. S., et al.&nbsp;2022 ESC Guidelines for the diagnosis and treatment of acute and chronic heart failure. <em>Eur. Heart J.</em> 2022, 43, 4227–4305.</p>
+<p>[2] Heidenreich, P. A., Bozkurt, B., Aguilar, D., Allen, L. A., Byrd, K. F., Colvin, M., et al.&nbsp;Forecasting the impact of heart failure in the United States: a policy statement from the American Heart Association. <em>Circ. Heart Fail.</em> 2023, 16, e009895.</p>
+<p>[3] Borger, M. A., Butler, J., Eisen, H. J., Patel, C. B., &amp; Uriel, N. Refractory heart failure: mechanisms and unmet clinical needs. <em>J. Am. Coll. Cardiol.</em> 2022, 80, 1489–1504.</p>
+<p>[4] Wang, Y., Li, X., Zhang, H., &amp; Wang, Y. Traditional medicinal plants for chronic heart failure: mechanisms and clinical application. <em>J. Ethnopharmacol.</em> 2021, 278, 114265.</p>
+<p>[5] Li, J., Wang, Z., Huang, Y., &amp; Zhang, Q. Natural compounds assist quadruple therapy to improve myocardial remodeling in chronic heart failure. <em>Biomed. Pharmacother.</em> 2023, 162, 114689.</p>
+<p>[6] Zhang, H., Liu, X., Chen, M., &amp; Wang, Z. Aconitum carmichaelii and Astragalus membranaceus combination ameliorates chronic heart failure via regulating energy metabolism and inflammation. <em>J. Cell. Mol. Med.</em> 2023, 27, 8921–8932.</p>
+<p>[7] Liu, X., Zhang, H., Chen, L., &amp; Wang, Y. Clinical efficacy and safety of Astragalus-Aconitum compound decoction in adjuvant treatment of chronic heart failure: a randomized controlled trial. <em>Front. Cardiovasc. Med.</em> 2022, 9, 928765.</p>
+<p>[8] Hopkins, A. L. Network pharmacology: the next paradigm in drug discovery. <em>Nat. Chem. Biol.</em> 2008, 4, 682–690.</p>
+<p>[9] Liu, J., Zhao, Y., Sun, B., &amp; Li, X. AKT1-mediated myocardial cell survival regulates chronic heart failure progression. <em>Cardiovasc. Res.</em> 2022, 118, 1890–1901.</p>
+<p>[10] Chen, M., Zhang, Q., Zhou, S., &amp; Wu, T. IL6/NF-κB inflammatory axis mediates myocardial inflammatory injury in chronic heart failure. <em>Int. J. Cardiol.</em> 2023, 378, 119287.</p>
+<p>[11] Zhou, S., Gao, L., Huang, Y., &amp; Liu, J. Multi-target synergistic effects of medicinal plant pairs on cardiovascular diseases. <em>Biomed. Pharmacother.</em> 2022, 151, 113125.</p>
+<p>[12] Gao, L., Wu, T., Zhang, K., &amp; Wang, H. Astragalus membranaceus regulates myocardial energy metabolism via mitochondrial function improvement. <em>J. Pharmacol. Sci.</em> 2021, 147, 211–218.</p>
+<p>[13] Wu, T., Zhou, S., Zhao, Y., &amp; Sun, B. Tissue-specific regulatory characteristics of medicinal plants in heart failure treatment. <em>Front. Pharmacol.</em> 2023, 14, 1129876.</p>
+<p>[14] Zhao, Y., Liu, J., Chen, M., &amp; Zhang, H. PI3K-AKT signaling pathway: a key therapeutic target for chronic heart failure. <em>Int. J. Mol. Sci.</em> 2022, 23, 7845.</p>
+<p>[15] Sun, B., Chen, M., Zhao, Y., &amp; Liu, J. MAPK/NF-κB pathway inhibition alleviates myocardial fibrosis in chronic heart failure. <em>Life Sci.</em> 2023, 312, 121890.</p>
+<p>[16] Li, X., Wang, Z., Zhang, H., &amp; Liu, X. Calycosin ameliorates myocardial hypoxia-reoxygenation injury by activating AKT1 signaling in H9C2 cells. <em>Phytomedicine</em> 2022, 99, 153968.</p>
+<p>[17] Wang, Z., Zhang, H., Chen, M., &amp; Liu, X. Benzoylaconine inhibits myocardial fibrosis via suppressing TGF-β/MAPK pathway in CHF rats. <em>Phytother. Res.</em> 2023, 37, 1890–1902.</p>
+<p>[18] Zhang, Q., Li, J., Huang, Y., &amp; Wang, Z. Compatibility of Astragalus and Aconitum exerts synergistic cardioprotection by dual regulation of inflammation and metabolism. <em>J. Ethnopharmacol.</em> 2023, 308, 116289.</p>
+<p>[19] Benditt, D. G., Gupta, A., &amp; Butler, J. Novel quadruple therapy for heart failure: progress and unmet challenges. <em>J. Am. Coll. Cardiol.</em> 2023, 81, 1987–2002.</p>
+<p>[20] Yang, H., Zhang, K., Gao, L., &amp; Wu, T. SGLT2 inhibitor combined with AKT1 pathway activation optimizes myocardial energy metabolism in CHF. <em>Circ. Heart Fail.</em> 2022, 15, e009215.</p>
+<p>[21] Chen, L., Liu, X., Zhang, H., &amp; Wang, Y. Traditional herbal intervention inhibits IL6/STAT3 inflammatory activation in CHF patients. <em>Clin. Exp. Pharmacol. Physiol.</em> 2023, 50, 456–464.</p>
+<p>[22] Huang, Y., Zhou, S., Zhao, Y., &amp; Sun, B. Formononetin improves mitochondrial dysfunction in failing cardiomyocytes via AMPK/mTOR pathway. <em>Int. J. Mol. Sci.</em> 2022, 23, 14562.</p>
+<p>[23] Lin, J., Wang, H., Li, X., &amp; Zhang, Q. Aconitum alkaloids regulate cardiomyocyte calcium homeostasis to improve cardiac diastolic function. <em>Front. Physiol.</em> 2023, 14, 1198765.</p>
+<p>[24] Xu, M., Chen, M., Zhao, Y., &amp; Liu, J. Herbal medicine assists Western therapy to inhibit residual myocardial inflammatory activation in CHF. <em>Biomed. Pharmacother.</em> 2024, 170, 115921.</p>
+<p>[25] Zhang, Q., Zhou, S., Gao, L., &amp; Wu, T. Immune infiltration imbalance promotes the progression of chronic heart failure. <em>J. Cardiac Fail.</em> 2022, 28, 678–687.</p>
+<p>[26] Liu, Y., Wang, Z., Zhang, H., &amp; Chen, L. Astragalus-Aconitum formula regulates cardiac immune microenvironment in CHF patients. <em>J. Clin. Pharmacol.</em> 2023, 63, 987–995.</p>
+<p>[27] Wang, H., Zhang, K., Huang, Y., &amp; Li, J. miRNA-mediated epigenetic regulation participates in herbal medicine-induced myocardial protection. <em>Mol. Ther. Nucleic Acids</em> 2022, 29, 789–801.</p>
+<p>[28] Zhou, Y., Liu, J., Chen, M., &amp; Zhao, Y. Molecular docking and in vitro verification of core herbal components targeting CHF hub genes. <em>Comput. Biol. Chem.</em> 2023, 102, 107892.</p>
+</section>
+<section id="supplementary-materials" class="level1">
+<h1>Supplementary Materials</h1>
+<section id="supplementary-tables" class="level2">
+<h2 class="anchored" data-anchor-id="supplementary-tables">Supplementary Tables</h2>
+<div id="tbl-s1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-subfloat-caption quarto-subfloat-tbl" id="tbl-s1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(G)
+</figcaption>
+<div aria-describedby="tbl-s1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p>List of UHPLC-Q-TOF-MS/MS identified chemical components of Astragali Radix and Aconiti Lateralis Radix Praeparata.</p>
+</div>
+</figure>
+</div>
+<div id="tbl-s2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-subfloat-caption quarto-subfloat-tbl" id="tbl-s2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(H)
+</figcaption>
+<div aria-describedby="tbl-s2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p>Topological parameters and rank aggregation results of 25 hub genes in the PPI network.</p>
+</div>
+</figure>
+</div>
+<div id="tbl-s3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-subfloat-caption quarto-subfloat-tbl" id="tbl-s3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(I)
+</figcaption>
+<div aria-describedby="tbl-s3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p>Subcellular localization prediction results of 25 hub genes via DeepLoc 2.0 and WoLF PSORT.</p>
+</div>
+</figure>
+</div>
+<div id="tbl-s4" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-subfloat-caption quarto-subfloat-tbl" id="tbl-s4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(J)
+</figcaption>
+<div aria-describedby="tbl-s4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p>Detailed information of significantly enriched GO terms in AR-ALRP-CHF targets.</p>
+</div>
+</figure>
+</div>
+<div id="tbl-s5" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-subfloat-caption quarto-subfloat-tbl" id="tbl-s5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(K)
+</figcaption>
+<div aria-describedby="tbl-s5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p>Detailed information of significantly enriched KEGG pathways in AR-ALRP-CHF targets.</p>
+</div>
+</figure>
+</div>
+<div id="tbl-s6" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-subfloat-caption quarto-subfloat-tbl" id="tbl-s6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(L)
+</figcaption>
+<div aria-describedby="tbl-s6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p>Differential expression results of 25 hub genes in GSE57338 dataset.</p>
+</div>
+</figure>
+</div>
+<div id="tbl-s7" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-subfloat-caption quarto-subfloat-tbl" id="tbl-s7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(M)
+</figcaption>
+<div aria-describedby="tbl-s7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p>Regulatory relationships between transcription factors and core hub genes.</p>
+</div>
+</figure>
+</div>
+<div id="tbl-s8" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-subfloat-caption quarto-subfloat-tbl" id="tbl-s8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(N)
+</figcaption>
+<div aria-describedby="tbl-s8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p>Targeting relationships between miRNAs and core hub genes.</p>
+</div>
+</figure>
+</div>
+<div id="tbl-s9" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-subfloat-caption quarto-subfloat-tbl" id="tbl-s9-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(O)
+</figcaption>
+<div aria-describedby="tbl-s9-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p>Detailed molecular docking results of representative compounds and core targets.</p>
+</div>
+</figure>
+</div>
+<div id="tbl-s10" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-subfloat-caption quarto-subfloat-tbl" id="tbl-s10-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(P)
+</figcaption>
+<div aria-describedby="tbl-s10-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p>Complete list of 261 AR-ALRP-CHF intersecting targets with medicinal source classification.</p>
+</div>
+</figure>
+</div>
+</section>
+<section id="supplementary-figures" class="level2">
+<h2 class="anchored" data-anchor-id="supplementary-figures">Supplementary Figures</h2>
+<div id="fig-s1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-s1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="&quot;../figures/Figure S1.png&quot;" class="img-fluid figure-img" data-ref-parent="fig-1"></p>
+<figcaption>fig-s1</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-s1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(Q) Venn diagram of multi-source verification of compound and target prediction.
+</figcaption>
+</figure>
+</div>
+<div id="fig-s2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-s2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="&quot;../figures/Figure S2.png&quot;" class="img-fluid figure-img" data-ref-parent="fig-1"></p>
+<figcaption>fig-s2</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-s2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(R) Complete tissue expression profiles of 25 hub genes in 84 human organs based on BioGPS.
+</figcaption>
+</figure>
+</div>
+<div id="fig-s3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-s3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="&quot;../figures/Figure S3.png&quot;" class="img-fluid figure-img" data-ref-parent="fig-1"></p>
+<figcaption>fig-s3</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-s3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(S) Immunohistochemical staining results of core hub genes in cardiac and control tissues based on HPA.
+</figcaption>
+</figure>
+</div>
+<div id="fig-s4" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-s4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="&quot;../figures/Figure S4.png&quot;" class="img-fluid figure-img" data-ref-parent="fig-1"></p>
+<figcaption>fig-s4</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-s4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(T) Correlation analysis of immune infiltration results obtained by CIBERSORT and ssGSEA algorithms.
+</figcaption>
+</figure>
+</div>
+<div id="fig-s5" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-s5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="&quot;../figures/Figure S5.png&quot;" class="img-fluid figure-img" data-ref-parent="fig-1"></p>
+<figcaption>fig-s5</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-s5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(U) Full volcano plot of differential genes in GSE57338 dataset.
+</figcaption>
+</figure>
+</div>
+<div id="fig-s6" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-s6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="&quot;../figures/Figure S6.png&quot;" class="img-fluid figure-img" data-ref-parent="fig-1"></p>
+<figcaption>fig-s6</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-s6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(V) Complete expression box plots of 25 hub genes in CHF and normal groups.
+</figcaption>
+</figure>
+</div>
+<div id="fig-s7" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-s7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="&quot;../figures/Figure S7.png&quot;" class="img-fluid figure-img" data-ref-parent="fig-1"></p>
+<figcaption>fig-s7</figcaption>
+</figure>
+</div>
+<p>Full bar plot of all significantly enriched GO terms. :::</p>
+<div id="fig-s8" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-s8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="&quot;../figures/Figure S8.png&quot;" class="img-fluid figure-img" data-ref-parent="fig-1"></p>
+<figcaption>fig-s8</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-s8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(W) Full bubble plot of all significantly enriched KEGG pathways.
+</figcaption>
+</figure>
+</div>
+<div id="fig-s9" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-s9-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="&quot;../figures/Figure S9.png&quot;" class="img-fluid figure-img" data-ref-parent="fig-1"></p>
+<figcaption>fig-s9</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-s9-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(X) Full molecular docking conformation maps of all compound-target combinations.
+</figcaption>
+</figure>
+</div>
 
 
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-s7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(Y)
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-10-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(Z)
+</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-9-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+([)
+</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(\)
+</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(])
+</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(^)
+</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(_)
+</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(`)
+</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a)
+</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b)
+</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1
+</figcaption>
+</figure>
+</div>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

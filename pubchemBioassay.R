@@ -20,7 +20,7 @@ library(PubChemR)
 #' @param retry 重试次数
 #' @param delay 重试间隔（秒）
 #' @return 整数向量
-get_active_aids <- function(cid, retry = 3, delay = 0.3) {
+get_active_aids <- function(cid, retry = 1, delay = 1) {
   # 参数校验
   stopifnot(length(cid) == 1)
   cid_char <- as.character(cid)
@@ -29,7 +29,7 @@ get_active_aids <- function(cid, retry = 3, delay = 0.3) {
     url <- paste0(
       "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/",
       cid_char,
-      "/aids/JSON/?aids_type=active"
+      "/aids/JSON?aids_type=active"
     )
     resp <- tryCatch(GET(url), error = function(e) NULL)
     
@@ -45,7 +45,7 @@ get_active_aids <- function(cid, retry = 3, delay = 0.3) {
     }
     Sys.sleep(delay)
   }
-  warning("Failed to retrieve active AIDs for CID: ", cid_char)
+  # warning("Failed to retrieve active AIDs for CID: ", cid_char)
   return(integer(0))
 }
 
@@ -63,7 +63,7 @@ get_active_aids <- function(cid, retry = 3, delay = 0.3) {
 #' df <- get_cid_aid_df(cids)
 #' print(df)
 #' }
-get_cid_aid_df <- function(cids, retry = 3, delay = 0.3, verbose = TRUE) {
+get_cid_aid_df <- function(cids, retry = 1, delay = 1, verbose = TRUE) {
   # 确保加载 progressr
   if (!requireNamespace("progressr", quietly = TRUE)) {
     stop("Package 'progressr' is required.")
@@ -99,29 +99,102 @@ get_cid_aid_df <- function(cids, retry = 3, delay = 0.3, verbose = TRUE) {
         )
         result_list[[i]] <- temp_df
       } else {
-        # 无活性 AID 时仍保留 CID 占位（可选，通常不需要）
-        # 如果希望保留，可取消注释下一行
-        # result_list[[i]] <- data.frame(CID = cid, AID = NA_integer_)
-        result_list[[i]] <- NULL   # 不保留空记录
+        result_list[[i]] <- NULL
       }
       
       p(sprintf("CID=%s", cid))
-      Sys.sleep(delay)  # 控制整体频率
+      Sys.sleep(delay)  
     }
   })
   
   # 合并所有结果
-  # final_df <- bind_rows(result_list)
-  final_df <- result_list
-  
-  # if (verbose) message("Done. Retrieved ", nrow(final_df), " CID-AID pairs.")
+  final_df <- bind_rows(result_list)
+
+  if (verbose) message("Done. Retrieved ", nrow(final_df), " CID-AID pairs.")
   return(final_df)
 }
 
 
+get_assays_df <- function(cid, retry = 1, delay = 1) {
+  # 参数校验
+  stopifnot(length(cid) == 1)
+  cid_char <- as.character(cid)
+  
+  for (attempt in seq_len(retry)) {
+    url <- paste0(
+      "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/",
+      cid_char,
+      "/assaysummary/JSON"
+    )
+    resp <- tryCatch(GET(url), error = function(e) NULL)
+    
+    if (!is.null(resp) && status_code(resp) == 200) {
+      data <- fromJSON(content(resp, "text", encoding = "UTF-8"))
+      if (length(data$Table$Row$Cell) >0) {
+        df <- as.data.frame(do.call(rbind, data$Table$Row$Cell))
+        colnames(df) <- data$Table$Columns$Column
+      } else {
+        df <- NULL
+      }
+    } else if (!is.null(resp) && status_code(resp) == 404) {
+      df <- NULL
+    }
+    Sys.sleep(delay)
+  }
+  
+  return(df)
+}
 
 
-get_cid_targets <- function(cids, retry = 3, delay = 1, verbose = TRUE) {
+# 
+get_assays_by_cids <- function(cids, retry = 1, delay = 2, verbose = TRUE) {
+  # 确保加载 progressr
+  if (!requireNamespace("progressr", quietly = TRUE)) {
+    stop("Package 'progressr' is required.")
+  }
+  
+  # 去重并转为字符
+  cids_unique <- unique(as.character(cids))
+  total <- length(cids_unique)
+  if (total == 0) {
+    warning("No valid CIDs provided.")
+    return(NULL)
+  }
+  
+  if (verbose) message("Processing ", total, " CIDs...")
+  
+  # 存储结果的列表
+  result_list <- list()
+  
+  # 使用 progressr 显示进度
+  with_progress({
+    p <- progressor(along = cids_unique)
+    
+    for (i in seq_along(cids_unique)) {
+      cid <- cids_unique[i]
+      df <- get_assays_df(cid, retry = retry, delay = delay)
+      if (!is.null(df)) {
+        df <- df|>
+          mutate(across(everything(), as.character))
+        result_list[[i]] <- df
+      } else {
+        result_list[[i]] <- NULL
+      }
+
+      p(sprintf("CID=%s", cid))
+      Sys.sleep(delay)
+    }
+  })
+  
+  # 合并所有结果
+  final_df <- bind_rows(result_list)
+  
+  if (verbose) message("Done. Retrieved ", nrow(final_df), " CID-AID pairs.")
+  return(final_df)
+}
+
+
+get_cid_targets <- function(cids, retry = 1, delay = 1, verbose = TRUE) {
   # 确保加载 progressr
   if (!requireNamespace("progressr", quietly = TRUE)) {
     stop("Package 'progressr' is required.")
@@ -169,7 +242,7 @@ get_cid_targets <- function(cids, retry = 3, delay = 1, verbose = TRUE) {
       full_url <- paste0(base_url, "?infmt=json&outfmt=json&query=", query_encoded)
       
       
-      # ---------- 重试循环 ----------
+      # 重试循环 
       success <- FALSE
       last_error <- NULL
       
@@ -233,6 +306,8 @@ get_cid_targets <- function(cids, retry = 3, delay = 1, verbose = TRUE) {
         error_log[[i]] <- last_error
       }
       
+      
+      p(sprintf("CID=%s", cid))
       Sys.sleep(delay)  
     }
   })
@@ -245,4 +320,178 @@ get_cid_targets <- function(cids, retry = 3, delay = 1, verbose = TRUE) {
   if (verbose) message("Done. Retrieved ", nrow(final_df), " CID-Target pairs.")
   return(final_df)
 }
+
+
+get_gene_symbol_by_aid <- function(aid, delay = 1) {
+  url <- paste0(
+    "https://pubchem.ncbi.nlm.nih.gov/rest/pug/assay/aid/",
+    as.character(aid),
+    "/targets/ProteinGI,ProteinName,GeneID,GeneSymbol/JSON")
+  
+  resp <- tryCatch(GET(url), error = function(e) NULL)
+  
+  if (!is.null(resp) && status_code(resp) == 200) {
+    data <- fromJSON(content(resp, "text", encoding = "UTF-8"))
+    aid <- data$InformationList$Information$AID
+    if (is.null(aids)) return(integer(0))
+    # 确保是向量（有时是列表）
+    if (is.list(aids)) aids <- unlist(aids)
+    return(as.integer(aids))
+  } else if (!is.null(resp) && status_code(resp) == 404) {
+    return(integer(0))
+  }
+  Sys.sleep(delay)
+}
+  
+
+get_gene_symbol_by_geneids <- function(geneids, delay = 1, verbose = TRUE) {
+  if (!requireNamespace("progressr", quietly = TRUE)) {
+    stop("Package 'progressr' is required.")
+  }
+  
+  geneids_unique <- unique(as.character(geneids))
+  geneids_unique <- Filter(nzchar, geneids_unique)
+  total <- length(geneids_unique)
+  
+  if (total == 0) {
+    warning("No valid CIDs provided.")
+    return(data.frame(GeneID = character(), 
+                      Symbol = character(), 
+                      TaxonomyID = character(),
+                      stringsAsFactors = FALSE)
+          )
+  }
+  
+  if (verbose) message("Processing ", total, " GeneIDs...")
+  
+  result_list <- list()
+  
+  with_progress({
+    p <- progressor(along = geneids_unique)
+    
+    for (i in seq_along(geneids_unique)) {
+      geneid <- geneids_unique[i]
+      url <- paste0(
+        "https://pubchem.ncbi.nlm.nih.gov/rest/pug/gene/geneid/",
+        as.character(geneid),
+        "/summary/JSON")
+      resp <- tryCatch(GET(url), error = function(e) NULL)
+  
+      if (!is.null(resp) && status_code(resp) == 200) {
+        data <- fromJSON(content(resp, "text", encoding = "UTF-8"))
+        d <- data$GeneSummaries$GeneSummary
+        if (is.null(d)) {
+          result_list[[i]] <- NULL
+        } else {
+          d <- d |> 
+            mutate(across(everything(), as.character),
+                   across(everything(), trimws)) |>
+            dplyr::select(GeneID,Symbol,TaxonomyID)
+          result_list[[i]] <- d
+        }
+        
+      } else if (!is.null(resp) && status_code(resp) == 404) {
+        result_list[[i]] <- NULL
+      }
+    p(sprintf("GeneID=%s", geneid))
+    Sys.sleep(delay)
+    }
+  })
+  
+  # 合并所有结果
+  final_df <- bind_rows(result_list)
+  
+  if (verbose) message("Done. Retrieved ", nrow(final_df), " CID-AID pairs.")
+  return(final_df)
+}
+
+
+# library(rentrez)
+
+# GI → Gene Symbol
+accession_to_symbol <- function(accession) {
+  if (substr(accession, 3, 3) == "_") {
+    query = paste0("xref:",accession)
+  } else if (grepl("^[0-9]$", substr(accession, 1, 1))) {
+    query = paste0("pdb-",substr(accession, 1, 4))
+  } else {
+    query = accession
+  }
+  
+  resp <- GET(url = "https://rest.uniprot.org/uniprotkb/search",
+              query = list( query = query, format = "json"))
+  
+  # data <- content(resp, "parsed", type = "application/json")
+  
+  data <- fromJSON(content(resp, "text", encoding = "UTF-8"), flatten = TRUE)
+  
+  if (length(data$results) == 0) {
+    return(NA)
+  }
+  
+  if (!("genes" %in% names(data$results))) return(NA)
+  
+  genes_df <- data$results[, c("primaryAccession", "genes")]
+  genes_df <- unnest(genes_df, cols = c(genes))
+  
+  d <- data.frame(
+    Accession = rep(accession, nrow(genes_df)),
+    Symbol = genes_df$geneName.value,
+    TaxonomyID = as.character(data$results$organism.taxonId)
+  )
+  
+  return(d)
+}
+
+get_gene_symbol_by_accessions <- function(accessions, delay = 1, verbose = TRUE) {
+  
+  if (!requireNamespace("progressr", quietly = TRUE)) {
+    stop("Package 'progressr' is required.")
+  }
+  
+  accessions_unique <- unique(as.character(accessions))
+  accessions_unique <- Filter(nzchar, accessions_unique)
+  total <- length(accessions_unique)
+ 
+  if (total == 0) {
+    warning("No valid Accessions provided.")
+    return(data.frame(Accession= character(), 
+                      Symbol = character(), 
+                      TaxonomyID = character(),
+                      stringsAsFactors = FALSE)
+    )
+  }
+  
+  if (verbose) message("Processing ", total, " Accessions...")
+  
+  result_list <- list()
+  
+  with_progress({
+    p <- progressor(along = accessions_unique)
+    
+    for (i in seq_along(accessions_unique)) {
+      accession <- accessions_unique[i]
+      
+      df <- accession_to_symbol(accession)
+      
+      if (is.null(names(df))) {
+        result_list[[i]] <- NULL
+      } else {
+        result_list[[i]] <- df
+      }
+      
+      p(sprintf("Accession=%s", accession))
+      Sys.sleep(delay)
+    }
+    
+  })
+  
+  # 合并所有结果
+  final_df <- bind_rows(result_list)
+  
+  if (verbose) message("Done. Retrieved ", nrow(final_df), " Accession-Symbol pairs.")
+  return(final_df)
+}
+
+
   

@@ -1,0 +1,1765 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Kun Hou">
+<meta name="author" content="Xili Wu">
+
+<title>原始数据预处理 – QFD4CHF</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-f1ef0423859aea48f2b5a85ac632af29.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">QFD4CHF</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../manuscript.html"> 
+<span class="menu-text">Manuscript</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-scripts" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Scripts</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-scripts">    
+        <li>
+    <a class="dropdown-item" href="../scripts/report.html">
+ <span class="dropdown-text">report.qmd</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../scripts/pretreatment.html">
+ <span class="dropdown-text">report.qmd</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="-1">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#活性成分" id="toc-活性成分" class="nav-link active" data-scroll-target="#活性成分"><span class="header-section-number">1</span> 活性成分</a>
+  <ul class="collapse">
+  <li><a href="#从pubchem获取分子信息" id="toc-从pubchem获取分子信息" class="nav-link" data-scroll-target="#从pubchem获取分子信息"><span class="header-section-number">1.1</span> 从PubChem获取分子信息</a></li>
+  <li><a href="#保存分子信息到table-s1" id="toc-保存分子信息到table-s1" class="nav-link" data-scroll-target="#保存分子信息到table-s1"><span class="header-section-number">1.2</span> 保存分子信息到Table S1</a></li>
+  <li><a href="#下载sdf文件..dataqfd_sdfs" id="toc-下载sdf文件..dataqfd_sdfs" class="nav-link" data-scroll-target="#下载sdf文件..dataqfd_sdfs"><span class="header-section-number">1.3</span> 下载SDF文件(../data/qfd_sdfs)</a></li>
+  </ul></li>
+  <li><a href="#成分靶点" id="toc-成分靶点" class="nav-link" data-scroll-target="#成分靶点"><span class="header-section-number">2</span> 成分靶点</a>
+  <ul class="collapse">
+  <li><a href="#tmmc-2.0" id="toc-tmmc-2.0" class="nav-link" data-scroll-target="#tmmc-2.0"><span class="header-section-number">2.1</span> TMMC 2.0</a></li>
+  <li><a href="#pubchem-bioassay" id="toc-pubchem-bioassay" class="nav-link" data-scroll-target="#pubchem-bioassay"><span class="header-section-number">2.2</span> PubChem BioAssay</a>
+  <ul class="collapse">
+  <li><a href="#gene.symbol" id="toc-gene.symbol" class="nav-link" data-scroll-target="#gene.symbol"><span class="header-section-number">2.2.1</span> gene.symbol</a></li>
+  <li><a href="#targets.pubchem" id="toc-targets.pubchem" class="nav-link" data-scroll-target="#targets.pubchem"><span class="header-section-number">2.2.2</span> targets.pubchem</a></li>
+  </ul></li>
+  <li><a href="#stitch-v5.0-score0.4" id="toc-stitch-v5.0-score0.4" class="nav-link" data-scroll-target="#stitch-v5.0-score0.4"><span class="header-section-number">2.3</span> STITCH v5.0 (score&gt;=0.4)</a></li>
+  <li><a href="#tcmsp-v2.3" id="toc-tcmsp-v2.3" class="nav-link" data-scroll-target="#tcmsp-v2.3"><span class="header-section-number">2.4</span> TCMSP v2.3</a></li>
+  <li><a href="#herb-2.0" id="toc-herb-2.0" class="nav-link" data-scroll-target="#herb-2.0"><span class="header-section-number">2.5</span> HERB 2.0</a></li>
+  <li><a href="#swisstargetprediction" id="toc-swisstargetprediction" class="nav-link" data-scroll-target="#swisstargetprediction"><span class="header-section-number">2.6</span> SwissTargetPrediction</a></li>
+  <li><a href="#super-pred" id="toc-super-pred" class="nav-link" data-scroll-target="#super-pred"><span class="header-section-number">2.7</span> Super-PRED</a></li>
+  <li><a href="#pharmmapper" id="toc-pharmmapper" class="nav-link" data-scroll-target="#pharmmapper"><span class="header-section-number">2.8</span> PharmMapper</a></li>
+  <li><a href="#sea" id="toc-sea" class="nav-link" data-scroll-target="#sea"><span class="header-section-number">2.9</span> SEA</a></li>
+  <li><a href="#筛选潜在成分靶点" id="toc-筛选潜在成分靶点" class="nav-link" data-scroll-target="#筛选潜在成分靶点"><span class="header-section-number">2.10</span> 筛选潜在成分靶点</a></li>
+  <li><a href="#uniprot-id-mapping" id="toc-uniprot-id-mapping" class="nav-link" data-scroll-target="#uniprot-id-mapping"><span class="header-section-number">2.11</span> Uniprot ID Mapping</a></li>
+  <li><a href="#合并潜在成分靶点" id="toc-合并潜在成分靶点" class="nav-link" data-scroll-target="#合并潜在成分靶点"><span class="header-section-number">2.12</span> 合并潜在成分靶点</a></li>
+  </ul></li>
+  <li><a href="#疾病靶点" id="toc-疾病靶点" class="nav-link" data-scroll-target="#疾病靶点"><span class="header-section-number">3</span> 疾病靶点</a>
+  <ul class="collapse">
+  <li><a href="#disgenet-v25.4-2025-12-15更新2025-12-20检索" id="toc-disgenet-v25.4-2025-12-15更新2025-12-20检索" class="nav-link" data-scroll-target="#disgenet-v25.4-2025-12-15更新2025-12-20检索"><span class="header-section-number">3.1</span> DisGeNet v25.4 (2025-12-15更新/2025-12-20检索)</a></li>
+  <li><a href="#genecards" id="toc-genecards" class="nav-link" data-scroll-target="#genecards"><span class="header-section-number">3.2</span> GeneCards</a></li>
+  <li><a href="#ttd" id="toc-ttd" class="nav-link" data-scroll-target="#ttd"><span class="header-section-number">3.3</span> TTD</a></li>
+  <li><a href="#chf-related-targets" id="toc-chf-related-targets" class="nav-link" data-scroll-target="#chf-related-targets"><span class="header-section-number">3.4</span> CHF-related targets</a></li>
+  </ul></li>
+  <li><a href="#靶点交集" id="toc-靶点交集" class="nav-link" data-scroll-target="#靶点交集"><span class="header-section-number">4</span> 靶点交集</a></li>
+  <li><a href="#参考文献" id="toc-参考文献" class="nav-link" data-scroll-target="#参考文献">参考文献</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content column-page-right" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">原始数据预处理</h1>
+</div>
+
+
+<div class="quarto-title-meta-author column-page-right">
+  <div class="quarto-title-meta-heading">Authors</div>
+  <div class="quarto-title-meta-heading">Affiliations</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Kun Hou <a href="mailto:xxx@163.com" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0000-xxxx-xxxx-xxxx" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Health Science Center, Xi’an Jiaotong University
+          </p>
+        <p class="affiliation">
+            Hanzhong Traditional Chinese Medicine Hospital
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Xili Wu <a href="mailto:xxx@163.com" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0000-xxxx-xxxx-xxxx" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Health Science Center, Xi’an Jiaotong University
+          </p>
+        <p class="affiliation">
+            The Second Affiliated Hospital of Xi’an Jiaotong University
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta column-page-right">
+
+      
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<hr>
+<section id="活性成分" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> 活性成分</h1>
+<ul>
+<li><p>原始数据：根据文献<span class="citation" data-cites="zhang2024qfd tan2012qfda">[<a href="#ref-zhang2024qfd" role="doc-biblioref">1</a>,<a href="#ref-tan2012qfda" role="doc-biblioref">2</a>]</span>获得了 AR 和 ALRP 的入血活性成分信息（../data/qfd_ingredients/raw.xlsx）</p></li>
+<li><p>输出数据：(supplementary/Table S1.xlsx)</p></li>
+</ul>
+<section id="从pubchem获取分子信息" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="从pubchem获取分子信息"><span class="header-section-number">1.1</span> 从PubChem获取分子信息</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="co"># 读取原始成分数据</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a>ingredients_raw <span class="ot">&lt;-</span> <span class="fu">read.xlsx</span>(<span class="st">"../data/qfd_ingredients/raw.xlsx"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a>  <span class="fu">mutate</span>(<span class="at">PubChem.CID =</span> <span class="fu">as.character</span>(PubChem.CID)) <span class="sc">|&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a>  <span class="fu">distinct</span>(Abbreviation, PubChem.CID, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a>  <span class="fu">arrange</span>(Abbreviation)</span>
+<span id="cb1-8"><a href="#cb1-8"></a></span>
+<span id="cb1-9"><a href="#cb1-9"></a>properties <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"IUPACName"</span>, <span class="st">"MolecularFormula"</span>, <span class="st">"MolecularWeight"</span>, <span class="st">"SMILES"</span>,<span class="st">"InChIKey"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10"></a>unique_cids <span class="ot">&lt;-</span> <span class="fu">unique</span>(ingredients_raw<span class="sc">$</span>PubChem.CID)</span>
+<span id="cb1-11"><a href="#cb1-11"></a></span>
+<span id="cb1-12"><a href="#cb1-12"></a>chem_info <span class="ot">&lt;-</span> <span class="fu">get_properties</span>(</span>
+<span id="cb1-13"><a href="#cb1-13"></a>  <span class="at">properties =</span> properties,</span>
+<span id="cb1-14"><a href="#cb1-14"></a>  <span class="at">identifier =</span> unique_cids,</span>
+<span id="cb1-15"><a href="#cb1-15"></a>  <span class="at">namespace =</span> <span class="st">"cid"</span> </span>
+<span id="cb1-16"><a href="#cb1-16"></a>) <span class="sc">|&gt;</span> </span>
+<span id="cb1-17"><a href="#cb1-17"></a>  <span class="fu">retrieve</span>(., <span class="at">.combine.all =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-18"><a href="#cb1-18"></a></span>
+<span id="cb1-19"><a href="#cb1-19"></a>ingredients <span class="ot">&lt;-</span> ingredients_raw <span class="sc">|&gt;</span></span>
+<span id="cb1-20"><a href="#cb1-20"></a>  <span class="fu">mutate</span>(<span class="at">PubChem.CID =</span> <span class="fu">as.numeric</span>(PubChem.CID)) <span class="sc">|&gt;</span></span>
+<span id="cb1-21"><a href="#cb1-21"></a>  <span class="fu">left_join</span>(chem_info, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"PubChem.CID"</span><span class="ot">=</span><span class="st">"CID"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb1-22"><a href="#cb1-22"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), trimws)) <span class="sc">|&gt;</span></span>
+<span id="cb1-23"><a href="#cb1-23"></a>  <span class="fu">mutate</span>(<span class="at">MolecularWeight =</span> <span class="fu">as.numeric</span>(MolecularWeight)) <span class="sc">|&gt;</span></span>
+<span id="cb1-24"><a href="#cb1-24"></a>  <span class="fu">arrange</span>(Abbreviation, MolecularWeight)</span>
+<span id="cb1-25"><a href="#cb1-25"></a></span>
+<span id="cb1-26"><a href="#cb1-26"></a><span class="fu">save</span>(ingredients,<span class="at">file =</span> <span class="st">"../data/qfd_ingredients/ingredients.RData"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="保存分子信息到table-s1" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="保存分子信息到table-s1"><span class="header-section-number">1.2</span> 保存分子信息到Table S1</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="fu">load</span>(<span class="st">"../data/qfd_ingredients/ingredients.RData"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4"></a></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="fu">write.xlsx</span>(<span class="fu">list</span>(</span>
+<span id="cb2-6"><a href="#cb2-6"></a>  <span class="st">`</span><span class="at">Table S1</span><span class="st">`</span> <span class="ot">=</span> ingredients <span class="sc">|&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a>    dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="st">`</span><span class="at">Medicinal Materials</span><span class="st">`</span> <span class="ot">=</span> Medicinal.Materials,</span>
+<span id="cb2-8"><a href="#cb2-8"></a>                <span class="st">`</span><span class="at">Molecular Formula</span><span class="st">`</span> <span class="ot">=</span> MolecularFormula,</span>
+<span id="cb2-9"><a href="#cb2-9"></a>                <span class="st">`</span><span class="at">PubChem CID</span><span class="st">`</span> <span class="ot">=</span> PubChem.CID,</span>
+<span id="cb2-10"><a href="#cb2-10"></a>                <span class="st">`</span><span class="at">TMMC2 ID</span><span class="st">`</span> <span class="ot">=</span> TMMC2.ID,</span>
+<span id="cb2-11"><a href="#cb2-11"></a>                <span class="st">`</span><span class="at">HERB2 ID</span><span class="st">`</span> <span class="ot">=</span> HERB2.ID,</span>
+<span id="cb2-12"><a href="#cb2-12"></a>                <span class="st">`</span><span class="at">TCMSP ID</span><span class="st">`</span> <span class="ot">=</span> TCMSP.ID,</span>
+<span id="cb2-13"><a href="#cb2-13"></a>                <span class="st">`</span><span class="at">Molecular Weight</span><span class="st">`</span> <span class="ot">=</span> MolecularWeight,</span>
+<span id="cb2-14"><a href="#cb2-14"></a>                <span class="st">`</span><span class="at">IUPAC Name</span><span class="st">`</span> <span class="ot">=</span> IUPACName</span>
+<span id="cb2-15"><a href="#cb2-15"></a>                ) <span class="sc">|&gt;</span></span>
+<span id="cb2-16"><a href="#cb2-16"></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="st">`</span><span class="at">Medicinal Materials</span><span class="st">`</span>, Abbreviation, Ingredient,<span class="st">`</span><span class="at">PubChem CID</span><span class="st">`</span>, InChIKey,<span class="st">`</span><span class="at">Molecular Formula</span><span class="st">`</span>,<span class="st">`</span><span class="at">Molecular Weight</span><span class="st">`</span>, SMILES,ConnectivitySMILES)), </span>
+<span id="cb2-17"><a href="#cb2-17"></a>  <span class="at">file =</span> <span class="st">"supplementary/Table S1.xlsx"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="下载sdf文件..dataqfd_sdfs" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="下载sdf文件..dataqfd_sdfs"><span class="header-section-number">1.3</span> 下载SDF文件(../data/qfd_sdfs)</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="fu">load</span>(<span class="st">"../data/qfd_ingredients/ingredients.RData"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4"></a></span>
+<span id="cb3-5"><a href="#cb3-5"></a>unique_cids <span class="ot">&lt;-</span> <span class="fu">unique</span>(ingredients<span class="sc">$</span>PubChem.CID)</span>
+<span id="cb3-6"><a href="#cb3-6"></a>sdf_files <span class="ot">&lt;-</span> <span class="st">"../data/qfd_sdfs"</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="fu">source</span>(<span class="st">"utils.R"</span>)</span>
+<span id="cb3-9"><a href="#cb3-9"></a>results <span class="ot">&lt;-</span> <span class="fu">download_all_sdf</span>(unique_cids, sdf_files)</span>
+<span id="cb3-10"><a href="#cb3-10"></a></span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="co"># output_dir &lt;- "../data/qfd_sdfs2"    </span></span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="co"># </span></span>
+<span id="cb3-13"><a href="#cb3-13"></a><span class="co"># if (!dir.exists(output_dir)) {</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a><span class="co">#   dir.create(output_dir, recursive = TRUE)</span></span>
+<span id="cb3-15"><a href="#cb3-15"></a><span class="co"># }</span></span>
+<span id="cb3-16"><a href="#cb3-16"></a><span class="co"># </span></span>
+<span id="cb3-17"><a href="#cb3-17"></a><span class="co"># plan(multisession, workers = 4)</span></span>
+<span id="cb3-18"><a href="#cb3-18"></a><span class="co"># future_walk(.x = unique_cids, .f = ~ {</span></span>
+<span id="cb3-19"><a href="#cb3-19"></a><span class="co">#   get_sdf(</span></span>
+<span id="cb3-20"><a href="#cb3-20"></a><span class="co">#     identifier = .x,</span></span>
+<span id="cb3-21"><a href="#cb3-21"></a><span class="co">#     namespace = "cid",</span></span>
+<span id="cb3-22"><a href="#cb3-22"></a><span class="co">#     path = output_dir,</span></span>
+<span id="cb3-23"><a href="#cb3-23"></a><span class="co">#     file_name = as.character(.x),</span></span>
+<span id="cb3-24"><a href="#cb3-24"></a><span class="co">#     options = list(record_type = "3d")</span></span>
+<span id="cb3-25"><a href="#cb3-25"></a><span class="co">#   )</span></span>
+<span id="cb3-26"><a href="#cb3-26"></a><span class="co">#   Sys.sleep(0.3)</span></span>
+<span id="cb3-27"><a href="#cb3-27"></a><span class="co"># }, .progress = TRUE)  </span></span>
+<span id="cb3-28"><a href="#cb3-28"></a><span class="co"># plan(sequential)</span></span>
+<span id="cb3-29"><a href="#cb3-29"></a><span class="co"># </span></span>
+<span id="cb3-30"><a href="#cb3-30"></a><span class="co"># list.files(output_dir, pattern = "\\.sdf$")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="成分靶点" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> 成分靶点</h1>
+<ul>
+<li><p>根据成分信息(名称, 分子式, CID, SMILES)从<code>PubChem BioAssay</code>, <code>STITCH v5.0</code>,<code>TCMSP v2.3</code>, <code>HERB2.0</code>， <code>SwissTargetPrediction</code>, <code>Super-PRED</code>, <code>PharmMapper</code>, <code>SEA</code>等8个靶点数据库或预测平台获得了成分的潜在靶点(supplementary/Table S2.xlsx)</p></li>
+<li><p>使用<code>UniProt</code>进行标准化</p></li>
+</ul>
+<section id="tmmc-2.0" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="tmmc-2.0"><span class="header-section-number">2.1</span> TMMC 2.0</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb4-2"><a href="#cb4-2"></a></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="fu">load</span>(<span class="st">"../data/qfd_targets/tmmc2/tmmc.RData"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="fu">load</span>(<span class="st">"../data/qfd_ingredients/ingredients.RData"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5"></a></span>
+<span id="cb4-6"><a href="#cb4-6"></a>targets.tmmc <span class="ot">&lt;-</span> tmmc_compound_protein <span class="sc">|&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(ID <span class="sc">%in%</span> ingredients<span class="sc">$</span>TMMC2.ID) <span class="sc">|&gt;</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a>  <span class="fu">arrange</span>(ID)</span>
+<span id="cb4-9"><a href="#cb4-9"></a></span>
+<span id="cb4-10"><a href="#cb4-10"></a><span class="fu">save</span>(targets.tmmc, <span class="at">file =</span> <span class="st">"../data/qfd_targets/tmmc2/targets.tmmc.RData"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="pubchem-bioassay" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="pubchem-bioassay"><span class="header-section-number">2.2</span> PubChem BioAssay</h2>
+<section id="gene.symbol" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="gene.symbol"><span class="header-section-number">2.2.1</span> gene.symbol</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb5-2"><a href="#cb5-2"></a></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="co"># source("utils.R")</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="fu">load</span>(<span class="st">"../data/qfd_ingredients/ingredients.RData"</span>)</span>
+<span id="cb5-6"><a href="#cb5-6"></a></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="co"># load("../data/qfd_targets/tmmc2/targets.tmmc.RData")</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="co"># targets.pubchem &lt;- targets.tmmc |&gt;</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="co">#   dplyr::filter(SOURCE == "PubChem") |&gt;</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a><span class="co">#   dplyr::distinct(ID,PROTEINID, .keep_all = TRUE) |&gt;</span></span>
+<span id="cb5-11"><a href="#cb5-11"></a><span class="co">#   left_join(ingredients, by =  c("ID" = "TMMC2.ID"), relationship = "many-to-many") |&gt;</span></span>
+<span id="cb5-12"><a href="#cb5-12"></a><span class="co">#   mutate(Class = "validated") |&gt;</span></span>
+<span id="cb5-13"><a href="#cb5-13"></a><span class="co">#   dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID, PROTEINID, Source = SOURCE, Score = SCORE, Class) |&gt;</span></span>
+<span id="cb5-14"><a href="#cb5-14"></a><span class="co">#   distinct(Abbreviation,PubChem.CID,PROTEINID, Source, Class, .keep_all = TRUE) |&gt;</span></span>
+<span id="cb5-15"><a href="#cb5-15"></a><span class="co">#   dplyr::filter(if_all(everything(), ~ !is.na(.x))) |&gt;</span></span>
+<span id="cb5-16"><a href="#cb5-16"></a><span class="co">#   arrange(No., PROTEINID)</span></span>
+<span id="cb5-17"><a href="#cb5-17"></a></span>
+<span id="cb5-18"><a href="#cb5-18"></a><span class="fu">source</span>(<span class="st">"pubchemBioassay.R"</span>)</span>
+<span id="cb5-19"><a href="#cb5-19"></a></span>
+<span id="cb5-20"><a href="#cb5-20"></a>cids <span class="ot">&lt;-</span> <span class="fu">as.character</span>(ingredients<span class="sc">$</span>PubChem.CID)</span>
+<span id="cb5-21"><a href="#cb5-21"></a></span>
+<span id="cb5-22"><a href="#cb5-22"></a><span class="co"># Chemical-Target Interactions</span></span>
+<span id="cb5-23"><a href="#cb5-23"></a></span>
+<span id="cb5-24"><a href="#cb5-24"></a>targets_cti <span class="ot">&lt;-</span> <span class="fu">get_cid_targets</span>(cids) </span>
+<span id="cb5-25"><a href="#cb5-25"></a></span>
+<span id="cb5-26"><a href="#cb5-26"></a><span class="fu">save</span>(targets_cti, <span class="at">file =</span> <span class="st">"../data/qfd_targets/pubchem/targets_cti.RData"</span>)</span>
+<span id="cb5-27"><a href="#cb5-27"></a></span>
+<span id="cb5-28"><a href="#cb5-28"></a>targets.pubchem.interaction <span class="ot">&lt;-</span> targets_cti <span class="sc">|&gt;</span></span>
+<span id="cb5-29"><a href="#cb5-29"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(taxid <span class="sc">==</span> <span class="st">"9606"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-30"><a href="#cb5-30"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="at">CID =</span> cid, <span class="at">Symbol =</span> genename) <span class="sc">|&gt;</span></span>
+<span id="cb5-31"><a href="#cb5-31"></a>  <span class="fu">distinct</span>(CID,Symbol) <span class="sc">|&gt;</span></span>
+<span id="cb5-32"><a href="#cb5-32"></a>  <span class="fu">mutate</span>(<span class="at">Source =</span> <span class="st">"PubChem.Interaction"</span>, <span class="at">Class=</span><span class="st">"validated"</span>)</span>
+<span id="cb5-33"><a href="#cb5-33"></a></span>
+<span id="cb5-34"><a href="#cb5-34"></a><span class="fu">save</span>(targets.pubchem.interaction, <span class="at">file =</span> <span class="st">"../data/qfd_targets/pubchem/targets.pubchem.interaction.RData"</span>)</span>
+<span id="cb5-35"><a href="#cb5-35"></a>  </span>
+<span id="cb5-36"><a href="#cb5-36"></a></span>
+<span id="cb5-37"><a href="#cb5-37"></a><span class="co"># Bioassay</span></span>
+<span id="cb5-38"><a href="#cb5-38"></a><span class="co"># active_aids &lt;- get_cid_aid_df(cids)</span></span>
+<span id="cb5-39"><a href="#cb5-39"></a></span>
+<span id="cb5-40"><a href="#cb5-40"></a><span class="co"># unique_active_aids &lt;- unique(active_aids$AID)</span></span>
+<span id="cb5-41"><a href="#cb5-41"></a></span>
+<span id="cb5-42"><a href="#cb5-42"></a>bioassay <span class="ot">&lt;-</span> <span class="fu">get_assays_by_cids</span>(cids)</span>
+<span id="cb5-43"><a href="#cb5-43"></a></span>
+<span id="cb5-44"><a href="#cb5-44"></a><span class="fu">save</span>(bioassay, <span class="at">file =</span> <span class="st">"../data/qfd_targets/pubchem/bioassay.RData"</span>)</span>
+<span id="cb5-45"><a href="#cb5-45"></a></span>
+<span id="cb5-46"><a href="#cb5-46"></a>bioassay_active_targets <span class="ot">&lt;-</span> bioassay <span class="sc">|&gt;</span></span>
+<span id="cb5-47"><a href="#cb5-47"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="st">`</span><span class="at">Activity Outcome</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"Active"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-48"><a href="#cb5-48"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="st">`</span><span class="at">Target GeneID</span><span class="st">`</span> <span class="sc">!=</span><span class="st">""</span> <span class="sc">|</span> <span class="st">`</span><span class="at">Target Accession</span><span class="st">`</span> <span class="sc">!=</span> <span class="st">""</span>) </span>
+<span id="cb5-49"><a href="#cb5-49"></a></span>
+<span id="cb5-50"><a href="#cb5-50"></a><span class="fu">save</span>(bioassay_active_targets, <span class="at">file =</span> <span class="st">"../data/qfd_targets/pubchem/bioassay_active_targets.RData"</span>)</span>
+<span id="cb5-51"><a href="#cb5-51"></a></span>
+<span id="cb5-52"><a href="#cb5-52"></a>gene.symbol.by.geneid <span class="ot">&lt;-</span> <span class="fu">get_gene_symbol_by_geneids</span>(bioassay_active_targets<span class="sc">$</span><span class="st">`</span><span class="at">Target GeneID</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-53"><a href="#cb5-53"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>((<span class="sc">!</span><span class="fu">is.na</span>(Symbol)) <span class="sc">&amp;</span> TaxonomyID <span class="sc">==</span> <span class="st">"9606"</span>)</span>
+<span id="cb5-54"><a href="#cb5-54"></a></span>
+<span id="cb5-55"><a href="#cb5-55"></a><span class="fu">save</span>(gene.symbol.by.geneid, <span class="at">file =</span> <span class="st">"../data/qfd_targets/pubchem/gene.symbol.by.geneid.RData"</span>)</span>
+<span id="cb5-56"><a href="#cb5-56"></a></span>
+<span id="cb5-57"><a href="#cb5-57"></a>accession_df <span class="ot">&lt;-</span> bioassay_active_targets <span class="sc">|&gt;</span></span>
+<span id="cb5-58"><a href="#cb5-58"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="st">`</span><span class="at">Target Accession</span><span class="st">`</span><span class="sc">!=</span><span class="st">""</span> <span class="sc">&amp;</span> <span class="st">`</span><span class="at">Target GeneID</span><span class="st">`</span> <span class="sc">==</span><span class="st">""</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-59"><a href="#cb5-59"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="at">Accession =</span> <span class="st">`</span><span class="at">Target Accession</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-60"><a href="#cb5-60"></a>  <span class="fu">distinct</span>(Accession)</span>
+<span id="cb5-61"><a href="#cb5-61"></a></span>
+<span id="cb5-62"><a href="#cb5-62"></a>gene.symbol.by.accession <span class="ot">&lt;-</span> <span class="fu">get_gene_symbol_by_accessions</span>(accession_df<span class="sc">$</span>Accession) <span class="sc">|&gt;</span></span>
+<span id="cb5-63"><a href="#cb5-63"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>((<span class="sc">!</span><span class="fu">is.na</span>(Symbol)) <span class="sc">&amp;</span> TaxonomyID <span class="sc">==</span> <span class="st">"9606"</span>)</span>
+<span id="cb5-64"><a href="#cb5-64"></a></span>
+<span id="cb5-65"><a href="#cb5-65"></a><span class="fu">save</span>(gene.symbol.by.accession, <span class="at">file =</span> <span class="st">"../data/qfd_targets/pubchem/gene.symbol.by.accession.RData"</span>)</span>
+<span id="cb5-66"><a href="#cb5-66"></a></span>
+<span id="cb5-67"><a href="#cb5-67"></a>gene.pubchem.bioassay.geneid <span class="ot">&lt;-</span> bioassay_active_targets <span class="sc">|&gt;</span></span>
+<span id="cb5-68"><a href="#cb5-68"></a>  <span class="fu">left_join</span>(gene.symbol.by.geneid, </span>
+<span id="cb5-69"><a href="#cb5-69"></a>            <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Target GeneID"</span> <span class="ot">=</span> <span class="st">"GeneID"</span>),</span>
+<span id="cb5-70"><a href="#cb5-70"></a>            <span class="at">relationship =</span> <span class="st">"many-to-many"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-71"><a href="#cb5-71"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Symbol))</span>
+<span id="cb5-72"><a href="#cb5-72"></a></span>
+<span id="cb5-73"><a href="#cb5-73"></a>gene.pubchem.bioassay.accession <span class="ot">&lt;-</span> bioassay_active_targets <span class="sc">|&gt;</span></span>
+<span id="cb5-74"><a href="#cb5-74"></a>  <span class="fu">left_join</span>(gene.symbol.by.accession, </span>
+<span id="cb5-75"><a href="#cb5-75"></a>            <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Target Accession"</span> <span class="ot">=</span> <span class="st">"Accession"</span>),</span>
+<span id="cb5-76"><a href="#cb5-76"></a>            <span class="at">relationship =</span> <span class="st">"many-to-many"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-77"><a href="#cb5-77"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Symbol))</span>
+<span id="cb5-78"><a href="#cb5-78"></a></span>
+<span id="cb5-79"><a href="#cb5-79"></a>gene.pubchem.bioassay <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb5-80"><a href="#cb5-80"></a>  gene.pubchem.bioassay.geneid,</span>
+<span id="cb5-81"><a href="#cb5-81"></a>  gene.pubchem.bioassay.accession</span>
+<span id="cb5-82"><a href="#cb5-82"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb5-83"><a href="#cb5-83"></a>  <span class="fu">distinct</span>(CID, Symbol) <span class="sc">|&gt;</span></span>
+<span id="cb5-84"><a href="#cb5-84"></a>  <span class="fu">mutate</span>(<span class="at">Source =</span> <span class="st">"PubChem.Interaction"</span>, <span class="at">Class=</span><span class="st">"validated"</span>) </span>
+<span id="cb5-85"><a href="#cb5-85"></a></span>
+<span id="cb5-86"><a href="#cb5-86"></a><span class="fu">save</span>(gene.pubchem.bioassay.geneid,</span>
+<span id="cb5-87"><a href="#cb5-87"></a>     gene.pubchem.bioassay.accession,</span>
+<span id="cb5-88"><a href="#cb5-88"></a>     gene.pubchem.bioassay,</span>
+<span id="cb5-89"><a href="#cb5-89"></a>     <span class="at">file =</span> <span class="st">"../data/qfd_targets/pubchem/gene.pubchem.bioassay.accession.RData"</span>)</span>
+<span id="cb5-90"><a href="#cb5-90"></a>  </span>
+<span id="cb5-91"><a href="#cb5-91"></a></span>
+<span id="cb5-92"><a href="#cb5-92"></a>gene.pubchem <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb5-93"><a href="#cb5-93"></a>  gene.pubchem.interaction,</span>
+<span id="cb5-94"><a href="#cb5-94"></a>  gene.pubchem.bioassay</span>
+<span id="cb5-95"><a href="#cb5-95"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb5-96"><a href="#cb5-96"></a>  <span class="fu">distinct</span>(CID,Symbol) <span class="sc">|&gt;</span></span>
+<span id="cb5-97"><a href="#cb5-97"></a>  <span class="fu">mutate</span>(<span class="at">Source =</span> <span class="st">"PubChem"</span>, <span class="at">Class=</span><span class="st">"validated"</span>) </span>
+<span id="cb5-98"><a href="#cb5-98"></a></span>
+<span id="cb5-99"><a href="#cb5-99"></a></span>
+<span id="cb5-100"><a href="#cb5-100"></a><span class="fu">save</span>(gene.pubchem, <span class="at">file =</span> <span class="st">"../data/qfd_targets/pubchem/gene.pubchem.RData"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="targets.pubchem" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="targets.pubchem"><span class="header-section-number">2.2.2</span> targets.pubchem</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="fu">load</span>(<span class="st">"../data/qfd_targets/pubchem/gene.pubchem.RData"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="fu">load</span>(<span class="st">"../data/qfd_ingredients/ingredients.RData"</span>)</span>
+<span id="cb6-4"><a href="#cb6-4"></a></span>
+<span id="cb6-5"><a href="#cb6-5"></a>targets.pubchem <span class="ot">&lt;-</span> ingredients <span class="sc">|&gt;</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a>  <span class="fu">mutate</span>(<span class="at">PubChem.CID =</span> <span class="fu">as.character</span>(PubChem.CID)) <span class="sc">|&gt;</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a>  <span class="fu">left_join</span>(gene.pubchem, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"PubChem.CID"</span><span class="ot">=</span><span class="st">"CID"</span>), <span class="at">relationship =</span> <span class="st">"many-to-many"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Symbol)) <span class="sc">|&gt;</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(No.,Abbreviation,Ingredient,Type,PubChem.CID,Symbol, Source, Class) <span class="sc">|&gt;</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a>  <span class="fu">distinct</span>(Abbreviation,PubChem.CID,Symbol, Source, Class, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="fu">if_all</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="sc">!</span><span class="fu">is.na</span>(.x))) <span class="sc">|&gt;</span></span>
+<span id="cb6-12"><a href="#cb6-12"></a>  <span class="fu">arrange</span>(No., PubChem.CID)</span>
+<span id="cb6-13"><a href="#cb6-13"></a></span>
+<span id="cb6-14"><a href="#cb6-14"></a><span class="fu">save</span>(targets.pubchem, <span class="at">file =</span> <span class="st">"../data/qfd_targets/pubchem/targets.pubchem.RData"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="stitch-v5.0-score0.4" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="stitch-v5.0-score0.4"><span class="header-section-number">2.3</span> STITCH v5.0 (score&gt;=0.4)</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb7-2"><a href="#cb7-2"></a></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="fu">source</span>(<span class="st">"utils.R"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4"></a></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="fu">load</span>(<span class="st">"../data/qfd_ingredients/ingredients.RData"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6"></a></span>
+<span id="cb7-7"><a href="#cb7-7"></a>stitch <span class="ot">&lt;-</span> <span class="fu">read_compound_target</span>(<span class="st">"../data/qfd_targets/stitch5/"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(node1_string_internal_id <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> node2_string_internal_id <span class="sc">&lt;</span><span class="dv">0</span> ) <span class="sc">|&gt;</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a>  <span class="fu">arrange</span>(node2) <span class="sc">|&gt;</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-11"><a href="#cb7-11"></a>    <span class="at">Source =</span> <span class="st">"STITCH V5.0"</span>,</span>
+<span id="cb7-12"><a href="#cb7-12"></a>    <span class="at">Class =</span> <span class="st">"predicted"</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a>  )</span>
+<span id="cb7-14"><a href="#cb7-14"></a></span>
+<span id="cb7-15"><a href="#cb7-15"></a>targets.stitch <span class="ot">&lt;-</span> ingredients  <span class="sc">|&gt;</span></span>
+<span id="cb7-16"><a href="#cb7-16"></a>  <span class="fu">mutate</span>(<span class="at">PubChem.CID =</span> <span class="fu">as.character</span>(PubChem.CID)) <span class="sc">|&gt;</span></span>
+<span id="cb7-17"><a href="#cb7-17"></a>  <span class="fu">left_join</span>(stitch, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"PubChem.CID"</span><span class="ot">=</span><span class="st">"CID"</span>), <span class="at">relationship =</span> <span class="st">"many-to-many"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-18"><a href="#cb7-18"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(<span class="st">`</span><span class="at">#node1</span><span class="st">`</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb7-19"><a href="#cb7-19"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(No.,Abbreviation,Ingredient,Type,PubChem.CID,<span class="at">Symbol =</span> <span class="st">`</span><span class="at">#node1</span><span class="st">`</span>, Source, <span class="at">Score =</span> combined_score, Class) <span class="sc">|&gt;</span></span>
+<span id="cb7-20"><a href="#cb7-20"></a>  <span class="fu">distinct</span>(Abbreviation,PubChem.CID,Symbol, Source, Class, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-21"><a href="#cb7-21"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="fu">if_all</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="sc">!</span><span class="fu">is.na</span>(.x))) <span class="sc">|&gt;</span></span>
+<span id="cb7-22"><a href="#cb7-22"></a>  <span class="fu">arrange</span>(No., PubChem.CID)</span>
+<span id="cb7-23"><a href="#cb7-23"></a></span>
+<span id="cb7-24"><a href="#cb7-24"></a><span class="fu">save</span>(targets.stitch, <span class="at">file =</span> <span class="st">"../data/qfd_targets/stitch5/targets.stitch.RData"</span>)</span>
+<span id="cb7-25"><a href="#cb7-25"></a></span>
+<span id="cb7-26"><a href="#cb7-26"></a><span class="co"># </span></span>
+<span id="cb7-27"><a href="#cb7-27"></a><span class="co"># rm(list = ls())</span></span>
+<span id="cb7-28"><a href="#cb7-28"></a><span class="co"># </span></span>
+<span id="cb7-29"><a href="#cb7-29"></a><span class="co"># load("../data/qfd_targets/tmmc2/targets.tmmc.RData")</span></span>
+<span id="cb7-30"><a href="#cb7-30"></a><span class="co"># load("../data/qfd_ingredients/ingredients.RData")</span></span>
+<span id="cb7-31"><a href="#cb7-31"></a><span class="co"># </span></span>
+<span id="cb7-32"><a href="#cb7-32"></a><span class="co"># targets.stitch &lt;- targets.tmmc |&gt;</span></span>
+<span id="cb7-33"><a href="#cb7-33"></a><span class="co">#   dplyr::filter(SOURCE == "STITCH") |&gt;</span></span>
+<span id="cb7-34"><a href="#cb7-34"></a><span class="co">#   dplyr::distinct(ID,PREFERRED_NAME, .keep_all = TRUE) |&gt;</span></span>
+<span id="cb7-35"><a href="#cb7-35"></a><span class="co">#   left_join(ingredients, by =  c("ID" = "TMMC2.ID"), relationship = "many-to-many") |&gt;</span></span>
+<span id="cb7-36"><a href="#cb7-36"></a><span class="co">#   mutate(Class = "predicted") |&gt;</span></span>
+<span id="cb7-37"><a href="#cb7-37"></a><span class="co">#   dplyr::select(No.,Abbreviation,Ingredient,Type,PubChem.CID, PREFERRED_NAME, Source = SOURCE, Score = SCORE, Class) |&gt;</span></span>
+<span id="cb7-38"><a href="#cb7-38"></a><span class="co">#   dplyr::filter(Score &gt;=0.4) |&gt;</span></span>
+<span id="cb7-39"><a href="#cb7-39"></a><span class="co">#   distinct(Abbreviation,PubChem.CID,PREFERRED_NAME, Source, Class, .keep_all = TRUE) |&gt;</span></span>
+<span id="cb7-40"><a href="#cb7-40"></a><span class="co">#   dplyr::filter(if_all(everything(), ~ !is.na(.x))) |&gt;</span></span>
+<span id="cb7-41"><a href="#cb7-41"></a><span class="co">#   arrange(No., Ingredient) </span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="tcmsp-v2.3" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="tcmsp-v2.3"><span class="header-section-number">2.4</span> TCMSP v2.3</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb8-2"><a href="#cb8-2"></a></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="fu">load</span>(<span class="st">"../data/qfd_ingredients/ingredients.RData"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4"></a></span>
+<span id="cb8-5"><a href="#cb8-5"></a>tcmsp <span class="ot">&lt;-</span> <span class="fu">read.xlsx</span>(<span class="st">"../data/qfd_targets/tcmsp/tcmsp_qfd_targets.xlsx"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb8-7"><a href="#cb8-7"></a>    <span class="at">Source =</span> <span class="st">"TCMSP"</span>,</span>
+<span id="cb8-8"><a href="#cb8-8"></a>    <span class="at">Class =</span> <span class="fu">case_when</span>(</span>
+<span id="cb8-9"><a href="#cb8-9"></a>    validated <span class="sc">!=</span><span class="st">"validated"</span> <span class="sc">~</span> <span class="st">"predicted"</span>,</span>
+<span id="cb8-10"><a href="#cb8-10"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"validated"</span>),</span>
+<span id="cb8-11"><a href="#cb8-11"></a>    <span class="at">Score.SVM =</span> SVM_score</span>
+<span id="cb8-12"><a href="#cb8-12"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb8-13"><a href="#cb8-13"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(MOL_ID,Entry,Source, Score.SVM, Class) </span>
+<span id="cb8-14"><a href="#cb8-14"></a></span>
+<span id="cb8-15"><a href="#cb8-15"></a>targets.tcmsp <span class="ot">&lt;-</span> ingredients  <span class="sc">|&gt;</span></span>
+<span id="cb8-16"><a href="#cb8-16"></a>  <span class="fu">separate_rows</span>(TCMSP.ID, <span class="at">sep =</span> <span class="st">";"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-17"><a href="#cb8-17"></a>  <span class="fu">mutate</span>(<span class="at">TCMSP.ID =</span> <span class="fu">trimws</span>(TCMSP.ID)) <span class="sc">|&gt;</span></span>
+<span id="cb8-18"><a href="#cb8-18"></a>  <span class="fu">left_join</span>(tcmsp, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"TCMSP.ID"</span> <span class="ot">=</span> <span class="st">"MOL_ID"</span>), <span class="at">relationship =</span> <span class="st">"many-to-many"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-19"><a href="#cb8-19"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(No.,Abbreviation,Ingredient,Type,PubChem.CID,Entry, Source, Score.SVM, Class) <span class="sc">|&gt;</span></span>
+<span id="cb8-20"><a href="#cb8-20"></a>  <span class="fu">distinct</span>(Abbreviation,PubChem.CID,Entry, Source, Class, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-21"><a href="#cb8-21"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="fu">if_all</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="sc">!</span><span class="fu">is.na</span>(.x))) <span class="sc">|&gt;</span></span>
+<span id="cb8-22"><a href="#cb8-22"></a>  <span class="fu">arrange</span>(No., Entry)</span>
+<span id="cb8-23"><a href="#cb8-23"></a></span>
+<span id="cb8-24"><a href="#cb8-24"></a><span class="fu">save</span>(targets.tcmsp, <span class="at">file =</span> <span class="st">"../data/qfd_targets/tcmsp/targets.tcmsp.RData"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="herb-2.0" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="herb-2.0"><span class="header-section-number">2.5</span> HERB 2.0</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb9-2"><a href="#cb9-2"></a></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="fu">load</span>(<span class="st">"../data/qfd_ingredients/ingredients.RData"</span>)</span>
+<span id="cb9-4"><a href="#cb9-4"></a></span>
+<span id="cb9-5"><a href="#cb9-5"></a>herb2_db_all <span class="ot">&lt;-</span> <span class="fu">read.xlsx</span>(<span class="st">"../data/qfd_targets/herb2/herb2_db_all.xlsx"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a>  <span class="fu">mutate</span>(<span class="at">Source =</span> <span class="st">"HERB2"</span>, <span class="at">Mining =</span> <span class="st">"database"</span>, <span class="at">Class =</span> <span class="st">"validated"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(PubChem.CID, <span class="at">Symbol =</span> Gene.symbol, Source,Mining, Class)</span>
+<span id="cb9-8"><a href="#cb9-8"></a></span>
+<span id="cb9-9"><a href="#cb9-9"></a>herb2_ref_all <span class="ot">&lt;-</span> <span class="fu">read.xlsx</span>(<span class="st">"../data/qfd_targets/herb2/herb2_ref_all.xlsx"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-10"><a href="#cb9-10"></a>  <span class="fu">mutate</span>(<span class="at">Source =</span> <span class="st">"HERB2"</span>, <span class="at">Mining =</span> <span class="st">"Reference"</span>, <span class="at">Class =</span> <span class="st">"validated"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-11"><a href="#cb9-11"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(PubChem.CID, <span class="at">Symbol =</span> Gene.symbol, Source,Mining, Class)</span>
+<span id="cb9-12"><a href="#cb9-12"></a></span>
+<span id="cb9-13"><a href="#cb9-13"></a></span>
+<span id="cb9-14"><a href="#cb9-14"></a>herb2 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(herb2_db_all, herb2_ref_all) <span class="sc">|&gt;</span></span>
+<span id="cb9-15"><a href="#cb9-15"></a>  <span class="fu">distinct</span>(PubChem.CID,Symbol, Mining, Class, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-16"><a href="#cb9-16"></a></span>
+<span id="cb9-17"><a href="#cb9-17"></a>targets.herb2 <span class="ot">&lt;-</span> ingredients <span class="sc">|&gt;</span></span>
+<span id="cb9-18"><a href="#cb9-18"></a>  <span class="fu">mutate</span>(<span class="at">PubChem.CID =</span> <span class="fu">as.character</span>(PubChem.CID)) <span class="sc">|&gt;</span></span>
+<span id="cb9-19"><a href="#cb9-19"></a>  <span class="fu">left_join</span>(herb2, <span class="at">by =</span> <span class="st">"PubChem.CID"</span>, <span class="at">relationship =</span> <span class="st">"many-to-many"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-20"><a href="#cb9-20"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(No.,Abbreviation,Ingredient,Type,PubChem.CID,Symbol, Source, Mining, Class) <span class="sc">|&gt;</span></span>
+<span id="cb9-21"><a href="#cb9-21"></a>  <span class="fu">distinct</span>(Abbreviation,PubChem.CID,Symbol, Source, Class, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-22"><a href="#cb9-22"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="fu">if_all</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="sc">!</span><span class="fu">is.na</span>(.x))) <span class="sc">|&gt;</span></span>
+<span id="cb9-23"><a href="#cb9-23"></a>  <span class="fu">arrange</span>(No., Symbol)</span>
+<span id="cb9-24"><a href="#cb9-24"></a></span>
+<span id="cb9-25"><a href="#cb9-25"></a><span class="fu">save</span>(targets.herb2, <span class="at">file =</span> <span class="st">"../data/qfd_targets/herb2/targets.herb2.RData"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="swisstargetprediction" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="swisstargetprediction"><span class="header-section-number">2.6</span> SwissTargetPrediction</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb10-2"><a href="#cb10-2"></a></span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="fu">source</span>(<span class="st">"utils.R"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4"></a></span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="fu">load</span>(<span class="st">"../data/qfd_ingredients/ingredients.RData"</span>)</span>
+<span id="cb10-6"><a href="#cb10-6"></a></span>
+<span id="cb10-7"><a href="#cb10-7"></a>swiss <span class="ot">&lt;-</span> <span class="fu">read_compound_target</span>(<span class="st">"../data/qfd_targets/swiss/pred"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-8"><a href="#cb10-8"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">Probability =</span> <span class="st">`</span><span class="at">Probability*</span><span class="st">`</span>, </span>
+<span id="cb10-9"><a href="#cb10-9"></a>                <span class="at">Common.name =</span> <span class="st">`</span><span class="at">Common name</span><span class="st">`</span>,</span>
+<span id="cb10-10"><a href="#cb10-10"></a>                <span class="at">Uniprot.ID =</span> <span class="st">`</span><span class="at">Uniprot ID</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-11"><a href="#cb10-11"></a>  <span class="fu">separate_rows</span>(Uniprot.ID, <span class="at">sep =</span> <span class="st">"&amp;"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-12"><a href="#cb10-12"></a>  <span class="fu">separate_rows</span>(Uniprot.ID, <span class="at">sep =</span> <span class="st">" "</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-13"><a href="#cb10-13"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(CID,Uniprot.ID, Probability) <span class="sc">|&gt;</span></span>
+<span id="cb10-14"><a href="#cb10-14"></a>  <span class="fu">distinct</span>(CID, Uniprot.ID, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-15"><a href="#cb10-15"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Uniprot.ID)) <span class="sc">|&gt;</span></span>
+<span id="cb10-16"><a href="#cb10-16"></a>  <span class="fu">distinct</span>(CID, Uniprot.ID, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-17"><a href="#cb10-17"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb10-18"><a href="#cb10-18"></a>    <span class="at">CID =</span> <span class="fu">clean_cids</span>(CID),</span>
+<span id="cb10-19"><a href="#cb10-19"></a>    <span class="at">Source =</span> <span class="st">"SwissTargetPrediction"</span>,</span>
+<span id="cb10-20"><a href="#cb10-20"></a>    <span class="at">Class =</span> <span class="st">"predicted"</span></span>
+<span id="cb10-21"><a href="#cb10-21"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb10-22"><a href="#cb10-22"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(CID, Uniprot.ID,Source,Probability,Class)</span>
+<span id="cb10-23"><a href="#cb10-23"></a></span>
+<span id="cb10-24"><a href="#cb10-24"></a>targets.swiss <span class="ot">&lt;-</span> ingredients <span class="sc">|&gt;</span></span>
+<span id="cb10-25"><a href="#cb10-25"></a>  <span class="fu">mutate</span>(<span class="at">PubChem.CID =</span> <span class="fu">as.character</span>(PubChem.CID)) <span class="sc">|&gt;</span></span>
+<span id="cb10-26"><a href="#cb10-26"></a>  <span class="fu">left_join</span>(swiss, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"PubChem.CID"</span> <span class="ot">=</span> <span class="st">"CID"</span>), <span class="at">relationship =</span> <span class="st">"many-to-many"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-27"><a href="#cb10-27"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(No.,Abbreviation,Ingredient,Type,PubChem.CID,Uniprot.ID, Source, Probability, Class) <span class="sc">|&gt;</span></span>
+<span id="cb10-28"><a href="#cb10-28"></a>  <span class="fu">distinct</span>(Abbreviation,PubChem.CID, Uniprot.ID, Source, Class, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-29"><a href="#cb10-29"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="fu">if_all</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="sc">!</span><span class="fu">is.na</span>(.x))) <span class="sc">|&gt;</span></span>
+<span id="cb10-30"><a href="#cb10-30"></a>  <span class="fu">arrange</span>(No., Uniprot.ID)</span>
+<span id="cb10-31"><a href="#cb10-31"></a></span>
+<span id="cb10-32"><a href="#cb10-32"></a><span class="co"># Save processed SwissTargetPrediction targets</span></span>
+<span id="cb10-33"><a href="#cb10-33"></a><span class="fu">save</span>(targets.swiss, <span class="at">file =</span> <span class="st">"../data/qfd_targets/swiss/targets.swiss.RData"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="super-pred" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="super-pred"><span class="header-section-number">2.7</span> Super-PRED</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb11-2"><a href="#cb11-2"></a></span>
+<span id="cb11-3"><a href="#cb11-3"></a><span class="fu">source</span>(<span class="st">"utils.R"</span>)</span>
+<span id="cb11-4"><a href="#cb11-4"></a></span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="fu">load</span>(<span class="st">"../data/qfd_ingredients/ingredients.RData"</span>)</span>
+<span id="cb11-6"><a href="#cb11-6"></a></span>
+<span id="cb11-7"><a href="#cb11-7"></a><span class="co"># known targets</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a>super_known <span class="ot">&lt;-</span> <span class="fu">read_compound_target</span>(<span class="st">"../data/qfd_targets/super/known"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-9"><a href="#cb11-9"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(CID, <span class="at">Uniprot.ID =</span> <span class="st">`</span><span class="at">UniProt ID</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-10"><a href="#cb11-10"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Uniprot.ID)) <span class="sc">|&gt;</span></span>
+<span id="cb11-11"><a href="#cb11-11"></a>  <span class="fu">distinct</span>(CID, Uniprot.ID, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-12"><a href="#cb11-12"></a>  <span class="fu">mutate</span>(<span class="at">Source =</span> <span class="st">"SuperPred"</span>, <span class="at">Probability =</span> <span class="st">"100%"</span>, <span class="st">`</span><span class="at">Model accuracy</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"100%"</span>, <span class="at">Class =</span> <span class="st">"validated"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-13"><a href="#cb11-13"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(CID, Uniprot.ID, Source, Probability, <span class="st">`</span><span class="at">Model accuracy</span><span class="st">`</span>, Class)</span>
+<span id="cb11-14"><a href="#cb11-14"></a></span>
+<span id="cb11-15"><a href="#cb11-15"></a><span class="co"># Predicted targets (Prob &gt;= 60, Model Accuracy &gt;= 85) (modify,70/90)</span></span>
+<span id="cb11-16"><a href="#cb11-16"></a>super_pred <span class="ot">&lt;-</span> <span class="fu">read_compound_target</span>(<span class="st">"../data/qfd_targets/super/pred"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-17"><a href="#cb11-17"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(CID, <span class="at">Uniprot.ID =</span> <span class="st">`</span><span class="at">UniProt ID</span><span class="st">`</span>, Probability, <span class="st">`</span><span class="at">Model accuracy</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-18"><a href="#cb11-18"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Uniprot.ID)) <span class="sc">|&gt;</span></span>
+<span id="cb11-19"><a href="#cb11-19"></a>  <span class="fu">distinct</span>(CID, Uniprot.ID, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>)<span class="sc">|&gt;</span></span>
+<span id="cb11-20"><a href="#cb11-20"></a>  <span class="fu">mutate</span>(<span class="at">Source =</span> <span class="st">"SuperPred"</span>, <span class="at">Class =</span> <span class="st">"predicted"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-21"><a href="#cb11-21"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(CID, Uniprot.ID, Source, Probability, <span class="st">`</span><span class="at">Model accuracy</span><span class="st">`</span>, Class)</span>
+<span id="cb11-22"><a href="#cb11-22"></a></span>
+<span id="cb11-23"><a href="#cb11-23"></a>super <span class="ot">&lt;-</span> <span class="fu">rbind</span>(super_known, super_pred)</span>
+<span id="cb11-24"><a href="#cb11-24"></a></span>
+<span id="cb11-25"><a href="#cb11-25"></a>targets.super <span class="ot">&lt;-</span> ingredients <span class="sc">|&gt;</span></span>
+<span id="cb11-26"><a href="#cb11-26"></a>  <span class="fu">mutate</span>(<span class="at">PubChem.CID =</span> <span class="fu">as.character</span>(PubChem.CID)) <span class="sc">|&gt;</span></span>
+<span id="cb11-27"><a href="#cb11-27"></a>  <span class="fu">left_join</span>(super, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"PubChem.CID"</span> <span class="ot">=</span> <span class="st">"CID"</span>), <span class="at">relationship =</span> <span class="st">"many-to-many"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-28"><a href="#cb11-28"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(No.,Abbreviation,Ingredient,Type,PubChem.CID,Uniprot.ID, Source, Probability, <span class="st">`</span><span class="at">Model accuracy</span><span class="st">`</span>, Class) <span class="sc">|&gt;</span></span>
+<span id="cb11-29"><a href="#cb11-29"></a>  <span class="fu">distinct</span>(Abbreviation,PubChem.CID, Uniprot.ID, Source, Class, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-30"><a href="#cb11-30"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="fu">if_all</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="sc">!</span><span class="fu">is.na</span>(.x))) <span class="sc">|&gt;</span></span>
+<span id="cb11-31"><a href="#cb11-31"></a>  <span class="fu">arrange</span>(No., Uniprot.ID)</span>
+<span id="cb11-32"><a href="#cb11-32"></a></span>
+<span id="cb11-33"><a href="#cb11-33"></a><span class="co"># Save processed Super-Pred targets</span></span>
+<span id="cb11-34"><a href="#cb11-34"></a><span class="fu">save</span>(targets.super, <span class="at">file =</span> <span class="st">"../data/qfd_targets/super/targets.super.RData"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="pharmmapper" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="pharmmapper"><span class="header-section-number">2.8</span> PharmMapper</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb12-2"><a href="#cb12-2"></a></span>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="fu">source</span>(<span class="st">"utils.R"</span>)</span>
+<span id="cb12-4"><a href="#cb12-4"></a></span>
+<span id="cb12-5"><a href="#cb12-5"></a><span class="fu">load</span>(<span class="st">"../data/qfd_ingredients/ingredients.RData"</span>)</span>
+<span id="cb12-6"><a href="#cb12-6"></a></span>
+<span id="cb12-7"><a href="#cb12-7"></a><span class="co"># Process PharmMapper results (Human only, high-confidence filters) (modify,0.5)</span></span>
+<span id="cb12-8"><a href="#cb12-8"></a>pharm <span class="ot">&lt;-</span> <span class="fu">read_compound_target</span>(<span class="st">"../data/qfd_targets/pharm/pred"</span>,<span class="at">skip_row =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-9"><a href="#cb12-9"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">"_HUMAN"</span>, Uniplot)) <span class="sc">|&gt;</span></span>
+<span id="cb12-10"><a href="#cb12-10"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(CID, Uniplot,<span class="st">`</span><span class="at">Norm Fit</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-11"><a href="#cb12-11"></a>  <span class="fu">distinct</span>(CID, Uniplot, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-12"><a href="#cb12-12"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Uniplot)) <span class="sc">|&gt;</span></span>
+<span id="cb12-13"><a href="#cb12-13"></a>  <span class="fu">mutate</span>(<span class="at">Source =</span> <span class="st">"PharmMapper"</span>,<span class="at">Class =</span> <span class="st">"predicted"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-14"><a href="#cb12-14"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(CID,Uniplot, Source,<span class="st">`</span><span class="at">Norm Fit</span><span class="st">`</span>,Class) <span class="sc">|&gt;</span></span>
+<span id="cb12-15"><a href="#cb12-15"></a>  <span class="fu">distinct</span>(CID, Uniplot, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb12-16"><a href="#cb12-16"></a></span>
+<span id="cb12-17"><a href="#cb12-17"></a>targets.pharm <span class="ot">&lt;-</span> ingredients <span class="sc">|&gt;</span></span>
+<span id="cb12-18"><a href="#cb12-18"></a>  <span class="fu">mutate</span>(<span class="at">PubChem.CID =</span> <span class="fu">as.character</span>(PubChem.CID)) <span class="sc">|&gt;</span></span>
+<span id="cb12-19"><a href="#cb12-19"></a>  <span class="fu">left_join</span>(pharm, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"PubChem.CID"</span> <span class="ot">=</span> <span class="st">"CID"</span>), <span class="at">relationship =</span> <span class="st">"many-to-many"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-20"><a href="#cb12-20"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(No.,Abbreviation,Ingredient,Type,PubChem.CID,Uniplot, Source,<span class="st">`</span><span class="at">Norm Fit</span><span class="st">`</span>, Class) <span class="sc">|&gt;</span></span>
+<span id="cb12-21"><a href="#cb12-21"></a>  <span class="fu">distinct</span>(Abbreviation,PubChem.CID, Uniplot, Source, Class, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-22"><a href="#cb12-22"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="fu">if_all</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="sc">!</span><span class="fu">is.na</span>(.x))) <span class="sc">|&gt;</span></span>
+<span id="cb12-23"><a href="#cb12-23"></a>  <span class="fu">arrange</span>(No., Uniplot)</span>
+<span id="cb12-24"><a href="#cb12-24"></a></span>
+<span id="cb12-25"><a href="#cb12-25"></a><span class="co"># Save processed PharmMapper targets</span></span>
+<span id="cb12-26"><a href="#cb12-26"></a><span class="fu">save</span>(targets.pharm, <span class="at">file =</span> <span class="st">"../data/qfd_targets/pharm/targets.pharm.RData"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="sea" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="sea"><span class="header-section-number">2.9</span> SEA</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb13-2"><a href="#cb13-2"></a></span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="fu">source</span>(<span class="st">"utils.R"</span>)</span>
+<span id="cb13-4"><a href="#cb13-4"></a></span>
+<span id="cb13-5"><a href="#cb13-5"></a><span class="fu">load</span>(<span class="st">"../data/qfd_ingredients/ingredients.RData"</span>)</span>
+<span id="cb13-6"><a href="#cb13-6"></a></span>
+<span id="cb13-7"><a href="#cb13-7"></a><span class="co"># Process SEA results (confidence filters)</span></span>
+<span id="cb13-8"><a href="#cb13-8"></a>sea <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"../data/qfd_targets/sea/sea-results.xls"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-9"><a href="#cb13-9"></a>  <span class="fu">mutate</span>(<span class="at">CID =</span> <span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">"C"</span>,<span class="st">""</span>,Query.ID)), <span class="at">.before =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-10"><a href="#cb13-10"></a>  <span class="fu">arrange</span>(CID) <span class="sc">|&gt;</span></span>
+<span id="cb13-11"><a href="#cb13-11"></a>  <span class="fu">mutate</span>(<span class="at">CID =</span> <span class="fu">as.character</span>(CID)) <span class="sc">|&gt;</span></span>
+<span id="cb13-12"><a href="#cb13-12"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>Query.ID) <span class="sc">|&gt;</span></span>
+<span id="cb13-13"><a href="#cb13-13"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">"_HUMAN"</span>, Target.ID)) <span class="sc">|&gt;</span></span>
+<span id="cb13-14"><a href="#cb13-14"></a>  <span class="fu">distinct</span>(CID, Target.ID, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-15"><a href="#cb13-15"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Target.ID)) <span class="sc">|&gt;</span></span>
+<span id="cb13-16"><a href="#cb13-16"></a>  <span class="fu">mutate</span>(<span class="at">Source =</span> <span class="st">"SEA"</span>, <span class="at">Class =</span> <span class="st">"predicted"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-17"><a href="#cb13-17"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(CID, Target.ID, Source, P.Value, Max.Tc, Class) <span class="sc">|&gt;</span></span>
+<span id="cb13-18"><a href="#cb13-18"></a>  <span class="fu">distinct</span>(CID, Target.ID, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb13-19"><a href="#cb13-19"></a></span>
+<span id="cb13-20"><a href="#cb13-20"></a>targets.sea <span class="ot">&lt;-</span> ingredients <span class="sc">|&gt;</span></span>
+<span id="cb13-21"><a href="#cb13-21"></a>  <span class="fu">mutate</span>(<span class="at">PubChem.CID =</span> <span class="fu">as.character</span>(PubChem.CID)) <span class="sc">|&gt;</span></span>
+<span id="cb13-22"><a href="#cb13-22"></a>  <span class="fu">left_join</span>(sea, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"PubChem.CID"</span> <span class="ot">=</span> <span class="st">"CID"</span>), <span class="at">relationship =</span> <span class="st">"many-to-many"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-23"><a href="#cb13-23"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(No.,Abbreviation,Ingredient,Type,PubChem.CID,Target.ID, Source, P.Value, Max.Tc,Class) <span class="sc">|&gt;</span></span>
+<span id="cb13-24"><a href="#cb13-24"></a>  <span class="fu">distinct</span>(Abbreviation,PubChem.CID, Target.ID, Source, Class, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-25"><a href="#cb13-25"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="fu">if_all</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="sc">!</span><span class="fu">is.na</span>(.x))) <span class="sc">|&gt;</span></span>
+<span id="cb13-26"><a href="#cb13-26"></a>  <span class="fu">arrange</span>(No., Target.ID)</span>
+<span id="cb13-27"><a href="#cb13-27"></a></span>
+<span id="cb13-28"><a href="#cb13-28"></a><span class="co"># Save processed SEA targets</span></span>
+<span id="cb13-29"><a href="#cb13-29"></a><span class="fu">save</span>(targets.sea, <span class="at">file =</span> <span class="st">"../data/qfd_targets/sea/targets.sea.RData"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="筛选潜在成分靶点" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="筛选潜在成分靶点"><span class="header-section-number">2.10</span> 筛选潜在成分靶点</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb14-2"><a href="#cb14-2"></a></span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="co"># pubchem: all</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a><span class="fu">load</span>(<span class="st">"../data/qfd_targets/pubchem/targets.pubchem.RData"</span>)</span>
+<span id="cb14-5"><a href="#cb14-5"></a>pubchem_filter <span class="ot">&lt;-</span> targets.pubchem</span>
+<span id="cb14-6"><a href="#cb14-6"></a></span>
+<span id="cb14-7"><a href="#cb14-7"></a><span class="fu">save</span>(pubchem_filter, <span class="at">file =</span> <span class="st">"../data/qfd_targets/pubchem/pubchem_filter.RData"</span>)</span>
+<span id="cb14-8"><a href="#cb14-8"></a><span class="fu">write.xlsx</span>(</span>
+<span id="cb14-9"><a href="#cb14-9"></a>  pubchem_filter <span class="sc">|&gt;</span> </span>
+<span id="cb14-10"><a href="#cb14-10"></a>    <span class="fu">distinct</span>(Symbol),</span>
+<span id="cb14-11"><a href="#cb14-11"></a>  <span class="at">file =</span> <span class="st">"../data/qfd_targets/pubchem/pubchem_filter.xlsx"</span></span>
+<span id="cb14-12"><a href="#cb14-12"></a>)</span>
+<span id="cb14-13"><a href="#cb14-13"></a></span>
+<span id="cb14-14"><a href="#cb14-14"></a></span>
+<span id="cb14-15"><a href="#cb14-15"></a><span class="co"># stitch: Score &gt; 0.7</span></span>
+<span id="cb14-16"><a href="#cb14-16"></a><span class="fu">load</span>(<span class="st">"../data/qfd_targets/stitch5/targets.stitch.RData"</span>)</span>
+<span id="cb14-17"><a href="#cb14-17"></a>stitch_filter <span class="ot">&lt;-</span> targets.stitch <span class="sc">|&gt;</span></span>
+<span id="cb14-18"><a href="#cb14-18"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(Score<span class="sc">&gt;=</span><span class="fl">0.7</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-19"><a href="#cb14-19"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>Score)</span>
+<span id="cb14-20"><a href="#cb14-20"></a></span>
+<span id="cb14-21"><a href="#cb14-21"></a><span class="fu">save</span>(stitch_filter, <span class="at">file =</span> <span class="st">"../data/qfd_targets/stitch5/stitch_filter.RData"</span>)</span>
+<span id="cb14-22"><a href="#cb14-22"></a><span class="fu">write.xlsx</span>(</span>
+<span id="cb14-23"><a href="#cb14-23"></a>  stitch_filter <span class="sc">|&gt;</span> </span>
+<span id="cb14-24"><a href="#cb14-24"></a>    <span class="fu">distinct</span>(Symbol),</span>
+<span id="cb14-25"><a href="#cb14-25"></a>  <span class="at">file =</span> <span class="st">"../data/qfd_targets/stitch5/stitch_filter.xlsx"</span></span>
+<span id="cb14-26"><a href="#cb14-26"></a>)</span>
+<span id="cb14-27"><a href="#cb14-27"></a></span>
+<span id="cb14-28"><a href="#cb14-28"></a></span>
+<span id="cb14-29"><a href="#cb14-29"></a><span class="co"># TCMSP: all</span></span>
+<span id="cb14-30"><a href="#cb14-30"></a><span class="fu">load</span>(<span class="st">"../data/qfd_targets/tcmsp/targets.tcmsp.RData"</span>)</span>
+<span id="cb14-31"><a href="#cb14-31"></a>tcmsp_filter <span class="ot">&lt;-</span> targets.tcmsp <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>Score.SVM)</span>
+<span id="cb14-32"><a href="#cb14-32"></a></span>
+<span id="cb14-33"><a href="#cb14-33"></a><span class="fu">save</span>(tcmsp_filter, <span class="at">file =</span> <span class="st">"../data/qfd_targets/tcmsp/tcmsp_filter.RData"</span>)</span>
+<span id="cb14-34"><a href="#cb14-34"></a><span class="fu">write.xlsx</span>(</span>
+<span id="cb14-35"><a href="#cb14-35"></a>  tcmsp_filter <span class="sc">|&gt;</span> </span>
+<span id="cb14-36"><a href="#cb14-36"></a>    <span class="fu">distinct</span>(Entry),</span>
+<span id="cb14-37"><a href="#cb14-37"></a>  <span class="at">file =</span> <span class="st">"../data/qfd_targets/tcmsp/tcmsp_filter.xlsx"</span></span>
+<span id="cb14-38"><a href="#cb14-38"></a>)</span>
+<span id="cb14-39"><a href="#cb14-39"></a></span>
+<span id="cb14-40"><a href="#cb14-40"></a></span>
+<span id="cb14-41"><a href="#cb14-41"></a><span class="co"># HERB2: all</span></span>
+<span id="cb14-42"><a href="#cb14-42"></a><span class="fu">load</span>(<span class="st">"../data/qfd_targets/herb2/targets.herb2.RData"</span>)</span>
+<span id="cb14-43"><a href="#cb14-43"></a>herb2_filter <span class="ot">&lt;-</span> targets.herb2 <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>Mining)</span>
+<span id="cb14-44"><a href="#cb14-44"></a></span>
+<span id="cb14-45"><a href="#cb14-45"></a><span class="fu">save</span>(herb2_filter, <span class="at">file =</span> <span class="st">"../data/qfd_targets/herb2/herb2_filter.RData"</span>)</span>
+<span id="cb14-46"><a href="#cb14-46"></a><span class="fu">write.xlsx</span>(</span>
+<span id="cb14-47"><a href="#cb14-47"></a>  herb2_filter <span class="sc">|&gt;</span> </span>
+<span id="cb14-48"><a href="#cb14-48"></a>    <span class="fu">distinct</span>(Symbol),</span>
+<span id="cb14-49"><a href="#cb14-49"></a>  <span class="at">file =</span> <span class="st">"../data/qfd_targets/herb2/herb2_filter.xlsx"</span></span>
+<span id="cb14-50"><a href="#cb14-50"></a>)</span>
+<span id="cb14-51"><a href="#cb14-51"></a></span>
+<span id="cb14-52"><a href="#cb14-52"></a><span class="co"># Swiss: Probability&gt;=0.1</span></span>
+<span id="cb14-53"><a href="#cb14-53"></a><span class="fu">load</span>(<span class="st">"../data/qfd_targets/swiss/targets.swiss.RData"</span>)</span>
+<span id="cb14-54"><a href="#cb14-54"></a>swiss_filter <span class="ot">&lt;-</span> targets.swiss <span class="sc">|&gt;</span></span>
+<span id="cb14-55"><a href="#cb14-55"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(Probability<span class="sc">&gt;=</span><span class="fl">0.1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-56"><a href="#cb14-56"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>Probability)</span>
+<span id="cb14-57"><a href="#cb14-57"></a></span>
+<span id="cb14-58"><a href="#cb14-58"></a><span class="fu">save</span>(swiss_filter, <span class="at">file =</span> <span class="st">"../data/qfd_targets/swiss/swiss_filter.RData"</span>)</span>
+<span id="cb14-59"><a href="#cb14-59"></a></span>
+<span id="cb14-60"><a href="#cb14-60"></a><span class="fu">write.xlsx</span>(</span>
+<span id="cb14-61"><a href="#cb14-61"></a>  swiss_filter <span class="sc">|&gt;</span> </span>
+<span id="cb14-62"><a href="#cb14-62"></a>    <span class="fu">distinct</span>(Uniprot.ID),</span>
+<span id="cb14-63"><a href="#cb14-63"></a>  <span class="at">file =</span> <span class="st">"../data/qfd_targets/swiss/swiss_filter.xlsx"</span></span>
+<span id="cb14-64"><a href="#cb14-64"></a>)</span>
+<span id="cb14-65"><a href="#cb14-65"></a></span>
+<span id="cb14-66"><a href="#cb14-66"></a></span>
+<span id="cb14-67"><a href="#cb14-67"></a><span class="co"># Super-PRED: Probability&gt;="80%" (+ `Model accuracy` &gt;= "95%")</span></span>
+<span id="cb14-68"><a href="#cb14-68"></a><span class="fu">load</span>(<span class="st">"../data/qfd_targets/super/targets.super.RData"</span>)</span>
+<span id="cb14-69"><a href="#cb14-69"></a>super_filter <span class="ot">&lt;-</span> targets.super <span class="sc">|&gt;</span></span>
+<span id="cb14-70"><a href="#cb14-70"></a>  <span class="fu">mutate</span>(<span class="at">Prob_num =</span> <span class="fu">as.numeric</span>(<span class="fu">str_remove</span>(Probability,<span class="st">"%"</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb14-71"><a href="#cb14-71"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>((Prob_num<span class="sc">&gt;=</span><span class="dv">80</span> ) <span class="sc">|</span> Class <span class="sc">==</span> <span class="st">"validated"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-72"><a href="#cb14-72"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>Probability,<span class="sc">-</span><span class="st">`</span><span class="at">Model accuracy</span><span class="st">`</span>, <span class="sc">-</span>Prob_num)</span>
+<span id="cb14-73"><a href="#cb14-73"></a></span>
+<span id="cb14-74"><a href="#cb14-74"></a><span class="fu">save</span>(super_filter, <span class="at">file =</span> <span class="st">"../data/qfd_targets/super/super_filter.RData"</span>)</span>
+<span id="cb14-75"><a href="#cb14-75"></a><span class="fu">write.xlsx</span>(</span>
+<span id="cb14-76"><a href="#cb14-76"></a>  super_filter <span class="sc">|&gt;</span> </span>
+<span id="cb14-77"><a href="#cb14-77"></a>    <span class="fu">distinct</span>(Uniprot.ID),</span>
+<span id="cb14-78"><a href="#cb14-78"></a>  <span class="at">file =</span> <span class="st">"../data/qfd_targets/super/super_filter.xlsx"</span></span>
+<span id="cb14-79"><a href="#cb14-79"></a>)</span>
+<span id="cb14-80"><a href="#cb14-80"></a></span>
+<span id="cb14-81"><a href="#cb14-81"></a></span>
+<span id="cb14-82"><a href="#cb14-82"></a><span class="co"># PharmMapper: `Norm Fit` &gt;= 0.70</span></span>
+<span id="cb14-83"><a href="#cb14-83"></a><span class="fu">load</span>(<span class="st">"../data/qfd_targets/pharm/targets.pharm.RData"</span>)</span>
+<span id="cb14-84"><a href="#cb14-84"></a>pharm_filter <span class="ot">&lt;-</span> targets.pharm <span class="sc">|&gt;</span> </span>
+<span id="cb14-85"><a href="#cb14-85"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="st">`</span><span class="at">Norm Fit</span><span class="st">`</span> <span class="sc">&gt;=</span> <span class="fl">0.7</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-86"><a href="#cb14-86"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span><span class="st">`</span><span class="at">Norm Fit</span><span class="st">`</span>)</span>
+<span id="cb14-87"><a href="#cb14-87"></a></span>
+<span id="cb14-88"><a href="#cb14-88"></a><span class="fu">save</span>(pharm_filter, <span class="at">file =</span> <span class="st">"../data/qfd_targets/pharm/pharm_filter.RData"</span>)</span>
+<span id="cb14-89"><a href="#cb14-89"></a><span class="fu">write.xlsx</span>(</span>
+<span id="cb14-90"><a href="#cb14-90"></a>  pharm_filter <span class="sc">|&gt;</span> </span>
+<span id="cb14-91"><a href="#cb14-91"></a>    <span class="fu">distinct</span>(Uniplot),</span>
+<span id="cb14-92"><a href="#cb14-92"></a>  <span class="at">file =</span> <span class="st">"../data/qfd_targets/pharm/pharm_filter.xlsx"</span></span>
+<span id="cb14-93"><a href="#cb14-93"></a>)</span>
+<span id="cb14-94"><a href="#cb14-94"></a></span>
+<span id="cb14-95"><a href="#cb14-95"></a><span class="co"># SEA: P.Value &lt; 0.01、Max.Tc &gt;= 0.3</span></span>
+<span id="cb14-96"><a href="#cb14-96"></a><span class="fu">load</span>(<span class="st">"../data/qfd_targets/sea/targets.sea.RData"</span>)</span>
+<span id="cb14-97"><a href="#cb14-97"></a>sea_filter <span class="ot">&lt;-</span> targets.sea <span class="sc">|&gt;</span> </span>
+<span id="cb14-98"><a href="#cb14-98"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(P.Value <span class="sc">&lt;</span> <span class="fl">0.01</span> <span class="sc">&amp;</span> Max.Tc <span class="sc">&gt;=</span> <span class="fl">0.3</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-99"><a href="#cb14-99"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>P.Value, <span class="sc">-</span>Max.Tc)</span>
+<span id="cb14-100"><a href="#cb14-100"></a></span>
+<span id="cb14-101"><a href="#cb14-101"></a><span class="fu">save</span>(sea_filter, <span class="at">file =</span> <span class="st">"../data/qfd_targets/sea/sea_filter.RData"</span>)</span>
+<span id="cb14-102"><a href="#cb14-102"></a></span>
+<span id="cb14-103"><a href="#cb14-103"></a><span class="fu">write.xlsx</span>(</span>
+<span id="cb14-104"><a href="#cb14-104"></a>  sea_filter <span class="sc">|&gt;</span> </span>
+<span id="cb14-105"><a href="#cb14-105"></a>    <span class="fu">distinct</span>(Target.ID),</span>
+<span id="cb14-106"><a href="#cb14-106"></a>  <span class="at">file =</span> <span class="st">"../data/qfd_targets/sea/sea_filter.xlsx"</span></span>
+<span id="cb14-107"><a href="#cb14-107"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="uniprot-id-mapping" class="level2" data-number="2.11">
+<h2 data-number="2.11" class="anchored" data-anchor-id="uniprot-id-mapping"><span class="header-section-number">2.11</span> Uniprot ID Mapping</h2>
+<!-- - pubchem_mapping.tsv.gz -->
+<!-- - stitch_mapping.tsv.gz -->
+<!-- - tcmsp_mapping.tsv.gz -->
+<!-- - herb2_mapping.tsv.gz -->
+<ul>
+<li>swiss_mapping.tsv.gz</li>
+<li>super_mapping.tsv.gz</li>
+<li>pharm_mapping.tsv.gz</li>
+<li>sea_mapping.tsv.gz</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb15-2"><a href="#cb15-2"></a></span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="co"># pubchem</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a><span class="fu">load</span>(<span class="st">"../data/qfd_targets/pubchem/pubchem_filter.RData"</span>)</span>
+<span id="cb15-5"><a href="#cb15-5"></a>pubchem_mapping <span class="ot">&lt;-</span> pubchem_filter <span class="sc">|&gt;</span></span>
+<span id="cb15-6"><a href="#cb15-6"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb15-7"><a href="#cb15-7"></a>    Abbreviation, </span>
+<span id="cb15-8"><a href="#cb15-8"></a>    Ingredient, </span>
+<span id="cb15-9"><a href="#cb15-9"></a>    PubChem.CID, </span>
+<span id="cb15-10"><a href="#cb15-10"></a>    Symbol, </span>
+<span id="cb15-11"><a href="#cb15-11"></a>    Source,</span>
+<span id="cb15-12"><a href="#cb15-12"></a>    Class</span>
+<span id="cb15-13"><a href="#cb15-13"></a>  )</span>
+<span id="cb15-14"><a href="#cb15-14"></a></span>
+<span id="cb15-15"><a href="#cb15-15"></a><span class="fu">save</span>(pubchem_mapping, <span class="at">file =</span> <span class="st">"../data/qfd_targets/pubchem/pubchem_mapping.RData"</span>)</span>
+<span id="cb15-16"><a href="#cb15-16"></a></span>
+<span id="cb15-17"><a href="#cb15-17"></a><span class="co"># stitch</span></span>
+<span id="cb15-18"><a href="#cb15-18"></a><span class="fu">load</span>(<span class="st">"../data/qfd_targets/stitch5/stitch_filter.RData"</span>)</span>
+<span id="cb15-19"><a href="#cb15-19"></a>stitch_mapping <span class="ot">&lt;-</span> stitch_filter <span class="sc">|&gt;</span></span>
+<span id="cb15-20"><a href="#cb15-20"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb15-21"><a href="#cb15-21"></a>    Abbreviation, </span>
+<span id="cb15-22"><a href="#cb15-22"></a>    Ingredient, </span>
+<span id="cb15-23"><a href="#cb15-23"></a>    PubChem.CID, </span>
+<span id="cb15-24"><a href="#cb15-24"></a>    Symbol, </span>
+<span id="cb15-25"><a href="#cb15-25"></a>    Source,</span>
+<span id="cb15-26"><a href="#cb15-26"></a>    Class</span>
+<span id="cb15-27"><a href="#cb15-27"></a>  )</span>
+<span id="cb15-28"><a href="#cb15-28"></a></span>
+<span id="cb15-29"><a href="#cb15-29"></a><span class="fu">save</span>(stitch_mapping, <span class="at">file =</span> <span class="st">"../data/qfd_targets/stitch5/stitch_mapping.RData"</span>)</span>
+<span id="cb15-30"><a href="#cb15-30"></a></span>
+<span id="cb15-31"><a href="#cb15-31"></a></span>
+<span id="cb15-32"><a href="#cb15-32"></a><span class="co"># tcmsp</span></span>
+<span id="cb15-33"><a href="#cb15-33"></a><span class="fu">load</span>(<span class="st">"../data/qfd_targets/tcmsp/tcmsp_filter.RData"</span>)</span>
+<span id="cb15-34"><a href="#cb15-34"></a>tcmsp_mapping <span class="ot">&lt;-</span></span>
+<span id="cb15-35"><a href="#cb15-35"></a>  <span class="fu">fread</span>(<span class="st">"../data/qfd_targets/tcmsp/tcmsp_mapping.tsv.gz"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-36"><a href="#cb15-36"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">Symbol =</span> To) <span class="sc">|&gt;</span></span>
+<span id="cb15-37"><a href="#cb15-37"></a>  <span class="fu">right_join</span>(tcmsp_filter, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"From"</span> <span class="ot">=</span> <span class="st">"Entry"</span>),</span>
+<span id="cb15-38"><a href="#cb15-38"></a>            <span class="at">relationship =</span> <span class="st">"many-to-many"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-39"><a href="#cb15-39"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Symbol)) <span class="sc">|&gt;</span></span>
+<span id="cb15-40"><a href="#cb15-40"></a>  <span class="fu">distinct</span>(Abbreviation,PubChem.CID,Symbol,<span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-41"><a href="#cb15-41"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb15-42"><a href="#cb15-42"></a>    Abbreviation, </span>
+<span id="cb15-43"><a href="#cb15-43"></a>    Ingredient, </span>
+<span id="cb15-44"><a href="#cb15-44"></a>    PubChem.CID, </span>
+<span id="cb15-45"><a href="#cb15-45"></a>    Symbol, </span>
+<span id="cb15-46"><a href="#cb15-46"></a>    Source,</span>
+<span id="cb15-47"><a href="#cb15-47"></a>    Class</span>
+<span id="cb15-48"><a href="#cb15-48"></a>  )</span>
+<span id="cb15-49"><a href="#cb15-49"></a></span>
+<span id="cb15-50"><a href="#cb15-50"></a><span class="fu">save</span>(tcmsp_mapping, <span class="at">file =</span> <span class="st">"../data/qfd_targets/tcmsp/tcmsp_mapping.RData"</span>)</span>
+<span id="cb15-51"><a href="#cb15-51"></a></span>
+<span id="cb15-52"><a href="#cb15-52"></a><span class="co"># herb</span></span>
+<span id="cb15-53"><a href="#cb15-53"></a><span class="fu">load</span>(<span class="st">"../data/qfd_targets/herb2/herb2_filter.RData"</span>)</span>
+<span id="cb15-54"><a href="#cb15-54"></a>herb2_mapping <span class="ot">&lt;-</span> herb2_filter <span class="sc">|&gt;</span></span>
+<span id="cb15-55"><a href="#cb15-55"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb15-56"><a href="#cb15-56"></a>    Abbreviation, </span>
+<span id="cb15-57"><a href="#cb15-57"></a>    Ingredient, </span>
+<span id="cb15-58"><a href="#cb15-58"></a>    PubChem.CID, </span>
+<span id="cb15-59"><a href="#cb15-59"></a>    Symbol, </span>
+<span id="cb15-60"><a href="#cb15-60"></a>    Source,</span>
+<span id="cb15-61"><a href="#cb15-61"></a>    Class</span>
+<span id="cb15-62"><a href="#cb15-62"></a>  ) </span>
+<span id="cb15-63"><a href="#cb15-63"></a><span class="fu">save</span>(herb2_mapping, <span class="at">file =</span> <span class="st">"../data/qfd_targets/herb2/herb2_mapping.RData"</span>)</span>
+<span id="cb15-64"><a href="#cb15-64"></a></span>
+<span id="cb15-65"><a href="#cb15-65"></a><span class="co"># swiss</span></span>
+<span id="cb15-66"><a href="#cb15-66"></a><span class="fu">load</span>(<span class="st">"../data/qfd_targets/swiss/swiss_filter.RData"</span>)</span>
+<span id="cb15-67"><a href="#cb15-67"></a>swiss_mapping <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"../data/qfd_targets/swiss/swiss_mapping.tsv.gz"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-68"><a href="#cb15-68"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">Symbol =</span> To) <span class="sc">|&gt;</span></span>
+<span id="cb15-69"><a href="#cb15-69"></a>  <span class="fu">distinct</span>(From, Symbol) <span class="sc">|&gt;</span></span>
+<span id="cb15-70"><a href="#cb15-70"></a>  <span class="fu">right_join</span>(swiss_filter, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"From"</span> <span class="ot">=</span> <span class="st">"Uniprot.ID"</span>),</span>
+<span id="cb15-71"><a href="#cb15-71"></a>            <span class="at">relationship =</span> <span class="st">"many-to-many"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-72"><a href="#cb15-72"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Symbol)) <span class="sc">|&gt;</span></span>
+<span id="cb15-73"><a href="#cb15-73"></a>  <span class="fu">distinct</span>(Abbreviation,PubChem.CID,Symbol,<span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-74"><a href="#cb15-74"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb15-75"><a href="#cb15-75"></a>    Abbreviation, </span>
+<span id="cb15-76"><a href="#cb15-76"></a>    Ingredient, </span>
+<span id="cb15-77"><a href="#cb15-77"></a>    PubChem.CID, </span>
+<span id="cb15-78"><a href="#cb15-78"></a>    Symbol, </span>
+<span id="cb15-79"><a href="#cb15-79"></a>    Source,</span>
+<span id="cb15-80"><a href="#cb15-80"></a>    Class</span>
+<span id="cb15-81"><a href="#cb15-81"></a>  ) </span>
+<span id="cb15-82"><a href="#cb15-82"></a><span class="fu">save</span>(swiss_mapping, <span class="at">file =</span> <span class="st">"../data/qfd_targets/swiss/swiss_mapping.RData"</span>)</span>
+<span id="cb15-83"><a href="#cb15-83"></a></span>
+<span id="cb15-84"><a href="#cb15-84"></a><span class="co"># super</span></span>
+<span id="cb15-85"><a href="#cb15-85"></a><span class="fu">load</span>(<span class="st">"../data/qfd_targets/super/super_filter.RData"</span>)</span>
+<span id="cb15-86"><a href="#cb15-86"></a>super_mapping <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"../data/qfd_targets/super/super_mapping.tsv.gz"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-87"><a href="#cb15-87"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">Symbol =</span> To) <span class="sc">|&gt;</span></span>
+<span id="cb15-88"><a href="#cb15-88"></a>  <span class="fu">distinct</span>(From, Symbol) <span class="sc">|&gt;</span></span>
+<span id="cb15-89"><a href="#cb15-89"></a>  <span class="fu">separate_rows</span>(Symbol, <span class="at">sep =</span> <span class="st">";"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-90"><a href="#cb15-90"></a>  <span class="fu">right_join</span>(super_filter, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"From"</span> <span class="ot">=</span> <span class="st">"Uniprot.ID"</span>),</span>
+<span id="cb15-91"><a href="#cb15-91"></a>            <span class="at">relationship =</span> <span class="st">"many-to-many"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-92"><a href="#cb15-92"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Symbol)) <span class="sc">|&gt;</span></span>
+<span id="cb15-93"><a href="#cb15-93"></a>  <span class="fu">distinct</span>(Abbreviation,PubChem.CID,Symbol,<span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-94"><a href="#cb15-94"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb15-95"><a href="#cb15-95"></a>    Abbreviation, </span>
+<span id="cb15-96"><a href="#cb15-96"></a>    Ingredient, </span>
+<span id="cb15-97"><a href="#cb15-97"></a>    PubChem.CID, </span>
+<span id="cb15-98"><a href="#cb15-98"></a>    Symbol, </span>
+<span id="cb15-99"><a href="#cb15-99"></a>    Source,</span>
+<span id="cb15-100"><a href="#cb15-100"></a>    Class</span>
+<span id="cb15-101"><a href="#cb15-101"></a>  ) </span>
+<span id="cb15-102"><a href="#cb15-102"></a><span class="fu">save</span>(super_mapping, <span class="at">file =</span> <span class="st">"../data/qfd_targets/super/super_mapping.RData"</span>)</span>
+<span id="cb15-103"><a href="#cb15-103"></a></span>
+<span id="cb15-104"><a href="#cb15-104"></a><span class="co"># pharm</span></span>
+<span id="cb15-105"><a href="#cb15-105"></a><span class="fu">load</span>(<span class="st">"../data/qfd_targets/pharm/pharm_filter.RData"</span>)</span>
+<span id="cb15-106"><a href="#cb15-106"></a>pharm_mapping <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"../data/qfd_targets/pharm/pharm_mapping.tsv.gz"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-107"><a href="#cb15-107"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">Symbol =</span> To) <span class="sc">|&gt;</span></span>
+<span id="cb15-108"><a href="#cb15-108"></a>  <span class="fu">distinct</span>(From, Symbol) <span class="sc">|&gt;</span></span>
+<span id="cb15-109"><a href="#cb15-109"></a>  <span class="fu">separate_rows</span>(Symbol, <span class="at">sep =</span> <span class="st">";"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-110"><a href="#cb15-110"></a>  <span class="fu">left_join</span>(pharm_filter, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"From"</span> <span class="ot">=</span> <span class="st">"Uniplot"</span>),</span>
+<span id="cb15-111"><a href="#cb15-111"></a>            <span class="at">relationship =</span> <span class="st">"many-to-many"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-112"><a href="#cb15-112"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Symbol)) <span class="sc">|&gt;</span></span>
+<span id="cb15-113"><a href="#cb15-113"></a>  <span class="fu">distinct</span>(Abbreviation,PubChem.CID,Symbol,<span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-114"><a href="#cb15-114"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb15-115"><a href="#cb15-115"></a>    Abbreviation, </span>
+<span id="cb15-116"><a href="#cb15-116"></a>    Ingredient, </span>
+<span id="cb15-117"><a href="#cb15-117"></a>    PubChem.CID, </span>
+<span id="cb15-118"><a href="#cb15-118"></a>    Symbol, </span>
+<span id="cb15-119"><a href="#cb15-119"></a>    Source,</span>
+<span id="cb15-120"><a href="#cb15-120"></a>    Class</span>
+<span id="cb15-121"><a href="#cb15-121"></a>  ) </span>
+<span id="cb15-122"><a href="#cb15-122"></a><span class="fu">save</span>(pharm_mapping, <span class="at">file =</span> <span class="st">"../data/qfd_targets/pharm/pharm_mapping.RData"</span>)</span>
+<span id="cb15-123"><a href="#cb15-123"></a></span>
+<span id="cb15-124"><a href="#cb15-124"></a><span class="co"># sea</span></span>
+<span id="cb15-125"><a href="#cb15-125"></a><span class="fu">load</span>(<span class="st">"../data/qfd_targets/sea/sea_filter.RData"</span>)</span>
+<span id="cb15-126"><a href="#cb15-126"></a>sea_mapping <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"../data/qfd_targets/sea/sea_mapping.tsv.gz"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-127"><a href="#cb15-127"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">Symbol =</span> To) <span class="sc">|&gt;</span></span>
+<span id="cb15-128"><a href="#cb15-128"></a>  <span class="fu">distinct</span>(From, Symbol) <span class="sc">|&gt;</span></span>
+<span id="cb15-129"><a href="#cb15-129"></a>  <span class="fu">separate_rows</span>(Symbol, <span class="at">sep =</span> <span class="st">";"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-130"><a href="#cb15-130"></a>  <span class="fu">right_join</span>(sea_filter, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"From"</span><span class="ot">=</span> <span class="st">"Target.ID"</span> ),</span>
+<span id="cb15-131"><a href="#cb15-131"></a>            <span class="at">relationship =</span> <span class="st">"many-to-many"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-132"><a href="#cb15-132"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Symbol)) <span class="sc">|&gt;</span></span>
+<span id="cb15-133"><a href="#cb15-133"></a>  <span class="fu">distinct</span>(Abbreviation,PubChem.CID,Symbol,<span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-134"><a href="#cb15-134"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb15-135"><a href="#cb15-135"></a>    Abbreviation, </span>
+<span id="cb15-136"><a href="#cb15-136"></a>    Ingredient, </span>
+<span id="cb15-137"><a href="#cb15-137"></a>    PubChem.CID, </span>
+<span id="cb15-138"><a href="#cb15-138"></a>    Symbol, </span>
+<span id="cb15-139"><a href="#cb15-139"></a>    Source,</span>
+<span id="cb15-140"><a href="#cb15-140"></a>    Class</span>
+<span id="cb15-141"><a href="#cb15-141"></a>  ) </span>
+<span id="cb15-142"><a href="#cb15-142"></a><span class="fu">save</span>(sea_mapping, <span class="at">file =</span> <span class="st">"../data/qfd_targets/sea/sea_mapping.RData"</span>)</span>
+<span id="cb15-143"><a href="#cb15-143"></a></span>
+<span id="cb15-144"><a href="#cb15-144"></a><span class="fu">save</span>(</span>
+<span id="cb15-145"><a href="#cb15-145"></a>  pubchem_mapping,</span>
+<span id="cb15-146"><a href="#cb15-146"></a>  stitch_mapping,</span>
+<span id="cb15-147"><a href="#cb15-147"></a>  tcmsp_mapping,</span>
+<span id="cb15-148"><a href="#cb15-148"></a>  herb2_mapping,</span>
+<span id="cb15-149"><a href="#cb15-149"></a>  swiss_mapping,</span>
+<span id="cb15-150"><a href="#cb15-150"></a>  super_mapping,</span>
+<span id="cb15-151"><a href="#cb15-151"></a>  pharm_mapping,</span>
+<span id="cb15-152"><a href="#cb15-152"></a>  sea_mapping,</span>
+<span id="cb15-153"><a href="#cb15-153"></a>  <span class="at">file =</span> <span class="st">"../data/qfd_targets/ingredients.mapping.RData"</span></span>
+<span id="cb15-154"><a href="#cb15-154"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="合并潜在成分靶点" class="level2" data-number="2.12">
+<h2 data-number="2.12" class="anchored" data-anchor-id="合并潜在成分靶点"><span class="header-section-number">2.12</span> 合并潜在成分靶点</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="fu">load</span>(<span class="st">"../data/qfd_targets/ingredients.mapping.RData"</span>)</span>
+<span id="cb16-3"><a href="#cb16-3"></a></span>
+<span id="cb16-4"><a href="#cb16-4"></a>ingredients.targets <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb16-5"><a href="#cb16-5"></a>  <span class="fu">as.data.frame</span>(pubchem_mapping),</span>
+<span id="cb16-6"><a href="#cb16-6"></a>  <span class="fu">as.data.frame</span>(stitch_mapping),</span>
+<span id="cb16-7"><a href="#cb16-7"></a>  <span class="fu">as.data.frame</span>(tcmsp_mapping),</span>
+<span id="cb16-8"><a href="#cb16-8"></a>  <span class="fu">as.data.frame</span>(herb2_mapping),</span>
+<span id="cb16-9"><a href="#cb16-9"></a>  <span class="fu">as.data.frame</span>(swiss_mapping),</span>
+<span id="cb16-10"><a href="#cb16-10"></a>  <span class="fu">as.data.frame</span>(super_mapping),</span>
+<span id="cb16-11"><a href="#cb16-11"></a>  <span class="fu">as.data.frame</span>(pharm_mapping),</span>
+<span id="cb16-12"><a href="#cb16-12"></a>  <span class="fu">as.data.frame</span>(sea_mapping)</span>
+<span id="cb16-13"><a href="#cb16-13"></a>) <span class="sc">|&gt;</span> </span>
+<span id="cb16-14"><a href="#cb16-14"></a>  <span class="fu">group_by</span>(Abbreviation, Ingredient, PubChem.CID, Symbol) <span class="sc">|&gt;</span></span>
+<span id="cb16-15"><a href="#cb16-15"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb16-16"><a href="#cb16-16"></a>    <span class="at">Source.Sum =</span> <span class="fu">paste</span>(Source, <span class="at">collapse =</span> <span class="st">";"</span>),  </span>
+<span id="cb16-17"><a href="#cb16-17"></a>    <span class="at">Class.Sum =</span> <span class="fu">paste</span>(Class, <span class="at">collapse =</span> <span class="st">";"</span>), </span>
+<span id="cb16-18"><a href="#cb16-18"></a>    <span class="at">Count =</span> <span class="fu">n_distinct</span>(Source),      </span>
+<span id="cb16-19"><a href="#cb16-19"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb16-20"><a href="#cb16-20"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb16-21"><a href="#cb16-21"></a>  <span class="fu">mutate</span>(<span class="at">Class =</span> <span class="fu">case_when</span>(</span>
+<span id="cb16-22"><a href="#cb16-22"></a>    <span class="fu">str_detect</span>(Class.Sum, <span class="st">"validated"</span>) <span class="sc">~</span> <span class="st">"validated"</span>,</span>
+<span id="cb16-23"><a href="#cb16-23"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"predicted"</span></span>
+<span id="cb16-24"><a href="#cb16-24"></a>  )) <span class="sc">|&gt;</span></span>
+<span id="cb16-25"><a href="#cb16-25"></a>  <span class="fu">mutate</span>(<span class="at">Symbol =</span> <span class="fu">trimws</span>(Symbol))</span>
+<span id="cb16-26"><a href="#cb16-26"></a></span>
+<span id="cb16-27"><a href="#cb16-27"></a>ingredients.targets.filter <span class="ot">&lt;-</span>  ingredients.targets <span class="sc">|&gt;</span></span>
+<span id="cb16-28"><a href="#cb16-28"></a>  <span class="co"># dplyr::filter(Class == "validated" | (Class == "predicted" &amp; Count&gt;=2))</span></span>
+<span id="cb16-29"><a href="#cb16-29"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(</span>
+<span id="cb16-30"><a href="#cb16-30"></a>    (Abbreviation <span class="sc">==</span> <span class="st">"ALRP"</span>) <span class="sc">|</span>  <span class="co"># 附子全部保留，不做任何过滤</span></span>
+<span id="cb16-31"><a href="#cb16-31"></a>    (Abbreviation <span class="sc">==</span> <span class="st">"AR"</span> <span class="sc">&amp;</span> (Class <span class="sc">==</span> <span class="st">"validated"</span> <span class="sc">|</span> (Class <span class="sc">==</span> <span class="st">"predicted"</span> <span class="sc">&amp;</span> Count <span class="sc">&gt;=</span> <span class="dv">2</span>)))</span>
+<span id="cb16-32"><a href="#cb16-32"></a>  )</span>
+<span id="cb16-33"><a href="#cb16-33"></a></span>
+<span id="cb16-34"><a href="#cb16-34"></a>ingredients.targets.alrp <span class="ot">&lt;-</span> ingredients.targets.filter <span class="sc">|&gt;</span></span>
+<span id="cb16-35"><a href="#cb16-35"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(Abbreviation <span class="sc">==</span> <span class="st">"ALRP"</span>)</span>
+<span id="cb16-36"><a href="#cb16-36"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">附子潜在靶点数："</span>, <span class="fu">length</span>(<span class="fu">unique</span>(ingredients.targets.alrp<span class="sc">$</span>Symbol)))</span>
+<span id="cb16-37"><a href="#cb16-37"></a></span>
+<span id="cb16-38"><a href="#cb16-38"></a>ingredients.targets.alrp <span class="ot">&lt;-</span> ingredients.targets.filter <span class="sc">|&gt;</span></span>
+<span id="cb16-39"><a href="#cb16-39"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(Abbreviation <span class="sc">==</span> <span class="st">"AR"</span>)</span>
+<span id="cb16-40"><a href="#cb16-40"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">黄芪潜在靶点数："</span>, <span class="fu">length</span>(<span class="fu">unique</span>(ingredients.targets.alrp<span class="sc">$</span>Symbol)))</span>
+<span id="cb16-41"><a href="#cb16-41"></a></span>
+<span id="cb16-42"><a href="#cb16-42"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">潜在靶点总数："</span>, <span class="fu">length</span>(<span class="fu">unique</span>(ingredients.targets.filter<span class="sc">$</span>Symbol)))</span>
+<span id="cb16-43"><a href="#cb16-43"></a></span>
+<span id="cb16-44"><a href="#cb16-44"></a></span>
+<span id="cb16-45"><a href="#cb16-45"></a><span class="fu">save</span>(ingredients.targets,ingredients.targets.filter, <span class="at">file =</span>  <span class="st">"../data/qfd_targets/ingredients_targets.RData"</span>)</span>
+<span id="cb16-46"><a href="#cb16-46"></a></span>
+<span id="cb16-47"><a href="#cb16-47"></a><span class="fu">write.xlsx</span>(ingredients.targets.filter, <span class="at">file =</span> <span class="st">"supplementary/Table S2.xlsx"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="疾病靶点" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> 疾病靶点</h1>
+<p>“chronic heart failure”, “heart failure”</p>
+<section id="disgenet-v25.4-2025-12-15更新2025-12-20检索" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="disgenet-v25.4-2025-12-15更新2025-12-20检索"><span class="header-section-number">3.1</span> DisGeNet v25.4 (2025-12-15更新/2025-12-20检索)</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb17-2"><a href="#cb17-2"></a></span>
+<span id="cb17-3"><a href="#cb17-3"></a>res <span class="ot">&lt;-</span> <span class="fu">disease2gene</span>(<span class="at">disease =</span> <span class="st">"UMLS_C0018801"</span>, </span>
+<span id="cb17-4"><a href="#cb17-4"></a>                    <span class="at">database =</span> <span class="st">"CURATED"</span>,</span>
+<span id="cb17-5"><a href="#cb17-5"></a>                    <span class="at">score =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>) </span>
+<span id="cb17-6"><a href="#cb17-6"></a>)</span>
+<span id="cb17-7"><a href="#cb17-7"></a></span>
+<span id="cb17-8"><a href="#cb17-8"></a>hf <span class="ot">&lt;-</span> res<span class="sc">@</span>qresult</span>
+<span id="cb17-9"><a href="#cb17-9"></a></span>
+<span id="cb17-10"><a href="#cb17-10"></a>res <span class="ot">&lt;-</span> <span class="fu">disease2gene</span>(<span class="at">disease =</span> <span class="st">"UMLS_C0018802"</span>,</span>
+<span id="cb17-11"><a href="#cb17-11"></a>                    <span class="at">database =</span> <span class="st">"CURATED"</span>,</span>
+<span id="cb17-12"><a href="#cb17-12"></a>                    <span class="at">score =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>) </span>
+<span id="cb17-13"><a href="#cb17-13"></a>)</span>
+<span id="cb17-14"><a href="#cb17-14"></a></span>
+<span id="cb17-15"><a href="#cb17-15"></a>chf <span class="ot">&lt;-</span> res<span class="sc">@</span>qresult</span>
+<span id="cb17-16"><a href="#cb17-16"></a></span>
+<span id="cb17-17"><a href="#cb17-17"></a><span class="fu">load</span>(<span class="st">"../data/uniprot/uniprot_human_reviewed.RData"</span>)</span>
+<span id="cb17-18"><a href="#cb17-18"></a>uniprot_human_reviewed <span class="ot">&lt;-</span> uniprot_human_reviewed <span class="sc">|&gt;</span></span>
+<span id="cb17-19"><a href="#cb17-19"></a>  <span class="fu">mutate</span>(<span class="at">Gene.Names.primary =</span> <span class="fu">trimws</span>(Gene.Names.primary),</span>
+<span id="cb17-20"><a href="#cb17-20"></a>         <span class="at">Gene.Names =</span> <span class="fu">trimws</span>(Gene.Names)) <span class="sc">|&gt;</span></span>
+<span id="cb17-21"><a href="#cb17-21"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(Gene.Names.primary <span class="sc">!=</span> <span class="st">""</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-22"><a href="#cb17-22"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Gene.Names.primary,Gene.Names) <span class="sc">|&gt;</span></span>
+<span id="cb17-23"><a href="#cb17-23"></a>  <span class="fu">separate_rows</span>(Gene.Names, <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">s+"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-24"><a href="#cb17-24"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(Gene.Names <span class="sc">!=</span><span class="st">""</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-25"><a href="#cb17-25"></a>  <span class="fu">mutate</span>(<span class="at">Gene.Names.primary =</span> <span class="fu">trimws</span>(Gene.Names.primary),</span>
+<span id="cb17-26"><a href="#cb17-26"></a>         <span class="at">Gene.Names =</span> <span class="fu">trimws</span>(Gene.Names))</span>
+<span id="cb17-27"><a href="#cb17-27"></a></span>
+<span id="cb17-28"><a href="#cb17-28"></a>disgenet <span class="ot">&lt;-</span> <span class="fu">rbind</span>(hf,chf) <span class="sc">|&gt;</span></span>
+<span id="cb17-29"><a href="#cb17-29"></a>  <span class="fu">filter</span>(geneNcbiType <span class="sc">==</span> <span class="st">"protein-coding"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-30"><a href="#cb17-30"></a>  <span class="fu">group_by</span>(gene_symbol) <span class="sc">|&gt;</span></span>
+<span id="cb17-31"><a href="#cb17-31"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb17-32"><a href="#cb17-32"></a>    <span class="at">max_normalized_score =</span> <span class="fu">max</span>(normalized_score, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb17-33"><a href="#cb17-33"></a>    <span class="at">Count =</span> <span class="fu">n_distinct</span>(disease_name),</span>
+<span id="cb17-34"><a href="#cb17-34"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb17-35"><a href="#cb17-35"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb17-36"><a href="#cb17-36"></a>  <span class="fu">left_join</span>(uniprot_human_reviewed, </span>
+<span id="cb17-37"><a href="#cb17-37"></a>            <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"gene_symbol"</span> <span class="ot">=</span> <span class="st">"Gene.Names"</span>),</span>
+<span id="cb17-38"><a href="#cb17-38"></a>            <span class="at">relationship =</span> <span class="st">"many-to-many"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-39"><a href="#cb17-39"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Gene.Names.primary)) <span class="sc">|&gt;</span></span>
+<span id="cb17-40"><a href="#cb17-40"></a>  <span class="fu">distinct</span>(Gene.Names.primary, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-41"><a href="#cb17-41"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">Symbol =</span> Gene.Names.primary) <span class="sc">|&gt;</span></span>
+<span id="cb17-42"><a href="#cb17-42"></a>  <span class="fu">mutate</span>(<span class="at">Source =</span> <span class="st">"DisGeNet V25.4"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-43"><a href="#cb17-43"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Symbol,Source,max_normalized_score,Count)</span>
+<span id="cb17-44"><a href="#cb17-44"></a></span>
+<span id="cb17-45"><a href="#cb17-45"></a><span class="fu">nrow</span>(disgenet)</span>
+<span id="cb17-46"><a href="#cb17-46"></a></span>
+<span id="cb17-47"><a href="#cb17-47"></a><span class="fu">save</span>(hf,chf, <span class="at">file =</span> <span class="st">"../data/chf_targets/raw.RData"</span>)</span>
+<span id="cb17-48"><a href="#cb17-48"></a></span>
+<span id="cb17-49"><a href="#cb17-49"></a><span class="fu">save</span>(disgenet,<span class="at">file =</span> <span class="st">"../data/chf_targets/disgenet.RData"</span>)</span>
+<span id="cb17-50"><a href="#cb17-50"></a></span>
+<span id="cb17-51"><a href="#cb17-51"></a><span class="fu">write.xlsx</span>(disgenet, <span class="at">file =</span> <span class="st">"../data/chf_targets/disgenet.xlsx"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="genecards" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="genecards"><span class="header-section-number">3.2</span> GeneCards</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb18-2"><a href="#cb18-2"></a></span>
+<span id="cb18-3"><a href="#cb18-3"></a>genecards.hf <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"../data/chf_targets/genecards/genecards_hf.csv"</span>,<span class="at">skip =</span> <span class="dv">4</span>)</span>
+<span id="cb18-4"><a href="#cb18-4"></a></span>
+<span id="cb18-5"><a href="#cb18-5"></a>genecards.chf <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"../data/chf_targets/genecards/genecards_chf.csv"</span>,<span class="at">skip =</span> <span class="dv">4</span>)</span>
+<span id="cb18-6"><a href="#cb18-6"></a></span>
+<span id="cb18-7"><a href="#cb18-7"></a><span class="fu">load</span>(<span class="st">"../data/uniprot/uniprot_human_reviewed.RData"</span>)</span>
+<span id="cb18-8"><a href="#cb18-8"></a>uniprot_human_reviewed <span class="ot">&lt;-</span> uniprot_human_reviewed <span class="sc">|&gt;</span></span>
+<span id="cb18-9"><a href="#cb18-9"></a>  <span class="fu">mutate</span>(<span class="at">Gene.Names.primary =</span> <span class="fu">trimws</span>(Gene.Names.primary),</span>
+<span id="cb18-10"><a href="#cb18-10"></a>         <span class="at">Gene.Names =</span> <span class="fu">trimws</span>(Gene.Names)) <span class="sc">|&gt;</span></span>
+<span id="cb18-11"><a href="#cb18-11"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(Gene.Names.primary <span class="sc">!=</span> <span class="st">""</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-12"><a href="#cb18-12"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Gene.Names.primary,Gene.Names) <span class="sc">|&gt;</span></span>
+<span id="cb18-13"><a href="#cb18-13"></a>  <span class="fu">separate_rows</span>(Gene.Names, <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">s+"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-14"><a href="#cb18-14"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(Gene.Names <span class="sc">!=</span><span class="st">""</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-15"><a href="#cb18-15"></a>  <span class="fu">mutate</span>(<span class="at">Gene.Names.primary =</span> <span class="fu">trimws</span>(Gene.Names.primary),</span>
+<span id="cb18-16"><a href="#cb18-16"></a>         <span class="at">Gene.Names =</span> <span class="fu">trimws</span>(Gene.Names))</span>
+<span id="cb18-17"><a href="#cb18-17"></a></span>
+<span id="cb18-18"><a href="#cb18-18"></a>genecards <span class="ot">&lt;-</span> <span class="fu">rbind</span>(genecards.hf,genecards.chf) <span class="sc">|&gt;</span></span>
+<span id="cb18-19"><a href="#cb18-19"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(Symbol) <span class="sc">|&gt;</span></span>
+<span id="cb18-20"><a href="#cb18-20"></a>  dplyr<span class="sc">::</span><span class="fu">slice_max</span>(Relevance.Score, <span class="at">n =</span> <span class="dv">1</span>, <span class="at">with_ties =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-21"><a href="#cb18-21"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb18-22"><a href="#cb18-22"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Symbol)) <span class="sc">|&gt;</span></span>
+<span id="cb18-23"><a href="#cb18-23"></a>  <span class="fu">mutate</span>(<span class="at">Source =</span> <span class="st">"GeneCards"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-24"><a href="#cb18-24"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Symbol,Source,Relevance.Score)</span>
+<span id="cb18-25"><a href="#cb18-25"></a></span>
+<span id="cb18-26"><a href="#cb18-26"></a><span class="fu">nrow</span>(genecards)</span>
+<span id="cb18-27"><a href="#cb18-27"></a></span>
+<span id="cb18-28"><a href="#cb18-28"></a><span class="fu">save</span>(genecards,<span class="at">file =</span> <span class="st">"../data/chf_targets/genecards.RData"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<!-- ## OMIM -->
+<!-- ```{r} -->
+<!-- rm(list = ls()) -->
+<!-- omim <- read.xlsx("../data/chf_targets/omim/omim2.xlsx",startRow = 5) |> -->
+<!--   dplyr::filter(!is.na(Approved.Symbol)) |> -->
+<!--   distinct(Approved.Symbol,.keep_all = TRUE) |> -->
+<!--   dplyr::select(Symbol = Approved.Symbol, Pheno.map.key) |> -->
+<!--   distinct(Symbol) |> -->
+<!--   dplyr::filter(!is.na(Symbol)) |> -->
+<!--   mutate(Source = "OMIM") -->
+<!-- nrow(omim) -->
+<!-- save(omim,file = "../data/chf_targets/omim.RData") -->
+<!-- write.xlsx(omim, file = "../data/chf_targets/omim.xlsx") -->
+<!-- omim_mapping <- fread("../data/chf_targets/omim00.tsv.gz") |> -->
+<!--   distinct(`Gene Names (primary)`) -->
+<!-- ``` -->
+</section>
+<section id="ttd" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="ttd"><span class="header-section-number">3.3</span> TTD</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb19-2"><a href="#cb19-2"></a></span>
+<span id="cb19-3"><a href="#cb19-3"></a><span class="fu">load</span>(<span class="st">"../data/uniprot/uniprot_human_reviewed.RData"</span>)</span>
+<span id="cb19-4"><a href="#cb19-4"></a>uniprot_human_reviewed <span class="ot">&lt;-</span> uniprot_human_reviewed <span class="sc">|&gt;</span></span>
+<span id="cb19-5"><a href="#cb19-5"></a>  <span class="fu">mutate</span>(<span class="at">Gene.Names.primary =</span> <span class="fu">trimws</span>(Gene.Names.primary),</span>
+<span id="cb19-6"><a href="#cb19-6"></a>         <span class="at">Gene.Names =</span> <span class="fu">trimws</span>(Gene.Names)) <span class="sc">|&gt;</span></span>
+<span id="cb19-7"><a href="#cb19-7"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(Gene.Names.primary <span class="sc">!=</span> <span class="st">""</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-8"><a href="#cb19-8"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Gene.Names.primary,Gene.Names) <span class="sc">|&gt;</span></span>
+<span id="cb19-9"><a href="#cb19-9"></a>  <span class="fu">separate_rows</span>(Gene.Names, <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">s+"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-10"><a href="#cb19-10"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(Gene.Names <span class="sc">!=</span><span class="st">""</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-11"><a href="#cb19-11"></a>  <span class="fu">mutate</span>(<span class="at">Gene.Names.primary =</span> <span class="fu">trimws</span>(Gene.Names.primary),</span>
+<span id="cb19-12"><a href="#cb19-12"></a>         <span class="at">Gene.Names =</span> <span class="fu">trimws</span>(Gene.Names))</span>
+<span id="cb19-13"><a href="#cb19-13"></a></span>
+<span id="cb19-14"><a href="#cb19-14"></a>ttd <span class="ot">&lt;-</span> <span class="fu">read.xlsx</span>(<span class="st">"../data/chf_targets/ttd/ttd.xlsx"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-15"><a href="#cb19-15"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>(Symbol) <span class="sc">|&gt;</span></span>
+<span id="cb19-16"><a href="#cb19-16"></a>  <span class="fu">left_join</span>(uniprot_human_reviewed, </span>
+<span id="cb19-17"><a href="#cb19-17"></a>            <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Symbol"</span> <span class="ot">=</span> <span class="st">"Gene.Names"</span>),</span>
+<span id="cb19-18"><a href="#cb19-18"></a>            <span class="at">relationship =</span> <span class="st">"many-to-many"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-19"><a href="#cb19-19"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Gene.Names.primary)) <span class="sc">|&gt;</span></span>
+<span id="cb19-20"><a href="#cb19-20"></a>  <span class="fu">distinct</span>(Gene.Names.primary) <span class="sc">|&gt;</span></span>
+<span id="cb19-21"><a href="#cb19-21"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">Symbol =</span> Gene.Names.primary) <span class="sc">|&gt;</span></span>
+<span id="cb19-22"><a href="#cb19-22"></a>  <span class="fu">mutate</span>(<span class="at">Source=</span><span class="st">"TTD"</span>)</span>
+<span id="cb19-23"><a href="#cb19-23"></a></span>
+<span id="cb19-24"><a href="#cb19-24"></a><span class="fu">nrow</span>(ttd)</span>
+<span id="cb19-25"><a href="#cb19-25"></a></span>
+<span id="cb19-26"><a href="#cb19-26"></a><span class="fu">save</span>(ttd,<span class="at">file =</span> <span class="st">"../data/chf_targets/ttd.RData"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="chf-related-targets" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="chf-related-targets"><span class="header-section-number">3.4</span> CHF-related targets</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb20-2"><a href="#cb20-2"></a></span>
+<span id="cb20-3"><a href="#cb20-3"></a><span class="fu">load</span>(<span class="st">"../data/chf_targets/disgenet.RData"</span>)</span>
+<span id="cb20-4"><a href="#cb20-4"></a><span class="fu">load</span>(<span class="st">"../data/chf_targets/genecards.RData"</span>)</span>
+<span id="cb20-5"><a href="#cb20-5"></a><span class="co"># load("../data/chf_targets/omim.RData")</span></span>
+<span id="cb20-6"><a href="#cb20-6"></a><span class="fu">load</span>(<span class="st">"../data/chf_targets/ttd.RData"</span>)</span>
+<span id="cb20-7"><a href="#cb20-7"></a></span>
+<span id="cb20-8"><a href="#cb20-8"></a><span class="co"># 0.2</span></span>
+<span id="cb20-9"><a href="#cb20-9"></a>disgenet.filter <span class="ot">&lt;-</span> disgenet <span class="sc">|&gt;</span></span>
+<span id="cb20-10"><a href="#cb20-10"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(max_normalized_score <span class="sc">&gt;=</span> <span class="fl">0.2</span>) <span class="sc">|&gt;</span></span>
+<span id="cb20-11"><a href="#cb20-11"></a>  <span class="fu">distinct</span>(Symbol, <span class="at">.keep_all =</span> <span class="cn">TRUE</span> ) <span class="sc">|&gt;</span> </span>
+<span id="cb20-12"><a href="#cb20-12"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Symbol,Source)</span>
+<span id="cb20-13"><a href="#cb20-13"></a></span>
+<span id="cb20-14"><a href="#cb20-14"></a></span>
+<span id="cb20-15"><a href="#cb20-15"></a>genecards.filter <span class="ot">&lt;-</span> genecards <span class="sc">|&gt;</span></span>
+<span id="cb20-16"><a href="#cb20-16"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(Relevance.Score <span class="sc">&gt;=</span> <span class="dv">3</span>) <span class="sc">|&gt;</span></span>
+<span id="cb20-17"><a href="#cb20-17"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>Relevance.Score) <span class="sc">|&gt;</span></span>
+<span id="cb20-18"><a href="#cb20-18"></a>  <span class="fu">distinct</span>(Symbol, <span class="at">.keep_all =</span> <span class="cn">TRUE</span> ) <span class="sc">|&gt;</span></span>
+<span id="cb20-19"><a href="#cb20-19"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Symbol,Source)</span>
+<span id="cb20-20"><a href="#cb20-20"></a></span>
+<span id="cb20-21"><a href="#cb20-21"></a>chf.targets <span class="ot">&lt;-</span> <span class="fu">rbind</span>(disgenet.filter, genecards.filter,  ttd) <span class="sc">|&gt;</span></span>
+<span id="cb20-22"><a href="#cb20-22"></a>  <span class="fu">group_by</span>(Symbol) <span class="sc">|&gt;</span></span>
+<span id="cb20-23"><a href="#cb20-23"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb20-24"><a href="#cb20-24"></a>    <span class="at">Source =</span> <span class="fu">paste</span>(Source, <span class="at">collapse =</span> <span class="st">";"</span>),</span>
+<span id="cb20-25"><a href="#cb20-25"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb20-26"><a href="#cb20-26"></a>  )</span>
+<span id="cb20-27"><a href="#cb20-27"></a></span>
+<span id="cb20-28"><a href="#cb20-28"></a><span class="fu">cat</span>(<span class="st">"过滤后疾病靶点总数："</span>, <span class="fu">nrow</span>(chf.targets))</span>
+<span id="cb20-29"><a href="#cb20-29"></a></span>
+<span id="cb20-30"><a href="#cb20-30"></a><span class="fu">save</span>(chf.targets, <span class="at">file =</span> <span class="st">"../data/chf_targets/chf.targets.RData"</span>)</span>
+<span id="cb20-31"><a href="#cb20-31"></a></span>
+<span id="cb20-32"><a href="#cb20-32"></a><span class="fu">write.xlsx</span>(chf.targets, <span class="at">file =</span> <span class="st">"supplementary/Table S3.xlsx"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="靶点交集" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> 靶点交集</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb21-2"><a href="#cb21-2"></a></span>
+<span id="cb21-3"><a href="#cb21-3"></a><span class="fu">load</span>(<span class="st">"../data/chf_targets/chf.targets.RData"</span>)</span>
+<span id="cb21-4"><a href="#cb21-4"></a><span class="fu">load</span>(<span class="st">"../data/qfd_targets/ingredients_targets.RData"</span>)</span>
+<span id="cb21-5"><a href="#cb21-5"></a></span>
+<span id="cb21-6"><a href="#cb21-6"></a>overlapping.targets <span class="ot">&lt;-</span> <span class="fu">intersect</span>(chf.targets<span class="sc">$</span>Symbol, ingredients.targets.filter<span class="sc">$</span>Symbol)</span>
+<span id="cb21-7"><a href="#cb21-7"></a></span>
+<span id="cb21-8"><a href="#cb21-8"></a>overlapping.targets2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Symbol =</span> overlapping.targets) <span class="sc">|&gt;</span></span>
+<span id="cb21-9"><a href="#cb21-9"></a>  <span class="fu">left_join</span>(ingredients.targets.filter,<span class="at">by =</span> <span class="st">"Symbol"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb21-10"><a href="#cb21-10"></a>  <span class="fu">distinct</span>(Abbreviation,Symbol)  <span class="sc">|&gt;</span></span>
+<span id="cb21-11"><a href="#cb21-11"></a>  <span class="fu">group_by</span>(Symbol) <span class="sc">|&gt;</span></span>
+<span id="cb21-12"><a href="#cb21-12"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb21-13"><a href="#cb21-13"></a>    <span class="at">Source =</span> <span class="fu">paste</span>(Abbreviation, <span class="at">collapse =</span> <span class="st">";"</span>),</span>
+<span id="cb21-14"><a href="#cb21-14"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb21-15"><a href="#cb21-15"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb21-16"><a href="#cb21-16"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="at">Abbreviation =</span> Source, Symbol) <span class="sc">|&gt;</span></span>
+<span id="cb21-17"><a href="#cb21-17"></a>  <span class="fu">arrange</span>(Abbreviation)</span>
+<span id="cb21-18"><a href="#cb21-18"></a></span>
+<span id="cb21-19"><a href="#cb21-19"></a><span class="fu">cat</span>(<span class="st">"治疗靶点总数："</span>, <span class="fu">nrow</span>(overlapping.targets2), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb21-20"><a href="#cb21-20"></a><span class="fu">cat</span>(<span class="st">"共有靶点数："</span>, <span class="fu">sum</span>(overlapping.targets2<span class="sc">$</span>Abbreviation <span class="sc">==</span> <span class="st">"ALRP;AR"</span>),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb21-21"><a href="#cb21-21"></a><span class="fu">cat</span>(<span class="st">"附子特有靶点数："</span>, <span class="fu">sum</span>(overlapping.targets2<span class="sc">$</span>Abbreviation <span class="sc">==</span> <span class="st">"ALRP"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb21-22"><a href="#cb21-22"></a><span class="fu">cat</span>(<span class="st">"黄芪特有靶点数："</span>, <span class="fu">sum</span>(overlapping.targets2<span class="sc">$</span>Abbreviation <span class="sc">==</span> <span class="st">"AR"</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb21-23"><a href="#cb21-23"></a></span>
+<span id="cb21-24"><a href="#cb21-24"></a>ingredients.overlapping <span class="ot">&lt;-</span> ingredients.targets.filter <span class="sc">|&gt;</span></span>
+<span id="cb21-25"><a href="#cb21-25"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(Symbol <span class="sc">%in%</span> overlapping.targets)</span>
+<span id="cb21-26"><a href="#cb21-26"></a></span>
+<span id="cb21-27"><a href="#cb21-27"></a><span class="fu">length</span>(<span class="fu">unique</span>(ingredients.overlapping<span class="sc">$</span>PubChem.CID))</span>
+<span id="cb21-28"><a href="#cb21-28"></a><span class="fu">length</span>(<span class="fu">unique</span>(ingredients.overlapping<span class="sc">$</span>Symbol))</span>
+<span id="cb21-29"><a href="#cb21-29"></a></span>
+<span id="cb21-30"><a href="#cb21-30"></a>ingredients.overlapping.validated <span class="ot">&lt;-</span> ingredients.overlapping <span class="sc">|&gt;</span></span>
+<span id="cb21-31"><a href="#cb21-31"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(Class <span class="sc">==</span> <span class="st">"validated"</span>) </span>
+<span id="cb21-32"><a href="#cb21-32"></a><span class="fu">length</span>(<span class="fu">unique</span>(ingredients.overlapping.validated<span class="sc">$</span>PubChem.CID))</span>
+<span id="cb21-33"><a href="#cb21-33"></a><span class="fu">length</span>(<span class="fu">unique</span>(ingredients.overlapping.validated<span class="sc">$</span>Symbol))</span>
+<span id="cb21-34"><a href="#cb21-34"></a></span>
+<span id="cb21-35"><a href="#cb21-35"></a>ingredients.overlapping.predicted <span class="ot">&lt;-</span> ingredients.overlapping <span class="sc">|&gt;</span></span>
+<span id="cb21-36"><a href="#cb21-36"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(Class <span class="sc">==</span> <span class="st">"predicted"</span>) </span>
+<span id="cb21-37"><a href="#cb21-37"></a><span class="fu">length</span>(<span class="fu">unique</span>(ingredients.overlapping.predicted<span class="sc">$</span>PubChem.CID))</span>
+<span id="cb21-38"><a href="#cb21-38"></a><span class="fu">length</span>(<span class="fu">unique</span>(ingredients.overlapping.predicted<span class="sc">$</span>Symbol))</span>
+<span id="cb21-39"><a href="#cb21-39"></a></span>
+<span id="cb21-40"><a href="#cb21-40"></a><span class="fu">save</span>(overlapping.targets,<span class="at">file =</span> <span class="st">"../data/network/overlapping.targets.RData"</span>)</span>
+<span id="cb21-41"><a href="#cb21-41"></a></span>
+<span id="cb21-42"><a href="#cb21-42"></a><span class="fu">write.xlsx</span>(<span class="fu">data.frame</span>(<span class="at">Symbol=</span>overlapping.targets),<span class="at">file =</span> <span class="st">"../data/network/overlapping.targets.xlsx"</span>)</span>
+<span id="cb21-43"><a href="#cb21-43"></a></span>
+<span id="cb21-44"><a href="#cb21-44"></a><span class="fu">write.xlsx</span>(<span class="fu">data.frame</span>(<span class="at">Symbol =</span> overlapping.targets),<span class="at">file =</span> <span class="st">"supplementary/Table S4.xlsx"</span>)</span>
+<span id="cb21-45"><a href="#cb21-45"></a></span>
+<span id="cb21-46"><a href="#cb21-46"></a></span>
+<span id="cb21-47"><a href="#cb21-47"></a><span class="co"># 1. 提取三组基因符号</span></span>
+<span id="cb21-48"><a href="#cb21-48"></a>alrp_unique <span class="ot">&lt;-</span> overlapping.targets2<span class="sc">$</span>Symbol[overlapping.targets2<span class="sc">$</span>Abbreviation <span class="sc">==</span> <span class="st">"ALRP"</span>]</span>
+<span id="cb21-49"><a href="#cb21-49"></a>ar_unique <span class="ot">&lt;-</span> overlapping.targets2<span class="sc">$</span>Symbol[overlapping.targets2<span class="sc">$</span>Abbreviation <span class="sc">==</span> <span class="st">"AR"</span>]</span>
+<span id="cb21-50"><a href="#cb21-50"></a>common <span class="ot">&lt;-</span> overlapping.targets2<span class="sc">$</span>Symbol[overlapping.targets2<span class="sc">$</span>Abbreviation <span class="sc">==</span> <span class="st">"ALRP;AR"</span>]</span>
+<span id="cb21-51"><a href="#cb21-51"></a></span>
+<span id="cb21-52"><a href="#cb21-52"></a><span class="co"># 2. 查看各组数量，确认无误</span></span>
+<span id="cb21-53"><a href="#cb21-53"></a><span class="fu">cat</span>(<span class="st">"附子独有："</span>, <span class="fu">length</span>(alrp_unique), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb21-54"><a href="#cb21-54"></a><span class="fu">cat</span>(<span class="st">"黄芪独有："</span>, <span class="fu">length</span>(ar_unique), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb21-55"><a href="#cb21-55"></a><span class="fu">cat</span>(<span class="st">"共有："</span>, <span class="fu">length</span>(common), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb21-56"><a href="#cb21-56"></a><span class="fu">cat</span>(<span class="st">"总计："</span>, <span class="fu">length</span>(alrp_unique) <span class="sc">+</span> <span class="fu">length</span>(ar_unique) <span class="sc">+</span> <span class="fu">length</span>(common), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb21-57"><a href="#cb21-57"></a></span>
+<span id="cb21-58"><a href="#cb21-58"></a><span class="co"># 3. 保存为RData，方便后续分析</span></span>
+<span id="cb21-59"><a href="#cb21-59"></a><span class="fu">save</span>(alrp_unique, ar_unique, common, overlapping.targets2, </span>
+<span id="cb21-60"><a href="#cb21-60"></a>     <span class="at">file =</span> <span class="st">"../data/network/final_261_targets_groups.RData"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="参考文献" class="level1 unnumbered">
+<h1 class="unnumbered">参考文献</h1>
+
+
+<div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
+<div id="ref-zhang2024qfd" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Zhang, X.; Liao, W.; Ding, X.; Zhang, Y.; Long, C.; Zhou, Q.; Wang, Y.; Wu, H.; Tan, G. Multiple-Matrices Metabolomics Combined with Serum Pharmacochemistry for Discovering the Potential Targets and Active Constituents of <span>Qifu</span> Decoction Against Heart Failure. <em>J. Pharm. Biomed. Anal.</em> <strong>2024</strong>, <em>244</em>, 116114, doi:<a href="https://doi.org/10.1016/j.jpba.2024.116114">10.1016/j.jpba.2024.116114</a>.</div>
+</div>
+<div id="ref-tan2012qfda" class="csl-entry" role="listitem">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Tan, G.; Jing, J.; Zhu, Z.; Lou, Z.; Li, W.; Zhao, L.; Zhang, G.; Chai, Y. Detection and Identification of Diterpenoid Alkaloids, Isoflavonoids and Saponins in <span>Qifu</span> Decoction and Rat Plasma by Liquid Chromatography-Time-of-Flight Mass Spectrometry. <em>Biomed. Chromatogr. BMC</em> <strong>2012</strong>, <em>26</em>, 178–191, doi:<a href="https://doi.org/10.1002/bmc.1644">10.1002/bmc.1644</a>.</div>
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

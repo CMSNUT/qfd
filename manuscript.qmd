@@ -1,4 +1,62 @@
 ---
-title: "manuscript"
+title: "The Synergistic Mechanisms of *Astragali Radix*–*Aconiti Lateralis Radix Praeparata* in the Treatment of Chronic Heart Failure: An Integrated Study of Network Pharmacology, Bioinformatics, and Molecular Docking"
+
+format:
+  # docx:
+  #   toc: false
+  # html:
+  wordcount-html:
+    css: style.css
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    toc-location: left
+    toc-expand: false
+    number-sections: false
+    number-depth: 3
+    code-fold: false
+    code-tools: false
+    code-copy: true
+    code-line-numbers: true
+    highlight-style: github
+    tbl-cap-location: top
+    supptbl-cap-location: top
+    fig-align: center
+    fig-dpi: 300
+    page-layout: full
+    smooth-scroll: true
+
+execute:
+  eval: false
+  echo: true
+  warning: false
+  message: false
+  
+abstract: |
+  **Background:** Chronic heart failure (CHF) lacks comprehensive clinical interventions. Diverse Asian medicinal plants exert multi-target therapeutic effects on CHF, while the molecular mechanism of the medicinal plant pair Astragali Radix–Aconiti Lateralis Radix Praeparata (AR-ALRP) remains unclear. **Methods:** This study constructed a standardized AR-ALRP chemical dataset via UHPLC-Q-TOF-MS/MS data and PubChem annotation. Multi-source bioinformatics analysis, clinical dataset validation, and molecular docking were performed to screen core therapeutic targets and pathways. **Results:** In total, 82 plant-derived components and 261 AR-ALRP-CHF intersecting targets were identified, with 25 core hub genes such as AKT1 and IL6. Key genes were clinically dysregulated in CHF, and major plant components stably bound core targets to regulate inflammation and myocardial repair pathways. **Conclusions:** This study elucidates the multi-component and multi-target mechanism of AR-ALRP against CHF, providing novel insights for cardiovascular application of medicinal plant resources.
+  
+keywords: 
+  - medicinal plant pair
+  - Astragali Radix
+  - Aconiti Lateralis Radix Praeparata
+  - chronic heart failure
+  - bioinformatics analysis
+  - molecular docking
+  - therapeutic mechanism
 ---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width=8, fig.height=6, dpi=300)
+library(tidyverse)
+library(openxlsx)
+library(data.table)
+library(rmdwc)
+```
+
+
+
+
+
+
 
